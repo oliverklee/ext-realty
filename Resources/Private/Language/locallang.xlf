@@ -345,6 +345,9 @@
 			<trans-unit id="label_rent_excluding_bills" xml:space="preserve">
 				<source>Rent excluding bills</source>
 			</trans-unit>
+			<trans-unit id="label_rent_with_heating_costs" xml:space="preserve">
+				<source>Rent with heating costs</source>
+			</trans-unit>
 			<trans-unit id="label_rent_excluding_bills_short" xml:space="preserve">
 				<source>Rent excluding bills</source>
 			</trans-unit>

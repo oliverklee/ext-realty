@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Display the rent with heating costs (#42)
 - Import the rent with heating costs (#41)
 - Add a field for the rent with heating costs (#40)
 - Import the new accessibility-related fields (#39, #17)

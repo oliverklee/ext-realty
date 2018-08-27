@@ -166,6 +166,8 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
                 // The fallthrough is intended.
             case 'garage_price':
                 // The fallthrough is intended.
+            case 'rent_with_heating_costs':
+                // The fallthrough is intended.
             case 'deposit':
                 $result = htmlentities($this->getFormattedPrice($key), ENT_QUOTES, 'utf-8');
                 break;

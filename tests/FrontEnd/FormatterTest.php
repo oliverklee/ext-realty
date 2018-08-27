@@ -309,32 +309,6 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getPropertyReturnsFormatsHoaFeeFormattedWithTwoWithDecimals()
-    {
-        $this->realtyObject->setProperty('hoa_fee', 12345.67);
-
-        self::assertEquals(
-            '&euro; 12.345,67',
-            $this->fixture->getProperty('hoa_fee')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getPropertyForHoaFeeAddsZeroDecimals()
-    {
-        $this->realtyObject->setProperty('hoa_fee', 12345);
-
-        self::assertEquals(
-            '&euro; 12.345,00',
-            $this->fixture->getProperty('hoa_fee')
-        );
-    }
-
-    /**
-     * @test
-     */
     public function getPropertyReturnsEmptyStringForUsableFromIfNoValueIsSet()
     {
         self::assertEquals(
@@ -651,42 +625,47 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     }
 
     /**
-     * @test
+     * @return string[][]
      */
-    public function getPropertyReturnsRentPerSquareMeterAsFormattedPriceWithDecimals()
+    public function decimalPricePropertyDataProvider()
     {
-        $this->realtyObject->setProperty('rent_per_square_meter', 12345.67);
-
-        self::assertEquals(
-            '&euro; 12.345,67',
-            $this->fixture->getProperty('rent_per_square_meter')
-        );
+        return [
+            'rent_excluding_bills' => ['rent_excluding_bills'],
+            'extra_charges' => ['extra_charges'],
+            'buying_price' => ['buying_price'],
+            'year_rent' => ['year_rent'],
+            'rental_income_target' => ['rental_income_target'],
+            'garage_rent' => ['garage_rent'],
+            'hoa_fee' => ['hoa_fee'],
+            'rent_per_square_meter' => ['rent_per_square_meter'],
+            'garage_price' => ['garage_price'],
+            'rent_with_heating_costs' => ['rent_with_heating_costs'],
+            'deposit' => ['deposit'],
+        ];
     }
 
     /**
      * @test
+     * @param string $key
+     * @dataProvider decimalPricePropertyDataProvider
      */
-    public function getPropertyForRentPerSquareMeterAddsZeroDecimals()
+    public function getPropertyForDecimalPriceValuesFormatsValueAsDecimalWithCurrency($key)
     {
-        $this->realtyObject->setProperty('rent_per_square_meter', 12345);
+        $this->realtyObject->setProperty($key, 12345.67);
 
-        self::assertEquals(
-            '&euro; 12.345,00',
-            $this->fixture->getProperty('rent_per_square_meter')
-        );
+        self::assertSame('&euro; 12.345,67', $this->fixture->getProperty($key));
     }
 
     /**
      * @test
+     * @param string $key
+     * @dataProvider decimalPricePropertyDataProvider
      */
-    public function getPropertyReturnsRentalIncomeTargetAsFormattedPriceWithDecimals()
+    public function getPropertyForDecimalPriceValuesAddMissingDecimals($key)
     {
-        $this->realtyObject->setProperty('rental_income_target', 12345.67);
+        $this->realtyObject->setProperty($key, 12345);
 
-        self::assertEquals(
-            '&euro; 12.345,67',
-            $this->fixture->getProperty('rental_income_target')
-        );
+        self::assertSame('&euro; 12.345,00', $this->fixture->getProperty($key));
     }
 
     /**
