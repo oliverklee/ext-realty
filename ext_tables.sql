@@ -46,6 +46,7 @@ CREATE TABLE tx_realty_objects (
 	total_area varchar(64) DEFAULT '' NOT NULL,
 	estate_size varchar(64) DEFAULT '' NOT NULL,
 	rent_excluding_bills varchar(64) DEFAULT '' NOT NULL,
+	rent_with_heating_costs decimal(10,2) DEFAULT '0.00' NOT NULL,
 	extra_charges varchar(64) DEFAULT '' NOT NULL,
 	heating_included tinyint(3) DEFAULT '0' NOT NULL,
 	deposit varchar(64) DEFAULT '' NOT NULL,

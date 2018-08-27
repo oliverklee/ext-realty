@@ -33,7 +33,7 @@ return [
             'number_of_rooms,living_area,total_area,shop_area,sales_area,' .
             'total_usable_area,storage_area,office_space,other_area,window_bank' .
             'estate_size,site_occupancy_index,floor_space_index,' .
-            'rent_excluding_bills,rent_per_square_meter,extra_charges,' .
+            'rent_excluding_bills, rent_with_heating_costs, rent_per_square_meter, extra_charges,' .
             'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
             'year_rent,rental_income_target,status,apartment_type,house_type,floor,floors,bedrooms,' .
             'bathrooms,heating_type,has_air_conditioning,garage_type,parking_spaces,garage_rent,' .
@@ -473,6 +473,15 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '5',
+                'eval' => 'double2',
+            ],
+        ],
+        'rent_with_heating_costs' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_with_heating_costs',
+            'config' => [
+                'type' => 'input',
+                'size' => 5,
                 'eval' => 'double2',
             ],
         ],
@@ -1502,7 +1511,7 @@ return [
                 'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
                 'storage_area, office_space, other_area, window_bank, ' .
                 'estate_size, site_occupancy_index, floor_space_index, ' .
-                'rent_excluding_bills, rent_per_square_meter,' .
+                'rent_excluding_bills, rent_with_heating_costs, rent_per_square_meter,' .
                 'extra_charges, heating_included, deposit, provision, usable_from, status, ' .
                 'apartment_type, house_type, floor, floors, bedrooms, ' .
                 'bathrooms, heating_type, has_air_conditioning, garage_type, parking_spaces, ' .
