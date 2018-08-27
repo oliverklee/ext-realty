@@ -99,6 +99,9 @@
 			<trans-unit id="tx_realty_objects.rent_excluding_bills" xml:space="preserve">
 				<source>Rent excluding bills</source>
 			</trans-unit>
+			<trans-unit id="tx_realty_objects.rent_with_heating_costs" xml:space="preserve">
+				<source>Rent with heating costs</source>
+			</trans-unit>
 			<trans-unit id="tx_realty_objects.rent_per_square_meter" xml:space="preserve">
 				<source>Rent/m²</source>
 			</trans-unit>

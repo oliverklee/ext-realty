@@ -131,6 +131,10 @@
 				<source>Rent excluding bills</source>
 				<target>Kaltmiete</target>
 			</trans-unit>
+			<trans-unit id="tx_realty_objects.rent_with_heating_costs" xml:space="preserve" approved="yes">
+				<source>Rent with heating costs</source>
+				<target>Warmmiete</target>
+			</trans-unit>
 			<trans-unit id="tx_realty_objects.rent_per_square_meter" xml:space="preserve" approved="yes">
 				<source>Rent/m²</source>
 				<target>Miete/m²</target>
