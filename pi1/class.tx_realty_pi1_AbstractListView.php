@@ -864,9 +864,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     private function resetListViewSubparts()
     {
         $this->unhideSubparts(
-            'linked_title,features,teaser,city,living_area,rent_excluding_bills,' .
-                'buying_price,district,number_of_rooms,extra_charges,' .
-                'list_image_left,list_image_right,floor',
+            'linked_title, features, teaser, city, living_area, total_area, sales_area, rent_excluding_bills, ' .
+            'rent_with_heating_costs, buying_price, district,number_of_rooms, extra_charges,' .
+            'list_image_left, list_image_right, floor',
             '',
             'wrapper'
         );
