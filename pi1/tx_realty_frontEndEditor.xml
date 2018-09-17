@@ -9,6 +9,7 @@
 		<debug>false</debug>
 		<displaylabels>false</displaylabels>
 		<minify enabled="1"/>
+		<keepinsession>false</keepinsession>
 	</meta>
 	<control>
 		<datahandler:DB>
