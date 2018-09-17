@@ -95,7 +95,13 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      */
     protected function makeFormCreator()
     {
-        if ($this->formCreator || $this->isTestMode) {
+        if ($this->isTestMode) {
+            return;
+        }
+        if ($this->formCreator !== null) {
+            // This is necessary because FORMidable store the form data in the session and destroys the form reference
+            // from the data handler in the process.
+            $this->formCreator->oDataHandler->oForm = $this->formCreator;
             return;
         }
 
@@ -197,7 +203,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         if ($this->isTestMode) {
             $result = $this->getFakedFormValue($key);
         } else {
-            /** @var formidable_maindatahandler $dataHandler */
+            /** @var \tx_dhdb $dataHandler */
             $dataHandler = $this->formCreator->oDataHandler;
             $result = $dataHandler->getThisFormData($key);
         }

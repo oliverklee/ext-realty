@@ -62,6 +62,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Fix crash in the FE editor (#49)
 - Properly make hidden list view parts visible again if needed (#44, #48)
 - Fix the paths to the locallang files for the FE (#30)
 - Re-add ext_autoload.php for compatibility with TYPO3 6.2 (#29)
