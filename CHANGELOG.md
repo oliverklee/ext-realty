@@ -52,6 +52,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Drop support for TYPO3 <= 6.2
 - Only depend on the Composer formidable on Travis (#25)
 - Drop the incorrect TYPO3 Core license headers  (#24)
 - drop the feature of importing into different folders by file name
@@ -62,6 +63,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Add the missing required PHP extensions to the composer.json (#51)
 - Fix crash in the FE editor (#49)
 - Properly make hidden list view parts visible again if needed (#44, #48)
 - Fix the paths to the locallang files for the FE (#30)
