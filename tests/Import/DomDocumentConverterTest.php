@@ -4722,6 +4722,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $nodeName
      * @param string $fieldName
      * @dataProvider booleanInfrastructureDataProvider
@@ -4747,6 +4748,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $nodeName
      * @param string $fieldName
      * @dataProvider booleanInfrastructureDataProvider

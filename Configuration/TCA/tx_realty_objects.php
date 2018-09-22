@@ -1552,7 +1552,7 @@ return [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude'
+                'has_coordinates, coordinates_problem, longitude, latitude',
         ],
         '1' => [
             // for sale
@@ -1605,7 +1605,7 @@ return [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude'
+                'has_coordinates, coordinates_problem, longitude, latitude',
         ],
     ],
     'palettes' => [

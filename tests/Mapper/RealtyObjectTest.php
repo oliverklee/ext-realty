@@ -361,7 +361,8 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByAnidAndPidForEmptyAnidFindsObjectWithEmptyAnid()
     {
-        $uid = $this->testingFramework->createRecord('tx_realty_objects',
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
             ['pid' => $this->folderUid, 'openimmo_anid' => '']
         );
 
@@ -377,7 +378,8 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByAnidAndPidIgnoresObjectWithOtherAnid()
     {
-        $this->testingFramework->createRecord('tx_realty_objects',
+        $this->testingFramework->createRecord(
+            'tx_realty_objects',
             ['pid' => $this->folderUid, 'openimmo_anid' => 'other-anid']
         );
 
@@ -521,7 +523,8 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $object = $this->fixture->find($uid);
 
         $result = $this->fixture->deleteByAnidAndPidWithExceptions(
-            'OABC10017128124930123asd43fer35', $this->folderUid,
+            'OABC10017128124930123asd43fer35',
+            $this->folderUid,
             new \Tx_Oelib_List()
         );
 

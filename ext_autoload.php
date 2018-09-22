@@ -3,7 +3,7 @@
 // This file was generated on 2010-09-10 14:25
 
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('realty');
-return array(
+return [
     'tx_realty_tca' => $extensionPath . 'class.tx_realty_Tca.php',
     'tx_realty_configcheck' => $extensionPath . 'class.tx_realty_configcheck.php',
     'tx_realty_ajax_districtselector' => $extensionPath . 'Ajax/class.tx_realty_Ajax_DistrictSelector.php',
@@ -127,4 +127,4 @@ return array(
     'tx_realty_openimmoimportchild' => $extensionPath . 'tests/fixtures/class.tx_realty_openImmoImportChild.php',
     'tx_realty_tests_fixtures_testinglistview' => $extensionPath . 'tests/fixtures/class.tx_realty_tests_fixtures_TestingListView.php',
     'tx_realty_tests_fixtures_testingfrontendview' => $extensionPath . 'tests/fixtures/class.tx_realty_tests_fixtures_testingFrontEndView.php',
-);
+];

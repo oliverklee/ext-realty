@@ -646,6 +646,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $key
      * @dataProvider decimalPricePropertyDataProvider
      */
@@ -658,6 +659,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $key
      * @dataProvider decimalPricePropertyDataProvider
      */
@@ -809,6 +811,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $key
      * @dataProvider booleanPropertyDataProvider
      */
@@ -821,6 +824,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $key
      * @dataProvider booleanPropertyDataProvider
      */
