@@ -63,6 +63,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Update the composer package name of static-info-tables (#53)
 - Add the missing required PHP extensions to the composer.json (#51)
 - Fix crash in the FE editor (#49)
 - Properly make hidden list view parts visible again if needed (#44, #48)
