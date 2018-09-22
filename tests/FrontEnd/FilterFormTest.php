@@ -1118,7 +1118,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     public function searchStringForSiteIsEscapedForLike()
     {
         self::assertContains(
-            'tx_realty_cities.title LIKE "%f\\\%oo%")',
+            'tx_realty_cities.title LIKE "%f\\\\%oo%")',
             $this->fixture->getWhereClausePart(['site' => 'f%oo'])
         );
     }
@@ -1717,8 +1717,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
 
         $result = $this->fixture->createDropDownItems('city');
 
-        self::assertContains('Foo city (1)', $result
-        );
+        self::assertContains('Foo city (1)', $result);
     }
 
     /**
