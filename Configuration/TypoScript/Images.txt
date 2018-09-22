@@ -1,0 +1,17 @@
+plugin.tx_realty_pi1.images {
+    1 {
+
+    }
+
+    2 {
+
+    }
+
+    3 {
+
+    }
+
+    4 {
+
+    }
+}

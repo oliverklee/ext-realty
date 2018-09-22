@@ -1,0 +1,21 @@
+plugin.tx_realty_pi1.views {
+    realty_list.cache = 1
+
+    single_view.cache = 1
+
+    filter_form.cache = 1
+
+    offerer_list.cache = 1
+
+    objects_by_owner.cache = 1
+
+    favorites.cache = 0
+
+    contact_form.cache = 0
+
+    my_objects.cache = 0
+
+    fe_editor.cache = 0
+
+    image_upload.cache = 0
+}

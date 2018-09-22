@@ -1,0 +1,5 @@
+plugin.tx_realty_pi1.listView {
+    results_at_a_time = 10
+    maxPages = 5
+    descFlag = 1
+}
