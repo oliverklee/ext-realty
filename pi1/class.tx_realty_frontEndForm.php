@@ -39,9 +39,9 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     protected $fakedFormValues = [];
 
     /**
-     * @var string the path to the FORMidable XML file
+     * @var string
      */
-    private $xmlPath;
+    private $configurationNamespace = '';
 
     /**
      * The constructor.
@@ -52,8 +52,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      *        the parent cObj content, needed for the flexforms
      * @param int $uidOfObjectToEdit
      *        UID of the object to edit, set to 0 to create a new database record, must not be negative
-     * @param string $xmlPath
-     *        path of the XML for the form, relative to this extension, must not begin with a slash and must not be empty
+     * @param string $configurationNamespace relative to plugin.tx_realty_pi1 (without the trailing period)
      * @param bool $isTestMode
      *        whether the FE editor is instantiated in test mode
      */
@@ -61,12 +60,12 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         array $configuration,
         ContentObjectRenderer $contentObjectRenderer,
         $uidOfObjectToEdit,
-        $xmlPath,
+        $configurationNamespace,
         $isTestMode = false
     ) {
         $this->isTestMode = $isTestMode;
         $this->realtyObjectUid = $uidOfObjectToEdit;
-        $this->xmlPath = $xmlPath;
+        $this->configurationNamespace = $configurationNamespace;
 
         $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
         $this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
@@ -110,9 +109,9 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         // a non-existing UID.
         // The FORMidable object is never initialized for testing.
         if ($this->realtyObjectExistsInDatabase()) {
-            $this->formCreator->init(
+            $this->formCreator->initFromTs(
                 $this,
-                ExtensionManagementUtility::extPath('realty') . $this->xmlPath,
+                $this->conf[$this->configurationNamespace . '.'],
                 ($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false
             );
         }

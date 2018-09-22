@@ -45,9 +45,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      * @param int $uidOfObjectToEdit
      *        UID of the object to edit, set to 0 to create a new record,
      *        must be >= 0
-     * @param string $xmlPath
-     *        path of the XML for the form, relative to this extension,
-     *        must not begin with a slash and must not be empty
+     * @param string $configurationNamespace relative to plugin.tx_realty_pi1 (without the trailing period)
      * @param bool $isTestMode
      *        whether the FE editor is instantiated in test mode
      */
@@ -55,14 +53,14 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         array $configuration,
         ContentObjectRenderer $contentObjectRenderer,
         $uidOfObjectToEdit,
-        $xmlPath,
+        $configurationNamespace,
         $isTestMode = false
     ) {
         parent::__construct(
             $configuration,
             $contentObjectRenderer,
             $uidOfObjectToEdit,
-            $xmlPath,
+            $configurationNamespace,
             $isTestMode
         );
 
