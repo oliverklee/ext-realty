@@ -17,7 +17,9 @@ Sponsorship
 ^^^^^^^^^^^
 
 Development of this extension has been funded by the following
-organizations:
+organizations and persons:
+
+- `[1]alles Werbeagentur  <https://www.1alles.de/>`_
 
 - `Acco Real <http://www.accoreal.de/>`_
 
