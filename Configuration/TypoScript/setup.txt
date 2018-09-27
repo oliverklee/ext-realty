@@ -4,4 +4,5 @@
 <INCLUDE_TYPOSCRIPT: source="FILE:./Editor.txt">
 <INCLUDE_TYPOSCRIPT: source="FILE:./ImageUpload.txt">
 <INCLUDE_TYPOSCRIPT: source="FILE:./ListView.txt">
+<INCLUDE_TYPOSCRIPT: source="FILE:./Config.txt">
 <INCLUDE_TYPOSCRIPT: source="FILE:./Page.txt">

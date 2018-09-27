@@ -19,8 +19,14 @@ Upgrading from version 0.6.x to 1.0.x
 #. Install the latest version of the  *oelib* and  *static\_info\_tables*
    extensions.
 
-#. Update to the `patched ameos\_formidable
-   <https://dl.dropboxusercontent.com/u/27225645/Extensions/T3X_ameos_formidable-1_1_564-z-201506082123.t3x>`_.
+#. Temporarily uninstall the Realty Manager.
+
+#. Uninstall the ameos\_formidable extension.
+
+#. Install the mkforms and rn\_base extensions.
+
+#. Include the *MKFORMS - Basics (mkforms)* template in your site template
+   under "Include static (from extensions)."
 
 #. Update the Realty Manager.
 

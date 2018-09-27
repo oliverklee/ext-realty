@@ -85,10 +85,12 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
      */
     public function processImageUpload(array $formData)
     {
-        if (($formData['caption'] != '') && ($formData['image']['name'] != '')) {
+        $caption = (string)$formData['caption'];
+        $fileName = (string)$formData['image'];
+        if ($caption !== '' && $fileName !== '') {
             $this->realtyObject->addImageRecord(
-                strip_tags($formData['caption']),
-                $this->getFormidablesUniqueFileName($formData['image']['name'])
+                strip_tags($caption),
+                $this->getFormUniqueFileName($fileName)
             );
         }
 
@@ -124,40 +126,36 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
      */
     public function checkFile(array $valueToCheck)
     {
-        // nothing to check if there is no file
-        if ($valueToCheck['value']['name'] == '') {
+        $fileName = (string)$valueToCheck['value'];
+        if ($fileName === '') {
             return true;
         }
 
         $validationErrorLabel = '';
-        $maximumFileSizeInBytes
-            = $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024;
         $imageExtensions = GeneralUtility::trimExplode(
             ',',
             $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
             true
         );
-        if (in_array('pdf', $imageExtensions)) {
-            unset($imageExtensions[array_search('pdf', $imageExtensions)]);
+        if (in_array('pdf', $imageExtensions, true)) {
+            unset($imageExtensions[array_search('pdf', $imageExtensions, true)]);
         }
-        if (in_array('ps', $imageExtensions)) {
-            unset($imageExtensions[array_search('ps', $imageExtensions)]);
+        if (in_array('ps', $imageExtensions, true)) {
+            unset($imageExtensions[array_search('ps', $imageExtensions, true)]);
         }
         $extensionValidator = '/^.+\\.(' . implode('|', $imageExtensions) . ')$/i';
 
-        if ($this->getFormValue('caption') == '') {
+        if ($this->getFormValue('caption') === '') {
             $validationErrorLabel = 'message_empty_caption';
-        } elseif ($valueToCheck['value']['size'] > $maximumFileSizeInBytes) {
-            $validationErrorLabel = 'message_image_too_large';
-        } elseif (!preg_match($extensionValidator, $valueToCheck['value']['name'])) {
+        } elseif (!preg_match($extensionValidator, $fileName)) {
             $validationErrorLabel = 'message_invalid_type';
         }
 
-        $this->validationError = ($validationErrorLabel != '')
+        $this->validationError = ($validationErrorLabel !== '')
             ? $this->translate($validationErrorLabel)
             : '';
 
-        return $validationErrorLabel == '';
+        return $validationErrorLabel === '';
     }
 
     /**
@@ -182,7 +180,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
      * Returns the file name of an image to upload that will be used to store
      * this image in the upload directory.
      * This function can only return the correct result if it is called after
-     * FORMidable has created the file name for writing the image to the upload
+     * mkforms has created the file name for writing the image to the upload
      * directory.
      *
      * Note: In the test mode, just the input string will be returned.
@@ -192,13 +190,11 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
      * @return string unique file name used under wich this file is stored
      *                in the upload directory, will not be empty
      */
-    private function getFormidablesUniqueFileName($fileName)
+    private function getFormUniqueFileName($fileName)
     {
-        $this->makeFormCreator();
+        $this->makeForm();
 
-        return ($this->isTestMode)
-            ? $fileName
-            : ($this->formCreator->aORenderlets['image']->sCoolFileName);
+        return $this->isTestMode ? $fileName : $this->form->aORenderlets['image']->sCoolFileName;
     }
 
     /**

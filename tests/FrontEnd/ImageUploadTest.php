@@ -153,7 +153,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
         $this->fixture->processImageUpload(
             [
                 'caption' => 'test image',
-                'image' => ['name' => 'image.jpg'],
+                'image' => 'image.jpg',
             ]
         );
 
@@ -174,7 +174,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
         $this->fixture->processImageUpload(
             [
                 'caption' => 'test image',
-                'image' => ['name' => 'image.jpg'],
+                'image' => 'image.jpg',
             ]
         );
 
@@ -182,8 +182,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
             1,
             $this->testingFramework->countRecords(
                 'tx_realty_images',
-                'object=' . $this->dummyObjectUid .
-                    ' AND caption="test image" AND image="image.jpg"'
+                'object=' . $this->dummyObjectUid . ' AND caption="test image" AND image="image.jpg"'
             )
         );
     }
@@ -196,7 +195,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
         $this->fixture->processImageUpload(
             [
                 'caption' => 'test image',
-                'image' => ['name' => ''],
+                'image' => '',
             ]
         );
 
@@ -204,8 +203,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
             0,
             $this->testingFramework->countRecords(
                 'tx_realty_images',
-                'object=' . $this->dummyObjectUid .
-                    ' AND caption="test image"'
+                'object=' . $this->dummyObjectUid . ' AND caption="test image"'
             )
         );
     }
@@ -255,9 +253,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
      */
     public function checkFileForNoImageReturnsTrue()
     {
-        self::assertTrue(
-            $this->fixture->checkFile(['value' => ['name']])
-        );
+        self::assertTrue($this->fixture->checkFile(['value' => '']));
     }
 
     /**
@@ -267,11 +263,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.gif', 'size' => 1]]
-            )
-        );
+        self::assertTrue($this->fixture->checkFile(['value' => 'foo.gif']));
     }
 
     /**
@@ -281,11 +273,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.png', 'size' => 1]]
-            )
-        );
+        self::assertTrue($this->fixture->checkFile(['value' => 'foo.png']));
     }
 
     /**
@@ -295,11 +283,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.jpg', 'size' => 1]]
-            )
-        );
+        self::assertTrue($this->fixture->checkFile(['value' => 'foo.jpg']));
     }
 
     /**
@@ -309,11 +293,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.jpeg', 'size' => 1]]
-            )
-        );
+        self::assertTrue($this->fixture->checkFile(['value' => 'foo.jpeg']));
     }
 
     /**
@@ -323,11 +303,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
 
-        self::assertFalse(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.pdf', 'size' => 1]]
-            )
-        );
+        self::assertFalse($this->fixture->checkFile(['value' => 'foo.pdf']));
     }
 
     /**
@@ -337,11 +313,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
 
-        self::assertFalse(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.ps', 'size' => 1]]
-            )
-        );
+        self::assertFalse($this->fixture->checkFile(['value' => 'foo.ps']));
     }
 
     /**
@@ -349,26 +321,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
      */
     public function checkFileWithoutCaptionReturnsFalse()
     {
-        self::assertFalse(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.jpg', 'size' => 1]]
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function checkFileForTooLargeImageReturnsFalse()
-    {
-        $tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024) + 1;
-        $this->fixture->setFakedFormValue('caption', 'foo');
-
-        self::assertFalse(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.jpg', 'size' => $tooLarge]]
-            )
-        );
+        self::assertFalse($this->fixture->checkFile(['value' => 'foo.jpg']));
     }
 
     /**
@@ -378,11 +331,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
 
-        self::assertFalse(
-            $this->fixture->checkFile(
-                ['value' => ['name' => 'foo.foo', 'size' => 1]]
-            )
-        );
+        self::assertFalse($this->fixture->checkFile(['value' => 'foo.foo']));
     }
 
     /**
@@ -390,11 +339,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
      */
     public function getImageUploadErrorMessageForEmptyCaption()
     {
-        $this->fixture->checkFile(
-            ['value' => ['name' => 'foo.jpg', 'size' => 1]]
-        );
+        $this->fixture->checkFile(['value' => 'foo.jpg']);
 
-        self::assertEquals(
+        self::assertSame(
             $this->fixture->translate('message_empty_caption'),
             $this->fixture->getImageUploadErrorMessage()
         );
@@ -406,29 +353,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function getImageUploadErrorMessageForInvalidExtension()
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
-        $this->fixture->checkFile(
-            ['value' => ['name' => 'foo.foo', 'size' => 1]]
-        );
+        $this->fixture->checkFile(['value' => 'foo.foo']);
 
-        self::assertEquals(
+        self::assertSame(
             $this->fixture->translate('message_invalid_type'),
-            $this->fixture->getImageUploadErrorMessage()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getImageUploadErrorMessageForTooLargeImage()
-    {
-        $tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024) + 1;
-        $this->fixture->setFakedFormValue('caption', 'foo');
-        $this->fixture->checkFile(
-            ['value' => ['name' => 'foo.jpg', 'size' => $tooLarge]]
-        );
-
-        self::assertEquals(
-            $this->fixture->translate('message_image_too_large'),
             $this->fixture->getImageUploadErrorMessage()
         );
     }

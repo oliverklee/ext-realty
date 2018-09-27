@@ -1,3 +1,4 @@
+plugin.tx_realty_pi1.editor =< config.tx_mkforms
 plugin.tx_realty_pi1.editor {
     meta {
         name = FE editor form
@@ -99,9 +100,11 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isObjectNumberUniqueForLanguage
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isObjectNumberUniqueForLanguage
+                    }
                     message.userobj {
                         extension = this
                         method = getInvalidObjectNumberMessage
@@ -159,9 +162,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.distance_to_the_sea
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNonNegativeIntegerNumber
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNonNegativeIntegerNumber
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -204,9 +209,11 @@ plugin.tx_realty_pi1.editor {
             onchange = updateDistrictsInEditor();
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isAllowedValueForCity
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isAllowedValueForCity
+                    }
                     message.userobj {
                         extension = this
                         method = getInvalidOrEmptyCityMessage
@@ -221,13 +228,15 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.new_city
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isAtMostOneValueForAuxiliaryRecordProvided
-                    params {
-                        10 {
-                            name = fieldName
-                            value = city
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isAtMostOneValueForAuxiliaryRecordProvided
+                        params {
+                            10 {
+                                name = fieldName
+                                value = city
+                            }
                         }
                     }
                     message.userobj {
@@ -350,13 +359,15 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = checkKeyExistsInTable
-                    params {
-                        10 {
-                            name = table
-                            value = static_countries
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = checkKeyExistsInTable
+                        params {
+                            10 {
+                                name = table
+                                value = static_countries
+                            }
                         }
                     }
                     message.userobj {
@@ -409,9 +420,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isNonEmptyOrOwnerDataUsed
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isNonEmptyOrOwnerDataUsed
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -436,9 +449,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_email
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isNonEmptyOrOwnerDataUsed
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isNonEmptyOrOwnerDataUsed
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -498,9 +513,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isNonEmptyValidPriceForObjectForSale
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isNonEmptyValidPriceForObjectForSale
+                    }
                     message.userobj {
                         extension = this
                         method = getNoValidPriceOrEmptyMessage
@@ -521,9 +538,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.hoa_fee
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -548,9 +567,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isNonEmptyValidPriceForObjectForRent
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isNonEmptyValidPriceForObjectForRent
+                    }
                     message.userobj {
                         extension = this
                         method = getNoValidPriceOrEmptyMessage
@@ -571,9 +592,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_per_square_meter
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -598,9 +621,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_with_heating_costs
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -631,9 +656,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.extra_charges
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -676,9 +703,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rental_income_target
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -753,13 +782,15 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = checkKeyExistsInTable
-                    params {
-                        10 {
-                            name = table
-                            value = tx_realty_house_types
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = checkKeyExistsInTable
+                        params {
+                            10 {
+                                name = table
+                                value = tx_realty_house_types
+                            }
                         }
                     }
                     message.userobj {
@@ -804,13 +835,15 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = checkKeyExistsInTable
-                    params {
-                        10 {
-                            name = table
-                            value = tx_realty_apartment_types
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = checkKeyExistsInTable
+                        params {
+                            10 {
+                                name = table
+                                value = tx_realty_apartment_types
+                            }
                         }
                     }
                     message.userobj {
@@ -843,9 +876,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.construction_year
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidYear
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidYear
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -886,17 +921,19 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isIntegerInRange
-                    params {
-                        10 {
-                            name = range
-                            value = 0-2
-                        }
-                        20 {
-                            name = multiple
-                            value = 0
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isIntegerInRange
+                        params {
+                            10 {
+                                name = range
+                                value = 0-2
+                            }
+                            20 {
+                                name = multiple
+                                value = 0
+                            }
                         }
                     }
                     message.userobj {
@@ -1011,17 +1048,19 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isIntegerInRange
-                    params {
-                        10 {
-                            name = range
-                            value = 0-21
-                        }
-                        20 {
-                            name = multiple
-                            value = 0
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isIntegerInRange
+                        params {
+                            10 {
+                                name = range
+                                value = 0-21
+                            }
+                            20 {
+                                name = multiple
+                                value = 0
+                            }
                         }
                     }
                     message.userobj {
@@ -1064,17 +1103,19 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isIntegerInRange
-                    params {
-                        10 {
-                            name = range
-                            value = 0-3
-                        }
-                        20 {
-                            name = multiple
-                            value = 0
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isIntegerInRange
+                        params {
+                            10 {
+                                name = range
+                                value = 0-3
+                            }
+                            20 {
+                                name = multiple
+                                value = 0
+                            }
                         }
                     }
                     message.userobj {
@@ -1097,9 +1138,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.estate_size
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1124,9 +1167,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1151,9 +1196,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_usable_area
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1178,9 +1225,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.office_space
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1205,9 +1254,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.shop_area
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1232,9 +1283,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sales_area
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1259,9 +1312,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.storage_area
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1286,9 +1341,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.other_area
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1313,9 +1370,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.window_bank
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1340,9 +1399,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.site_occupancy_index
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1367,9 +1428,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor_space_index
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1394,9 +1457,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_area
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1421,9 +1486,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.parking_spaces
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNonNegativeIntegerNumber
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNonNegativeIntegerNumber
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1485,9 +1552,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidIntegerNumber
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidIntegerNumber
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1512,9 +1581,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floors
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNonNegativeIntegerNumber
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNonNegativeIntegerNumber
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1539,9 +1610,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1566,9 +1639,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bedrooms
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1593,9 +1668,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bathrooms
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1644,13 +1721,15 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = checkKeyExistsInTable
-                    params {
-                        10 {
-                            name = table
-                            value = tx_realty_car_places
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = checkKeyExistsInTable
+                        params {
+                            10 {
+                                name = table
+                                value = tx_realty_car_places
+                            }
                         }
                     }
                     message.userobj {
@@ -1677,9 +1756,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_rent
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1704,9 +1785,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_price
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidNumberWithDecimals
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidNumberWithDecimals
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -1779,17 +1862,19 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isIntegerInRange
-                    params {
-                        10 {
-                            name = range
-                            value = 0-11
-                        }
-                        20 {
-                            name = multiple
-                            value = 1
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isIntegerInRange
+                        params {
+                            10 {
+                                name = range
+                                value = 0-11
+                            }
+                            20 {
+                                name = multiple
+                                value = 1
+                            }
                         }
                     }
                     message.userobj {
@@ -1864,17 +1949,19 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isIntegerInRange
-                    params {
-                        10 {
-                            name = range
-                            value = 0-12
-                        }
-                        20 {
-                            name = multiple
-                            value = 1
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isIntegerInRange
+                        params {
+                            10 {
+                                name = range
+                                value = 0-12
+                            }
+                            20 {
+                                name = multiple
+                                value = 1
+                            }
                         }
                     }
                     message.userobj {
@@ -1933,13 +2020,15 @@ plugin.tx_realty_pi1.editor {
             }
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = checkKeyExistsInTable
-                    params {
-                        10 {
-                            name = table
-                            value = tx_realty_pets
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = checkKeyExistsInTable
+                        params {
+                            10 {
+                                name = table
+                                value = tx_realty_pets
+                            }
                         }
                     }
                     message.userobj {
@@ -2045,9 +2134,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.longitude
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidLongitudeDegree
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidLongitudeDegree
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
@@ -2072,9 +2163,11 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.latitude
             validators {
                 10 = validator:STANDARD
-                10.userobj {
-                    extension = this
-                    method = isValidLongitudeDegree
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = isValidLongitudeDegree
+                    }
                     message.userobj {
                         extension = this
                         method = getMessageForRealtyObjectField
