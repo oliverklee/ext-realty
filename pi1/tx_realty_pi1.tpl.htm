@@ -1,198 +1,198 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="lightbox.css" />
-		<link rel="stylesheet" type="text/css" href="tx_realty_pi1.tpl.css" />
-		<title>
-			HTML template for the Realty Manager
-		</title>
-	</head>
-	<body>
-		<h1>
-			HTML template for the Realty Manager
-		</h1>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="lightbox.css" />
+    <link rel="stylesheet" type="text/css" href="tx_realty_pi1.tpl.css" />
+    <title>
+        HTML template for the Realty Manager
+    </title>
+</head>
+<body>
+    <h1>
+        HTML template for the Realty Manager
+    </h1>
 
-		<div class="tx-realty-pi1">
-			<h2>List view</h2>
+    <div class="tx-realty-pi1">
+        <h2>List view</h2>
 <!-- ###LIST_VIEW### -->
 <div class="list-view">
-	<h2>###LIST_HEADING###</h2>
-	<!-- ###LIST_FILTER### -->
-	<form id="tx_realty_pi1_search" method="post" action="###SELF_URL_WITHOUT_PIVARS###">
-		<div class="filter">
-			<h3>###LABEL_SEARCHIN###</h3>
-			<div class="params">
-				<!-- ###SEARCH_ITEM### -->
-				<div class="param">
-					<input type="checkbox" name="tx_realty_pi1[search][]" value="###SEARCH_VALUE###" id="tx_realty_pi1_search_###SEARCH_VALUE###"###SEARCH_CHECKED### />
-					<label for="tx_realty_pi1_search_###SEARCH_VALUE###">###SEARCH_LABEL###</label>
-				</div>
-				<!-- ###SEARCH_ITEM### -->
-			</div>
-			<span class="button search">
-				<input type="submit" class="tx-realty-pi1-submit" name="###LABEL_SEARCH###" value="###LABEL_SEARCH###" />
-			</span>
-			<div class="clear"></div>
-		</div>
-	</form>
-	<!-- ###LIST_FILTER### -->
-	<!-- ###GOOGLE_MAP### -->
-	<div id="tx_realty_map"></div>
-	<!-- ###GOOGLE_MAP### -->
-	<!-- ###LIST_RESULT### -->
-	<form id="tx_realty_pi1_list_view" method="post" action="<!-- ###FAVORITES_URL### --><!-- ###FAVORITES_URL### -->">
-		<table class="result" summary="">
-			<thead>
-				<tr>
-					<td>
-					<!-- ###PAGINATION### -->
-						<table class="pagination" summary="">
-							<tr>
-								<td class="label">###LABEL_PAGE###</td>
-								<!-- ###LINKS_TO_RESULT_PAGES### -->
-									<!-- ###NO_LINK_TO_CURRENT_PAGE### -->
-										<td>
-											<span class="button pages act"><span>###LINKTEXT###</span></span>
-										</td>
-									<!-- ###NO_LINK_TO_CURRENT_PAGE### -->
-									<!-- ###LINK_TO_OTHER_PAGE### -->
-										<td>
-											<a href="###URL###" class="button pages"><span>###LINKTEXT###</span></a>
-										</td>
-									<!-- ###LINK_TO_OTHER_PAGE### -->
-								<!-- ###LINKS_TO_RESULT_PAGES### -->
-								<td>&nbsp;(###NUMBER_OF_RESULTS### ###LABEL_OBJECTS###)</td>
-							</tr>
-						</table>
-					<!-- ###PAGINATION### -->
-					</td>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td>
-						<!-- ###PAGINATION### --><!-- ###PAGINATION### -->
-						<!-- ###ADD_TO_FAVORITES_BUTTON### -->
-						<div class="favorites">
-							<a href="#" class="button listViewAddToFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
-						</div>
-						<!-- ###ADD_TO_FAVORITES_BUTTON### -->
-						<!-- ###REMOVE_FROM_FAVORITES_BUTTON### -->
-						<div class="favorites">
-							<input type="hidden" name="tx_realty_pi1[remove]" value="1" />
-							<!-- ###WRAPPER_REMOVEFROMFAVORITES### -->
-								<a href="#" class="button removeFromFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_REMOVE_FROM_FAVORITES###</span></a>
-							<!-- ###WRAPPER_REMOVEFROMFAVORITES### -->
-						</div>
-						<!-- ###REMOVE_FROM_FAVORITES_BUTTON### -->
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="border"></div>
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-			<!-- ###LIST_ITEM### -->
-				<tr class="###CLASS_POSITION_IN_LIST###">
-					<td class="item">
-						<table class="item" summary="">
-							<tr>
-								<!-- ###WRAPPER_CHECKBOX### -->
-								<td class="checkbox">
-									<input type="checkbox" name="tx_realty_pi1[favorites][]" value="###UID###"/>
-								</td>
-								<!-- ###WRAPPER_CHECKBOX### -->
-								<td class="description">
-									<!-- ###WRAPPER_LINKED_TITLE### --><h3>###LINKED_TITLE###</h3><!-- ###WRAPPER_LINKED_TITLE### -->
-									<!-- ###WRAPPER_FEATURES### --><p class="details">###FEATURES###</p><!-- ###WRAPPER_FEATURES### -->
-									<!-- ###WRAPPER_TEASER### --><p class="teaser">###TEASER###</p><!-- ###WRAPPER_TEASER### -->
-									<table class="details" summary="">
-										<tr>
-											<td><!-- ###WRAPPER_CITY### -->###CITY###<!-- ###WRAPPER_CITY### --></td>
-											<td><!-- ###WRAPPER_LIVING_AREA### -->###LIVING_AREA###<!-- ###WRAPPER_LIVING_AREA### --></td>
-											<!-- ###WRAPPER_RENT_EXCLUDING_BILLS### --><td>###LABEL_RENT_EXCLUDING_BILLS_SHORT### ###RENT_EXCLUDING_BILLS###</td><!-- ###WRAPPER_RENT_EXCLUDING_BILLS### -->
-											<!-- ###WRAPPER_BUYING_PRICE### --><td>###LABEL_BUYING_PRICE### ###BUYING_PRICE###</td><!-- ###WRAPPER_BUYING_PRICE### -->
-										</tr>
-										<tr>
-											<td><!-- ###WRAPPER_DISTRICT### -->###DISTRICT###<!-- ###WRAPPER_DISTRICT### --></td>
-											<td><!-- ###WRAPPER_NUMBER_OF_ROOMS### -->###NUMBER_OF_ROOMS###&nbsp;###LABEL_NUMBER_OF_ROOMS_SHORT###<!-- ###WRAPPER_NUMBER_OF_ROOMS### --></td>
-											<!-- ###WRAPPER_EXTRA_CHARGES### --><td>###LABEL_EXTRA_CHARGES_SHORT### ###EXTRA_CHARGES###</td><!-- ###WRAPPER_EXTRA_CHARGES### -->
-										</tr>
-									</table>
-								</td>
-								<!-- ###WRAPPER_EDITOR_SPECIFIC_CONTENT### -->
-								<td class="tx-realty-pi1-editorLinks">
-									<table class="tx-realty-pi1-editor" summary="">
-										<tr>
-											<td>
-												<a href="###EDITOR_LINK###" class="button edit"><span>###LABEL_EDIT###</span></a>
-												<a href="###IMAGE_UPLOAD_LINK###" class="button image-upload"><span>###LABEL_IMAGE_UPLOAD###</span></a>
-												<!--  ###WRAPPER_ADVERTISING### -->
-													<!-- ###WRAPPER_ADVERTISE_BUTTON### -->
-													<a href="###ADVERTISE_LINK###" class="button advertise"><span>###LABEL_ADVERTISE###</span></a>
-													<!-- ###WRAPPER_ADVERTISE_BUTTON### -->
-													<!-- ###WRAPPER_ADVERTISED_STATUS### -->
-													<span class="button act advertised"><span>###LABEL_ADVERTISED###</span></span>
-													<!-- ###WRAPPER_ADVERTISED_STATUS### -->
-												<!--  ###WRAPPER_ADVERTISING### -->
-												<span class="button act tx-realty-pi1-record-state"><span>###RECORD_STATE###</span></span>
-												<a href="###DELETE_LINK###" class="button delete" onclick="return confirm('###REALLY_DELETE###')"><span>###LABEL_DELETE###</span></a>
-											</td>
-										</tr>
-									</table>
-								</td>
-								<!-- ###WRAPPER_EDITOR_SPECIFIC_CONTENT### -->
-								<td class="image imageLeft"><!-- ###WRAPPER_LIST_IMAGE_LEFT### -->###LIST_IMAGE_LEFT###<!-- ###WRAPPER_LIST_IMAGE_LEFT### --></td>
-								<td class="image imageRight"><!-- ###WRAPPER_LIST_IMAGE_RIGHT### -->###LIST_IMAGE_RIGHT###<!-- ###WRAPPER_LIST_IMAGE_RIGHT### --></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			<!-- ###LIST_ITEM### -->
-			</tbody>
-		</table>
-	</form>
-	<!-- ###WRAPPER_SORTING### -->
-	<form id="tx_realty_pi1_sorting" method="post" action="###SELF_URL###">
-		<table class="result" summary="">
-			<tr>
-				<td class="sorting">
-					<table class="sorting" summary="">
-						<tr>
-							<td>###LABEL_SORTBY###
-								<select name="tx_realty_pi1[orderBy]">
-									<!-- ###SORT_OPTION### --><option value="###SORT_VALUE###"###SORT_SELECTED###>###SORT_LABEL###</option><!-- ###SORT_OPTION### -->
-								</select>
-							</td>
-							<td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderAsc" value="0"###SORT_CHECKED_ASC###/><label for="sortOrderAsc">###LABEL_ASCENDING###</label></td>
-							<td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderDesc" value="1"###SORT_CHECKED_DESC###/><label for="sortOrderDesc">###LABEL_DESCENDING###</label></td>
-							<td><a href="#" class="button sort" onclick="document.forms['tx_realty_pi1_sorting'].submit(); return false;"><span>###LABEL_SORT###</span></a></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</form>
-	<!-- ###WRAPPER_SORTING### -->
-	<!-- ###LIST_RESULT### -->
-	<!-- ###BACK_LINK### -->
-	<a href="#" onclick="history.back(); return false;" class="button listViewBack"><span>###LABEL_BACK###</span></a>
-	<!-- ###BACK_LINK### -->
-	<!-- ###NEW_RECORD_LINK### -->
-	<a href="###EMPTY_EDITOR_LINK###" class="button newRecord"><span>###LABEL_NEW_RECORD###</span></a>
-	<!-- ###NEW_RECORD_LINK### -->
-	<!-- ###LIMIT_HEADING### -->
-	<p class="object_limits">###OBJECTS_LIMIT_HEADING### ###OBJECTS_LEFT_TO_ENTER###</p>
-	<!-- ###LIMIT_HEADING### -->
-	<!-- ###WRAPPER_CONTACT### -->
-	<div class="buttons">
-		<a href="###CONTACT_URL###" class="button listViewContact"><span>###LABEL_CONTACT###</span></a>
-	</div>
-	<!-- ###WRAPPER_CONTACT### -->
-	<div class="clear"></div>
+    <h2>###LIST_HEADING###</h2>
+    <!-- ###LIST_FILTER### -->
+    <form id="tx_realty_pi1_search" method="post" action="###SELF_URL_WITHOUT_PIVARS###">
+        <div class="filter">
+            <h3>###LABEL_SEARCHIN###</h3>
+            <div class="params">
+                <!-- ###SEARCH_ITEM### -->
+                <div class="param">
+                    <input type="checkbox" name="tx_realty_pi1[search][]" value="###SEARCH_VALUE###" id="tx_realty_pi1_search_###SEARCH_VALUE###"###SEARCH_CHECKED### />
+                    <label for="tx_realty_pi1_search_###SEARCH_VALUE###">###SEARCH_LABEL###</label>
+                </div>
+                <!-- ###SEARCH_ITEM### -->
+            </div>
+            <span class="button search">
+                <input type="submit" class="tx-realty-pi1-submit" name="###LABEL_SEARCH###" value="###LABEL_SEARCH###" />
+            </span>
+            <div class="clear"></div>
+        </div>
+    </form>
+    <!-- ###LIST_FILTER### -->
+    <!-- ###GOOGLE_MAP### -->
+    <div id="tx_realty_map"></div>
+    <!-- ###GOOGLE_MAP### -->
+    <!-- ###LIST_RESULT### -->
+    <form id="tx_realty_pi1_list_view" method="post" action="<!-- ###FAVORITES_URL### --><!-- ###FAVORITES_URL### -->">
+        <table class="result" summary="">
+            <thead>
+                <tr>
+                    <td>
+                    <!-- ###PAGINATION### -->
+                        <table class="pagination" summary="">
+                            <tr>
+                                <td class="label">###LABEL_PAGE###</td>
+                                <!-- ###LINKS_TO_RESULT_PAGES### -->
+                                    <!-- ###NO_LINK_TO_CURRENT_PAGE### -->
+                                        <td>
+                                            <span class="button pages act"><span>###LINKTEXT###</span></span>
+                                        </td>
+                                    <!-- ###NO_LINK_TO_CURRENT_PAGE### -->
+                                    <!-- ###LINK_TO_OTHER_PAGE### -->
+                                        <td>
+                                            <a href="###URL###" class="button pages"><span>###LINKTEXT###</span></a>
+                                        </td>
+                                    <!-- ###LINK_TO_OTHER_PAGE### -->
+                                <!-- ###LINKS_TO_RESULT_PAGES### -->
+                                <td>&nbsp;(###NUMBER_OF_RESULTS### ###LABEL_OBJECTS###)</td>
+                            </tr>
+                        </table>
+                    <!-- ###PAGINATION### -->
+                    </td>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td>
+                        <!-- ###PAGINATION### --><!-- ###PAGINATION### -->
+                        <!-- ###ADD_TO_FAVORITES_BUTTON### -->
+                        <div class="favorites">
+                            <a href="#" class="button listViewAddToFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+                        </div>
+                        <!-- ###ADD_TO_FAVORITES_BUTTON### -->
+                        <!-- ###REMOVE_FROM_FAVORITES_BUTTON### -->
+                        <div class="favorites">
+                            <input type="hidden" name="tx_realty_pi1[remove]" value="1" />
+                            <!-- ###WRAPPER_REMOVEFROMFAVORITES### -->
+                                <a href="#" class="button removeFromFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_REMOVE_FROM_FAVORITES###</span></a>
+                            <!-- ###WRAPPER_REMOVEFROMFAVORITES### -->
+                        </div>
+                        <!-- ###REMOVE_FROM_FAVORITES_BUTTON### -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="border"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+            <!-- ###LIST_ITEM### -->
+                <tr class="###CLASS_POSITION_IN_LIST###">
+                    <td class="item">
+                        <table class="item" summary="">
+                            <tr>
+                                <!-- ###WRAPPER_CHECKBOX### -->
+                                <td class="checkbox">
+                                    <input type="checkbox" name="tx_realty_pi1[favorites][]" value="###UID###"/>
+                                </td>
+                                <!-- ###WRAPPER_CHECKBOX### -->
+                                <td class="description">
+                                    <!-- ###WRAPPER_LINKED_TITLE### --><h3>###LINKED_TITLE###</h3><!-- ###WRAPPER_LINKED_TITLE### -->
+                                    <!-- ###WRAPPER_FEATURES### --><p class="details">###FEATURES###</p><!-- ###WRAPPER_FEATURES### -->
+                                    <!-- ###WRAPPER_TEASER### --><p class="teaser">###TEASER###</p><!-- ###WRAPPER_TEASER### -->
+                                    <table class="details" summary="">
+                                        <tr>
+                                            <td><!-- ###WRAPPER_CITY### -->###CITY###<!-- ###WRAPPER_CITY### --></td>
+                                            <td><!-- ###WRAPPER_LIVING_AREA### -->###LIVING_AREA###<!-- ###WRAPPER_LIVING_AREA### --></td>
+                                            <!-- ###WRAPPER_RENT_EXCLUDING_BILLS### --><td>###LABEL_RENT_EXCLUDING_BILLS_SHORT### ###RENT_EXCLUDING_BILLS###</td><!-- ###WRAPPER_RENT_EXCLUDING_BILLS### -->
+                                            <!-- ###WRAPPER_BUYING_PRICE### --><td>###LABEL_BUYING_PRICE### ###BUYING_PRICE###</td><!-- ###WRAPPER_BUYING_PRICE### -->
+                                        </tr>
+                                        <tr>
+                                            <td><!-- ###WRAPPER_DISTRICT### -->###DISTRICT###<!-- ###WRAPPER_DISTRICT### --></td>
+                                            <td><!-- ###WRAPPER_NUMBER_OF_ROOMS### -->###NUMBER_OF_ROOMS###&nbsp;###LABEL_NUMBER_OF_ROOMS_SHORT###<!-- ###WRAPPER_NUMBER_OF_ROOMS### --></td>
+                                            <!-- ###WRAPPER_EXTRA_CHARGES### --><td>###LABEL_EXTRA_CHARGES_SHORT### ###EXTRA_CHARGES###</td><!-- ###WRAPPER_EXTRA_CHARGES### -->
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- ###WRAPPER_EDITOR_SPECIFIC_CONTENT### -->
+                                <td class="tx-realty-pi1-editorLinks">
+                                    <table class="tx-realty-pi1-editor" summary="">
+                                        <tr>
+                                            <td>
+                                                <a href="###EDITOR_LINK###" class="button edit"><span>###LABEL_EDIT###</span></a>
+                                                <a href="###IMAGE_UPLOAD_LINK###" class="button image-upload"><span>###LABEL_IMAGE_UPLOAD###</span></a>
+                                                <!--  ###WRAPPER_ADVERTISING### -->
+                                                    <!-- ###WRAPPER_ADVERTISE_BUTTON### -->
+                                                    <a href="###ADVERTISE_LINK###" class="button advertise"><span>###LABEL_ADVERTISE###</span></a>
+                                                    <!-- ###WRAPPER_ADVERTISE_BUTTON### -->
+                                                    <!-- ###WRAPPER_ADVERTISED_STATUS### -->
+                                                    <span class="button act advertised"><span>###LABEL_ADVERTISED###</span></span>
+                                                    <!-- ###WRAPPER_ADVERTISED_STATUS### -->
+                                                <!--  ###WRAPPER_ADVERTISING### -->
+                                                <span class="button act tx-realty-pi1-record-state"><span>###RECORD_STATE###</span></span>
+                                                <a href="###DELETE_LINK###" class="button delete" onclick="return confirm('###REALLY_DELETE###')"><span>###LABEL_DELETE###</span></a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <!-- ###WRAPPER_EDITOR_SPECIFIC_CONTENT### -->
+                                <td class="image imageLeft"><!-- ###WRAPPER_LIST_IMAGE_LEFT### -->###LIST_IMAGE_LEFT###<!-- ###WRAPPER_LIST_IMAGE_LEFT### --></td>
+                                <td class="image imageRight"><!-- ###WRAPPER_LIST_IMAGE_RIGHT### -->###LIST_IMAGE_RIGHT###<!-- ###WRAPPER_LIST_IMAGE_RIGHT### --></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            <!-- ###LIST_ITEM### -->
+            </tbody>
+        </table>
+    </form>
+    <!-- ###WRAPPER_SORTING### -->
+    <form id="tx_realty_pi1_sorting" method="post" action="###SELF_URL###">
+        <table class="result" summary="">
+            <tr>
+                <td class="sorting">
+                    <table class="sorting" summary="">
+                        <tr>
+                            <td>###LABEL_SORTBY###
+                                <select name="tx_realty_pi1[orderBy]">
+                                    <!-- ###SORT_OPTION### --><option value="###SORT_VALUE###"###SORT_SELECTED###>###SORT_LABEL###</option><!-- ###SORT_OPTION### -->
+                                </select>
+                            </td>
+                            <td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderAsc" value="0"###SORT_CHECKED_ASC###/><label for="sortOrderAsc">###LABEL_ASCENDING###</label></td>
+                            <td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderDesc" value="1"###SORT_CHECKED_DESC###/><label for="sortOrderDesc">###LABEL_DESCENDING###</label></td>
+                            <td><a href="#" class="button sort" onclick="document.forms['tx_realty_pi1_sorting'].submit(); return false;"><span>###LABEL_SORT###</span></a></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <!-- ###WRAPPER_SORTING### -->
+    <!-- ###LIST_RESULT### -->
+    <!-- ###BACK_LINK### -->
+    <a href="#" onclick="history.back(); return false;" class="button listViewBack"><span>###LABEL_BACK###</span></a>
+    <!-- ###BACK_LINK### -->
+    <!-- ###NEW_RECORD_LINK### -->
+    <a href="###EMPTY_EDITOR_LINK###" class="button newRecord"><span>###LABEL_NEW_RECORD###</span></a>
+    <!-- ###NEW_RECORD_LINK### -->
+    <!-- ###LIMIT_HEADING### -->
+    <p class="object_limits">###OBJECTS_LIMIT_HEADING### ###OBJECTS_LEFT_TO_ENTER###</p>
+    <!-- ###LIMIT_HEADING### -->
+    <!-- ###WRAPPER_CONTACT### -->
+    <div class="buttons">
+        <a href="###CONTACT_URL###" class="button listViewContact"><span>###LABEL_CONTACT###</span></a>
+    </div>
+    <!-- ###WRAPPER_CONTACT### -->
+    <div class="clear"></div>
 </div>
 <!-- ###LIST_VIEW### -->
 
@@ -200,162 +200,162 @@
 <h2>Single view</h2>
 <!-- ###SINGLE_VIEW### -->
 <div class="single-view">
-	<!-- ###SINGLE_VIEW_RESULT### -->
-	<!-- ###FIELD_WRAPPER_NEXTPREVIOUSBUTTONS### -->
-		<div class="previousNextButtons">
-		<!--  ###FIELD_WRAPPER_PREVIOUSBUTTON### -->
-			<a href="###PREVIOUS_URL###" class="button previousPage"><span>###LABEL_PREVIOUS_PAGE###</span></a>
-		<!--  ###FIELD_WRAPPER_PREVIOUSBUTTON### -->
-		<!--  ###FIELD_WRAPPER_NEXTBUTTON### -->
-			<a href="###NEXT_URL###" class="button nextPage"><span>###LABEL_NEXT_PAGE###</span></a>
-		<!--  ###FIELD_WRAPPER_NEXTBUTTON### -->
-		</div>
-		<div class="clear"></div>
-	<!-- ###FIELD_WRAPPER_NEXTPREVIOUSBUTTONS### -->
+    <!-- ###SINGLE_VIEW_RESULT### -->
+    <!-- ###FIELD_WRAPPER_NEXTPREVIOUSBUTTONS### -->
+        <div class="previousNextButtons">
+        <!--  ###FIELD_WRAPPER_PREVIOUSBUTTON### -->
+            <a href="###PREVIOUS_URL###" class="button previousPage"><span>###LABEL_PREVIOUS_PAGE###</span></a>
+        <!--  ###FIELD_WRAPPER_PREVIOUSBUTTON### -->
+        <!--  ###FIELD_WRAPPER_NEXTBUTTON### -->
+            <a href="###NEXT_URL###" class="button nextPage"><span>###LABEL_NEXT_PAGE###</span></a>
+        <!--  ###FIELD_WRAPPER_NEXTBUTTON### -->
+        </div>
+        <div class="clear"></div>
+    <!-- ###FIELD_WRAPPER_NEXTPREVIOUSBUTTONS### -->
 
-	<!-- ###FIELD_WRAPPER_TEXTS### -->
-	<div class="text-pane###WITH_IMAGES###">
-		<!-- ###FIELD_WRAPPER_HEADING### -->
-		<h2>###HEADING###</h2>
-		<!-- ###FIELD_WRAPPER_HEADING### -->
-		<!-- ###FIELD_WRAPPER_ADDRESS### -->
-		<div class="address">
-			<h4 class="first">###LABEL_ADDRESS###</h4>
-			<p>###ADDRESS###</p>
-		</div>
-		<!-- ###FIELD_WRAPPER_ADDRESS### -->
-		<!-- ###FIELD_WRAPPER_DESCRIPTION### -->
-		<div class="description">
-			<h4>###LABEL_DESCRIPTION###</h4>
-			###DESCRIPTION###
-		</div>
-		<!-- ###FIELD_WRAPPER_DESCRIPTION### -->
-		<!-- ###FIELD_WRAPPER_DOCUMENTS### -->
-		<div class="documents">
-			<ul>
-				<!-- ###DOCUMENT_ITEM### -->
-				<li>###DOCUMENT_FILE###</li>
-				<!-- ###DOCUMENT_ITEM### -->
-			</ul>
-		</div>
-		<!-- ###FIELD_WRAPPER_DOCUMENTS### -->
-		<!-- ###FIELD_WRAPPER_PRICE### -->
-		<div class="price">
-			<!-- ###FIELD_WRAPPER_RENT_EXCLUDING_BILLS### -->
-			<h4>###LABEL_RENT_EXCLUDING_BILLS###</h4>
-			<p>###RENT_EXCLUDING_BILLS###</p>
-			<!-- ###FIELD_WRAPPER_RENT_EXCLUDING_BILLS### -->
-			<!-- ###FIELD_WRAPPER_BUYING_PRICE### -->
-			<h4>###LABEL_BUYING_PRICE###</h4>
-			<p>###BUYING_PRICE###</p>
-			<!-- ###FIELD_WRAPPER_BUYING_PRICE### -->
-		</div>
-		<!-- ###FIELD_WRAPPER_PRICE### -->
-		<!-- ###FIELD_WRAPPER_OVERVIEWTABLE### -->
-		<table class="overview" summary="">
-			<tr>
-				<th colspan="2">###LABEL_OVERVIEW### <!-- ###FIELD_WRAPPER_OBJECT_NUMBER### -->###LABEL_OBJECT_NUMBER###&nbsp;###OBJECT_NUMBER###<!-- ###FIELD_WRAPPER_OBJECT_NUMBER### --></th>
-			</tr>
-			<!-- ###OVERVIEW_ROW### -->
-			<tr class="###CLASS_POSITION_IN_LIST###">
-				<td>###LABEL_CURRENT_ROW###</td><td>###DATA_CURRENT_ROW###</td>
-			</tr>
-			<!-- ###OVERVIEW_ROW### -->
-		</table>
-		<!-- ###FIELD_WRAPPER_OVERVIEWTABLE### -->
-		<!-- ###FIELD_WRAPPER_OFFERER### -->
-		<div class="tx-realty-pi1-offerer">
-			<h4>###LABEL_OFFERER###</h4>
-			###OFFERER_INFORMATION###
-		</div>
-		<!-- ###FIELD_WRAPPER_OFFERER### -->
-		<!-- ###FIELD_WRAPPER_STATUS### -->
-		<div class="tx-realty-pi1-status">
-			<h4>###LABEL_STATUS###</h4>
-			<p class="status_###STATUSCLASS###">###STATUS###</p>
-		</div>
-		<!-- ###FIELD_WRAPPER_STATUS### -->
-		<!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
-		<div class="buttons">
-			<a href="###CONTACT_URL###" class="button singleViewContact"><span>###LABEL_CONTACT###</span></a>
-		</div>
-		<!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
-		<!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
-		<!-- ###GOOGLE_MAP### --><div id="tx_realty_map"></div><!-- ###GOOGLE_MAP### -->
-		<!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
-		<!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
-		<div class="buttons">
-			<!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
-			<form id="addToFavorites" method="post" action="###FAVORITES_URL###">
-				<div>
-					<input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
-					<a href="#" class="button singleViewAddToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
-				</div>
-			</form>
-			<!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
-			<!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
-			<a href="#" class="button printPage" onclick="window.print(); return false;"><span>###LABEL_PRINT_PAGE###</span></a>
-			<!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
-			<!-- ###FIELD_WRAPPER_BACKBUTTON### -->
-			<a href="###BACK_URL###" class="button singleViewBack"###JAVASCRIPT_BACK###><span>###LABEL_BACK###</span></a>
-			<!-- ###FIELD_WRAPPER_BACKBUTTON### -->
-		</div>
-		<!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
-		<!-- ###FIELD_WRAPPER_FURTHERDESCRIPTION### -->
-		<div class="further-description">
-			<!-- ###FIELD_WRAPPER_EQUIPMENT### --><h4>###LABEL_EQUIPMENT###</h4>
-			###EQUIPMENT###<!-- ###FIELD_WRAPPER_EQUIPMENT### -->
-			<!-- ###FIELD_WRAPPER_LOCATION### --><h4>###LABEL_LOCATION###</h4>
-			###LOCATION###<!-- ###FIELD_WRAPPER_LOCATION### -->
-			<!-- ###FIELD_WRAPPER_MISC### --><h4>###LABEL_MISC###</h4>
-			###MISC###<!-- ###FIELD_WRAPPER_MISC### -->
-		</div>
-		<!-- ###FIELD_WRAPPER_FURTHERDESCRIPTION### -->
-	</div>
-	<!-- ###FIELD_WRAPPER_TEXTS### -->
-	<!-- ###FIELD_WRAPPER_IMAGETHUMBNAILS### -->
-	<div class="images">
-		<!-- ###ONE_IMAGE_CONTAINER### -->
-		<table class="item" summary="">
-			<tr>
-				<td class="image">
-					###ONE_IMAGE_TAG###
-				</td>
-			</tr>
-		</table>
-		<!-- ###ONE_IMAGE_CONTAINER### -->
-		<!-- ###IMAGES_POSITION_1### -->
-		<ul class="images_position_1">
-			<!-- ###ONE_IMAGE_CONTAINER_1### -->
-			<li>###ONE_IMAGE_TAG###</li>
-			<!-- ###ONE_IMAGE_CONTAINER_1### -->
-		</ul>
-		<!-- ###IMAGES_POSITION_1### -->
-		<!-- ###IMAGES_POSITION_2### -->
-		<ul class="images_position_2">
-			<!-- ###ONE_IMAGE_CONTAINER_2### -->
-			<li>###ONE_IMAGE_TAG###</li>
-			<!-- ###ONE_IMAGE_CONTAINER_2### -->
-		</ul>
-		<!-- ###IMAGES_POSITION_2### -->
-		<!-- ###IMAGES_POSITION_3### -->
-		<ul class="images_position_3">
-			<!-- ###ONE_IMAGE_CONTAINER_3### -->
-			<li>###ONE_IMAGE_TAG###</li>
-			<!-- ###ONE_IMAGE_CONTAINER_3### -->
-		</ul>
-		<!-- ###IMAGES_POSITION_3### -->
-		<!-- ###IMAGES_POSITION_4### -->
-		<ul class="images_position_4">
-			<!-- ###ONE_IMAGE_CONTAINER_4### -->
-			<li>###ONE_IMAGE_TAG###</li>
-			<!-- ###ONE_IMAGE_CONTAINER_4### -->
-		</ul>
-		<!-- ###IMAGES_POSITION_4### -->
-	</div>
-	<!-- ###FIELD_WRAPPER_IMAGETHUMBNAILS### -->
-	<!-- ###SINGLE_VIEW_RESULT### -->
-	<div class="clear"></div>
+    <!-- ###FIELD_WRAPPER_TEXTS### -->
+    <div class="text-pane###WITH_IMAGES###">
+        <!-- ###FIELD_WRAPPER_HEADING### -->
+        <h2>###HEADING###</h2>
+        <!-- ###FIELD_WRAPPER_HEADING### -->
+        <!-- ###FIELD_WRAPPER_ADDRESS### -->
+        <div class="address">
+            <h4 class="first">###LABEL_ADDRESS###</h4>
+            <p>###ADDRESS###</p>
+        </div>
+        <!-- ###FIELD_WRAPPER_ADDRESS### -->
+        <!-- ###FIELD_WRAPPER_DESCRIPTION### -->
+        <div class="description">
+            <h4>###LABEL_DESCRIPTION###</h4>
+            ###DESCRIPTION###
+        </div>
+        <!-- ###FIELD_WRAPPER_DESCRIPTION### -->
+        <!-- ###FIELD_WRAPPER_DOCUMENTS### -->
+        <div class="documents">
+            <ul>
+                <!-- ###DOCUMENT_ITEM### -->
+                <li>###DOCUMENT_FILE###</li>
+                <!-- ###DOCUMENT_ITEM### -->
+            </ul>
+        </div>
+        <!-- ###FIELD_WRAPPER_DOCUMENTS### -->
+        <!-- ###FIELD_WRAPPER_PRICE### -->
+        <div class="price">
+            <!-- ###FIELD_WRAPPER_RENT_EXCLUDING_BILLS### -->
+            <h4>###LABEL_RENT_EXCLUDING_BILLS###</h4>
+            <p>###RENT_EXCLUDING_BILLS###</p>
+            <!-- ###FIELD_WRAPPER_RENT_EXCLUDING_BILLS### -->
+            <!-- ###FIELD_WRAPPER_BUYING_PRICE### -->
+            <h4>###LABEL_BUYING_PRICE###</h4>
+            <p>###BUYING_PRICE###</p>
+            <!-- ###FIELD_WRAPPER_BUYING_PRICE### -->
+        </div>
+        <!-- ###FIELD_WRAPPER_PRICE### -->
+        <!-- ###FIELD_WRAPPER_OVERVIEWTABLE### -->
+        <table class="overview" summary="">
+            <tr>
+                <th colspan="2">###LABEL_OVERVIEW### <!-- ###FIELD_WRAPPER_OBJECT_NUMBER### -->###LABEL_OBJECT_NUMBER###&nbsp;###OBJECT_NUMBER###<!-- ###FIELD_WRAPPER_OBJECT_NUMBER### --></th>
+            </tr>
+            <!-- ###OVERVIEW_ROW### -->
+            <tr class="###CLASS_POSITION_IN_LIST###">
+                <td>###LABEL_CURRENT_ROW###</td><td>###DATA_CURRENT_ROW###</td>
+            </tr>
+            <!-- ###OVERVIEW_ROW### -->
+        </table>
+        <!-- ###FIELD_WRAPPER_OVERVIEWTABLE### -->
+        <!-- ###FIELD_WRAPPER_OFFERER### -->
+        <div class="tx-realty-pi1-offerer">
+            <h4>###LABEL_OFFERER###</h4>
+            ###OFFERER_INFORMATION###
+        </div>
+        <!-- ###FIELD_WRAPPER_OFFERER### -->
+        <!-- ###FIELD_WRAPPER_STATUS### -->
+        <div class="tx-realty-pi1-status">
+            <h4>###LABEL_STATUS###</h4>
+            <p class="status_###STATUSCLASS###">###STATUS###</p>
+        </div>
+        <!-- ###FIELD_WRAPPER_STATUS### -->
+        <!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
+        <div class="buttons">
+            <a href="###CONTACT_URL###" class="button singleViewContact"><span>###LABEL_CONTACT###</span></a>
+        </div>
+        <!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
+        <!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
+        <!-- ###GOOGLE_MAP### --><div id="tx_realty_map"></div><!-- ###GOOGLE_MAP### -->
+        <!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
+        <!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
+        <div class="buttons">
+            <!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
+            <form id="addToFavorites" method="post" action="###FAVORITES_URL###">
+                <div>
+                    <input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
+                    <a href="#" class="button singleViewAddToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+                </div>
+            </form>
+            <!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
+            <!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
+            <a href="#" class="button printPage" onclick="window.print(); return false;"><span>###LABEL_PRINT_PAGE###</span></a>
+            <!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
+            <!-- ###FIELD_WRAPPER_BACKBUTTON### -->
+            <a href="###BACK_URL###" class="button singleViewBack"###JAVASCRIPT_BACK###><span>###LABEL_BACK###</span></a>
+            <!-- ###FIELD_WRAPPER_BACKBUTTON### -->
+        </div>
+        <!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
+        <!-- ###FIELD_WRAPPER_FURTHERDESCRIPTION### -->
+        <div class="further-description">
+            <!-- ###FIELD_WRAPPER_EQUIPMENT### --><h4>###LABEL_EQUIPMENT###</h4>
+            ###EQUIPMENT###<!-- ###FIELD_WRAPPER_EQUIPMENT### -->
+            <!-- ###FIELD_WRAPPER_LOCATION### --><h4>###LABEL_LOCATION###</h4>
+            ###LOCATION###<!-- ###FIELD_WRAPPER_LOCATION### -->
+            <!-- ###FIELD_WRAPPER_MISC### --><h4>###LABEL_MISC###</h4>
+            ###MISC###<!-- ###FIELD_WRAPPER_MISC### -->
+        </div>
+        <!-- ###FIELD_WRAPPER_FURTHERDESCRIPTION### -->
+    </div>
+    <!-- ###FIELD_WRAPPER_TEXTS### -->
+    <!-- ###FIELD_WRAPPER_IMAGETHUMBNAILS### -->
+    <div class="images">
+        <!-- ###ONE_IMAGE_CONTAINER### -->
+        <table class="item" summary="">
+            <tr>
+                <td class="image">
+                    ###ONE_IMAGE_TAG###
+                </td>
+            </tr>
+        </table>
+        <!-- ###ONE_IMAGE_CONTAINER### -->
+        <!-- ###IMAGES_POSITION_1### -->
+        <ul class="images_position_1">
+            <!-- ###ONE_IMAGE_CONTAINER_1### -->
+            <li>###ONE_IMAGE_TAG###</li>
+            <!-- ###ONE_IMAGE_CONTAINER_1### -->
+        </ul>
+        <!-- ###IMAGES_POSITION_1### -->
+        <!-- ###IMAGES_POSITION_2### -->
+        <ul class="images_position_2">
+            <!-- ###ONE_IMAGE_CONTAINER_2### -->
+            <li>###ONE_IMAGE_TAG###</li>
+            <!-- ###ONE_IMAGE_CONTAINER_2### -->
+        </ul>
+        <!-- ###IMAGES_POSITION_2### -->
+        <!-- ###IMAGES_POSITION_3### -->
+        <ul class="images_position_3">
+            <!-- ###ONE_IMAGE_CONTAINER_3### -->
+            <li>###ONE_IMAGE_TAG###</li>
+            <!-- ###ONE_IMAGE_CONTAINER_3### -->
+        </ul>
+        <!-- ###IMAGES_POSITION_3### -->
+        <!-- ###IMAGES_POSITION_4### -->
+        <ul class="images_position_4">
+            <!-- ###ONE_IMAGE_CONTAINER_4### -->
+            <li>###ONE_IMAGE_TAG###</li>
+            <!-- ###ONE_IMAGE_CONTAINER_4### -->
+        </ul>
+        <!-- ###IMAGES_POSITION_4### -->
+    </div>
+    <!-- ###FIELD_WRAPPER_IMAGETHUMBNAILS### -->
+    <!-- ###SINGLE_VIEW_RESULT### -->
+    <div class="clear"></div>
 </div>
 <!-- ###SINGLE_VIEW### -->
 
@@ -381,111 +381,111 @@
 <h2>Filter form</h2>
 <!-- ###FILTER_FORM### -->
 <div class="tx-realty-pi1-filter-form">
-	<h3>###LABEL_FILTER_FORM###</h3>
-	<form method="post" action="###TARGET_URL###" id="tx_realty_pi1_searchWidget">
-		<!-- ###WRAPPER_UID_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_uid">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-uidsearch">###LABEL_ENTER_UID###</label>
-			<input class="tx-realty-pi1-input" name="tx_realty_pi1[uid]" id="tx_realty_pi1-uidsearch" value="###SEARCHED_UID###" type="text" size="30" />
-		</div>
-		<!-- ###WRAPPER_UID_SEARCH### -->
-		<!-- ###WRAPPER_OBJECT_NUMBER_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_objectNumber">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-objectNumberSearch">###LABEL_ENTER_OBJECT_NUMBER###</label>
-			<input class="tx-realty-pi1-input" name="tx_realty_pi1[objectNumber]" id="tx_realty_pi1-objectNumberSearch" value="###SEARCHED_OBJECT_NUMBER###" type="text" size="30" />
-		</div>
-		<!-- ###WRAPPER_OBJECT_NUMBER_SEARCH### -->
-		<!-- ###WRAPPER_SITE_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_site">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-site">###LABEL_ENTER_ZIP_OR_CITY###</label>
-			<input class="tx-realty-pi1-input" name="tx_realty_pi1[site]" id="tx_realty_pi1-site" value="###SITE###" type="text" size="30" maxlength="50" />
-		</div>
-		<!-- ###WRAPPER_SITE_SEARCH### -->
-		<!-- ###WRAPPER_CITY_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_city">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-city">###LABEL_SELECT_CITY###</label>
-			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[city]" id="tx_realty_pi1-city"###CITY_SELECT_ON_CHANGE###>
-				<option value="0">###LABEL_PLEASESELECTCITY###</option>
-				###OPTIONS_CITY_SEARCH###
-			</select>
-		</div>
-		<!-- ###WRAPPER_CITY_SEARCH### -->
-		<!-- ###WRAPPER_DISTRICT_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_district"###HIDE_DISTRICT_SELECTOR###>
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-district">###LABEL_SELECT_DISTRICT###</label>
-			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[district]" id="tx_realty_pi1-district"###DISTRICT_SELECT_ON_CHANGE###>
-				<option value="0">###LABEL_PLEASESELECTDISTRICT###</option>
-				###OPTIONS_DISTRICT_SEARCH###
-			</select>
-			<div id="tx-realty-pi1-loading" style="display: none;"></div>
-		</div>
-		<!-- ###WRAPPER_DISTRICT_SEARCH### -->
-		<!-- ###WRAPPER_HOUSE_TYPE_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_houseType">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-houseType">###LABEL_SELECT_HOUSE_TYPE###</label>
-			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[houseType]" id="tx_realty_pi1-houseType"###HOUSE_TYPE_SELECT_ON_CHANGE###>
-				<option value="">###LABEL_PLEASESELECTHOUSETYPE###</option>
-				###OPTIONS_HOUSE_TYPE_SEARCH###
-			</select>
-		</div>
-		<!-- ###WRAPPER_HOUSE_TYPE_SEARCH### -->
-		<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_priceRange">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-priceRange">###LABEL_SELECT_PRICE_RANGE###</label>
-			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange"###PRICE_RANGE_ON_CHANGE###>
-				###PRICE_RANGE_OPTIONS###
-			</select>
-		</div>
-		<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
-		<!-- ###WRAPPER_RENT_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_rent">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-rent-from">###LABEL_ENTER_RENT###</label>
-			<input class="tx-realty-pi1-input" name="tx_realty_pi1[rentFrom]" id="tx_realty_pi1-rent-from" value="###SEARCHED_RENT_FROM###" type="text" size="10" maxlength="20" />
-			###LABEL_TO###<input class="tx-realty-pi1-input" name="tx_realty_pi1[rentTo]" id="tx_realty_pi1-rent-to" value="###SEARCHED_RENT_TO###" type="text" size="10" maxlength="20" />
-		</div>
-		<!-- ###WRAPPER_RENT_SEARCH### -->
-		<!-- ###WRAPPER_LIVING_AREA_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_livingArea">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-livingArea-from">###LABEL_ENTER_LIVING_AREA###</label>
-			<input class="tx-realty-pi1-input" name="tx_realty_pi1[livingAreaFrom]" id="tx_realty_pi1-livingArea-from" value="###SEARCHED_LIVING_AREA_FROM###" type="text" size="10" maxlength="20" />
-			###LABEL_TO###<input class="tx-realty-pi1-input" name="tx_realty_pi1[livingAreaTo]" id="tx_realty_pi1-livingArea-to" value="###SEARCHED_LIVING_AREA_TO###" type="text" size="10" maxlength="20" />
-		</div>
-		<!-- ###WRAPPER_LIVING_AREA_SEARCH### -->
-		<!-- ###WRAPPER_NUMBER_OF_ROOMS_SEARCH### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_numberOfRooms">
-			<label class="tx-realty-pi1-label" for="tx_realty_pi1-numberOfRooms-from">
-				###LABEL_ENTER_NUMBER_OF_ROOMS###
-			</label>
-			<input class="tx-realty-pi1-input" name="tx_realty_pi1[numberOfRoomsFrom]"
-				id="tx_realty_pi1-numberOfRooms-from"
-				value="###SEARCHED_NUMBER_OF_ROOMS_FROM###"
-				type="text" size="10" maxlength="20"
-			/>
-			###LABEL_TO###<input class="tx-realty-pi1-input" name="tx_realty_pi1[numberOfRoomsTo]"
-				id="tx_realty_pi1-numberOfRooms-to"
-				value="###SEARCHED_NUMBER_OF_ROOMS_TO###"
-				type="text" size="10" maxlength="20"
-			/>
-		</div>
-		<!-- ###WRAPPER_NUMBER_OF_ROOMS_SEARCH### -->
-		<!-- ###WRAPPER_OBJECT_TYPE_SELECTOR### -->
-		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_objectType">
-			<label class="tx-realty-pi1-label">###LABEL_SELECT_OBJECT_TYPE###</label>
-			<div class="tx-realty-pi1-radio-buttons">
-			<input type="radio" name="tx_realty_pi1[objectType]" id="tx_realty_pi1-objectTypeRadio_rent" value="forRent"###RENT_ATTRIBUTES###/>
-				<label for="tx_realty_pi1-objectTypeRadio_rent">###LABEL_SELECT_RENT###</label>
-			<input type="radio" name="tx_realty_pi1[objectType]" id="tx_realty_pi1-objectTypeRadio_sale" value="forSale"###SALE_ATTRIBUTES###/>
-				<label for="tx_realty_pi1-objectTypeRadio_sale">###LABEL_SELECT_SALE###</label>
-			</div>
-		</div>
-		<!-- ###WRAPPER_OBJECT_TYPE_SELECTOR### -->
-		<div>
-			<span class="button filterFormSubmit">
-				<input type="submit" class="tx-realty-pi1-submit" value="###LABEL_SEARCH###" />
-			</span>
-		</div>
-	</form>
-	<div class="clear"></div>
+    <h3>###LABEL_FILTER_FORM###</h3>
+    <form method="post" action="###TARGET_URL###" id="tx_realty_pi1_searchWidget">
+        <!-- ###WRAPPER_UID_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_uid">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-uidsearch">###LABEL_ENTER_UID###</label>
+            <input class="tx-realty-pi1-input" name="tx_realty_pi1[uid]" id="tx_realty_pi1-uidsearch" value="###SEARCHED_UID###" type="text" size="30" />
+        </div>
+        <!-- ###WRAPPER_UID_SEARCH### -->
+        <!-- ###WRAPPER_OBJECT_NUMBER_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_objectNumber">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-objectNumberSearch">###LABEL_ENTER_OBJECT_NUMBER###</label>
+            <input class="tx-realty-pi1-input" name="tx_realty_pi1[objectNumber]" id="tx_realty_pi1-objectNumberSearch" value="###SEARCHED_OBJECT_NUMBER###" type="text" size="30" />
+        </div>
+        <!-- ###WRAPPER_OBJECT_NUMBER_SEARCH### -->
+        <!-- ###WRAPPER_SITE_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_site">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-site">###LABEL_ENTER_ZIP_OR_CITY###</label>
+            <input class="tx-realty-pi1-input" name="tx_realty_pi1[site]" id="tx_realty_pi1-site" value="###SITE###" type="text" size="30" maxlength="50" />
+        </div>
+        <!-- ###WRAPPER_SITE_SEARCH### -->
+        <!-- ###WRAPPER_CITY_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_city">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-city">###LABEL_SELECT_CITY###</label>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[city]" id="tx_realty_pi1-city"###CITY_SELECT_ON_CHANGE###>
+                <option value="0">###LABEL_PLEASESELECTCITY###</option>
+                ###OPTIONS_CITY_SEARCH###
+            </select>
+        </div>
+        <!-- ###WRAPPER_CITY_SEARCH### -->
+        <!-- ###WRAPPER_DISTRICT_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_district"###HIDE_DISTRICT_SELECTOR###>
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-district">###LABEL_SELECT_DISTRICT###</label>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[district]" id="tx_realty_pi1-district"###DISTRICT_SELECT_ON_CHANGE###>
+                <option value="0">###LABEL_PLEASESELECTDISTRICT###</option>
+                ###OPTIONS_DISTRICT_SEARCH###
+            </select>
+            <div id="tx-realty-pi1-loading" style="display: none;"></div>
+        </div>
+        <!-- ###WRAPPER_DISTRICT_SEARCH### -->
+        <!-- ###WRAPPER_HOUSE_TYPE_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_houseType">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-houseType">###LABEL_SELECT_HOUSE_TYPE###</label>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[houseType]" id="tx_realty_pi1-houseType"###HOUSE_TYPE_SELECT_ON_CHANGE###>
+                <option value="">###LABEL_PLEASESELECTHOUSETYPE###</option>
+                ###OPTIONS_HOUSE_TYPE_SEARCH###
+            </select>
+        </div>
+        <!-- ###WRAPPER_HOUSE_TYPE_SEARCH### -->
+        <!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_priceRange">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-priceRange">###LABEL_SELECT_PRICE_RANGE###</label>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange"###PRICE_RANGE_ON_CHANGE###>
+                ###PRICE_RANGE_OPTIONS###
+            </select>
+        </div>
+        <!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
+        <!-- ###WRAPPER_RENT_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_rent">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-rent-from">###LABEL_ENTER_RENT###</label>
+            <input class="tx-realty-pi1-input" name="tx_realty_pi1[rentFrom]" id="tx_realty_pi1-rent-from" value="###SEARCHED_RENT_FROM###" type="text" size="10" maxlength="20" />
+            ###LABEL_TO###<input class="tx-realty-pi1-input" name="tx_realty_pi1[rentTo]" id="tx_realty_pi1-rent-to" value="###SEARCHED_RENT_TO###" type="text" size="10" maxlength="20" />
+        </div>
+        <!-- ###WRAPPER_RENT_SEARCH### -->
+        <!-- ###WRAPPER_LIVING_AREA_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_livingArea">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-livingArea-from">###LABEL_ENTER_LIVING_AREA###</label>
+            <input class="tx-realty-pi1-input" name="tx_realty_pi1[livingAreaFrom]" id="tx_realty_pi1-livingArea-from" value="###SEARCHED_LIVING_AREA_FROM###" type="text" size="10" maxlength="20" />
+            ###LABEL_TO###<input class="tx-realty-pi1-input" name="tx_realty_pi1[livingAreaTo]" id="tx_realty_pi1-livingArea-to" value="###SEARCHED_LIVING_AREA_TO###" type="text" size="10" maxlength="20" />
+        </div>
+        <!-- ###WRAPPER_LIVING_AREA_SEARCH### -->
+        <!-- ###WRAPPER_NUMBER_OF_ROOMS_SEARCH### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_numberOfRooms">
+            <label class="tx-realty-pi1-label" for="tx_realty_pi1-numberOfRooms-from">
+                ###LABEL_ENTER_NUMBER_OF_ROOMS###
+            </label>
+            <input class="tx-realty-pi1-input" name="tx_realty_pi1[numberOfRoomsFrom]"
+                id="tx_realty_pi1-numberOfRooms-from"
+                value="###SEARCHED_NUMBER_OF_ROOMS_FROM###"
+                type="text" size="10" maxlength="20"
+            />
+            ###LABEL_TO###<input class="tx-realty-pi1-input" name="tx_realty_pi1[numberOfRoomsTo]"
+                id="tx_realty_pi1-numberOfRooms-to"
+                value="###SEARCHED_NUMBER_OF_ROOMS_TO###"
+                type="text" size="10" maxlength="20"
+            />
+        </div>
+        <!-- ###WRAPPER_NUMBER_OF_ROOMS_SEARCH### -->
+        <!-- ###WRAPPER_OBJECT_TYPE_SELECTOR### -->
+        <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_objectType">
+            <label class="tx-realty-pi1-label">###LABEL_SELECT_OBJECT_TYPE###</label>
+            <div class="tx-realty-pi1-radio-buttons">
+            <input type="radio" name="tx_realty_pi1[objectType]" id="tx_realty_pi1-objectTypeRadio_rent" value="forRent"###RENT_ATTRIBUTES###/>
+                <label for="tx_realty_pi1-objectTypeRadio_rent">###LABEL_SELECT_RENT###</label>
+            <input type="radio" name="tx_realty_pi1[objectType]" id="tx_realty_pi1-objectTypeRadio_sale" value="forSale"###SALE_ATTRIBUTES###/>
+                <label for="tx_realty_pi1-objectTypeRadio_sale">###LABEL_SELECT_SALE###</label>
+            </div>
+        </div>
+        <!-- ###WRAPPER_OBJECT_TYPE_SELECTOR### -->
+        <div>
+            <span class="button filterFormSubmit">
+                <input type="submit" class="tx-realty-pi1-submit" value="###LABEL_SEARCH###" />
+            </span>
+        </div>
+    </form>
+    <div class="clear"></div>
 </div>
 <!-- ###FILTER_FORM### -->
 
@@ -509,102 +509,102 @@
 <h2>Contact form</h2>
 <!-- ###CONTACT_FORM### -->
 <div class="tx-realty-pi1-contact-form">
-	<p>###LABEL_CONTACT_FORM_DESCRIPTION###</p>
-	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
-	<fieldset class="tx-realty-pi1-fieldset">
-		<legend>###LABEL_REQUESTED_OBJECT###</legend>
-		<p class="tx-realty-pi1-objekt-nr">
-			###LABEL_OBJECT_NUMBER###: <strong>###OBJECT_NUMBER###</strong>
-			<br />
-			###LABEL_TITLE###: <strong>###TITLE###</strong>
-		</p>
-	</fieldset>
-	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
-	<fieldset class="tx-realty-pi1-fieldset">
-		###CONTACT_FORM_ERROR###
-		<form method="post" action="">
-			<!-- ###WRAPPER_REQUESTER_DATA_IS_UNEDITABLE### -->
-			<div class="tx-realty-pi1-information">
-				###LABEL_REQUESTER_DATA_IS_UNEDITABLE###
-			</div>
-			<!-- ###WRAPPER_REQUESTER_DATA_IS_UNEDITABLE### -->
-			<!-- ###CONTACT_FORM_WRAPPER_NAME### -->
-			<div class="tx-realty-pi1-field">
-				###REQUESTERNAME_ERROR###
-				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterName">###LABEL_YOUR_NAME###:</label>
-				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterName]" id="tx_realty_pi1-requesterName" value="###REQUESTER_NAME###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_NAME### -->
-			<!-- ###CONTACT_FORM_WRAPPER_STREET### -->
-			<div class="tx-realty-pi1-field">
-				###REQUESTERSTREET_ERROR###
-				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterStreet">###LABEL_STREET###:</label>
-				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterStreet]" id="tx_realty_pi1-requesterStreet" value="###REQUESTER_STREET###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_STREET### -->
-			<!-- ###CONTACT_FORM_WRAPPER_ZIP_AND_CITY### -->
-			<div class="tx-realty-pi1-field">
-				###REQUESTERZIP_ERROR######REQUESTERCITY_ERROR###
-				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterZip">###LABEL_ZIP_AND_CITY###:</label>
-				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterZip]" id="tx_realty_pi1-requesterZip" value="###REQUESTER_ZIP###" ###DECLARE_UNEDITABLE### type="text" size="20" maxlength="20" />
-				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterCity]" id="tx_realty_pi1-requesterCity" value="###REQUESTER_CITY###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_ZIP_AND_CITY### -->
-			<div class="tx-realty-pi1-field">
-				###REQUESTEREMAIL_ERROR###
-				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterEmail">###LABEL_YOUR_EMAIL###:</label>
-				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterEmail]" id="tx_realty_pi1-requesterEmail" value="###REQUESTER_EMAIL###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_TELEPHONE### -->
-			<div class="tx-realty-pi1-field">
-				###REQUESTERPHONE_ERROR###
-				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterPhone">###LABEL_YOUR_PHONE###:</label>
-				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterPhone]" id="tx_realty_pi1-requesterPhone" value="###REQUESTER_PHONE###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_TELEPHONE### -->
-			<!-- ###CONTACT_FORM_WRAPPER_REQUEST### -->
-			<div class="tx-realty-pi1-field">
-				###REQUEST_ERROR###
-				<label class="tx-realty-pi1-label" for="tx_realty_pi1-request">###LABEL_YOUR_REQUEST###:</label>
-				<textarea class="tx-realty-pi1-textarea" name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10">###REQUEST###</textarea>
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_REQUEST### -->
-			<!-- ###CONTACT_FORM_WRAPPER_VIEWING### -->
-			<div class="tx-realty-pi1-field">
-				<input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_VIEWING###name="tx_realty_pi1[viewing]" id="tx_realty_pi1-viewing" />&nbsp;<label class="tx-realty-pi1-checkbox-label" for="tx_realty_pi1-viewing">###LABEL_VIEWING###</label>
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_VIEWING### -->
-			<!-- ###CONTACT_FORM_WRAPPER_INFORMATION### -->
-			<div class="tx-realty-pi1-field">
-				<input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_INFORMATION###name="tx_realty_pi1[information]" id="tx_realty_pi1-information" />&nbsp;<label class="tx-realty-pi1-checkbox-label" for="tx_realty_pi1-information">###LABEL_INFORMATION###</label>
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_INFORMATION### -->
-			<!-- ###CONTACT_FORM_WRAPPER_CALLBACK### -->
-			<div class="tx-realty-pi1-field">
-				<input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_CALLBACK###name="tx_realty_pi1[callback]" id="tx_realty_pi1-callback" />&nbsp;<label class="tx-realty-pi1-checkbox-label" for="tx_realty_pi1-callback">###LABEL_CALLBACK###<!-- ###CONTACT_FORM_WRAPPER_LAW_ASTERISK### --><span class="tx-realty-pi1-law-asterisk">*</span><!-- ###CONTACT_FORM_WRAPPER_LAW_ASTERISK### --></label>
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_CALLBACK### -->
-			<!-- ###CONTACT_FORM_WRAPPER_TERMS### -->
-			<div class="tx-realty-pi1-field">
-				###TERMS_ERROR###
-				<input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_TERMS###name="tx_realty_pi1[terms]" id="tx_realty_pi1-terms" />&nbsp;<label class="tx-realty-pi1-checkbox-label tx-realty-pi1-required" for="tx_realty_pi1-terms">###LABEL_TERMS_WITH_LINK###</label>
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_TERMS### -->
-			<div class="submitWrapper">
-				<span class="button contactFormSubmit">
-					<input type="hidden" name="tx_realty_pi1[isSubmitted]" value="1" />
-					<input type="submit" class="tx-realty-pi1-submit" value="###LABEL_SUBMIT###" />
-				</span>
-			</div>
-			<!-- ###CONTACT_FORM_WRAPPER_LAW### -->
-			<div class="clear"></div>
-			<p class="tx-realty-pi1-law">
-				* ###LABEL_LAW###
-			</p>
-			<!-- ###CONTACT_FORM_WRAPPER_LAW### -->
-		</form>
-	</fieldset>
-	<div class="clear"></div>
+    <p>###LABEL_CONTACT_FORM_DESCRIPTION###</p>
+    <!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
+    <fieldset class="tx-realty-pi1-fieldset">
+        <legend>###LABEL_REQUESTED_OBJECT###</legend>
+        <p class="tx-realty-pi1-objekt-nr">
+            ###LABEL_OBJECT_NUMBER###: <strong>###OBJECT_NUMBER###</strong>
+            <br />
+            ###LABEL_TITLE###: <strong>###TITLE###</strong>
+        </p>
+    </fieldset>
+    <!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
+    <fieldset class="tx-realty-pi1-fieldset">
+        ###CONTACT_FORM_ERROR###
+        <form method="post" action="">
+            <!-- ###WRAPPER_REQUESTER_DATA_IS_UNEDITABLE### -->
+            <div class="tx-realty-pi1-information">
+                ###LABEL_REQUESTER_DATA_IS_UNEDITABLE###
+            </div>
+            <!-- ###WRAPPER_REQUESTER_DATA_IS_UNEDITABLE### -->
+            <!-- ###CONTACT_FORM_WRAPPER_NAME### -->
+            <div class="tx-realty-pi1-field">
+                ###REQUESTERNAME_ERROR###
+                <label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterName">###LABEL_YOUR_NAME###:</label>
+                <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterName]" id="tx_realty_pi1-requesterName" value="###REQUESTER_NAME###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_NAME### -->
+            <!-- ###CONTACT_FORM_WRAPPER_STREET### -->
+            <div class="tx-realty-pi1-field">
+                ###REQUESTERSTREET_ERROR###
+                <label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterStreet">###LABEL_STREET###:</label>
+                <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterStreet]" id="tx_realty_pi1-requesterStreet" value="###REQUESTER_STREET###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_STREET### -->
+            <!-- ###CONTACT_FORM_WRAPPER_ZIP_AND_CITY### -->
+            <div class="tx-realty-pi1-field">
+                ###REQUESTERZIP_ERROR######REQUESTERCITY_ERROR###
+                <label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterZip">###LABEL_ZIP_AND_CITY###:</label>
+                <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterZip]" id="tx_realty_pi1-requesterZip" value="###REQUESTER_ZIP###" ###DECLARE_UNEDITABLE### type="text" size="20" maxlength="20" />
+                <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterCity]" id="tx_realty_pi1-requesterCity" value="###REQUESTER_CITY###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_ZIP_AND_CITY### -->
+            <div class="tx-realty-pi1-field">
+                ###REQUESTEREMAIL_ERROR###
+                <label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterEmail">###LABEL_YOUR_EMAIL###:</label>
+                <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterEmail]" id="tx_realty_pi1-requesterEmail" value="###REQUESTER_EMAIL###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_TELEPHONE### -->
+            <div class="tx-realty-pi1-field">
+                ###REQUESTERPHONE_ERROR###
+                <label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterPhone">###LABEL_YOUR_PHONE###:</label>
+                <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterPhone]" id="tx_realty_pi1-requesterPhone" value="###REQUESTER_PHONE###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_TELEPHONE### -->
+            <!-- ###CONTACT_FORM_WRAPPER_REQUEST### -->
+            <div class="tx-realty-pi1-field">
+                ###REQUEST_ERROR###
+                <label class="tx-realty-pi1-label" for="tx_realty_pi1-request">###LABEL_YOUR_REQUEST###:</label>
+                <textarea class="tx-realty-pi1-textarea" name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10">###REQUEST###</textarea>
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_REQUEST### -->
+            <!-- ###CONTACT_FORM_WRAPPER_VIEWING### -->
+            <div class="tx-realty-pi1-field">
+                <input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_VIEWING###name="tx_realty_pi1[viewing]" id="tx_realty_pi1-viewing" />&nbsp;<label class="tx-realty-pi1-checkbox-label" for="tx_realty_pi1-viewing">###LABEL_VIEWING###</label>
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_VIEWING### -->
+            <!-- ###CONTACT_FORM_WRAPPER_INFORMATION### -->
+            <div class="tx-realty-pi1-field">
+                <input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_INFORMATION###name="tx_realty_pi1[information]" id="tx_realty_pi1-information" />&nbsp;<label class="tx-realty-pi1-checkbox-label" for="tx_realty_pi1-information">###LABEL_INFORMATION###</label>
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_INFORMATION### -->
+            <!-- ###CONTACT_FORM_WRAPPER_CALLBACK### -->
+            <div class="tx-realty-pi1-field">
+                <input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_CALLBACK###name="tx_realty_pi1[callback]" id="tx_realty_pi1-callback" />&nbsp;<label class="tx-realty-pi1-checkbox-label" for="tx_realty_pi1-callback">###LABEL_CALLBACK###<!-- ###CONTACT_FORM_WRAPPER_LAW_ASTERISK### --><span class="tx-realty-pi1-law-asterisk">*</span><!-- ###CONTACT_FORM_WRAPPER_LAW_ASTERISK### --></label>
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_CALLBACK### -->
+            <!-- ###CONTACT_FORM_WRAPPER_TERMS### -->
+            <div class="tx-realty-pi1-field">
+                ###TERMS_ERROR###
+                <input type="checkbox" class="tx-realty-pi1-checkbox" value="1" ###CHECKED_TERMS###name="tx_realty_pi1[terms]" id="tx_realty_pi1-terms" />&nbsp;<label class="tx-realty-pi1-checkbox-label tx-realty-pi1-required" for="tx_realty_pi1-terms">###LABEL_TERMS_WITH_LINK###</label>
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_TERMS### -->
+            <div class="submitWrapper">
+                <span class="button contactFormSubmit">
+                    <input type="hidden" name="tx_realty_pi1[isSubmitted]" value="1" />
+                    <input type="submit" class="tx-realty-pi1-submit" value="###LABEL_SUBMIT###" />
+                </span>
+            </div>
+            <!-- ###CONTACT_FORM_WRAPPER_LAW### -->
+            <div class="clear"></div>
+            <p class="tx-realty-pi1-law">
+                * ###LABEL_LAW###
+            </p>
+            <!-- ###CONTACT_FORM_WRAPPER_LAW### -->
+        </form>
+    </fieldset>
+    <div class="clear"></div>
 </div>
 <!-- ###CONTACT_FORM### -->
 
@@ -616,8 +616,8 @@
 <h2>Contact form has been submitted</h2>
 <!-- ###CONTACT_FORM_SUBMITTED### -->
 <div class="tx-realty-pi1-contact-form">
-	<h3>###LABEL_THANK_YOU###</h3>
-	<p class="notification">###LABEL_MESSAGE_SENT###</p>
+    <h3>###LABEL_THANK_YOU###</h3>
+    <p class="notification">###LABEL_MESSAGE_SENT###</p>
 </div>
 <!-- ###CONTACT_FORM_SUBMITTED### -->
 
@@ -656,40 +656,40 @@
 
 <!-- ###OFFERER_LIST### -->
 <div class="list-view offerer-list">
-	<h2>###LABEL_OFFERER_LIST###</h2>
-	<!-- ###OFFERER_LIST_RESULT### -->
-	<ul class="result">
-		<li>
-			<!-- ###OFFERER_LIST_ITEM### -->
-			<!-- ###WRAPPER_USERGROUP### -->###USERGROUP###<!-- ###WRAPPER_USERGROUP### -->
-			<dl>
-				<!-- ###WRAPPER_IMAGE### --><dd class="offerer-list-image">###IMAGE###</dd><!-- ###WRAPPER_IMAGE### -->
-				<!-- ###WRAPPER_COMPANY### --><dt class="###EMPHASIZED_COMPANY###">###COMPANY###</dt><!-- ###WRAPPER_COMPANY### -->
-				<!-- ###WRAPPER_OFFERER_LABEL### --><dt class="###EMPHASIZED_OFFERER_LABEL###">###OFFERER_LABEL###</dt><!-- ###WRAPPER_OFFERER_LABEL### -->
-				<!-- ###WRAPPER_STREET### --><dt>###STREET###</dt><!-- ###WRAPPER_STREET### -->
-				<!-- ###WRAPPER_CITY### --><dt>###CITY###</dt><!-- ###WRAPPER_CITY### -->
-				<!-- ###WRAPPER_TELEPHONE### --><dt>###LABEL_PHONE### ###TELEPHONE###</dt><!-- ###WRAPPER_TELEPHONE### -->
-				<!-- ###WRAPPER_EMAIL### --><dt>###EMAIL###</dt><!-- ###WRAPPER_EMAIL### -->
-				<!-- ###WRAPPER_WWW### --><dt>###WWW###</dt><!-- ###WRAPPER_WWW### -->
-				<!-- ###WRAPPER_OBJECTS_BY_OWNER_LINK### -->
-				<dd>
-					<div class="clear"></div>
-					<div class="link">
-						<a href="###OBJECTS_BY_OWNER_LINK###" class="button objectsByOwner">
-							<span>###LABEL_THIS_OWNERS_OBJECTS###</span>
-						</a>
-					</div>
-				</dd>
-				<!-- ###WRAPPER_OBJECTS_BY_OWNER_LINK### -->
-			</dl>
-			<div class="clear"></div>
-		<!-- ###OFFERER_LIST_ITEM### -->
-		</li>
-	</ul>
-	<!-- ###OFFERER_LIST_RESULT### -->
+    <h2>###LABEL_OFFERER_LIST###</h2>
+    <!-- ###OFFERER_LIST_RESULT### -->
+    <ul class="result">
+        <li>
+            <!-- ###OFFERER_LIST_ITEM### -->
+            <!-- ###WRAPPER_USERGROUP### -->###USERGROUP###<!-- ###WRAPPER_USERGROUP### -->
+            <dl>
+                <!-- ###WRAPPER_IMAGE### --><dd class="offerer-list-image">###IMAGE###</dd><!-- ###WRAPPER_IMAGE### -->
+                <!-- ###WRAPPER_COMPANY### --><dt class="###EMPHASIZED_COMPANY###">###COMPANY###</dt><!-- ###WRAPPER_COMPANY### -->
+                <!-- ###WRAPPER_OFFERER_LABEL### --><dt class="###EMPHASIZED_OFFERER_LABEL###">###OFFERER_LABEL###</dt><!-- ###WRAPPER_OFFERER_LABEL### -->
+                <!-- ###WRAPPER_STREET### --><dt>###STREET###</dt><!-- ###WRAPPER_STREET### -->
+                <!-- ###WRAPPER_CITY### --><dt>###CITY###</dt><!-- ###WRAPPER_CITY### -->
+                <!-- ###WRAPPER_TELEPHONE### --><dt>###LABEL_PHONE### ###TELEPHONE###</dt><!-- ###WRAPPER_TELEPHONE### -->
+                <!-- ###WRAPPER_EMAIL### --><dt>###EMAIL###</dt><!-- ###WRAPPER_EMAIL### -->
+                <!-- ###WRAPPER_WWW### --><dt>###WWW###</dt><!-- ###WRAPPER_WWW### -->
+                <!-- ###WRAPPER_OBJECTS_BY_OWNER_LINK### -->
+                <dd>
+                    <div class="clear"></div>
+                    <div class="link">
+                        <a href="###OBJECTS_BY_OWNER_LINK###" class="button objectsByOwner">
+                            <span>###LABEL_THIS_OWNERS_OBJECTS###</span>
+                        </a>
+                    </div>
+                </dd>
+                <!-- ###WRAPPER_OBJECTS_BY_OWNER_LINK### -->
+            </dl>
+            <div class="clear"></div>
+        <!-- ###OFFERER_LIST_ITEM### -->
+        </li>
+    </ul>
+    <!-- ###OFFERER_LIST_RESULT### -->
 </div>
 <!-- ###OFFERER_LIST### -->
 
-		</div>
-	</body>
+    </div>
+</body>
 </html>

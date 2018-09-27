@@ -1,52 +1,53 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="es" datatype="plaintext" original="messages" date="2018-01-22T15:56:08Z" product-name="realty">
-		<header/>
-		<body>
-			<trans-unit id="title" xml:space="preserve" approved="yes">
-				<source>Realty</source>
-				<target>Immobiliaria</target>
-			</trans-unit>
-			<trans-unit id="import_tab" xml:space="preserve" approved="yes">
-				<source>OpenImmo import</source>
-				<target>Importacion de immobiliarias</target>
-			</trans-unit>
-			<trans-unit id="start_import_button" xml:space="preserve" approved="yes">
-				<source>Start OpenImmo import</source>
-				<target>Comenzar la importación</target>
-			</trans-unit>
-			<trans-unit id="label_import_in_progress" xml:space="preserve" approved="yes">
-				<source>Data is being imported &amp;#8230;</source>
-				<target>Archivos estan siendo importados</target>
-			</trans-unit>
-			<trans-unit id="message_no_permission" xml:space="preserve" approved="yes">
-				<source>You don't have the permissions to access this module.</source>
-				<target>Vd. no tiene acceso a este modulo</target>
-			</trans-unit>
-			<trans-unit id="error_message_objects_pid" xml:space="preserve" approved="yes">
-				<source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForRealtyObjectsAndImages&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
-				<target>Vd. no tiene permisos de escritura al Archivo con el PID%, que esta pre-programado en la variable &amp;quot;pidForRealtyObjectsAndImages&amp;quot. Por favor reestablezca los permisos de escritura para este archivo.</target>
-			</trans-unit>
-			<trans-unit id="error_message_auxiliary_pid" xml:space="preserve" approved="yes">
-				<source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForAuxiliaryRecords&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
-				<target>Vd. no tiene permisos de escritura al Archivo con el PID%, que esta pre-programado en la variable &amp;quot;pidForRealtyObjectsAndImages&amp;quot. Por favor reestablezca los permisos de escritura para este archivo.</target>
-			</trans-unit>
-			<trans-unit id="error_message_table_access" xml:space="preserve" approved="yes">
-				<source>You are not allowed to create records in the table &amp;quot;%s&amp;quot; which is neccessary to import realty objects. Please edit one of the BE user's user groups and grant write access to this table.</source>
-				<target>Vd no tiene permisos para crear datos en la tabla %quot;%s&amp;quot; que es necesario para importar objetos. Por favor cambio los permisos en el BE para este usuario, para que tenga derecho a escrituro en este archivo</target>
-			</trans-unit>
-			<trans-unit id="mlang_tabs_tab" xml:space="preserve" approved="yes">
-				<source>Realty</source>
-				<target>Immobiliarias</target>
-			</trans-unit>
-			<trans-unit id="mlang_labels_tabdescr" xml:space="preserve" approved="yes">
-				<source>This module allows you to manage and import realty objects</source>
-				<target>Con este modulo Vd. podrá importar y administrar objetos immobiliarios</target>
-			</trans-unit>
-			<trans-unit id="mlang_labels_tablabel" xml:space="preserve" approved="yes">
-				<source>Realty</source>
-				<target>Immobiliarias</target>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" target-language="es" datatype="plaintext" original="messages" date="2018-01-22T15:56:08Z"
+          product-name="realty">
+        <header/>
+        <body>
+            <trans-unit id="title" xml:space="preserve" approved="yes">
+                <source>Realty</source>
+                <target>Immobiliaria</target>
+            </trans-unit>
+            <trans-unit id="import_tab" xml:space="preserve" approved="yes">
+                <source>OpenImmo import</source>
+                <target>Importacion de immobiliarias</target>
+            </trans-unit>
+            <trans-unit id="start_import_button" xml:space="preserve" approved="yes">
+                <source>Start OpenImmo import</source>
+                <target>Comenzar la importación</target>
+            </trans-unit>
+            <trans-unit id="label_import_in_progress" xml:space="preserve" approved="yes">
+                <source>Data is being imported &amp;#8230;</source>
+                <target>Archivos estan siendo importados</target>
+            </trans-unit>
+            <trans-unit id="message_no_permission" xml:space="preserve" approved="yes">
+                <source>You don't have the permissions to access this module.</source>
+                <target>Vd. no tiene acceso a este modulo</target>
+            </trans-unit>
+            <trans-unit id="error_message_objects_pid" xml:space="preserve" approved="yes">
+                <source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForRealtyObjectsAndImages&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
+                <target>Vd. no tiene permisos de escritura al Archivo con el PID%, que esta pre-programado en la variable &amp;quot;pidForRealtyObjectsAndImages&amp;quot. Por favor reestablezca los permisos de escritura para este archivo.</target>
+            </trans-unit>
+            <trans-unit id="error_message_auxiliary_pid" xml:space="preserve" approved="yes">
+                <source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForAuxiliaryRecords&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
+                <target>Vd. no tiene permisos de escritura al Archivo con el PID%, que esta pre-programado en la variable &amp;quot;pidForRealtyObjectsAndImages&amp;quot. Por favor reestablezca los permisos de escritura para este archivo.</target>
+            </trans-unit>
+            <trans-unit id="error_message_table_access" xml:space="preserve" approved="yes">
+                <source>You are not allowed to create records in the table &amp;quot;%s&amp;quot; which is neccessary to import realty objects. Please edit one of the BE user's user groups and grant write access to this table.</source>
+                <target>Vd no tiene permisos para crear datos en la tabla %quot;%s&amp;quot; que es necesario para importar objetos. Por favor cambio los permisos en el BE para este usuario, para que tenga derecho a escrituro en este archivo</target>
+            </trans-unit>
+            <trans-unit id="mlang_tabs_tab" xml:space="preserve" approved="yes">
+                <source>Realty</source>
+                <target>Immobiliarias</target>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tabdescr" xml:space="preserve" approved="yes">
+                <source>This module allows you to manage and import realty objects</source>
+                <target>Con este modulo Vd. podrá importar y administrar objetos immobiliarios</target>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tablabel" xml:space="preserve" approved="yes">
+                <source>Realty</source>
+                <target>Immobiliarias</target>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

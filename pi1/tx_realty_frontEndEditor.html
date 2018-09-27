@@ -1,580 +1,583 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="tx_realty_pi1.tpl.css" />
-		<link rel="stylesheet" type="text/css" href="../../ameos_formidable/api/base/rdt_date/res/lib/js_calendar/calendar-win2k-1.css" />
-		<link rel="stylesheet" type="text/css" href="../../ameos_formidable/api/base/rdr_std/res/css/style.css" />
-		<title>
-			HTML template for the Realty Manager FE editor
-		</title>
-	</head>
-	<body>
-		<h1>
-			HTML template for the Realty Manager FE editor
-		</h1>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="tx_realty_pi1.tpl.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="../../ameos_formidable/api/base/rdt_date/res/lib/js_calendar/calendar-win2k-1.css"/>
+    <link rel="stylesheet" type="text/css" href="../../ameos_formidable/api/base/rdr_std/res/css/style.css"/>
+    <title>
+        HTML template for the Realty Manager FE editor
+    </title>
+</head>
+<body>
+<h1>
+    HTML template for the Realty Manager FE editor
+</h1>
 
-		<div class="tx-realty-pi1">
-			<h2>FE editor</h2>
-			<form enctype="multipart/form-data" id="tx_realty_frontEndEditor" action="" method="post">
-<!-- ###FE_EDITOR### -->
-<div>
-	<p class="error" style="display: {errors.cssdisplay};">{errors}</p>
-	<fieldset>
-		<div class="column-light">
-			<span class="chooser2">{object_type.label}</span>
-			<dl>
-				<dt>
-					<span class="chooser">{object_type}</span>
-				</dt>
-			</dl>
-		</div>
-	</fieldset>
-	<fieldset>
-		<div class="column3-dark">
-			<dl>
-				<dt>{title.label.tag}</dt>
-				<dd>{title}</dd>
-			</dl>
-		</div>
+<div class="tx-realty-pi1">
+    <h2>FE editor</h2>
+    <form enctype="multipart/form-data" id="tx_realty_frontEndEditor" action="" method="post">
+        <!-- ###FE_EDITOR### -->
+        <div>
+            <p class="error" style="display: {errors.cssdisplay};">{errors}</p>
+            <fieldset>
+                <div class="column-light">
+                    <span class="chooser2">{object_type.label}</span>
+                    <dl>
+                        <dt>
+                            <span class="chooser">{object_type}</span>
+                        </dt>
+                    </dl>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="column3-dark">
+                    <dl>
+                        <dt>{title.label.tag}</dt>
+                        <dd>{title}</dd>
+                    </dl>
+                </div>
 
-		<div class="columnlight">
-			<div class="columnleft">
-				<dl>
-					<dt>{object_number.label.tag}</dt>
-					<dd>
-						{object_number}
-					</dd>
-				</dl>
-			</div>
+                <div class="columnlight">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>{object_number.label.tag}</dt>
+                            <dd>
+                                {object_number}
+                            </dd>
+                        </dl>
+                    </div>
 
-			<div class="vertdivider"><br /><br /></div>
+                    <div class="vertdivider"><br/><br/></div>
 
-			<div class="columnright">
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">
-							{emphasized}&nbsp;{emphasized.label.tag}
-						</span>
-					</dd>
-				</dl>
-				<div class="clear"></div>
-			</div>
-		</div>
+                    <div class="columnright">
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                        <span class="checkbox">
+                            {emphasized}&nbsp;{emphasized.label.tag}
+                        </span>
+                            </dd>
+                        </dl>
+                        <div class="clear"></div>
+                    </div>
+                </div>
 
-		<div class="divider">&nbsp;</div>
+                <div class="divider">&nbsp;</div>
 
-		<div class="columndark">
-			<div class="columnleft">
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">{show_address}&nbsp;{show_address.label.tag}</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt>{country.label.tag}</dt>
-					<dd>{country}</dd>
-				</dl>
-				<dl>
-					<dt>{street.label.tag}</dt>
-					<dd>{street}</dd>
-				</dl>
-				<dl>
-					<dt>{zip.label.tag}</dt>
-					<dd>{zip}</dd>
-				</dl>
-				<dl>
-					<dt>{distance_to_the_sea.label.tag}</dt>
-					<dd>{distance_to_the_sea}</dd>
-				</dl>
-				<dl>
-					<dt>{sea_view.label.tag}</dt>
-					<dd>{sea_view}</dd>
-				</dl>
-			</div>
+                <div class="columndark">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{show_address}&nbsp;{show_address.label.tag}</span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>{country.label.tag}</dt>
+                            <dd>{country}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{street.label.tag}</dt>
+                            <dd>{street}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{zip.label.tag}</dt>
+                            <dd>{zip}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{distance_to_the_sea.label.tag}</dt>
+                            <dd>{distance_to_the_sea}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{sea_view.label.tag}</dt>
+                            <dd>{sea_view}</dd>
+                        </dl>
+                    </div>
 
-			<div class="columnright">
-				<dl>
-					<dt>{city.label.tag}</dt>
-					<dd>{city}</dd>
-				</dl>
-				<dl>
-					<dt>{new_city.label.tag}</dt>
-					<dd>{new_city}</dd>
-				</dl>
-				<dl id="tx_realty_frontEndEditor_district_wrapper" style="###DISTRICT_VISIBILITY###">
-					<dt>{district.label.tag}</dt>
-					<dd>{district}</dd>
-				</dl>
-				<dl id="tx_realty_frontEndEditor_new_district_wrapper" style="###DISTRICT_VISIBILITY###">
-					<dt>&nbsp;</dt>
-					<dd>{newDistrictButton}</dd>
-				</dl>
-			</div>
-		</div>
-		<div class="clear"></div>
-	</fieldset>
+                    <div class="columnright">
+                        <dl>
+                            <dt>{city.label.tag}</dt>
+                            <dd>{city}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{new_city.label.tag}</dt>
+                            <dd>{new_city}</dd>
+                        </dl>
+                        <dl id="tx_realty_frontEndEditor_district_wrapper" style="###DISTRICT_VISIBILITY###">
+                            <dt>{district.label.tag}</dt>
+                            <dd>{district}</dd>
+                        </dl>
+                        <dl id="tx_realty_frontEndEditor_new_district_wrapper" style="###DISTRICT_VISIBILITY###">
+                            <dt>&nbsp;</dt>
+                            <dd>{newDistrictButton}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </fieldset>
 
-	<br />
+            <br/>
 
-	<fieldset>
-		<div class="column-light">
-			<span class="chooser2">{contact_data_source.label}</span>
-			<dl>
-				<dt>
-					<span class="chooser">{contact_data_source}</span>
-				</dt>
-			</dl>
-		</div>
+            <fieldset>
+                <div class="column-light">
+                    <span class="chooser2">{contact_data_source.label}</span>
+                    <dl>
+                        <dt>
+                            <span class="chooser">{contact_data_source}</span>
+                        </dt>
+                    </dl>
+                </div>
 
-		<div class="divider">&nbsp;</div>
+                <div class="divider">&nbsp;</div>
 
-		<div id="contact-data" class="columndark">
-			<div class="columnleft">
-				<dl>
-					<dt>{employer.label.tag}</dt>
-					<dd>{employer}</dd>
-				</dl>
-				<dl>
-					<dt>{contact_person.label.tag}</dt>
-					<dd>{contact_person}</dd>
-				</dl>
-			</div>
-			<div class="columnright">
-				<dl>
-					<dt>{contact_email.label.tag}</dt>
-					<dd>{contact_email}</dd>
-				</dl>
-				<dl>
-					<dt>{phone_switchboard.label.tag}</dt>
-					<dd>{phone_switchboard}</dd>
-				</dl>
-				<dl>
-					<dt>{phone_direct_extension.label.tag}</dt>
-					<dd>{phone_direct_extension}</dd>
-				</dl>
-			</div>
-		</div>
-	</fieldset>
+                <div id="contact-data" class="columndark">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>{employer.label.tag}</dt>
+                            <dd>{employer}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{contact_person.label.tag}</dt>
+                            <dd>{contact_person}</dd>
+                        </dl>
+                    </div>
+                    <div class="columnright">
+                        <dl>
+                            <dt>{contact_email.label.tag}</dt>
+                            <dd>{contact_email}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{phone_switchboard.label.tag}</dt>
+                            <dd>{phone_switchboard}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{phone_direct_extension.label.tag}</dt>
+                            <dd>{phone_direct_extension}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </fieldset>
 
-	<br />
+            <br/>
 
-	<fieldset>
-		<div class="column1">
-			<div class="columnleft1-dark">
-				<dl>
-					<dt>{currency.label.tag}</dt>
-					<dd>{currency}</dd>
-				</dl>
-				<dl class="sale">
-					<dt>{buying_price.label.tag}</dt>
-					<dd>{buying_price}</dd>
-				</dl>
-				<dl class="sale">
-					<dt>{year_rent.label.tag}</dt>
-					<dd>{year_rent}</dd>
-				</dl>
-				<dl class="sale">
-					<dt>{rental_income_target.label.tag}</dt>
-					<dd>{rental_income_target}</dd>
-				</dl>
-				<dl class="sale">
-					<dt>{hoa_fee.label.tag}</dt>
-					<dd>{hoa_fee}</dd>
-				</dl>
-				<dl>
-					<dt>{provision.label.tag}</dt>
-					<dd>{provision}</dd>
-				</dl>
-				<dl>
-					<dt>{status.label.tag}</dt>
-					<dd>{status}</dd>
-				</dl>
-			</div>
+            <fieldset>
+                <div class="column1">
+                    <div class="columnleft1-dark">
+                        <dl>
+                            <dt>{currency.label.tag}</dt>
+                            <dd>{currency}</dd>
+                        </dl>
+                        <dl class="sale">
+                            <dt>{buying_price.label.tag}</dt>
+                            <dd>{buying_price}</dd>
+                        </dl>
+                        <dl class="sale">
+                            <dt>{year_rent.label.tag}</dt>
+                            <dd>{year_rent}</dd>
+                        </dl>
+                        <dl class="sale">
+                            <dt>{rental_income_target.label.tag}</dt>
+                            <dd>{rental_income_target}</dd>
+                        </dl>
+                        <dl class="sale">
+                            <dt>{hoa_fee.label.tag}</dt>
+                            <dd>{hoa_fee}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{provision.label.tag}</dt>
+                            <dd>{provision}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{status.label.tag}</dt>
+                            <dd>{status}</dd>
+                        </dl>
+                    </div>
 
-			<div class="vertdivider">
-				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-			</div>
+                    <div class="vertdivider">
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    </div>
 
-			<div class="columnright1-dark">
-				<dl class="rent">
-					<dt>{rent_per_square_meter.label.tag}</dt>
-					<dd>{rent_per_square_meter}</dd>
-				</dl>
-				<dl class="rent">
-					<dt>{rent_excluding_bills.label.tag}</dt>
-					<dd>{rent_excluding_bills}</dd>
-				</dl>
-				<dl class="rent">
-					<dt>{deposit.label.tag}</dt>
-					<dd>{deposit}</dd>
-				</dl>
-				<dl class="rent">
-					<dt>{extra_charges.label.tag}</dt>
-					<dd>{extra_charges}</dd>
-				</dl>
-				<dl class="rent">
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">
-							{heating_included}&nbsp;{heating_included.label.tag}
-						</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt>{usable_from.label.tag}</dt>
-					<dd>{usable_from}</dd>
-				</dl>
-			</div>
-		</div>
-	</fieldset>
+                    <div class="columnright1-dark">
+                        <dl class="rent">
+                            <dt>{rent_per_square_meter.label.tag}</dt>
+                            <dd>{rent_per_square_meter}</dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>{rent_excluding_bills.label.tag}</dt>
+                            <dd>{rent_excluding_bills}</dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>{deposit.label.tag}</dt>
+                            <dd>{deposit}</dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>{extra_charges.label.tag}</dt>
+                            <dd>{extra_charges}</dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>&nbsp;</dt>
+                            <dd>
+                        <span class="checkbox">
+                            {heating_included}&nbsp;{heating_included.label.tag}
+                        </span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>{usable_from.label.tag}</dt>
+                            <dd>{usable_from}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </fieldset>
 
-	<br />
+            <br/>
 
-	<fieldset>
-		<div class="columnlight">
-			<div class="columnleft">
-				<dl>
-					<dt>{construction_year.label.tag}</dt>
-					<dd>{construction_year}</dd>
-				</dl>
-				<dl>
-					<dt>{old_or_new_building.label.tag}</dt>
-					<dd>{old_or_new_building}</dd>
-				</dl>
-				<dl>
-					<dt>{state.label.tag}</dt>
-					<dd>{state}</dd>
-				</dl>
-				<dl>
-					<dt>{furnishing_category.label.tag}</dt>
-					<dd>{furnishing_category}</dd>
-				</dl>
-			</div>
+            <fieldset>
+                <div class="columnlight">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>{construction_year.label.tag}</dt>
+                            <dd>{construction_year}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{old_or_new_building.label.tag}</dt>
+                            <dd>{old_or_new_building}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{state.label.tag}</dt>
+                            <dd>{state}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{furnishing_category.label.tag}</dt>
+                            <dd>{furnishing_category}</dd>
+                        </dl>
+                    </div>
 
-			<div class="columnright">
-				<dl>
-					<dt>{house_type.label.tag}</dt>
-					<dd>{house_type}</dd>
-				</dl>
-				<dl>
-					<dt>{apartment_type.label.tag}</dt>
-					<dd>{apartment_type}</dd>
-				</dl>
-				<dl class="rent">
-					<dt>{utilization.label.tag}</dt>
-					<dd>{utilization}</dd>
-				</dl>
-			</div>
-		</div>
+                    <div class="columnright">
+                        <dl>
+                            <dt>{house_type.label.tag}</dt>
+                            <dd>{house_type}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{apartment_type.label.tag}</dt>
+                            <dd>{apartment_type}</dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>{utilization.label.tag}</dt>
+                            <dd>{utilization}</dd>
+                        </dl>
+                    </div>
+                </div>
 
-		<div class="column1">
-			<div class="column-light">
-				<dl>
-					<dt>{teaser.label.tag}</dt>
-				</dl>
-				<dl>
-					<dd class="teaser">{teaser}</dd>
-				</dl>
-				<dl>
-					<dt>{description.label.tag}</dt>
-				</dl>
-				<dl>
-					<dd class="description">{description}</dd>
-				</dl>
-				<dl>
-					<dt>{location.label.tag}</dt>
-				</dl>
-				<dl>
-					<dd class="description">{location}</dd>
-				</dl>
-			</div>
-		</div>
+                <div class="column1">
+                    <div class="column-light">
+                        <dl>
+                            <dt>{teaser.label.tag}</dt>
+                        </dl>
+                        <dl>
+                            <dd class="teaser">{teaser}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{description.label.tag}</dt>
+                        </dl>
+                        <dl>
+                            <dd class="description">{description}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{location.label.tag}</dt>
+                        </dl>
+                        <dl>
+                            <dd class="description">{location}</dd>
+                        </dl>
+                    </div>
+                </div>
 
-		<div class="divider">&nbsp;</div>
+                <div class="divider">&nbsp;</div>
 
-		<div class="columndark">
-			<div class="columnleft">
-				<dl>
-					<dt>{floor.label.tag}</dt>
-					<dd>{floor}</dd>
-				</dl>
-				<dl>
-					<dt>{floors.label.tag}</dt>
-					<dd>{floors}</dd>
-				</dl>
-				<dl>
-					<dt>{number_of_rooms.label.tag}</dt>
-					<dd>{number_of_rooms}</dd>
-				</dl>
-				<dl>
-					<dt>{bedrooms.label.tag}</dt>
-					<dd>{bedrooms}</dd>
-				</dl>
-				<dl>
-					<dt>{bathrooms.label.tag}</dt>
-					<dd>{bathrooms}</dd>
-				</dl>
-				<dl>
-					<dt>{site_occupancy_index.label.tag}</dt>
-					<dd>{site_occupancy_index}</dd>
-				</dl>
-				<dl>
-					<dt>{floor_space_index.label.tag}</dt>
-					<dd>{floor_space_index}</dd>
-				</dl>
-				<dl>
-					<dt>{window_bank.label.tag}</dt>
-					<dd>{window_bank}</dd>
-				</dl>
-			</div>
-			<div class="columnright">
-				<dl>
-					<dt>{estate_size.label.tag}</dt>
-					<dd>{estate_size}</dd>
-				</dl>
-				<dl>
-					<dt>{living_area.label.tag}</dt>
-					<dd>{living_area}</dd>
-				</dl>
-				<dl>
-					<dt>{total_area.label.tag}</dt>
-					<dd>{total_area}</dd>
-				</dl>
-				<dl>
-					<dt>{total_usable_area.label.tag}</dt>
-					<dd>{total_usable_area}</dd>
-				</dl>
-				<dl>
-					<dt>{office_space.label.tag}</dt>
-					<dd>{office_space}</dd>
-				</dl>
-				<dl>
-					<dt>{shop_area.label.tag}</dt>
-					<dd>{shop_area}</dd>
-				</dl>
-				<dl>
-					<dt>{sales_area.label.tag}</dt>
-					<dd>{sales_area}</dd>
-				</dl>
-				<dl>
-					<dt>{storage_area.label.tag}</dt>
-					<dd>{storage_area}</dd>
-				</dl>
-				<dl>
-					<dt>{other_area.label.tag}</dt>
-					<dd>{other_area}</dd>
-				</dl>
-			</div>
-		</div>
-		<div class="column-dark">
-			<dl>
-				<dt>{layout.label.tag}</dt>
-			</dl>
-			<dl>
-				<dd class="description">{layout}</dd>
-			</dl>
-		</div>
+                <div class="columndark">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>{floor.label.tag}</dt>
+                            <dd>{floor}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{floors.label.tag}</dt>
+                            <dd>{floors}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{number_of_rooms.label.tag}</dt>
+                            <dd>{number_of_rooms}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{bedrooms.label.tag}</dt>
+                            <dd>{bedrooms}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{bathrooms.label.tag}</dt>
+                            <dd>{bathrooms}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{site_occupancy_index.label.tag}</dt>
+                            <dd>{site_occupancy_index}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{floor_space_index.label.tag}</dt>
+                            <dd>{floor_space_index}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{window_bank.label.tag}</dt>
+                            <dd>{window_bank}</dd>
+                        </dl>
+                    </div>
+                    <div class="columnright">
+                        <dl>
+                            <dt>{estate_size.label.tag}</dt>
+                            <dd>{estate_size}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{living_area.label.tag}</dt>
+                            <dd>{living_area}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{total_area.label.tag}</dt>
+                            <dd>{total_area}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{total_usable_area.label.tag}</dt>
+                            <dd>{total_usable_area}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{office_space.label.tag}</dt>
+                            <dd>{office_space}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{shop_area.label.tag}</dt>
+                            <dd>{shop_area}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{sales_area.label.tag}</dt>
+                            <dd>{sales_area}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{storage_area.label.tag}</dt>
+                            <dd>{storage_area}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{other_area.label.tag}</dt>
+                            <dd>{other_area}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="column-dark">
+                    <dl>
+                        <dt>{layout.label.tag}</dt>
+                    </dl>
+                    <dl>
+                        <dd class="description">{layout}</dd>
+                    </dl>
+                </div>
 
-		<div class="divider">&nbsp;</div>
+                <div class="divider">&nbsp;</div>
 
-		<div class="columnlight">
-			<div class="columnleft">
-				<dl>
-					<dt>{garage_type.label.tag}</dt>
-					<dd>{garage_type}</dd>
-				</dl>
-				<dl>
-					<dt>{parking_spaces.label.tag}</dt>
-					<dd>{parking_spaces}</dd>
-				</dl>
-			</div>
+                <div class="columnlight">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>{garage_type.label.tag}</dt>
+                            <dd>{garage_type}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{parking_spaces.label.tag}</dt>
+                            <dd>{parking_spaces}</dd>
+                        </dl>
+                    </div>
 
-			<div class="columnright">
-				<dl class="sale">
-					<dt>{garage_price.label.tag}</dt>
-					<dd>{garage_price}</dd>
-				</dl>
-				<dl class="rent">
-					<dt>{garage_rent.label.tag}</dt>
-					<dd>{garage_rent}</dd>
-				</dl>
-			</div>
-		</div>
+                    <div class="columnright">
+                        <dl class="sale">
+                            <dt>{garage_price.label.tag}</dt>
+                            <dd>{garage_price}</dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>{garage_rent.label.tag}</dt>
+                            <dd>{garage_rent}</dd>
+                        </dl>
+                    </div>
+                </div>
 
-		<div class="divider">&nbsp;</div>
+                <div class="divider">&nbsp;</div>
 
-		<div class="columndark">
-			<div class="columnleft">
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">{fitted_kitchen}</span>&nbsp;{fitted_kitchen.label.tag}
-					</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{has_air_conditioning}</span>&nbsp;{has_air_conditioning.label.tag}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{balcony}</span>&nbsp;{balcony.label.tag}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{garden}</span>&nbsp;{garden.label.tag}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{has_pool}</span>&nbsp;{has_pool.label.tag}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{has_community_pool}</span>&nbsp;{has_community_pool.label.tag}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{elevator}</span>&nbsp;{elevator.label.tag}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{barrier_free}</span>&nbsp;{barrier_free.label.tag}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd><span class="checkbox">{assisted_living}</span>&nbsp;{assisted_living.label.tag}</dd>
-				</dl>
-				<dl class="rent">
-					<dt>{pets.label.tag}</dt>
-					<dd>{pets}</dd>
-				</dl>
-				<dl>
-					<dt>{flooring.label}</dt>
-					<dd class="multicheckboxes">{flooring}</dd>
-				</dl>
-			</div>
+                <div class="columndark">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{fitted_kitchen}</span>&nbsp;{fitted_kitchen.label.tag}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{has_air_conditioning}</span>&nbsp;{has_air_conditioning.label.tag}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{balcony}</span>&nbsp;{balcony.label.tag}</dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{garden}</span>&nbsp;{garden.label.tag}</dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{has_pool}</span>&nbsp;{has_pool.label.tag}</dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{has_community_pool}</span>&nbsp;{has_community_pool.label.tag}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{elevator}</span>&nbsp;{elevator.label.tag}</dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{barrier_free}</span>&nbsp;{barrier_free.label.tag}</dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{assisted_living}</span>&nbsp;{assisted_living.label.tag}</dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>{pets.label.tag}</dt>
+                            <dd>{pets}</dd>
+                        </dl>
+                        <dl>
+                            <dt>{flooring.label}</dt>
+                            <dd class="multicheckboxes">{flooring}</dd>
+                        </dl>
+                    </div>
 
-			<div class="columnright">
-				<dl>
-					<dt>{heating_type.label}</dt>
-					<dd class="multicheckboxes">{heating_type}</dd>
-				</dl>
-			</div>
+                    <div class="columnright">
+                        <dl>
+                            <dt>{heating_type.label}</dt>
+                            <dd class="multicheckboxes">{heating_type}</dd>
+                        </dl>
+                    </div>
 
-			<div class="column-dark">
-				<dl>
-					<dt>{equipment.label.tag}</dt>
-				</dl>
-				<dl>
-					<dd class="description">{equipment}</dd>
-				</dl>
-			</div>
-		</div>
+                    <div class="column-dark">
+                        <dl>
+                            <dt>{equipment.label.tag}</dt>
+                        </dl>
+                        <dl>
+                            <dd class="description">{equipment}</dd>
+                        </dl>
+                    </div>
+                </div>
 
-		<div class="divider">&nbsp;</div>
+                <div class="divider">&nbsp;</div>
 
-		<div class="column-light">
-			<dl>
-				<dt>{misc.label.tag}</dt>
-			</dl>
-			<dl>
-				<dd class="description">{misc}</dd>
-			</dl>
-		</div>
+                <div class="column-light">
+                    <dl>
+                        <dt>{misc.label.tag}</dt>
+                    </dl>
+                    <dl>
+                        <dd class="description">{misc}</dd>
+                    </dl>
+                </div>
 
-		<div class="divider">&nbsp;</div>
+                <div class="divider">&nbsp;</div>
 
-		<div class="columndark">
-			<div class="columnleft">
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">{has_coordinates}&nbsp;{has_coordinates.label.tag}</span>
-					</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">{coordinates_problem}&nbsp;{coordinates_problem.label.tag}</span>
-					</dd>
-				</dl>
-			</div>
+                <div class="columndark">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{has_coordinates}&nbsp;{has_coordinates.label.tag}</span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{coordinates_problem}&nbsp;{coordinates_problem.label.tag}</span>
+                            </dd>
+                        </dl>
+                    </div>
 
-			<div class="columnright">
-				<dl class="coordinates">
-					<dt>{longitude.label.tag}</dt>
-					<dd>{longitude}</dd>
-				</dl>
-				<dl class="coordinates">
-					<dt>{latitude.label.tag}</dt>
-					<dd>{latitude}</dd>
-				</dl>
-			</div>
-		</div>
-	</fieldset>
+                    <div class="columnright">
+                        <dl class="coordinates">
+                            <dt>{longitude.label.tag}</dt>
+                            <dd>{longitude}</dd>
+                        </dl>
+                        <dl class="coordinates">
+                            <dt>{latitude.label.tag}</dt>
+                            <dd>{latitude}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </fieldset>
 
-	<fieldset>
-		<div class="column-light">
-			<dl id="submit">
-				<dt>&nbsp;</dt>
-				<dd>{button_submit}</dd>
-			</dl>
-		</div>
-	</fieldset>
+            <fieldset>
+                <div class="column-light">
+                    <dl id="submit">
+                        <dt>&nbsp;</dt>
+                        <dd>{button_submit}</dd>
+                    </dl>
+                </div>
+            </fieldset>
+        </div>
+        <!-- ###FE_EDITOR### -->
+    </form>
+
+    <h2>Image upload dialog</h2>
+    <form enctype="multipart/form-data" id="tx_realty_frontEndImageUpload" action="" method="post">
+        <!-- ###IMAGE_UPLOAD### -->
+        <div id="uploadfield">
+            <p class="error" style="display: {errors.cssdisplay};">{errors}</p>
+
+            <div class="column1">
+                <dl>
+                    <dt>{image.label.tag}</dt>
+                    <dd>{image}</dd>
+                </dl>
+                <dl>
+                    <dt>{caption.label.tag}</dt>
+                    <dd>{caption}</dd>
+                </dl>
+            </div>
+            <!-- ###WRAPPER_IMAGES_TO_DELETE### -->
+            <div class="column2">
+                {imagesToDelete}
+                <dl>
+                    <dt>###LABEL_IMAGE_LIST###:</dt>
+                    <dd>
+                        <dl>
+                            <!--###SINGLE_ATTACHED_IMAGE### -->
+                            <dt id="###SINGLE_ATTACHED_IMAGE_ID###">
+                                <span class="image">###SINGLE_IMAGE_ITEM###</span>
+                                <span class="label">###IMAGE_TITLE###</span>
+                                <input type="button" name="tx_realty_pi1_delete" value="###LABEL_DELETE###"
+                                       onclick="markAttachmentAsDeleted('###SINGLE_ATTACHED_IMAGE_ID###', '###LABEL_REALLY_DELETE###\n###IMAGE_TITLE_FOR_JS###');"/>
+                            </dt>
+                            <!--###SINGLE_ATTACHED_IMAGE### -->
+                        </dl>
+                    </dd>
+                </dl>
+            </div>
+            <!-- ###WRAPPER_IMAGES_TO_DELETE### -->
+            <div class="column3">
+                <dl>
+                    <dd>
+                        <span class="savebuttonposition">{button_submit_and_stay}</span>
+                        <span class="button">{button_submit}</span>
+                    </dd>
+                </dl>
+                {proceed_image_upload}
+            </div>
+        </div>
+        <!-- ###IMAGE_UPLOAD### -->
+    </form>
 </div>
-<!-- ###FE_EDITOR### -->
-			</form>
-
-			<h2>Image upload dialog</h2>
-			<form enctype="multipart/form-data" id="tx_realty_frontEndImageUpload" action="" method="post">
-<!-- ###IMAGE_UPLOAD### -->
-<div id="uploadfield">
-	<p class="error" style="display: {errors.cssdisplay};">{errors}</p>
-
-	<div class="column1">
-		<dl>
-			<dt>{image.label.tag}</dt>
-			<dd>{image}</dd>
-		</dl>
-		<dl>
-			<dt>{caption.label.tag}</dt>
-			<dd>{caption}</dd>
-		</dl>
-	</div>
-	<!-- ###WRAPPER_IMAGES_TO_DELETE### -->
-	<div class="column2">
-		{imagesToDelete}
-		<dl>
-			<dt>###LABEL_IMAGE_LIST###:</dt>
-			<dd>
-				<dl>
-					<!--###SINGLE_ATTACHED_IMAGE### -->
-					<dt id="###SINGLE_ATTACHED_IMAGE_ID###">
-						<span class="image">###SINGLE_IMAGE_ITEM###</span>
-						<span class="label">###IMAGE_TITLE###</span>
-						<input type="button" name="tx_realty_pi1_delete" value="###LABEL_DELETE###"
-							onclick="markAttachmentAsDeleted('###SINGLE_ATTACHED_IMAGE_ID###', '###LABEL_REALLY_DELETE###\n###IMAGE_TITLE_FOR_JS###');" />
-					</dt>
-					<!--###SINGLE_ATTACHED_IMAGE### -->
-				</dl>
-			</dd>
-		</dl>
-	</div>
-	<!-- ###WRAPPER_IMAGES_TO_DELETE### -->
-	<div class="column3">
-		<dl>
-			<dd>
-				<span class="savebuttonposition">{button_submit_and_stay}</span>
-				<span class="button">{button_submit}</span>
-			</dd>
-		</dl>
-		{proceed_image_upload}
-	</div>
-</div>
-<!-- ###IMAGE_UPLOAD### -->
-			</form>
-		</div>
-	</body>
+</body>
 </html>

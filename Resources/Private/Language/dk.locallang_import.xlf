@@ -1,124 +1,125 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="dk" datatype="plaintext" original="messages" date="2018-01-23T12:02:53Z" product-name="realty">
-		<header/>
-		<body>
-			<trans-unit id="message_zip_archive_not_installed" xml:space="preserve" approved="yes">
-				<source>Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</source>
-				<target>Importen blev afbrudt fordi din PHP-installation mangler ZIP-fil funktion. Kompiler venligst PHP med ZIP-support ved at benytte &quot;--enable-zip&quot; konfigurationsoptionen. På et SUSE system skal pakkerne &quot;php-zip&quot; og &quot;php5-zip&quot; installeres</target>
-			</trans-unit>
-			<trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
-				<source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
-				<target>Ingen ZIP-filer at hente. Den konfigurerede importmappe indeholder ikke nogen ZIP-filer. Kontroller venligst den konfigurerede &quot;extension manager&quot; og indholdet af mappen.</target>
-			</trans-unit>
-			<trans-unit id="message_object_not_loaded" xml:space="preserve" approved="yes">
-				<source>The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</source>
-				<target>Datamængden kunne ikke downloades. På grund af ugyldigt indhold er datamængden muligvis ikke blevet importeret fuldstændigt</target>
-			</trans-unit>
-			<trans-unit id="message_insertion_failed" xml:space="preserve" approved="yes">
-				<source>An error occurred while trying to create a new database record. This record was not inserted into the database.</source>
-				<target>En fejl opstod ved forsøget på skabe en ny database-fil. Databasen er ikke blevet opdateret</target>
-			</trans-unit>
-			<trans-unit id="message_deleted_flag_set" xml:space="preserve" approved="yes">
-				<source>This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</source>
-				<target>Denne datamængde er blevet markeret til sletning. Hvis den eksisterer i databasen vil den blive slettet. Ellers vil den blive ignoreret.</target>
-			</trans-unit>
-			<trans-unit id="message_written_to_database" xml:space="preserve" approved="yes">
-				<source>The record was written to the database.</source>
-				<target>Datamængden blev skrevet ind i databasen</target>
-			</trans-unit>
-			<trans-unit id="message_fields_required" xml:space="preserve" approved="yes">
-				<source>The record was not imported because the required fields are not set</source>
-				<target>Datamængden blev ikke importeret fordi pligtfelterne ikke blev udfyldt</target>
-			</trans-unit>
-			<trans-unit id="message_openimmo_anid_not_matches_allowed_fe_user" xml:space="preserve" approved="yes">
-				<source>The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</source>
-				<target>Datamændgen blev ikke importeret fordi optionen &quot;restrict import&quot; for registrerede brugere er aktiv og denne datamængdes OpenImmo ANID ikke matchede nogen OpenImmo ANID for en FE-bruger der er i den tilladte brugergruppe. Datamængdens OpenImmo ANID var:</target>
-			</trans-unit>
-			<trans-unit id="message_log_sent_to" xml:space="preserve" approved="yes">
-				<source>The log was sent to</source>
-				<target>Loggen blev sendt til</target>
-			</trans-unit>
-			<trans-unit id="message_extracted_successfully" xml:space="preserve" approved="yes">
-				<source>The ZIP archive was extracted successfully.</source>
-				<target>ZIP-arkivet blev ekstraheret med succes.</target>
-			</trans-unit>
-			<trans-unit id="message_extraction_failed" xml:space="preserve" approved="yes">
-				<source>The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</source>
-				<target>Ekstrahering af dette ZIP-arkiv mislykkedes. ZIP-arkivet kunne ikke åbnes. Filen er muligvis fejlbehæftet.</target>
-			</trans-unit>
-			<trans-unit id="message_surplus_folder" xml:space="preserve" approved="yes">
-				<source>The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</source>
-				<target>Mappen som skal skabes for at kunne importere eksisterer allerede i &quot;import directory&quot;. Datamængden kan ikke importeres så længe denne folder eksisterer. Vær venlig at fjerne denne mappe</target>
-			</trans-unit>
-			<trans-unit id="message_invalid_xml_path" xml:space="preserve" approved="yes">
-				<source>The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</source>
-				<target>XML-filens sti er ikke valid. Muligvis er der ikke nogen &quot;extraction folder&quot;. Dette kunne være et fil-adgangsproblem. kontroller venligst at du har tilladelse til at skrive i &quot;import directory&quot;</target>
-			</trans-unit>
-			<trans-unit id="message_too_many_xml" xml:space="preserve" approved="yes">
-				<source>There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</source>
-				<target>Der kan ikke være mere end en XML-fil i ZIP-arkivet. Fjern venligst de øvrige XML-filer fra arkivet</target>
-			</trans-unit>
-			<trans-unit id="message_no_xml" xml:space="preserve" approved="yes">
-				<source>No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</source>
-				<target>En XML-fil blev ikke fundet i ZIP-arkivet. Hvis XML-filen alligevel eksisterer så kontroller at filen slutter med '.xml'.</target>
-			</trans-unit>
-			<trans-unit id="message_successful_validation" xml:space="preserve" approved="yes">
-				<source>The validation proceeded successfully.</source>
-				<target>Valideringen var succesfuld.</target>
-			</trans-unit>
-			<trans-unit id="message_no_schema_file" xml:space="preserve" approved="yes">
-				<source>There is no schema file set for validation.</source>
-				<target>Der er ingen skema-fil indstillet til validering.</target>
-			</trans-unit>
-			<trans-unit id="message_invalid_schema_file_path" xml:space="preserve" approved="yes">
-				<source>The path of the schema file is invalid. Please check your configuration in the extension manager.</source>
-				<target>Skema-filens sti er ugyldig. Kontroller venligst dine konfigurationer i &quot;extension manager&quot;.</target>
-			</trans-unit>
-			<trans-unit id="message_import_without_validation" xml:space="preserve" approved="yes">
-				<source>The import is done without validation.</source>
-				<target>Importen blev gennemført uden validering.</target>
-			</trans-unit>
-			<trans-unit id="message_please_validate" xml:space="preserve" approved="yes">
-				<source>Please ensure the validity of the data to import.</source>
-				<target>Kontroller venligst at datamængden er valid.</target>
-			</trans-unit>
-			<trans-unit id="message_validation_impossible" xml:space="preserve" approved="yes">
-				<source>The validation is not possible. There might be a syntax error in the XML file to load.</source>
-				<target>Validering er ikke mulig. Der er muligvis en syntax-fejli XML-filen</target>
-			</trans-unit>
-			<trans-unit id="message_line" xml:space="preserve" approved="yes">
-				<source>Line</source>
-				<target>Linie</target>
-			</trans-unit>
-			<trans-unit id="message_files_removed" xml:space="preserve" approved="yes">
-				<source>The following files have been removed</source>
-				<target>Følgende filer er blevet fjernet</target>
-			</trans-unit>
-			<trans-unit id="message_introduction" xml:space="preserve" approved="yes">
-				<source>Here is the result of the last import of your OpenImmo records.</source>
-				<target>Her er resultatet af den seneste OpenImmo import</target>
-			</trans-unit>
-			<trans-unit id="message_explanation" xml:space="preserve" approved="yes">
-				<source>You are receiving this e-mail because you are the contact person for the OpenImmo records above.</source>
-				<target>Du modtager denne e-mail fordi du er kontaktpersonen for følgende OpenImmo objekt</target>
-			</trans-unit>
-			<trans-unit id="label_subject_openImmo_import" xml:space="preserve" approved="yes">
-				<source>OpenImmo import</source>
-				<target>OpenImmo import</target>
-			</trans-unit>
-			<trans-unit id="label_object_number" xml:space="preserve" approved="yes">
-				<source>Object Number</source>
-				<target>Objekt nummer</target>
-			</trans-unit>
-			<trans-unit id="label_allowed" xml:space="preserve" approved="yes">
-				<source>Allowed</source>
-				<target>Tilladt</target>
-			</trans-unit>
-			<trans-unit id="label_not_allowed" xml:space="preserve" approved="yes">
-				<source>Unwelcome</source>
-				<target>Uvelkommen</target>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" target-language="dk" datatype="plaintext" original="messages" date="2018-01-23T12:02:53Z"
+          product-name="realty">
+        <header/>
+        <body>
+            <trans-unit id="message_zip_archive_not_installed" xml:space="preserve" approved="yes">
+                <source>Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</source>
+                <target>Importen blev afbrudt fordi din PHP-installation mangler ZIP-fil funktion. Kompiler venligst PHP med ZIP-support ved at benytte &quot;--enable-zip&quot; konfigurationsoptionen. På et SUSE system skal pakkerne &quot;php-zip&quot; og &quot;php5-zip&quot; installeres</target>
+            </trans-unit>
+            <trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
+                <source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
+                <target>Ingen ZIP-filer at hente. Den konfigurerede importmappe indeholder ikke nogen ZIP-filer. Kontroller venligst den konfigurerede &quot;extension manager&quot; og indholdet af mappen.</target>
+            </trans-unit>
+            <trans-unit id="message_object_not_loaded" xml:space="preserve" approved="yes">
+                <source>The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</source>
+                <target>Datamængden kunne ikke downloades. På grund af ugyldigt indhold er datamængden muligvis ikke blevet importeret fuldstændigt</target>
+            </trans-unit>
+            <trans-unit id="message_insertion_failed" xml:space="preserve" approved="yes">
+                <source>An error occurred while trying to create a new database record. This record was not inserted into the database.</source>
+                <target>En fejl opstod ved forsøget på skabe en ny database-fil. Databasen er ikke blevet opdateret</target>
+            </trans-unit>
+            <trans-unit id="message_deleted_flag_set" xml:space="preserve" approved="yes">
+                <source>This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</source>
+                <target>Denne datamængde er blevet markeret til sletning. Hvis den eksisterer i databasen vil den blive slettet. Ellers vil den blive ignoreret.</target>
+            </trans-unit>
+            <trans-unit id="message_written_to_database" xml:space="preserve" approved="yes">
+                <source>The record was written to the database.</source>
+                <target>Datamængden blev skrevet ind i databasen</target>
+            </trans-unit>
+            <trans-unit id="message_fields_required" xml:space="preserve" approved="yes">
+                <source>The record was not imported because the required fields are not set</source>
+                <target>Datamængden blev ikke importeret fordi pligtfelterne ikke blev udfyldt</target>
+            </trans-unit>
+            <trans-unit id="message_openimmo_anid_not_matches_allowed_fe_user" xml:space="preserve" approved="yes">
+                <source>The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</source>
+                <target>Datamændgen blev ikke importeret fordi optionen &quot;restrict import&quot; for registrerede brugere er aktiv og denne datamængdes OpenImmo ANID ikke matchede nogen OpenImmo ANID for en FE-bruger der er i den tilladte brugergruppe. Datamængdens OpenImmo ANID var:</target>
+            </trans-unit>
+            <trans-unit id="message_log_sent_to" xml:space="preserve" approved="yes">
+                <source>The log was sent to</source>
+                <target>Loggen blev sendt til</target>
+            </trans-unit>
+            <trans-unit id="message_extracted_successfully" xml:space="preserve" approved="yes">
+                <source>The ZIP archive was extracted successfully.</source>
+                <target>ZIP-arkivet blev ekstraheret med succes.</target>
+            </trans-unit>
+            <trans-unit id="message_extraction_failed" xml:space="preserve" approved="yes">
+                <source>The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</source>
+                <target>Ekstrahering af dette ZIP-arkiv mislykkedes. ZIP-arkivet kunne ikke åbnes. Filen er muligvis fejlbehæftet.</target>
+            </trans-unit>
+            <trans-unit id="message_surplus_folder" xml:space="preserve" approved="yes">
+                <source>The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</source>
+                <target>Mappen som skal skabes for at kunne importere eksisterer allerede i &quot;import directory&quot;. Datamængden kan ikke importeres så længe denne folder eksisterer. Vær venlig at fjerne denne mappe</target>
+            </trans-unit>
+            <trans-unit id="message_invalid_xml_path" xml:space="preserve" approved="yes">
+                <source>The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</source>
+                <target>XML-filens sti er ikke valid. Muligvis er der ikke nogen &quot;extraction folder&quot;. Dette kunne være et fil-adgangsproblem. kontroller venligst at du har tilladelse til at skrive i &quot;import directory&quot;</target>
+            </trans-unit>
+            <trans-unit id="message_too_many_xml" xml:space="preserve" approved="yes">
+                <source>There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</source>
+                <target>Der kan ikke være mere end en XML-fil i ZIP-arkivet. Fjern venligst de øvrige XML-filer fra arkivet</target>
+            </trans-unit>
+            <trans-unit id="message_no_xml" xml:space="preserve" approved="yes">
+                <source>No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</source>
+                <target>En XML-fil blev ikke fundet i ZIP-arkivet. Hvis XML-filen alligevel eksisterer så kontroller at filen slutter med '.xml'.</target>
+            </trans-unit>
+            <trans-unit id="message_successful_validation" xml:space="preserve" approved="yes">
+                <source>The validation proceeded successfully.</source>
+                <target>Valideringen var succesfuld.</target>
+            </trans-unit>
+            <trans-unit id="message_no_schema_file" xml:space="preserve" approved="yes">
+                <source>There is no schema file set for validation.</source>
+                <target>Der er ingen skema-fil indstillet til validering.</target>
+            </trans-unit>
+            <trans-unit id="message_invalid_schema_file_path" xml:space="preserve" approved="yes">
+                <source>The path of the schema file is invalid. Please check your configuration in the extension manager.</source>
+                <target>Skema-filens sti er ugyldig. Kontroller venligst dine konfigurationer i &quot;extension manager&quot;.</target>
+            </trans-unit>
+            <trans-unit id="message_import_without_validation" xml:space="preserve" approved="yes">
+                <source>The import is done without validation.</source>
+                <target>Importen blev gennemført uden validering.</target>
+            </trans-unit>
+            <trans-unit id="message_please_validate" xml:space="preserve" approved="yes">
+                <source>Please ensure the validity of the data to import.</source>
+                <target>Kontroller venligst at datamængden er valid.</target>
+            </trans-unit>
+            <trans-unit id="message_validation_impossible" xml:space="preserve" approved="yes">
+                <source>The validation is not possible. There might be a syntax error in the XML file to load.</source>
+                <target>Validering er ikke mulig. Der er muligvis en syntax-fejli XML-filen</target>
+            </trans-unit>
+            <trans-unit id="message_line" xml:space="preserve" approved="yes">
+                <source>Line</source>
+                <target>Linie</target>
+            </trans-unit>
+            <trans-unit id="message_files_removed" xml:space="preserve" approved="yes">
+                <source>The following files have been removed</source>
+                <target>Følgende filer er blevet fjernet</target>
+            </trans-unit>
+            <trans-unit id="message_introduction" xml:space="preserve" approved="yes">
+                <source>Here is the result of the last import of your OpenImmo records.</source>
+                <target>Her er resultatet af den seneste OpenImmo import</target>
+            </trans-unit>
+            <trans-unit id="message_explanation" xml:space="preserve" approved="yes">
+                <source>You are receiving this e-mail because you are the contact person for the OpenImmo records above.</source>
+                <target>Du modtager denne e-mail fordi du er kontaktpersonen for følgende OpenImmo objekt</target>
+            </trans-unit>
+            <trans-unit id="label_subject_openImmo_import" xml:space="preserve" approved="yes">
+                <source>OpenImmo import</source>
+                <target>OpenImmo import</target>
+            </trans-unit>
+            <trans-unit id="label_object_number" xml:space="preserve" approved="yes">
+                <source>Object Number</source>
+                <target>Objekt nummer</target>
+            </trans-unit>
+            <trans-unit id="label_allowed" xml:space="preserve" approved="yes">
+                <source>Allowed</source>
+                <target>Tilladt</target>
+            </trans-unit>
+            <trans-unit id="label_not_allowed" xml:space="preserve" approved="yes">
+                <source>Unwelcome</source>
+                <target>Uvelkommen</target>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

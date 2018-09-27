@@ -1,172 +1,173 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-01-23T12:02:53Z" product-name="realty">
-		<header/>
-		<body>
-			<trans-unit id="message_zip_archive_not_installed" xml:space="preserve" approved="yes">
-				<source>Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</source>
-				<target>Der Import kann nicht durchgeführt werden, weil Ihre PHP Installation keine ZIP-Funktionen bereitstellt. Bitte kompilieren Sie PHP mit ZIP-Unterstützung, indem Sie die &quot;--enable-zip&quot;-Option bei der Kompilierung verwenden. Bei einem SUSE-System müssen die Pakete &quot;php-zip&quot; oder &quot;php5_zip&quot; dafür installiert sein.</target>
-			</trans-unit>
-			<trans-unit id="message_import_directory_not_existing" xml:space="preserve" approved="yes">
-				<source>Importing is impossible because the configured import directory &quot;%s&quot; does not exist. It is also possible that the current user &quot;%s&quot; has no read permissions on one of the parent folders. Please check your configuration and restart the import.</source>
-				<target>Der Import kann nicht durchgeführt werden, weil der konfigurierte Import-Ordner &quot;%s&quot; nicht existiert. Es besteht auch die Möglichkeit, dass der aktuelle Benutzer &quot;%s&quot; keine Leserechte auf einen der übergeordneten Ordner besitzt. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</target>
-			</trans-unit>
-			<trans-unit id="message_import_directory_not_readable" xml:space="preserve" approved="yes">
-				<source>Importing is impossible because the configured import directory &quot;%s&quot; is not readable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
-				<target>Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner &quot;%s&quot; keine Leserechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
-			</trans-unit>
-			<trans-unit id="message_import_directory_not_writable" xml:space="preserve" approved="yes">
-				<source>Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
-				<target>Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
-			</trans-unit>
-			<trans-unit id="message_upload_directory_not_existing" xml:space="preserve" approved="yes">
-				<source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</source>
-				<target>Der Import kann nicht durchgeführt werden, weil der Upload-Ordner der Realty-Extension &quot;%s&quot; nicht existiert. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</target>
-			</trans-unit>
-			<trans-unit id="message_upload_directory_not_writable" xml:space="preserve" approved="yes">
-				<source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
-				<target>Der Import kann nicht durchgeführt werden, weil für den Upload-Ordner der Realty-Extension &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
-			</trans-unit>
-			<trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
-				<source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
-				<target>Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</target>
-			</trans-unit>
-			<trans-unit id="message_deleted_objects_from_full_sync" xml:space="preserve" approved="yes">
-				<source>The following objects have been deleted during full sync:</source>
-				<target>Diese Objekte wurden beim Vollabgleich gelöscht:</target>
-			</trans-unit>
-			<trans-unit id="message_object_not_loaded" xml:space="preserve" approved="yes">
-				<source>The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</source>
-				<target>Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</target>
-			</trans-unit>
-			<trans-unit id="message_insertion_failed" xml:space="preserve" approved="yes">
-				<source>An error occurred while trying to create a new database record. This record was not inserted into the database.</source>
-				<target>Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</target>
-			</trans-unit>
-			<trans-unit id="message_deleted_flag_causes_deletion" xml:space="preserve" approved="yes">
-				<source>Updating this record deletes the record.</source>
-				<target>Dieser Datensatz wird durch die Aktualisierung gelöscht.</target>
-			</trans-unit>
-			<trans-unit id="message_deleted_flag_set" xml:space="preserve" approved="yes">
-				<source>This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</source>
-				<target>Dieser Datensatz ist zum Löschen markiert. Da er noch nicht in der Datenbank existiert, wird er beim Importieren ignoriert.</target>
-			</trans-unit>
-			<trans-unit id="message_written_to_database" xml:space="preserve" approved="yes">
-				<source>The record was written to the database.</source>
-				<target>Der Datensatz wurde in die Datenbank eingefügt.</target>
-			</trans-unit>
-			<trans-unit id="message_fields_required" xml:space="preserve" approved="yes">
-				<source>The record was not imported because the required fields are not set</source>
-				<target>Der Datensatz wurde nicht importiert, weil die Pflichtfelder nicht gesetzt sind</target>
-			</trans-unit>
-			<trans-unit id="message_openimmo_anid_not_matches_allowed_fe_user" xml:space="preserve" approved="yes">
-				<source>The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</source>
-				<target>Der Datensatz wurde nicht importiert, weil in der Konfiguration eingestellt ist, dass Datensätze nur für registrierte FE-Benutzer importiert werden dürfen und dieser Datensatz keine OpenImmo-ANID enthält, die mit der eines FE-Benutzers in einer der erlaubten Gruppen übereinstimmt. Die OpenImmo-ANID des Datensatze war:</target>
-			</trans-unit>
-			<trans-unit id="message_log_sent_to" xml:space="preserve" approved="yes">
-				<source>The log was sent to</source>
-				<target>Das Protokoll wurde gesendet an</target>
-			</trans-unit>
-			<trans-unit id="message_extracted_successfully" xml:space="preserve" approved="yes">
-				<source>The ZIP archive was extracted successfully.</source>
-				<target>Das ZIP-Archiv wurde erfolgreich entpackt.</target>
-			</trans-unit>
-			<trans-unit id="message_extraction_failed" xml:space="preserve" approved="yes">
-				<source>The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</source>
-				<target>Das Entpacken des ZIP-Archives ist fehlgeschlagen, da das Archiv nicht geöffnet werden konnte. Möglicherweise ist die Datei fehlerhaft.</target>
-			</trans-unit>
-			<trans-unit id="message_surplus_folder" xml:space="preserve" approved="yes">
-				<source>The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</source>
-				<target>Der Ordner, der für den Import erstellt werden muss, existiert bereits in Ihrem Import-Verzeichnis. Der Datensatz kann nicht importiert werden, solange dieser Ordner existiert. Bitte entfernen Sie ihn aus dem Import-Verzeichnis.</target>
-			</trans-unit>
-			<trans-unit id="message_folder_creation_failed" xml:space="preserve" approved="yes">
-				<source>The folder &quot;%s&quot; could not be created. Please check your access rights.</source>
-				<target>Der Ordner &quot;%s&quot; konnte nicht erstellt werden. Bitte überprüfen Sie Ihre Zugriffsrechte.</target>
-			</trans-unit>
-			<trans-unit id="message_folder_not_writable" xml:space="preserve" approved="yes">
-				<source>The folder &quot;%s&quot; has been created successfully, but is not writable. Please check your access rights.</source>
-				<target>Der Ordner &quot;%s&quot; wurde erfolgreich erstellt, ist aber nicht beschreibbar. Bitte überprüfen Sie Ihre Zugriffsrechte.</target>
-			</trans-unit>
-			<trans-unit id="message_invalid_xml_path" xml:space="preserve" approved="yes">
-				<source>The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</source>
-				<target>Der XML-Pfad wurde nicht gefunden. Eventuell ist kein Ordner mit dem entpacktem Inhalt des ZIP-Archives vorhanden. Ein Dateirechteproblem kann die Ursache sein. Bitte stellen Sie sicher, dass Sie Schreibrechte im Import-Ordner haben.</target>
-			</trans-unit>
-			<trans-unit id="message_too_many_xml" xml:space="preserve" approved="yes">
-				<source>There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</source>
-				<target>Es darf nicht mehr als eine XML-Datei im ZIP-Archiv sein. Bitte entfernen Sie die überschüssigen XML-Dateien aus dem Archiv.</target>
-			</trans-unit>
-			<trans-unit id="message_no_xml" xml:space="preserve" approved="yes">
-				<source>No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</source>
-				<target>Im ZIP-Archiv kann keine XML-Datei gefunden werden. Sollte es dennoch eine geben, stellen Sie bitte sicher, dass sie mit '.xml' endet.</target>
-			</trans-unit>
-			<trans-unit id="message_successful_validation" xml:space="preserve" approved="yes">
-				<source>The validation proceeded successfully.</source>
-				<target>Die Validierung war erfolgreich.</target>
-			</trans-unit>
-			<trans-unit id="message_no_schema_file" xml:space="preserve" approved="yes">
-				<source>There is no schema file set for validation.</source>
-				<target>Es wurde keine Schemadatei zur Validierung gesetzt.</target>
-			</trans-unit>
-			<trans-unit id="message_invalid_schema_file_path" xml:space="preserve" approved="yes">
-				<source>The path of the schema file is invalid. Please check your configuration in the extension manager.</source>
-				<target>Der Pfad zur Schemadatei ist ungültig. Bitte überprüfen Sie die Konfiguration im Extension Manager.</target>
-			</trans-unit>
-			<trans-unit id="message_import_without_validation" xml:space="preserve" approved="yes">
-				<source>The import is done without validation.</source>
-				<target>Der Import wird ohne Validierung durchgeführt.</target>
-			</trans-unit>
-			<trans-unit id="message_please_validate" xml:space="preserve" approved="yes">
-				<source>Please ensure the validity of the data to import.</source>
-				<target>Bitte stellen Sie sicher, dass der Datensatz valide ist.</target>
-			</trans-unit>
-			<trans-unit id="message_validation_impossible" xml:space="preserve" approved="yes">
-				<source>The validation is not possible. There might be a syntax error in the XML file to load.</source>
-				<target>Eine Validierung ist nicht möglich. Eventuell ist ein Syntaxfehler in der zu ladenden XML-Datei.</target>
-			</trans-unit>
-			<trans-unit id="message_line" xml:space="preserve" approved="yes">
-				<source>Line</source>
-				<target>Zeile</target>
-			</trans-unit>
-			<trans-unit id="message_files_removed" xml:space="preserve" approved="yes">
-				<source>The following files have been removed</source>
-				<target>Folgende Dateien wurden gelöscht</target>
-			</trans-unit>
-			<trans-unit id="message_introduction" xml:space="preserve" approved="yes">
-				<source>Here is the result of the last import of your OpenImmo records.</source>
-				<target>Hier ist das Ergebnis des letzen Imports Ihrer OpenImmo Datensätze.</target>
-			</trans-unit>
-			<trans-unit id="message_explanation" xml:space="preserve" approved="yes">
-				<source>You are receiving this e-mail because you are the contact person for the OpenImmo records above.</source>
-				<target>Sie erhalten diese E-Mail, weil Sie die Kontaktperson für die oben genannten Immobilien sind.</target>
-			</trans-unit>
-			<trans-unit id="message_object_limit_reached" xml:space="preserve" approved="yes">
-				<source>The record for the user %s (UID: %u) was not imported because the user's object limit of %u has been reached.</source>
-				<target>Der Datensatz des Benutzers %s (UID: %u) konnte nicht importiert werden, da die maximale Objektanzahl von %u Objekten für diesen Benutzer erreicht wurde.</target>
-			</trans-unit>
-			<trans-unit id="label_subject_openImmo_import" xml:space="preserve" approved="yes">
-				<source>OpenImmo import</source>
-				<target>OpenImmo-Import</target>
-			</trans-unit>
-			<trans-unit id="label_object_number" xml:space="preserve" approved="yes">
-				<source>Object Number</source>
-				<target>Objektnummer</target>
-			</trans-unit>
-			<trans-unit id="label_allowed" xml:space="preserve" approved="yes">
-				<source>Allowed</source>
-				<target>Erlaubt</target>
-			</trans-unit>
-			<trans-unit id="label_not_allowed" xml:space="preserve" approved="yes">
-				<source>Unwelcome</source>
-				<target>Unerwünscht</target>
-			</trans-unit>
-			<trans-unit id="label_lightbox_image" xml:space="preserve" approved="yes">
-				<source>Image</source>
-				<target>Bild</target>
-			</trans-unit>
-			<trans-unit id="label_lightbox_of" xml:space="preserve" approved="yes">
-				<source>of</source>
-				<target>von</target>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-01-23T12:02:53Z"
+          product-name="realty">
+        <header/>
+        <body>
+            <trans-unit id="message_zip_archive_not_installed" xml:space="preserve" approved="yes">
+                <source>Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</source>
+                <target>Der Import kann nicht durchgeführt werden, weil Ihre PHP Installation keine ZIP-Funktionen bereitstellt. Bitte kompilieren Sie PHP mit ZIP-Unterstützung, indem Sie die &quot;--enable-zip&quot;-Option bei der Kompilierung verwenden. Bei einem SUSE-System müssen die Pakete &quot;php-zip&quot; oder &quot;php5_zip&quot; dafür installiert sein.</target>
+            </trans-unit>
+            <trans-unit id="message_import_directory_not_existing" xml:space="preserve" approved="yes">
+                <source>Importing is impossible because the configured import directory &quot;%s&quot; does not exist. It is also possible that the current user &quot;%s&quot; has no read permissions on one of the parent folders. Please check your configuration and restart the import.</source>
+                <target>Der Import kann nicht durchgeführt werden, weil der konfigurierte Import-Ordner &quot;%s&quot; nicht existiert. Es besteht auch die Möglichkeit, dass der aktuelle Benutzer &quot;%s&quot; keine Leserechte auf einen der übergeordneten Ordner besitzt. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</target>
+            </trans-unit>
+            <trans-unit id="message_import_directory_not_readable" xml:space="preserve" approved="yes">
+                <source>Importing is impossible because the configured import directory &quot;%s&quot; is not readable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
+                <target>Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner &quot;%s&quot; keine Leserechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
+            </trans-unit>
+            <trans-unit id="message_import_directory_not_writable" xml:space="preserve" approved="yes">
+                <source>Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
+                <target>Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
+            </trans-unit>
+            <trans-unit id="message_upload_directory_not_existing" xml:space="preserve" approved="yes">
+                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</source>
+                <target>Der Import kann nicht durchgeführt werden, weil der Upload-Ordner der Realty-Extension &quot;%s&quot; nicht existiert. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</target>
+            </trans-unit>
+            <trans-unit id="message_upload_directory_not_writable" xml:space="preserve" approved="yes">
+                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
+                <target>Der Import kann nicht durchgeführt werden, weil für den Upload-Ordner der Realty-Extension &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
+            </trans-unit>
+            <trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
+                <source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
+                <target>Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</target>
+            </trans-unit>
+            <trans-unit id="message_deleted_objects_from_full_sync" xml:space="preserve" approved="yes">
+                <source>The following objects have been deleted during full sync:</source>
+                <target>Diese Objekte wurden beim Vollabgleich gelöscht:</target>
+            </trans-unit>
+            <trans-unit id="message_object_not_loaded" xml:space="preserve" approved="yes">
+                <source>The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</source>
+                <target>Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</target>
+            </trans-unit>
+            <trans-unit id="message_insertion_failed" xml:space="preserve" approved="yes">
+                <source>An error occurred while trying to create a new database record. This record was not inserted into the database.</source>
+                <target>Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</target>
+            </trans-unit>
+            <trans-unit id="message_deleted_flag_causes_deletion" xml:space="preserve" approved="yes">
+                <source>Updating this record deletes the record.</source>
+                <target>Dieser Datensatz wird durch die Aktualisierung gelöscht.</target>
+            </trans-unit>
+            <trans-unit id="message_deleted_flag_set" xml:space="preserve" approved="yes">
+                <source>This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</source>
+                <target>Dieser Datensatz ist zum Löschen markiert. Da er noch nicht in der Datenbank existiert, wird er beim Importieren ignoriert.</target>
+            </trans-unit>
+            <trans-unit id="message_written_to_database" xml:space="preserve" approved="yes">
+                <source>The record was written to the database.</source>
+                <target>Der Datensatz wurde in die Datenbank eingefügt.</target>
+            </trans-unit>
+            <trans-unit id="message_fields_required" xml:space="preserve" approved="yes">
+                <source>The record was not imported because the required fields are not set</source>
+                <target>Der Datensatz wurde nicht importiert, weil die Pflichtfelder nicht gesetzt sind</target>
+            </trans-unit>
+            <trans-unit id="message_openimmo_anid_not_matches_allowed_fe_user" xml:space="preserve" approved="yes">
+                <source>The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</source>
+                <target>Der Datensatz wurde nicht importiert, weil in der Konfiguration eingestellt ist, dass Datensätze nur für registrierte FE-Benutzer importiert werden dürfen und dieser Datensatz keine OpenImmo-ANID enthält, die mit der eines FE-Benutzers in einer der erlaubten Gruppen übereinstimmt. Die OpenImmo-ANID des Datensatze war:</target>
+            </trans-unit>
+            <trans-unit id="message_log_sent_to" xml:space="preserve" approved="yes">
+                <source>The log was sent to</source>
+                <target>Das Protokoll wurde gesendet an</target>
+            </trans-unit>
+            <trans-unit id="message_extracted_successfully" xml:space="preserve" approved="yes">
+                <source>The ZIP archive was extracted successfully.</source>
+                <target>Das ZIP-Archiv wurde erfolgreich entpackt.</target>
+            </trans-unit>
+            <trans-unit id="message_extraction_failed" xml:space="preserve" approved="yes">
+                <source>The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</source>
+                <target>Das Entpacken des ZIP-Archives ist fehlgeschlagen, da das Archiv nicht geöffnet werden konnte. Möglicherweise ist die Datei fehlerhaft.</target>
+            </trans-unit>
+            <trans-unit id="message_surplus_folder" xml:space="preserve" approved="yes">
+                <source>The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</source>
+                <target>Der Ordner, der für den Import erstellt werden muss, existiert bereits in Ihrem Import-Verzeichnis. Der Datensatz kann nicht importiert werden, solange dieser Ordner existiert. Bitte entfernen Sie ihn aus dem Import-Verzeichnis.</target>
+            </trans-unit>
+            <trans-unit id="message_folder_creation_failed" xml:space="preserve" approved="yes">
+                <source>The folder &quot;%s&quot; could not be created. Please check your access rights.</source>
+                <target>Der Ordner &quot;%s&quot; konnte nicht erstellt werden. Bitte überprüfen Sie Ihre Zugriffsrechte.</target>
+            </trans-unit>
+            <trans-unit id="message_folder_not_writable" xml:space="preserve" approved="yes">
+                <source>The folder &quot;%s&quot; has been created successfully, but is not writable. Please check your access rights.</source>
+                <target>Der Ordner &quot;%s&quot; wurde erfolgreich erstellt, ist aber nicht beschreibbar. Bitte überprüfen Sie Ihre Zugriffsrechte.</target>
+            </trans-unit>
+            <trans-unit id="message_invalid_xml_path" xml:space="preserve" approved="yes">
+                <source>The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</source>
+                <target>Der XML-Pfad wurde nicht gefunden. Eventuell ist kein Ordner mit dem entpacktem Inhalt des ZIP-Archives vorhanden. Ein Dateirechteproblem kann die Ursache sein. Bitte stellen Sie sicher, dass Sie Schreibrechte im Import-Ordner haben.</target>
+            </trans-unit>
+            <trans-unit id="message_too_many_xml" xml:space="preserve" approved="yes">
+                <source>There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</source>
+                <target>Es darf nicht mehr als eine XML-Datei im ZIP-Archiv sein. Bitte entfernen Sie die überschüssigen XML-Dateien aus dem Archiv.</target>
+            </trans-unit>
+            <trans-unit id="message_no_xml" xml:space="preserve" approved="yes">
+                <source>No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</source>
+                <target>Im ZIP-Archiv kann keine XML-Datei gefunden werden. Sollte es dennoch eine geben, stellen Sie bitte sicher, dass sie mit '.xml' endet.</target>
+            </trans-unit>
+            <trans-unit id="message_successful_validation" xml:space="preserve" approved="yes">
+                <source>The validation proceeded successfully.</source>
+                <target>Die Validierung war erfolgreich.</target>
+            </trans-unit>
+            <trans-unit id="message_no_schema_file" xml:space="preserve" approved="yes">
+                <source>There is no schema file set for validation.</source>
+                <target>Es wurde keine Schemadatei zur Validierung gesetzt.</target>
+            </trans-unit>
+            <trans-unit id="message_invalid_schema_file_path" xml:space="preserve" approved="yes">
+                <source>The path of the schema file is invalid. Please check your configuration in the extension manager.</source>
+                <target>Der Pfad zur Schemadatei ist ungültig. Bitte überprüfen Sie die Konfiguration im Extension Manager.</target>
+            </trans-unit>
+            <trans-unit id="message_import_without_validation" xml:space="preserve" approved="yes">
+                <source>The import is done without validation.</source>
+                <target>Der Import wird ohne Validierung durchgeführt.</target>
+            </trans-unit>
+            <trans-unit id="message_please_validate" xml:space="preserve" approved="yes">
+                <source>Please ensure the validity of the data to import.</source>
+                <target>Bitte stellen Sie sicher, dass der Datensatz valide ist.</target>
+            </trans-unit>
+            <trans-unit id="message_validation_impossible" xml:space="preserve" approved="yes">
+                <source>The validation is not possible. There might be a syntax error in the XML file to load.</source>
+                <target>Eine Validierung ist nicht möglich. Eventuell ist ein Syntaxfehler in der zu ladenden XML-Datei.</target>
+            </trans-unit>
+            <trans-unit id="message_line" xml:space="preserve" approved="yes">
+                <source>Line</source>
+                <target>Zeile</target>
+            </trans-unit>
+            <trans-unit id="message_files_removed" xml:space="preserve" approved="yes">
+                <source>The following files have been removed</source>
+                <target>Folgende Dateien wurden gelöscht</target>
+            </trans-unit>
+            <trans-unit id="message_introduction" xml:space="preserve" approved="yes">
+                <source>Here is the result of the last import of your OpenImmo records.</source>
+                <target>Hier ist das Ergebnis des letzen Imports Ihrer OpenImmo Datensätze.</target>
+            </trans-unit>
+            <trans-unit id="message_explanation" xml:space="preserve" approved="yes">
+                <source>You are receiving this e-mail because you are the contact person for the OpenImmo records above.</source>
+                <target>Sie erhalten diese E-Mail, weil Sie die Kontaktperson für die oben genannten Immobilien sind.</target>
+            </trans-unit>
+            <trans-unit id="message_object_limit_reached" xml:space="preserve" approved="yes">
+                <source>The record for the user %s (UID: %u) was not imported because the user's object limit of %u has been reached.</source>
+                <target>Der Datensatz des Benutzers %s (UID: %u) konnte nicht importiert werden, da die maximale Objektanzahl von %u Objekten für diesen Benutzer erreicht wurde.</target>
+            </trans-unit>
+            <trans-unit id="label_subject_openImmo_import" xml:space="preserve" approved="yes">
+                <source>OpenImmo import</source>
+                <target>OpenImmo-Import</target>
+            </trans-unit>
+            <trans-unit id="label_object_number" xml:space="preserve" approved="yes">
+                <source>Object Number</source>
+                <target>Objektnummer</target>
+            </trans-unit>
+            <trans-unit id="label_allowed" xml:space="preserve" approved="yes">
+                <source>Allowed</source>
+                <target>Erlaubt</target>
+            </trans-unit>
+            <trans-unit id="label_not_allowed" xml:space="preserve" approved="yes">
+                <source>Unwelcome</source>
+                <target>Unerwünscht</target>
+            </trans-unit>
+            <trans-unit id="label_lightbox_image" xml:space="preserve" approved="yes">
+                <source>Image</source>
+                <target>Bild</target>
+            </trans-unit>
+            <trans-unit id="label_lightbox_of" xml:space="preserve" approved="yes">
+                <source>of</source>
+                <target>von</target>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>
