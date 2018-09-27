@@ -1,2 +1,84 @@
 plugin.tx_realty_pi1.imageUpload {
+    meta {
+        name = Image upload form
+        description = This form is for appending images to FE-created realty records.
+        form.formid = tx_realty_frontEndImageUpload
+        debug = false
+        displaylabels = false
+        keepinsession = false
+    }
+
+    control {
+        datahandler = datahandler:RAW
+        datahandler {
+            callback.userobj {
+                extension = this
+                method = processImageUpload
+            }
+        }
+
+        renderer = renderer:TEMPLATE
+        renderer.template {
+            path.userobj.php (
+                return tx_realty_frontEndForm::getTemplatePath();
+            )
+            subpart = ###IMAGE_UPLOAD###
+            errortag = errors
+        }
+
+        actionlets {
+            10 = actionlet:REDIRECT
+            10.url.userobj {
+                extension = this
+                method = getRedirectUrl
+            }
+        }
+    }
+
+    elements {
+        caption = renderlet:TEXT
+        caption {
+            name = caption
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.caption
+        }
+
+        image = renderlet:FILE
+        image {
+            name = image
+            data.targetdir = uploads/tx_realty/
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = checkFile
+                    message.userobj {
+                        extension = this
+                        method = getImageUploadErrorMessage
+                    }
+                }
+            }
+        }
+
+        imagesToDelete = renderlet:HIDDEN
+        imagesToDelete {
+            data.defaultvalue =
+        }
+
+        button_submit_and_stay = renderlet:SUBMIT
+        button_submit_and_stay {
+            name = button_submit_and_stay
+            label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save
+            onclick (
+                document.getElementById("tx_realty_frontEndImageUpload_proceed_image_upload").value = 1
+            )
+        }
+
+        button_submit = renderlet:SUBMIT
+        button_submit {
+            name = button_submit
+            label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save_and_close
+        }
+
+        proceed_image_upload = renderlet:HIDDEN
+    }
 }

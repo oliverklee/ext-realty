@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
+- Convert the image upload form configuration from XML to TypoScript (#59)
 - Convert the form configuration from XML to TypoScript (#57)
 - Also allow oelib 2.0.x (#54)
 - Also check for the PID when deleting imported objects (#43)
