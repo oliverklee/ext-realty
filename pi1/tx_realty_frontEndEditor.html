@@ -55,9 +55,9 @@
                         <dl>
                             <dt>&nbsp;</dt>
                             <dd>
-                        <span class="checkbox">
-                            {emphasized}&nbsp;{emphasized.label.tag}
-                        </span>
+                                <span class="checkbox">
+                                    {emphasized}&nbsp;{emphasized.label.tag}
+                                </span>
                             </dd>
                         </dl>
                         <div class="clear"></div>
@@ -205,12 +205,12 @@
                             <dd>{rent_per_square_meter}</dd>
                         </dl>
                         <dl class="rent">
-                            <dt>{rent_excluding_bills.label.tag}</dt>
-                            <dd>{rent_excluding_bills}</dd>
+                            <dt>{rent_with_heating_costs.label.tag}</dt>
+                            <dd>{rent_with_heating_costs}</dd>
                         </dl>
                         <dl class="rent">
-                            <dt>{deposit.label.tag}</dt>
-                            <dd>{deposit}</dd>
+                            <dt>{rent_excluding_bills.label.tag}</dt>
+                            <dd>{rent_excluding_bills}</dd>
                         </dl>
                         <dl class="rent">
                             <dt>{extra_charges.label.tag}</dt>
@@ -219,10 +219,14 @@
                         <dl class="rent">
                             <dt>&nbsp;</dt>
                             <dd>
-                        <span class="checkbox">
-                            {heating_included}&nbsp;{heating_included.label.tag}
-                        </span>
+                                <span class="checkbox">
+                                    {heating_included}&nbsp;{heating_included.label.tag}
+                                </span>
                             </dd>
+                        </dl>
+                        <dl class="rent">
+                            <dt>{deposit.label.tag}</dt>
+                            <dd>{deposit}</dd>
                         </dl>
                         <dl>
                             <dt>{usable_from.label.tag}</dt>
@@ -417,7 +421,8 @@
                         </dl>
                         <dl>
                             <dt>&nbsp;</dt>
-                            <dd><span class="checkbox">{has_air_conditioning}</span>&nbsp;{has_air_conditioning.label.tag}
+                            <dd>
+                                <span class="checkbox">{has_air_conditioning}</span>&nbsp;{has_air_conditioning.label.tag}
                             </dd>
                         </dl>
                         <dl>
@@ -434,20 +439,9 @@
                         </dl>
                         <dl>
                             <dt>&nbsp;</dt>
-                            <dd><span class="checkbox">{has_community_pool}</span>&nbsp;{has_community_pool.label.tag}
+                            <dd>
+                                <span class="checkbox">{has_community_pool}</span>&nbsp;{has_community_pool.label.tag}
                             </dd>
-                        </dl>
-                        <dl>
-                            <dt>&nbsp;</dt>
-                            <dd><span class="checkbox">{elevator}</span>&nbsp;{elevator.label.tag}</dd>
-                        </dl>
-                        <dl>
-                            <dt>&nbsp;</dt>
-                            <dd><span class="checkbox">{barrier_free}</span>&nbsp;{barrier_free.label.tag}</dd>
-                        </dl>
-                        <dl>
-                            <dt>&nbsp;</dt>
-                            <dd><span class="checkbox">{assisted_living}</span>&nbsp;{assisted_living.label.tag}</dd>
                         </dl>
                         <dl class="rent">
                             <dt>{pets.label.tag}</dt>
@@ -493,6 +487,52 @@
                     <div class="columnleft">
                         <dl>
                             <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{elevator}</span>&nbsp;{elevator.label.tag}</dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{barrier_free}</span>&nbsp;{barrier_free.label.tag}</dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{wheelchair_accessible}</span>&nbsp;{wheelchair_accessible.label.tag}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{ramp}</span>&nbsp;{ramp.label.tag}
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <div class="columnright">
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{lifting_platform}</span>&nbsp;{lifting_platform.label.tag}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd>
+                                <span class="checkbox">{suitable_for_the_elderly}</span>&nbsp;{suitable_for_the_elderly.label.tag}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>&nbsp;</dt>
+                            <dd><span class="checkbox">{assisted_living}</span>&nbsp;{assisted_living.label.tag}</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="divider">&nbsp;</div>
+
+                <div class="column-light">
+                    <div class="columnleft">
+                        <dl>
+                            <dt>&nbsp;</dt>
                             <dd>
                                 <span class="checkbox">{has_coordinates}&nbsp;{has_coordinates.label.tag}</span>
                             </dd>
@@ -519,7 +559,7 @@
             </fieldset>
 
             <fieldset>
-                <div class="column-light">
+                <div class="column-dark">
                     <dl id="submit">
                         <dt>&nbsp;</dt>
                         <dd>{button_submit}</dd>

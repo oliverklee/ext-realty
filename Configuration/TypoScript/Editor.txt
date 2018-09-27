@@ -592,6 +592,33 @@ plugin.tx_realty_pi1.editor {
             }
         }
 
+        rent_with_heating_costs = renderlet:TEXT
+        rent_with_heating_costs {
+            name = rent_with_heating_costs
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_with_heating_costs
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = rent_with_heating_costs
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_price
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         provision = renderlet:TEXT
         provision {
             name = provision
@@ -1945,6 +1972,18 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garden
         }
 
+        equipment = renderlet:TEXTAREA
+        equipment {
+            name = equipment
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.equipment
+        }
+
+        misc = renderlet:TEXTAREA
+        misc {
+            name = misc
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.misc
+        }
+
         elevator = renderlet:CHECKSINGLE
         elevator {
             name = elevator
@@ -1957,22 +1996,34 @@ plugin.tx_realty_pi1.editor {
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.barrier_free
         }
 
+        wheelchair_accessible = renderlet:CHECKSINGLE
+        wheelchair_accessible {
+            name = wheelchair_accessible
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.wheelchair_accessible
+        }
+
+        ramp = renderlet:CHECKSINGLE
+        ramp {
+            name = ramp
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.ramp
+        }
+
+        lifting_platform = renderlet:CHECKSINGLE
+        lifting_platform {
+            name = lifting_platform
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.lifting_platform
+        }
+
+        suitable_for_the_elderly = renderlet:CHECKSINGLE
+        suitable_for_the_elderly {
+            name = suitable_for_the_elderly
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.suitable_for_the_elderly
+        }
+
         assisted_living = renderlet:CHECKSINGLE
         assisted_living {
             name = assisted_living
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.assisted_living
-        }
-
-        equipment = renderlet:TEXTAREA
-        equipment {
-            name = equipment
-            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.equipment
-        }
-
-        misc = renderlet:TEXTAREA
-        misc {
-            name = misc
-            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.misc
         }
 
         has_coordinates = renderlet:CHECKSINGLE
