@@ -149,7 +149,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
                     $this->conf,
                     $this->cObj,
                     $this->piVars['showUid'],
-                    'pi1/tx_realty_frontEndEditor.xml'
+                    'editor'
                 );
                 $result = $frontEndEditor->render();
                 break;
@@ -160,7 +160,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
                     $this->conf,
                     $this->cObj,
                     $this->piVars['showUid'],
-                    'pi1/tx_realty_frontEndImageUpload.xml'
+                    'imageUpload'
                 );
                 $result = $imageUpload->render();
                 break;

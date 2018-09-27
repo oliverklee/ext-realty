@@ -1,0 +1,2051 @@
+plugin.tx_realty_pi1.editor {
+    meta {
+        name = FE editor form
+        description = This form is for editing realty records in the FE.
+        form.formid = tx_realty_frontEndEditor
+        debug = false
+        displaylabels = false
+        minify.enabled = 1
+        keepinsession = false
+    }
+
+    control {
+        datahandler = datahandler:DB
+        datahandler {
+            tablename = tx_realty_objects
+            keyname = uid
+            process.beforeinsertion.userobj {
+                extension = this
+                method = modifyDataToInsert
+            }
+        }
+
+        renderer = renderer:TEMPLATE
+        renderer.template {
+            path.userobj.php (
+                return tx_realty_frontEndForm::getTemplatePath();
+            )
+            subpart = ###FE_EDITOR###
+            errortag = errors
+        }
+
+        actionlets {
+            10 = actionlet:USEROBJ
+            10.userobj {
+                extension = this
+                method = sendEmailForNewObjectAndClearFrontEndCache
+            }
+            20 = actionlet:REDIRECT
+            20.url.userobj {
+                extension = this
+                method = getRedirectUrl
+            }
+        }
+    }
+
+    elements {
+        title = renderlet:TEXT
+        title {
+            name = title
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title
+            validators {
+                10 = validator:STANDARD
+                10.required {
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = title
+                            }
+                            20 {
+                                name = label
+                                value = message_required_field
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        object_type = renderlet:RADIOBUTTON
+        object_type {
+            name = object_type
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type
+            data {
+                defaultvalue = 0
+                items {
+                    10 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.0
+                        value = 0
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.1
+                        value = 1
+                    }
+                }
+            }
+            onclick = updateHideAndShow();
+        }
+
+        object_number = renderlet:TEXT
+        object_number {
+            name = object_number
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number
+            readonly.userobj {
+                extension = this
+                method = isObjectNumberReadonly
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isObjectNumberUniqueForLanguage
+                    message.userobj {
+                        extension = this
+                        method = getInvalidObjectNumberMessage
+                    }
+                }
+            }
+        }
+
+        emphasized = renderlet:CHECKSINGLE
+        emphasized {
+            name = emphasized
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.emphasized
+        }
+
+        show_address = renderlet:CHECKSINGLE
+        show_address {
+            name = show_address
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.show_address
+        }
+
+        street = renderlet:TEXT
+        street {
+            name = street
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.street
+        }
+
+        zip = renderlet:TEXT
+        zip {
+            name = zip
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.zip
+            validators {
+                10 = validator:STANDARD
+                10.required {
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = zip
+                            }
+                            20 {
+                                name = label
+                                value = message_required_field
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        distance_to_the_sea = renderlet:TEXT
+        distance_to_the_sea {
+            name = distance_to_the_sea
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.distance_to_the_sea
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNonNegativeIntegerNumber
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = distance_to_the_sea
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        sea_view = renderlet:CHECKSINGLE
+        sea_view {
+            name = sea_view
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sea_view
+        }
+
+        city = renderlet:LISTBOX
+        city {
+            name = city
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                }
+                userobj.php (
+                    return \tx_realty_frontEndEditor::populateCityList();
+                )
+            }
+            onchange = updateDistrictsInEditor();
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isAllowedValueForCity
+                    message.userobj {
+                        extension = this
+                        method = getInvalidOrEmptyCityMessage
+                    }
+                }
+            }
+        }
+
+        new_city = renderlet:TEXT
+        new_city {
+            name = new_city
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.new_city
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isAtMostOneValueForAuxiliaryRecordProvided
+                    params {
+                        10 {
+                            name = fieldName
+                            value = city
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getInvalidOrEmptyCityMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = city
+                            }
+                            20 {
+                                name = label
+                                value = message_either_new_or_existing_record
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        newDistrictButton = renderlet:BUTTON
+        newDistrictButton {
+            name = newDistrictButton
+            label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_new_district
+            onclick {
+                runat = ajax
+                cache = false
+                userobj.php (
+                    $this->oRenderer->_setDisplayLabels(true);
+                    $result = $this->aORenderlets['newDistrictModalBox']->majixShowFreshBox();
+                    $this->oRenderer->_setDisplayLabels(false);
+                    return $result;
+                )
+            }
+        }
+
+        newDistrictModalBox = renderlet:MODALBOX
+        newDistrictModalBox {
+            name = newDistrictModalBox
+            childs {
+                10 = renderlet:TEXT
+                10 {
+                    name = newDistrictTitle
+                    label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts.title
+                }
+                20 = renderlet:LISTBOX
+                20 {
+                    name = newDistrictCity
+                    label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts.city
+                    data {
+                        items {
+                            10 {
+                                caption =
+                                value = 0
+                            }
+                        }
+                        userobj.php (
+                            return tx_realty_frontEndEditor::populateCityList();
+                        )
+                    }
+                }
+                30 = renderlet:BUTTON
+                30 {
+                    name = newDistrictCancelButton
+                    label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_cancel
+                    wrap = &lt;div class=&quot;formidable-rdrstd-rdtwrap tx_realty_pi1_modalbox_buttons&quot;&gt;|
+                    onclick {
+                        runat = client
+                        userobj.php (
+                            return $this->aORenderlets['newDistrictModalBox']->majixCloseBox();
+                        )
+                    }
+                }
+                40 = renderlet:BUTTON
+                40 {
+                    name = newDistrictSaveButton
+                    label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save
+                    wrap = |&lt;/div&gt;
+                    onclick {
+                        runat = ajax
+                        cache = false
+                        params = newDistrictTitle, newDistrictCity
+                        userobj.php (
+                            return tx_realty_frontEndEditor::createNewDistrict($this);
+                        )
+                    }
+                }
+            }
+        }
+
+        country = renderlet:LISTBOX
+        country {
+            name = country
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.country
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                }
+                userobj {
+                    extension = this
+                    method = populateList
+                    params {
+                        10 {
+                            name = table
+                            value = static_countries
+                        }
+                        20 {
+                            name = title_column
+                            value = cn_short_local
+                        }
+                        30 {
+                            name = has_dummy_column
+                            value = 0
+                        }
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = checkKeyExistsInTable
+                    params {
+                        10 {
+                            name = table
+                            value = static_countries
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = country
+                            }
+                            20 {
+                                name = label
+                                value = message_value_not_allowed
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        contact_data_source = renderlet:RADIOBUTTON
+        contact_data_source {
+            name = contact_data_source
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source
+            data {
+                defaultvalue = 0
+                items {
+                    10 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.0
+                        value = 0
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.1
+                        value = 1
+                    }
+                }
+            }
+            onclick = updateHideAndShow();
+        }
+
+        employer = renderlet:TEXT
+        employer {
+            name = employer
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.employer
+        }
+
+        contact_person = renderlet:TEXT
+        contact_person {
+            name = contact_person
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isNonEmptyOrOwnerDataUsed
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = contact_person
+                            }
+                            20 {
+                                name = label
+                                value = message_required_field
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        contact_email = renderlet:TEXT
+        contact_email {
+            name = contact_email
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_email
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isNonEmptyOrOwnerDataUsed
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = contact_email
+                            }
+                            20 {
+                                name = label
+                                value = message_required_field
+                            }
+                        }
+                    }
+                }
+                20 = email
+                20 {
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = contact_email
+                            }
+                            20 {
+                                name = label
+                                value = label_set_valid_email_address
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        phone_switchboard = renderlet:TEXT
+        phone_switchboard {
+            name = phone_switchboard
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_switchboard
+        }
+
+        phone_direct_extension = renderlet:TEXT
+        phone_direct_extension {
+            name = phone_direct_extension
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_direct_extension
+        }
+
+        currency = renderlet:TEXT
+        currency {
+            name = currency
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.currency
+        }
+
+        buying_price = renderlet:TEXT
+        buying_price {
+            name = buying_price
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isNonEmptyValidPriceForObjectForSale
+                    message.userobj {
+                        extension = this
+                        method = getNoValidPriceOrEmptyMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = buying_price
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        hoa_fee = renderlet:TEXT
+        hoa_fee {
+            name = hoa_fee
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.hoa_fee
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = hoa_fee
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_price
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        rent_excluding_bills = renderlet:TEXT
+        rent_excluding_bills {
+            name = rent_excluding_bills
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isNonEmptyValidPriceForObjectForRent
+                    message.userobj {
+                        extension = this
+                        method = getNoValidPriceOrEmptyMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = rent_excluding_bills
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        rent_per_square_meter = renderlet:TEXT
+        rent_per_square_meter {
+            name = rent_per_square_meter
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_per_square_meter
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = rent_per_square_meter
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_price
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        provision = renderlet:TEXT
+        provision {
+            name = provision
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.provision
+        }
+
+        extra_charges = renderlet:TEXT
+        extra_charges {
+            name = extra_charges
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.extra_charges
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = extra_charges
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_price
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        heating_included = renderlet:CHECKSINGLE
+        heating_included {
+            name = heating_included
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_included
+        }
+
+        deposit = renderlet:TEXT
+        deposit {
+            name = deposit
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.deposit
+        }
+
+        year_rent = renderlet:TEXT
+        year_rent {
+            name = year_rent
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.year_rent
+        }
+
+        rental_income_target = renderlet:TEXT
+        rental_income_target {
+            name = rental_income_target
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rental_income_target
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = rental_income_target
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_price
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        status = renderlet:LISTBOX
+        status {
+            name = status
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status
+            data {
+                items {
+                    10 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.0
+                        value = 0
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.1
+                        value = 1
+                    }
+                    30 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.2
+                        value = 2
+                    }
+                    40 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.3
+                        value = 3
+                    }
+                }
+            }
+        }
+
+        usable_from = renderlet:DATE
+        usable_from {
+            name = usable_from
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.usable_from
+            data.datetime {
+                format = %Y-%m-%d
+                displaytime = true
+                converttotimestamp = false
+                allowmanualedition = true
+            }
+        }
+
+        house_type = renderlet:LISTBOX
+        house_type {
+            name = house_type
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.house_type
+            data {
+                userobj {
+                    extension = this
+                    method = populateList
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_house_types
+                        }
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = checkKeyExistsInTable
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_house_types
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = house_type
+                            }
+                            20 {
+                                name = label
+                                value = message_value_not_allowed
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        apartment_type = renderlet:LISTBOX
+        apartment_type {
+            name = apartment_type
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.apartment_type
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                }
+                userobj {
+                    extension = this
+                    method = populateList
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_apartment_types
+                        }
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = checkKeyExistsInTable
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_apartment_types
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = apartment_type
+                            }
+                            20 {
+                                name = label
+                                value = message_value_not_allowed
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        utilization = renderlet:TEXT
+        utilization {
+            name = utilization
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.utilization
+        }
+
+        construction_year = renderlet:TEXT
+        construction_year {
+            name = construction_year
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.construction_year
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidYear
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = construction_year
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_year
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        old_or_new_building = renderlet:LISTBOX
+        old_or_new_building {
+            name = old_or_new_building
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.1
+                        value = 1
+                    }
+                    30 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.2
+                        value = 2
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isIntegerInRange
+                    params {
+                        10 {
+                            name = range
+                            value = 0-2
+                        }
+                        20 {
+                            name = multiple
+                            value = 0
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getValueNotAllowedMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = old_or_new_building
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        state = renderlet:LISTBOX
+        state {
+            name = state
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.1
+                        value = 1
+                    }
+                    30 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.2
+                        value = 2
+                    }
+                    40 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.3
+                        value = 3
+                    }
+                    50 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.4
+                        value = 4
+                    }
+                    60 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.5
+                        value = 5
+                    }
+                    70 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.6
+                        value = 6
+                    }
+                    80 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.7
+                        value = 7
+                    }
+                    90 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.8
+                        value = 8
+                    }
+                    100 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.9
+                        value = 9
+                    }
+                    110 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.10
+                        value = 10
+                    }
+                    120 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.11
+                        value = 11
+                    }
+                    130 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.12
+                        value = 12
+                    }
+                    140 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.13
+                        value = 13
+                    }
+                    150 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.14
+                        value = 14
+                    }
+                    160 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.15
+                        value = 15
+                    }
+                    170 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.16
+                        value = 16
+                    }
+                    180 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.17
+                        value = 17
+                    }
+                    190 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.18
+                        value = 18
+                    }
+                    200 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.19
+                        value = 19
+                    }
+                    210 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.20
+                        value = 20
+                    }
+                    220 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.21
+                        value = 21
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isIntegerInRange
+                    params {
+                        10 {
+                            name = range
+                            value = 0-21
+                        }
+                        20 {
+                            name = multiple
+                            value = 0
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getValueNotAllowedMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = state
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        furnishing_category = renderlet:LISTBOX
+        furnishing_category {
+            name = furnishing_category
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.1
+                        value = 1
+                    }
+                    30 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.2
+                        value = 2
+                    }
+                    40 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.3
+                        value = 3
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isIntegerInRange
+                    params {
+                        10 {
+                            name = range
+                            value = 0-3
+                        }
+                        20 {
+                            name = multiple
+                            value = 0
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getValueNotAllowedMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = furnishing_category
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        estate_size = renderlet:TEXT
+        estate_size {
+            name = estate_size
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.estate_size
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = estate_size
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        living_area = renderlet:TEXT
+        living_area {
+            name = living_area
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = living_area
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        total_usable_area = renderlet:TEXT
+        total_usable_area {
+            name = total_usable_area
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_usable_area
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = total_usable_area
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        office_space = renderlet:TEXT
+        office_space {
+            name = office_space
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.office_space
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = office_space
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        shop_area = renderlet:TEXT
+        shop_area {
+            name = shop_area
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.shop_area
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = shop_area
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        sales_area = renderlet:TEXT
+        sales_area {
+            name = sales_area
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sales_area
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = sales_area
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        storage_area = renderlet:TEXT
+        storage_area {
+            name = storage_area
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.storage_area
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = storage_area
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        other_area = renderlet:TEXT
+        other_area {
+            name = other_area
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.other_area
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = other_area
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        window_bank = renderlet:TEXT
+        window_bank {
+            name = window_bank
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.window_bank
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = window_bank
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        site_occupancy_index = renderlet:TEXT
+        site_occupancy_index {
+            name = site_occupancy_index
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.site_occupancy_index
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = site_occupancy_index
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        floor_space_index = renderlet:TEXT
+        floor_space_index {
+            name = floor_space_index
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor_space_index
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = floor_space_index
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        total_area = renderlet:TEXT
+        total_area {
+            name = total_area
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_area
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = total_area
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        parking_spaces = renderlet:TEXT
+        parking_spaces {
+            name = parking_spaces
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.parking_spaces
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNonNegativeIntegerNumber
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = parking_spaces
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        teaser = renderlet:TEXTAREA
+        teaser {
+            name = teaser
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.teaser
+        }
+
+        description = renderlet:TEXTAREA
+        description {
+            name = description
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.description
+            validators {
+                10 = validator:STANDARD
+                10.required {
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = description
+                            }
+                            20 {
+                                name = label
+                                value = message_required_field
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        location = renderlet:TEXTAREA
+        location {
+            name = location
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.location
+        }
+
+        floor = renderlet:TEXT
+        floor {
+            name = floor
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidIntegerNumber
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = floor
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        floors = renderlet:TEXT
+        floors {
+            name = floors
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floors
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNonNegativeIntegerNumber
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = floors
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        number_of_rooms = renderlet:TEXT
+        number_of_rooms {
+            name = number_of_rooms
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = number_of_rooms
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        bedrooms = renderlet:TEXT
+        bedrooms {
+            name = bedrooms
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bedrooms
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = bedrooms
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        bathrooms = renderlet:TEXT
+        bathrooms {
+            name = bathrooms
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bathrooms
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = bathrooms
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        layout = renderlet:TEXTAREA
+        layout {
+            name = layout
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.layout
+        }
+
+        garage_type = renderlet:LISTBOX
+        garage_type {
+            name = garage_type
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_type
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                }
+                userobj {
+                    extension = this
+                    method = populateList
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_car_places
+                        }
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = checkKeyExistsInTable
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_car_places
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = garage_type
+                            }
+                            20 {
+                                name = label
+                                value = message_value_not_allowed
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        garage_rent = renderlet:TEXT
+        garage_rent {
+            name = garage_rent
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_rent
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = garage_rent
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        garage_price = renderlet:TEXT
+        garage_price {
+            name = garage_price
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_price
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidNumberWithDecimals
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = garage_price
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_number
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        flooring = renderlet:CHECKBOX
+        flooring {
+            name = flooring
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring
+            data {
+                items {
+                    10 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.1
+                        value = 1
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.2
+                        value = 2
+                    }
+                    30 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.3
+                        value = 3
+                    }
+                    40 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.4
+                        value = 4
+                    }
+                    50 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.5
+                        value = 5
+                    }
+                    60 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.6
+                        value = 6
+                    }
+                    70 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.7
+                        value = 7
+                    }
+                    80 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.8
+                        value = 8
+                    }
+                    90 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.9
+                        value = 9
+                    }
+                    100 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.10
+                        value = 10
+                    }
+                    110 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.11
+                        value = 11
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isIntegerInRange
+                    params {
+                        10 {
+                            name = range
+                            value = 0-11
+                        }
+                        20 {
+                            name = multiple
+                            value = 1
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getValueNotAllowedMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = flooring
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        heating_type = renderlet:CHECKBOX
+        heating_type {
+            name = heating_type
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type
+            data {
+                items {
+                    10 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.1
+                        value = 1
+                    }
+                    20 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.2
+                        value = 2
+                    }
+                    30 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.3
+                        value = 3
+                    }
+                    40 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.4
+                        value = 4
+                    }
+                    50 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.5
+                        value = 5
+                    }
+                    60 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.6
+                        value = 6
+                    }
+                    70 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.7
+                        value = 7
+                    }
+                    80 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.8
+                        value = 8
+                    }
+                    90 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.9
+                        value = 9
+                    }
+                    100 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.10
+                        value = 10
+                    }
+                    110 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.11
+                        value = 11
+                    }
+                    120 {
+                        caption = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.12
+                        value = 12
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isIntegerInRange
+                    params {
+                        10 {
+                            name = range
+                            value = 0-12
+                        }
+                        20 {
+                            name = multiple
+                            value = 1
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getValueNotAllowedMessage
+                        params {
+                            10 {
+                                name = fieldName
+                                value = heating_type
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        fitted_kitchen = renderlet:CHECKSINGLE
+        fitted_kitchen {
+            name = fitted_kitchen
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.fitted_kitchen
+        }
+
+        has_pool = renderlet:CHECKSINGLE
+        has_pool {
+            name = has_pool
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_pool
+        }
+
+        has_air_conditioning = renderlet:CHECKSINGLE
+        has_air_conditioning {
+            name = has_air_conditioning
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_air_conditioning
+        }
+
+        pets = renderlet:LISTBOX
+        pets {
+            name = pets
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.pets
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                }
+                userobj {
+                    extension = this
+                    method = populateList
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_pets
+                        }
+                    }
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = checkKeyExistsInTable
+                    params {
+                        10 {
+                            name = table
+                            value = tx_realty_pets
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = pets
+                            }
+                            20 {
+                                name = label
+                                value = message_value_not_allowed
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        balcony = renderlet:CHECKSINGLE
+        balcony {
+            name = balcony
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.balcony
+        }
+
+        garden = renderlet:CHECKSINGLE
+        garden {
+            name = garden
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garden
+        }
+
+        elevator = renderlet:CHECKSINGLE
+        elevator {
+            name = elevator
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.elevator
+        }
+
+        barrier_free = renderlet:CHECKSINGLE
+        barrier_free {
+            name = barrier_free
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.barrier_free
+        }
+
+        assisted_living = renderlet:CHECKSINGLE
+        assisted_living {
+            name = assisted_living
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.assisted_living
+        }
+
+        equipment = renderlet:TEXTAREA
+        equipment {
+            name = equipment
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.equipment
+        }
+
+        misc = renderlet:TEXTAREA
+        misc {
+            name = misc
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.misc
+        }
+
+        has_coordinates = renderlet:CHECKSINGLE
+        has_coordinates {
+            name = has_coordinates
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_coordinates
+            onclick = updateHideAndShow();
+        }
+
+        coordinates_problem = renderlet:CHECKSINGLE
+        coordinates_problem {
+            name = coordinates_problem
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.coordinates_problem
+        }
+
+        longitude = renderlet:TEXT
+        longitude {
+            name = longitude
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.longitude
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidLongitudeDegree
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = longitude
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_longitude_degree
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        latitude = renderlet:TEXT
+        latitude {
+            name = latitude
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.latitude
+            validators {
+                10 = validator:STANDARD
+                10.userobj {
+                    extension = this
+                    method = isValidLongitudeDegree
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = latitude
+                            }
+                            20 {
+                                name = label
+                                value = message_no_valid_latitude_degree
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        submit = renderlet:SUBMIT
+        submit {
+            name = button_submit
+            label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save
+        }
+    }
+}
