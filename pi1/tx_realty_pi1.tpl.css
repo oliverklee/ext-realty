@@ -1,20 +1,20 @@
 /***** General styles *****/
 
 .clear {
-	height: 1px;
-	clear: both;
+    height: 1px;
+    clear: both;
 }
 
 .tx-realty-pi1 .error {
-	color: red;
-	font-weight: bold;
+    color: red;
+    font-weight: bold;
 }
 
 .tx-realty-pi1 .list-view .border {
-	width: 100%;
-	height: 2px;
-	background: #FFA500;
-	margin: 0 0 5px 0;;
+    width: 100%;
+    height: 2px;
+    background: #FFA500;
+    margin: 0 0 5px 0;;
 }
 
 /* Buttons */
@@ -23,7 +23,7 @@
 .tx-realty-pi1 a.close,
 .tx-realty-pi1 a.objectsByOwner,
 .tx-realty-pi1 a.nextPage {
-	float: right;
+    float: right;
 }
 
 .tx-realty-pi1 a.singleViewAddToFavorites,
@@ -34,453 +34,491 @@
 .tx-realty-pi1 a.printPage,
 .tx-realty-pi1 a.newRecord,
 .tx-realty-pi1 a.previousPage {
-	float: left;
+    float: left;
 }
 
 .tx-realty-pi1 p.object_limits {
-	clear: both;
-	padding-top: 8px;
+    clear: both;
+    padding-top: 8px;
 }
 
 .tx-realty-pi1-submit {
-	background: url(images/button_bg_right.png) no-repeat top right;
-	height: 18px;
-	cursor: pointer;
-	border: none;
-	text-align: center;
-	font-weight: bold;
-	font-size: 11px;
-	line-height: 18px;
-	color: #ffffff;
-	padding-right: 10px;
-	margin-right: -1px; /* IE hack */
+    background: url(images/button_bg_right.png) no-repeat top right;
+    height: 18px;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 18px;
+    color: #ffffff;
+    padding-right: 10px;
+    margin-right: -1px; /* IE hack */
 }
 
 .tx-realty-pi1 .previousNextButtons {
-	float: right;
-	padding-bottom: .8em;
+    float: right;
+    padding-bottom: .8em;
 }
 
 /* Images in result list and single view */
 .tx-realty-pi1 .image {
-	vertical-align: middle;
-	text-align: center;
-	padding: 1px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 1px;
 }
+
 .tx-realty-pi1 .image img {
-	border: 0;
+    border: 0;
 }
-
-
-
-
 
 /***** LIST VIEW *****/
 
 /*** Filter before result list ***/
 .tx-realty-pi1 .list-view .filter {
-	border: 1px solid #B9C2C9;
-	margin: 5px 0;
-	padding: 5px;
-}
-.tx-realty-pi1 .list-view .filter h3 {
-	margin: 2px 0;
-	padding: 0;
-}
-.tx-realty-pi1 .list-view .filter .params .param {
-	float: left;
-	margin-left: 12px;
-}
-.tx-realty-pi1 .list-view .filter .params .first {
-	margin-left: -2px;
-}
-.tx-realty-pi1 .list-view .filter .submit a.search {
-	width: 60px;
+    border: 1px solid #B9C2C9;
+    margin: 5px 0;
+    padding: 5px;
 }
 
+.tx-realty-pi1 .list-view .filter h3 {
+    margin: 2px 0;
+    padding: 0;
+}
+
+.tx-realty-pi1 .list-view .filter .params .param {
+    float: left;
+    margin-left: 12px;
+}
+
+.tx-realty-pi1 .list-view .filter .params .first {
+    margin-left: -2px;
+}
+
+.tx-realty-pi1 .list-view .filter .submit a.search {
+    width: 60px;
+}
 
 /*** Result List ***/
 
 .tx-realty-pi1 .list-view table.result {
-	clear: both;
-	width: 100%;
-	border-collapse: collapse;
-	padding: 0;
+    clear: both;
+    width: 100%;
+    border-collapse: collapse;
+    padding: 0;
 }
 
 /* thead */
 .tx-realty-pi1 .list-view .result thead tr td {
-	border-bottom: 2px solid #FFA500;
+    border-bottom: 2px solid #FFA500;
 }
+
 .tx-realty-pi1 .list-view .result thead tr td {
-	line-height: 30px;
+    line-height: 30px;
 }
+
 .tx-realty-pi1 .list-view .result thead h2 {
-	margin-left: 8px;
+    margin-left: 8px;
 }
+
 .tx-realty-pi1 .list-view .result table.pagination {
-	float: right;
-	border-collapse: collapse;
-	padding: 0;
-	margin-right: 4px;
+    float: right;
+    border-collapse: collapse;
+    padding: 0;
+    margin-right: 4px;
 }
+
 .tx-realty-pi1 .list-view .result table.pagination td {
-	border: none;
-	vertical-align: middle;
+    border: none;
+    vertical-align: middle;
 }
+
 .tx-realty-pi1 .list-view .result table.pagination .label {
-	padding-right: 4px;
+    padding-right: 4px;
 }
+
 /*
 .tx-realty-pi1 .list-view .result table.pagination a {
-	padding-left: 3px;
+    padding-left: 3px;
 }
 .tx-realty-pi1 .list-view .result table.pagination a div {
-	padding-right: 3px;
-	width: 1.25em;
+    padding-right: 3px;
+    width: 1.25em;
 }*/
-
 
 /* tbody */
 
 /* single item in the list */
 .tx-realty-pi1 .list-view .result tbody tr table.item {
-	border-top: 2px solid #FFA500;
-	margin-left: 12px;
-	width: 98%;
-	empty-cells: hide;
-	border-collapse: separate;
-	border-spacing: 5px;
-	padding: 0;
+    border-top: 2px solid #FFA500;
+    margin-left: 12px;
+    width: 98%;
+    empty-cells: hide;
+    border-collapse: separate;
+    border-spacing: 5px;
+    padding: 0;
 }
+
 .tx-realty-pi1 .list-view .result tbody tr.first table.item {
-	border-top: none;
+    border-top: none;
 }
+
 .tx-realty-pi1 .list-view .result .item .checkbox {
-	width: 1%;
+    width: 1%;
 }
+
 .tx-realty-pi1 .list-view .result .item h3 {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
+
 .tx-realty-pi1 .list-view .result .item p.details {
-	line-height: 1em;
+    line-height: 1em;
 }
 
 .tx-realty-pi1 .list-view .result .item td {
-	vertical-align: top;
-	margin-top: 5px;
+    vertical-align: top;
+    margin-top: 5px;
 }
-.tx-realty-pi1 .list-view .result  td.image {
-	vertical-align: middle;
+
+.tx-realty-pi1 .list-view .result td.image {
+    vertical-align: middle;
 }
-.tx-realty-pi1 .list-view .result .item  td.tx-realty-pi1-editorLinks {
-	float: right;
-	white-space: nowrap;
+
+.tx-realty-pi1 .list-view .result .item td.tx-realty-pi1-editorLinks {
+    float: right;
+    white-space: nowrap;
 }
 
 /* description of the list item */
 .tx-realty-pi1 .list-view .result .description .title {
-	font-weight: bold;
+    font-weight: bold;
 }
+
 .tx-realty-pi1 .list-view .result .description p {
-	margin: 2px 0;
-	padding: 0;
-	line-height: 1.2em;
+    margin: 2px 0;
+    padding: 0;
+    line-height: 1.2em;
 }
 
 .tx-realty-pi1 .list-view .result .description table.details {
-	border-collapse: collapse;
-	width: 100%;
-	color: #FF6D00;
+    border-collapse: collapse;
+    width: 100%;
+    color: #FF6D00;
 }
 
 /* images of the list item */
 .tx-realty-pi1 .list-view .result .image {
-	width: 98px;
-	height: 98px;
+    width: 98px;
+    height: 98px;
 }
 
 /* tfoot */
 .tx-realty-pi1 .list-view .result tfoot td .favorites {
-	height: 44px;
-	background: url(images/fav_arrow.png) no-repeat 26px 0;
-	margin-left: 0;
+    height: 44px;
+    background: url(images/fav_arrow.png) no-repeat 26px 0;
+    margin-left: 0;
 }
+
 .tx-realty-pi1 .list-view .result td.sorting {
-	background: #E0E8EB;
+    background: #E0E8EB;
 }
+
 .tx-realty-pi1 .list-view .result table.sorting {
-	border-collapse: collapse;
-	padding: 0;
+    border-collapse: collapse;
+    padding: 0;
 }
+
 .tx-realty-pi1 .list-view .result table.sorting td {
-	padding-left: 24px;
-	line-height: 20px;
+    padding-left: 24px;
+    line-height: 20px;
 }
+
 .tx-realty-pi1 .list-view .result .favorites,
 .tx-realty-pi1 .list-view .result .favorites a {
-	margin-top: 22px;
-	margin-left: 36px;
+    margin-top: 22px;
+    margin-left: 36px;
 }
+
 .tx-realty-pi1 .list-view .result tfoot td .pagination {
-	margin-top: 42px;
+    margin-top: 42px;
 }
+
 .tx-realty-pi1 .list-view #tx_realty_map {
-	clear: both;
-	width: 100%;
-	height: 400px;
-	margin: 20px 0;
+    clear: both;
+    width: 100%;
+    height: 400px;
+    margin: 20px 0;
 }
-
-
 
 /***** SINGLE VIEW *****/
 
 .tx-realty-pi1 .single-view .text-pane {
-	float: left;
-	margin: 0 1% 1em 0;
+    float: left;
+    margin: 0 1% 1em 0;
 }
+
 .tx-realty-pi1 .single-view .with-images {
-	width: 38%;
+    width: 38%;
 }
+
 .tx-realty-pi1 .single-view .text-pane h4 {
-	margin: 1.5em 0 0;
-	padding: 0;
-	display: inline;
+    margin: 1.5em 0 0;
+    padding: 0;
+    display: inline;
 }
+
 .tx-realty-pi1 .single-view .text-pane p {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .tx-realty-pi1 .single-view .documents ul {
-	list-style: none;
-	padding-left: 0;
-	margin: 16px 0;
+    list-style: none;
+    padding-left: 0;
+    margin: 16px 0;
 }
 
 .tx-realty-pi1 .single-view .documents li {
-	display: inline;
-	padding-right: 10px;
+    display: inline;
+    padding-right: 10px;
 }
 
 .tx-realty-pi1 .single-view .documents li a {
-	background: url(../Resources/Public/Icons/Pdf.png) 0 center no-repeat;
-	padding-left: 28px;
-	white-space: nowrap;
+    background: url(../Resources/Public/Icons/Pdf.png) 0 center no-repeat;
+    padding-left: 28px;
+    white-space: nowrap;
 }
 
 .tx-realty-pi1 .single-view .text-pane .further-description {
-	clear: left;
+    clear: left;
 }
+
 .tx-realty-pi1 .single-view .text-pane .overview {
-	border-collapse: collapse;
-	margin: 1.5em 0 .5em;
-	padding: 0;
-	width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0 .5em;
+    padding: 0;
+    width: 100%;
 }
+
 .tx-realty-pi1 .single-view .text-pane .overview th {
-	text-align: left;
-	background: #D9E2E7;
-	font-weight: bold;
-	padding: 2px 1em;
+    text-align: left;
+    background: #D9E2E7;
+    font-weight: bold;
+    padding: 2px 1em;
 }
+
 .tx-realty-pi1 .single-view .text-pane .overview th,
 .tx-realty-pi1 .single-view .text-pane .overview td {
-	border: 1px solid white;
+    border: 1px solid white;
 }
+
 .tx-realty-pi1 .single-view .text-pane .overview td {
-	vertical-align: top;
-	padding: 1px 1em;
+    vertical-align: top;
+    padding: 1px 1em;
 }
+
 .tx-realty-pi1 .single-view .text-pane .overview tr.odd {
-	background: #F0F4F7;
+    background: #F0F4F7;
 }
+
 .tx-realty-pi1 .single-view .text-pane .overview tr.even {
-	background: #E7ECF0;
+    background: #E7ECF0;
 }
+
 .tx-realty-pi1 .single-view .text-pane .buttons {
-	padding: 1em 0 3em;
+    padding: 1em 0 3em;
 }
 
 .tx-realty-pi1 .single-view #tx_realty_map {
-	clear: both;
-	width: 450px;
-	height: 300px;
-	margin: 20px 0;
+    clear: both;
+    width: 450px;
+    height: 300px;
+    margin: 20px 0;
 }
 
 .tx-realty-pi1 .tx-realty-pi1-offerer dl {
-	position: relative;
-	list-style-type: none;
-	margin-top: 1px;
-	width: 100%;
+    position: relative;
+    list-style-type: none;
+    margin-top: 1px;
+    width: 100%;
 }
+
 .tx-realty-pi1 .tx-realty-pi1-offerer dd {
-	margin-left: 0;
+    margin-left: 0;
 }
+
 .tx-realty-pi1 .tx-realty-pi1-offerer .offerer-list-image {
-	width: 100%
+    width: 100%
 }
+
 .tx-realty-pi1 .tx-realty-pi1-offerer .offerer-list-image img {
-	float: right;
+    float: right;
 }
+
 .tx-realty-pi1 .tx-realty-pi1-offerer dl .link {
-	position: absolute;
-	right: 0;
-	bottom: -1.4em
+    position: absolute;
+    right: 0;
+    bottom: -1.4em
 }
 
 /* Images */
 .tx-realty-pi1 .single-view .images {
-	width: 58%;
-	float: right;
+    width: 58%;
+    float: right;
 }
+
 .tx-realty-pi1 .single-view .images .item {
-	float: left;
+    float: left;
 }
+
 .tx-realty-pi1 .single-view .images .item .image {
-	width: 137px;
-	height: 137px;
+    width: 137px;
+    height: 137px;
 }
-
-
 
 /***** CITY SELECTOR *****/
 .tx-realty-pi1 .city-selector {
-	width: 198px;
-	margin-top: 7px;
-	border: 6px solid #E4EAF8;
+    width: 198px;
+    margin-top: 7px;
+    border: 6px solid #E4EAF8;
 }
+
 .tx-realty-pi1 .city-selector .outer {
-	border: 1px solid #606673;
-	padding: 1px;
+    border: 1px solid #606673;
+    padding: 1px;
 }
+
 .tx-realty-pi1 .city-selector .inner {
-	background: url(images/cityselector_bg.png) repeat-x;
+    background: url(images/cityselector_bg.png) repeat-x;
 }
+
 .tx-realty-pi1 .city-selector .title {
-	height: 32px;
-	background: url(images/cityselector_head.png) no-repeat 50% 50%;
+    height: 32px;
+    background: url(images/cityselector_head.png) no-repeat 50% 50%;
 }
+
 .tx-realty-pi1 .city-selector h3 {
-	visibility: hidden;
+    visibility: hidden;
 }
+
 .tx-realty-pi1 .city-selector p {
-	padding: 0 5px 5px;
-	margin: 0;
+    padding: 0 5px 5px;
+    margin: 0;
 }
+
 .tx-realty-pi1 .city-selector form {
-	margin: 0;
-	padding: 4px;
+    margin: 0;
+    padding: 4px;
 }
+
 .tx-realty-pi1 .city-selector form select {
-	width: 100%;
-	padding: 0;
+    width: 100%;
+    padding: 0;
 }
 
 /***** CONTACT FORM *****/
 fieldset.tx-realty-pi1-fieldset {
-	margin-bottom: 5px;
-	border: 1px solid #d9e2e7;
-	background: #edf2f5;
+    margin-bottom: 5px;
+    border: 1px solid #d9e2e7;
+    background: #edf2f5;
 }
 
 p.tx-realty-pi1-objekt-nr {
-	margin: 2px 0;
-	padding: 0;
+    margin: 2px 0;
+    padding: 0;
 }
 
 .tx-realty-pi1-field {
-	width: 98%;
-	font-size: 11px;
-	clear: both;
+    width: 98%;
+    font-size: 11px;
+    clear: both;
 }
 
 .tx-realty-pi1-field p.error {
-	margin: 1em 0 0 0.2em;
+    margin: 1em 0 0 0.2em;
 }
 
 .tx-realty-pi1-information,
 .tx-realty-pi1-label {
-	float: left;
-	display: block;
-	margin: 1px;
-	padding: 2px 5px;
-	line-height: 22px;
-	background: #d9e2e7;
+    float: left;
+    display: block;
+    margin: 1px;
+    padding: 2px 5px;
+    line-height: 22px;
+    background: #d9e2e7;
 }
 
 .tx-realty-pi1-information {
-	font-size: 11px;
-	width: 434px;
+    font-size: 11px;
+    width: 434px;
 }
 
 .tx-realty-pi1-label {
-	width: 150px;
+    width: 150px;
 }
 
 .tx-realty-pi1-input {
-	font-size: 12px;
-	width: 280px;
-	height: 19px;
-	line-height: 18px;
-	border: 1px solid #bdcad4;
-	background-color: #f0f4f7;
-	margin: 1px;
-	padding: 5px 0 0 0;
+    font-size: 12px;
+    width: 280px;
+    height: 19px;
+    line-height: 18px;
+    border: 1px solid #bdcad4;
+    background-color: #f0f4f7;
+    margin: 1px;
+    padding: 5px 0 0 0;
 }
 
 #tx_realty_pi1-requesterZip {
-	width: 80px;
-	margin-right: 0;
+    width: 80px;
+    margin-right: 0;
 }
+
 #tx_realty_pi1-requesterCity {
-	width: 196px;
-	margin-left: -1px;
+    width: 196px;
+    margin-left: -1px;
 }
 
 .tx-realty-pi1-textarea {
-	font-size: 12px;
-	width: 280px;
-	height: 130px;
-	line-height: 18px;
-	border: 1px solid #bdcad4;
-	background-color: #f0f4f7;
-	margin: 1px;
-	padding-top: 3px;
+    font-size: 12px;
+    width: 280px;
+    height: 130px;
+    line-height: 18px;
+    border: 1px solid #bdcad4;
+    background-color: #f0f4f7;
+    margin: 1px;
+    padding-top: 3px;
 }
 
 .tx-realty-pi1-contact-form .tx-realty-pi1-required {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .tx-realty-pi1-contact-form .submitWrapper {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .tx-realty-pi1-contact-form span.button {
-	float: left;
-	margin: 10px 0 5px 160px;
+    float: left;
+    margin: 10px 0 5px 160px;
 }
 
 .tx-realty-pi1-contact-form p.tx-realty-pi1-law {
-	width: 75%;
-	font-size: 11px;
+    width: 75%;
+    font-size: 11px;
 }
 
 /***** FILTER FORM *****/
 .tx-realty-pi1-filter-form {
-	width: 500px;
+    width: 500px;
 }
 
 .tx-realty-pi1-filter-form .tx-realty-pi1-label {
-	width: 250px;
+    width: 250px;
 }
 
 .tx-realty-pi1-filter-form .tx-realty-pi1-input {
-	width: 200px;
+    width: 200px;
 }
 
 .tx-realty-pi1-filter-form #tx_realty_pi1-rent-from,
@@ -489,285 +527,297 @@ p.tx-realty-pi1-objekt-nr {
 .tx-realty-pi1-filter-form #tx_realty_pi1-numberOfRooms-to,
 .tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-from,
 .tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-to {
-	width: 85px;
+    width: 85px;
 }
+
 .tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-from,
 .tx-realty-pi1-filter-form #tx_realty_pi1-numberOfRooms-from,
 .tx-realty-pi1-filter-form #tx_realty_pi1-rent-from {
-	margin-right: 3px
+    margin-right: 3px
 }
+
 .tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-to,
 .tx-realty-pi1-filter-form #tx_realty_pi1-numberOfRooms-to,
 .tx-realty-pi1-filter-form #tx_realty_pi1-rent-to {
-	margin-left: 7px
+    margin-left: 7px
 }
 
 .tx-realty-pi1-filter-form .select {
-	height: 26px;
-	width: 202px;
-	padding: 0;
+    height: 26px;
+    width: 202px;
+    padding: 0;
 }
 
 .tx-realty-pi1-filter-form span.button {
-	margin: 10px 0 5px 10px;
-	float: left;
+    margin: 10px 0 5px 10px;
+    float: left;
 }
 
 .tx-realty-pi1 .filter span.button {
-	margin: 10px 10px 5px 0;
-	float : right;
+    margin: 10px 10px 5px 0;
+    float: right;
 }
 
 .tx-realty-pi1-filter-form .tx-realty-pi1-radio-buttons {
-	height: 26px;
-	padding-top: 6px
-}
-.tx-realty-pi1-filter-form .tx-realty-pi1-radio-buttons input {
-	vertical-align: middle;
+    height: 26px;
+    padding-top: 6px
 }
 
+.tx-realty-pi1-filter-form .tx-realty-pi1-radio-buttons input {
+    vertical-align: middle;
+}
 
 /***** FE EDITOR *****/
 .tx-realty-pi1 #tx_realty_frontEndEditor select {
-	width: 160px;
-	margin-left: 0;
+    width: 160px;
+    margin-left: 0;
 }
 
 .tx-realty-pi1 #tx_realty_frontEndEditor fieldset {
-	width: 100%;
-	max-height: 100%;
-	border: 1px solid #cccccc;
-	padding: 10px 10px 10px 10px;
-	color: #666666;
-	margin-bottom: 20px;
+    width: 100%;
+    max-height: 100%;
+    border: 1px solid #cccccc;
+    padding: 10px 10px 10px 10px;
+    color: #666666;
+    margin-bottom: 20px;
 }
-
 
 /***** OFFERER LIST *****/
 .tx-realty-pi1 .offerer-list ul {
-	list-style-type: none;
-	border-bottom: 2px solid #ffa500;
-	margin-top: 10px;
-	padding: 10px 0 0 0;
-}
-.tx-realty-pi1 .offerer-list .result dl {
-	position: relative;
-	border-top: 2px solid #ffa500;
-	padding: .5em 0;
-	clear: both;
-}
-.tx-realty-pi1 .offerer-list .result .emphasized {
-	font-weight: bold;
-}
-.tx-realty-pi1 .offerer-list .result dd {
-	margin-left: 0;
-}
-.tx-realty-pi1 .offerer-list .result dl .link {
-	position: absolute;
-	bottom: .4em;
-	right: 0;
-}
-.tx-realty-pi1 .offerer-list .result .offerer-list-image {
-	width: 25em;
-}
-.tx-realty-pi1 .offerer-list .offerer-list-image img {
-	float: right;
-	margin-bottom: .4em;
+    list-style-type: none;
+    border-bottom: 2px solid #ffa500;
+    margin-top: 10px;
+    padding: 10px 0 0 0;
 }
 
+.tx-realty-pi1 .offerer-list .result dl {
+    position: relative;
+    border-top: 2px solid #ffa500;
+    padding: .5em 0;
+    clear: both;
+}
+
+.tx-realty-pi1 .offerer-list .result .emphasized {
+    font-weight: bold;
+}
+
+.tx-realty-pi1 .offerer-list .result dd {
+    margin-left: 0;
+}
+
+.tx-realty-pi1 .offerer-list .result dl .link {
+    position: absolute;
+    bottom: .4em;
+    right: 0;
+}
+
+.tx-realty-pi1 .offerer-list .result .offerer-list-image {
+    width: 25em;
+}
+
+.tx-realty-pi1 .offerer-list .offerer-list-image img {
+    float: right;
+    margin-bottom: .4em;
+}
 
 /*BOX 1 IN FIELDSET 1*/
 #tx_realty_frontEndEditor .column3-light {
-	clear: both;
-	padding: 10px;
-	background: #f0f0f0;
-	margin-bottom: 10px;
+    clear: both;
+    padding: 10px;
+    background: #f0f0f0;
+    margin-bottom: 10px;
 }
+
 #tx_realty_frontEndEditor .column3-dark {
-	clear: both;
-	padding: 10px;
-	background: #e4e4e4;
-	margin-bottom: 10px;
+    clear: both;
+    padding: 10px;
+    background: #e4e4e4;
+    margin-bottom: 10px;
 }
 
 #tx_realty_frontEndEditor .column3-light dt,
 #tx_realty_frontEndEditor .column3-dark dt {
-	width: 20%;
-	padding: 0;
+    width: 20%;
+    padding: 0;
 }
 
 #tx_realty_frontEndEditor .column3-light dd,
 #tx_realty_frontEndEditor .column3-dark dd {
-	width: 80%;
-	padding: 0;
+    width: 80%;
+    padding: 0;
 }
 
 #tx_realty_frontEndEditor_title {
-	width: 97%;
-	margin: 0;
-	padding: 0;
+    width: 97%;
+    margin: 0;
+    padding: 0;
 }
 
 /*BOX 2 IN FIELDSET 1 | BOX 3 IN FIELDSET 2 | BOX 6 IN FIELDSET 3*/
 #tx_realty_frontEndEditor .column1 {
-	display: table;
-	height: 100%;
-	width: 100%;
-	background: #e4e4e4;
+    display: table;
+    height: 100%;
+    width: 100%;
+    background: #e4e4e4;
 }
 
 #tx_realty_frontEndEditor .column1 .columnleft1-dark,
 #tx_realty_frontEndEditor .column1 .columnright1-dark {
-	width: 49%;
-	float: left;
-	padding: 10px 0 0 0;
+    width: 49%;
+    float: left;
+    padding: 10px 0 0 0;
 }
 
 /*BOX 3 IN FIELDSET 1 | BOX 2 IN FIELDSET 2* | BOX 1 IN FIELDSET 3 |
   BOX 4 IN FIELDSET 3 | BOX 6 IN FIELDSET 3*/
 
 #tx_realty_frontEndEditor .columnlight {
-	display: table;
-	position: relative;
-	background: #f0f0f0;
-	height:100%;
-	width: 100%;
+    display: table;
+    position: relative;
+    background: #f0f0f0;
+    height: 100%;
+    width: 100%;
 }
 
 #tx_realty_frontEndEditor .columnlight .columnleft,
 #tx_realty_frontEndEditor .columnlight .columnright {
-	display: table;
-	width: 48%;
-	float: left;
-	padding: 10px 0 0 0;
+    display: table;
+    width: 48%;
+    float: left;
+    padding: 10px 0 0 0;
 }
 
 #tx_realty_frontEndEditor .columnlight .columnleft {
-	padding-right: 2%;
+    padding-right: 2%;
 }
 
 #tx_realty_frontEndEditor .columndark {
-	display: table;
-	position: relative;
-	background: #e4e4e4;
-	height:100%;
-	width: 100%;
+    display: table;
+    position: relative;
+    background: #e4e4e4;
+    height: 100%;
+    width: 100%;
 }
 
 #tx_realty_frontEndEditor .columndark .columnleft,
 #tx_realty_frontEndEditor .columndark .columnright {
-	display: table;
-	width: 48%;
-	float: left;
-	padding: 10px 0 0 0;
+    display: table;
+    width: 48%;
+    float: left;
+    padding: 10px 0 0 0;
 }
 
 #tx_realty_frontEndEditor .columndark .columnleft {
-	padding-right: 2%;
+    padding-right: 2%;
 }
 
 /*DESCRIPTION FIELDS*/
 #tx_realty_frontEndEditor .column-dark {
-	display: table;
-	background: #e4e4e4;
-	width: 100%;
-	clear: both;
-	padding: 10px 0 0 0 ;
+    display: table;
+    background: #e4e4e4;
+    width: 100%;
+    clear: both;
+    padding: 10px 0 0 0;
 }
+
 #tx_realty_frontEndEditor .column-light {
-	display: table;
-	background: #f0f0f0;
-	width: 100%;
-	clear: both;
-	padding: 10px 0 0 0 ;
+    display: table;
+    background: #f0f0f0;
+    width: 100%;
+    clear: both;
+    padding: 10px 0 0 0;
 }
+
 #tx_realty_frontEndEditor .teaser textarea {
-	height: 80px;
-	width: 160%;
+    height: 80px;
+    width: 160%;
 }
+
 #tx_realty_frontEndEditor .description textarea {
-	height: 160px;
-	width: 160%;
+    height: 160px;
+    width: 160%;
 }
+
 #tx_realty_frontEndEditor .chooser label {
-	font-size: 0.8em;
+    font-size: 0.8em;
 }
-#tx_realty_frontEndEditor .chooser2  {
-	display: block;
-	margin: 0 0 5px 10px;
+
+#tx_realty_frontEndEditor .chooser2 {
+    display: block;
+    margin: 0 0 5px 10px;
 }
 
 /*DIVIDER*/
 #tx_realty_frontEndEditor .vertdivider {
-	width: 0;
-	float: left;
-	height: 100%;
-	display: table;
-	border:5px solid #ffffff;
+    width: 0;
+    float: left;
+    height: 100%;
+    display: table;
+    border: 5px solid #ffffff;
 }
 
 #tx_realty_frontEndEditor .divider {
-	display: block;
-	background: #ffffff;
-	height: 10px;
-	clear: both;
+    display: block;
+    background: #ffffff;
+    height: 10px;
+    clear: both;
 }
 
 /*DD DL DT*/
 #tx_realty_frontEndEditor dl {
-	display: table;
-	margin: 0 0 10px 10px;
-	padding: 0;
-	clear: both;
-	width: 100%;
-	height: 100%;
+    display: table;
+    margin: 0 0 10px 10px;
+    padding: 0;
+    clear: both;
+    width: 100%;
+    height: 100%;
 }
 
 #tx_realty_frontEndEditor dt {
-	width: 40%;
-	margin: 0;
-	padding: 0;
-	float: left;
-	height: 100%;
+    width: 40%;
+    margin: 0;
+    padding: 0;
+    float: left;
+    height: 100%;
 }
 
 #tx_realty_frontEndEditor dd {
-	width: 60%;
-	float: left;
-	margin: 0;
-	padding: 0;
-	font-size: 0.8em;
-	height: 100%;
+    width: 60%;
+    float: left;
+    margin: 0;
+    padding: 0;
+    font-size: 0.8em;
+    height: 100%;
 }
 
 #tx_realty_frontEndEditor dd input {
-	width: 90%;
+    width: 90%;
 }
 
 /*SUBMIT BUTTOM*/
 #tx_realty_frontEndEditor #submit {
-	text-align: right;
-	width: 100%;
-	margin: 0 0 10px 0;
+    text-align: right;
+    width: 100%;
+    margin: 0 0 10px 0;
 }
 
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit,
 #uploadfield #tx_realty_frontEndImageUpload_button_submit_and_stay,
 #uploadfield dt input {
-	color: #ffffff;
-	margin-right: 50px;
-	font-weight: bold;
-	font-size: 11px;
-	background: transparent url(images/submit_button.png) no-repeat;
-	height: 18px;
-	width:  115px;
-	cursor: pointer;
-	border: 0;
-	float: right;
+    color: #ffffff;
+    margin-right: 50px;
+    font-weight: bold;
+    font-size: 11px;
+    background: transparent url(images/submit_button.png) no-repeat;
+    height: 18px;
+    width: 115px;
+    cursor: pointer;
+    border: 0;
+    float: right;
 }
 
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit {
-	background: transparent url(images/submit_button_fe_editor.png) no-repeat;
+    background: transparent url(images/submit_button_fe_editor.png) no-repeat;
 }
 
 /*SELECTFIELDS*/
@@ -781,13 +831,13 @@ p.tx-realty-pi1-objekt-nr {
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_garage_type,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_pets {
-	width: 93%;
+    width: 93%;
 }
 
 /*CHECKBOXES HEATINGTYPE*/
 #tx_realty_frontEndEditor .multicheckboxes {
-	margin: 0 0 10px 0;
-	line-height: 30px;
+    margin: 0 0 10px 0;
+    line-height: 30px;
 }
 
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item,
@@ -802,25 +852,25 @@ p.tx-realty-pi1-objekt-nr {
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-9,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-10,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-11 {
-	position: relative;
-	top: 5px;
-	width: 15px;
-	float: left;
-	margin: 0 5px 0 0;
+    position: relative;
+    top: 5px;
+    width: 15px;
+    float: left;
+    margin: 0 5px 0 0;
 }
 
 #tx_realty_frontEndEditor .checkbox input,
 #tx_realty_frontEndEditor .multicheckboxes input {
-	margin-right: 3px;
-	width: 15px;
+    margin-right: 3px;
+    width: 15px;
 }
 
 /*CHECKBOXES*/
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_emphasized,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_included {
-	width: 15px;
-	margin: 5px 5px 0 0;
-	padding: 0;
+    width: 15px;
+    margin: 5px 5px 0 0;
+    padding: 0;
 }
 
 /*RADIOBUTTONS*/
@@ -829,147 +879,149 @@ p.tx-realty-pi1-objekt-nr {
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item-1,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item-1 {
-	width: 15px;
-	margin: 0 5px 0 0;
-	padding: 0 0 2px 0;
-	height: auto;
+    width: 15px;
+    margin: 0 5px 0 0;
+    padding: 0 0 2px 0;
+    height: auto;
 }
-
 
 /*------------------------------------------IMAGEUPLOAD------------------------------------------*/
 
 #uploadfield .column1,
 #uploadfield .column2,
 #uploadfield .column3 {
-	display: table;
-	margin: 0 0 10px 0;
-	padding: 5px 0 35px 0;
-	background: #f0f0f0;
-	clear: both;
-	width: 100%;
-	max-height: 100%;
-	color: #666666;
+    display: table;
+    margin: 0 0 10px 0;
+    padding: 5px 0 35px 0;
+    background: #f0f0f0;
+    clear: both;
+    width: 100%;
+    max-height: 100%;
+    color: #666666;
 }
+
 #uploadfield dl {
-	display: table;
-	margin: 0;
-	padding: 8px 0 10px 10px;
-	clear: both;
-	width: 100%;
-	max-height: 100%;
+    display: table;
+    margin: 0;
+    padding: 8px 0 10px 10px;
+    clear: both;
+    width: 100%;
+    max-height: 100%;
 }
 
 #uploadfield .column1 dt {
-	width: 20%;
-	margin: 0;
-	padding: 0;
-	float: left;
-	height: 100%;
-	line-height: 20px;
+    width: 20%;
+    margin: 0;
+    padding: 0;
+    float: left;
+    height: 100%;
+    line-height: 20px;
 }
+
 #uploadfield .column1 dd {
-	width: 80%;
-	float: right;
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	line-height: 20px;
+    width: 80%;
+    float: right;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    line-height: 20px;
 }
 
 #uploadfield .column2 dt {
-	width: 100%;
-	float: left;
-	height: 100%;
-	line-height: 20px;
+    width: 100%;
+    float: left;
+    height: 100%;
+    line-height: 20px;
 }
+
 #uploadfield .column2 dd {
-	width: 80%;
-	margin-left: -10px;
-	padding: 0;
-	height: 100%;
-	line-height: 20px;
+    width: 80%;
+    margin-left: -10px;
+    padding: 0;
+    height: 100%;
+    line-height: 20px;
 }
 
 #uploadfield .savebuttonposition {
-	display: block;
-	text-align: right;
+    display: block;
+    text-align: right;
 }
 
 #uploadfield .chooser {
-	font-size: 0.8em;
-	line-height: normal;
+    font-size: 0.8em;
+    line-height: normal;
 }
 
 #uploadfield #tx_realty_frontEndImageUpload_button_submit_and_stay {
-	position: absolute;
-	left: 73px;
-	margin: 15px 10px 0 10px;
+    position: absolute;
+    left: 73px;
+    margin: 15px 10px 0 10px;
 }
 
 #uploadfield span.button {
-	position: absolute;
-	left: 273px;
-	margin: 15px 0 0 -20px;
-	height: 18px;
-	width:  200px;
-	cursor: pointer;
-	border: 0;
-	float: left;
+    position: absolute;
+    left: 273px;
+    margin: 15px 0 0 -20px;
+    height: 18px;
+    width: 200px;
+    cursor: pointer;
+    border: 0;
+    float: left;
 }
 
 #uploadfield #tx_realty_frontEndImageUpload_button_submit {
-	color: #ffffff;
-	font-weight: bold;
-	font-size: 11px;
-	background: transparent url(images/button_bg_right.png) no-repeat right;
-	height: 18px;
-	width:  200px;
-	cursor: pointer;
-	border: 0;
-	float: left;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 11px;
+    background: transparent url(images/button_bg_right.png) no-repeat right;
+    height: 18px;
+    width: 200px;
+    cursor: pointer;
+    border: 0;
+    float: left;
 }
 
 #uploadfield .column2 dl dl {
-	width: 550px;
+    width: 550px;
 }
 
 #uploadfield .column2 dl dl dt {
-	position: relative;
+    position: relative;
 }
 
 #uploadfield .column2 dl dl dt:hover {
-	background: #e4e4e4;
+    background: #e4e4e4;
 }
 
 #uploadfield .column2 .label {
-	position: absolute;
-	left: 115px;
-	right: 120px;
+    position: absolute;
+    left: 115px;
+    right: 120px;
 }
 
 #uploadfield .column2 .image {
-	border: none;
+    border: none;
 }
 
 #uploadfield img {
-	margin: 2px 0 -3px 2px;
-	border: none;
+    margin: 2px 0 -3px 2px;
+    border: none;
 }
 
 #uploadfield .column2 dl dl dt input {
-	position: absolute;
-	right: 2px;
-	top: 31px;
-	margin-right: 0;
+    position: absolute;
+    right: 2px;
+    top: 31px;
+    margin-right: 0;
 }
 
 #uploadfield span.deleted {
-	text-decoration: line-through;
-	color: lightgrey;
+    text-decoration: line-through;
+    color: lightgrey;
 }
 
 #uploadfield input.deleted {
-	color: #ffffff;
-	background: transparent url(images/submit_button_inactive.png) no-repeat;
-	cursor: default;
+    color: #ffffff;
+    background: transparent url(images/submit_button_inactive.png) no-repeat;
+    cursor: default;
 }

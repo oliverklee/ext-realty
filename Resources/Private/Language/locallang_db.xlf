@@ -1,674 +1,675 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2018-01-22T16:00:30Z" product-name="realty">
-		<header/>
-		<body>
-			<trans-unit id="tx_realty_objects" xml:space="preserve">
-				<source>Realty object</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.object_number" xml:space="preserve">
-				<source>Object number</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.object_type.I.0" xml:space="preserve">
-				<source>for renting</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.object_type.I.1" xml:space="preserve">
-				<source>for sale</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.object_type" xml:space="preserve">
-				<source>Object type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.title" xml:space="preserve">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.emphasized" xml:space="preserve">
-				<source>Emphasized</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.street" xml:space="preserve">
-				<source>Street</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.zip" xml:space="preserve">
-				<source>ZIP code</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.city" xml:space="preserve">
-				<source>City</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.district" xml:space="preserve">
-				<source>District</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.country" xml:space="preserve">
-				<source>Country</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.show_address" xml:space="preserve">
-				<source>Show exact address in front end</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.geo" xml:space="preserve">
-				<source>Geo</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.has_coordinates" xml:space="preserve">
-				<source>Has coordinates</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.coordinates_problem" xml:space="preserve">
-				<source>Problem on retrieving the geo coordinates</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.longitude" xml:space="preserve">
-				<source>Longitude</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.latitude" xml:space="preserve">
-				<source>Latitude</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.number_of_rooms" xml:space="preserve">
-				<source>Number of rooms</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.living_area" xml:space="preserve">
-				<source>Living area in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.total_area" xml:space="preserve">
-				<source>Total area in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.shop_area" xml:space="preserve">
-				<source>Shop area in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.sales_area" xml:space="preserve">
-				<source>Sales area in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.total_usable_area" xml:space="preserve">
-				<source>Total usable area in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.storage_area" xml:space="preserve">
-				<source>Storage area in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.office_space" xml:space="preserve">
-				<source>Office space in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.other_area" xml:space="preserve">
-				<source>Other area in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.window_bank" xml:space="preserve">
-				<source>Window bank in m</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.estate_size" xml:space="preserve">
-				<source>Estate size in m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.site_occupancy_index" xml:space="preserve">
-				<source>Site occupancy index</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.floor_space_index" xml:space="preserve">
-				<source>Floor-space index</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.rent_excluding_bills" xml:space="preserve">
-				<source>Rent excluding bills</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.rent_with_heating_costs" xml:space="preserve">
-				<source>Rent with heating costs</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.rent_per_square_meter" xml:space="preserve">
-				<source>Rent/m²</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.extra_charges" xml:space="preserve">
-				<source>Extra charges</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_included" xml:space="preserve">
-				<source>Extra charges include heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.deposit" xml:space="preserve">
-				<source>Security deposit</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.provision" xml:space="preserve">
-				<source>Provision/Broker's fee</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.usable_from" xml:space="preserve">
-				<source>Can be used starting at</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.buying_price" xml:space="preserve">
-				<source>Price for buying</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.hoa_fee" xml:space="preserve">
-				<source>HOA fee</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.year_rent" xml:space="preserve">
-				<source>Net rent per year</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.rental_income_target" xml:space="preserve">
-				<source>Rental income (target)</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.status" xml:space="preserve">
-				<source>Status</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.status.0" xml:space="preserve">
-				<source>vacant</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.status.1" xml:space="preserve">
-				<source>reserved</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.status.2" xml:space="preserve">
-				<source>sold</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.status.3" xml:space="preserve">
-				<source>rented</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.apartment_type" xml:space="preserve">
-				<source>Apartment type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.house_type" xml:space="preserve">
-				<source>House type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.floor" xml:space="preserve">
-				<source>Floor</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.floors" xml:space="preserve">
-				<source>Number of floors</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.bedrooms" xml:space="preserve">
-				<source>Number of bedrooms</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.bathrooms" xml:space="preserve">
-				<source>Number of bathrooms</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type" xml:space="preserve">
-				<source>Type of heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.1" xml:space="preserve">
-				<source>district heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.2" xml:space="preserve">
-				<source>central heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.3" xml:space="preserve">
-				<source>electric heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.4" xml:space="preserve">
-				<source>floor heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.5" xml:space="preserve">
-				<source>gas heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.6" xml:space="preserve">
-				<source>green fuel heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.7" xml:space="preserve">
-				<source>heat pump heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.8" xml:space="preserve">
-				<source>oil heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.9" xml:space="preserve">
-				<source>self-contained central heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.10" xml:space="preserve">
-				<source>solar heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.11" xml:space="preserve">
-				<source>heating by stove</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.12" xml:space="preserve">
-				<source>zone heating</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.13" xml:space="preserve">
-				<source>air heat pump</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.14" xml:space="preserve">
-				<source>additional decentralized hot water</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.15" xml:space="preserve">
-				<source>pellets</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.16" xml:space="preserve">
-				<source>coal</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.17" xml:space="preserve">
-				<source>wood</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heating_type.18" xml:space="preserve">
-				<source>liquefied gas</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.has_air_conditioning" xml:space="preserve">
-				<source>Air conditioning</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.garage_type" xml:space="preserve">
-				<source>Parking space type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.parking_spaces" xml:space="preserve">
-				<source>Number of parking spaces</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.garage_rent" xml:space="preserve">
-				<source>Rent for garage/parking space</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.garage_price" xml:space="preserve">
-				<source>Price for buying the garage/parking space</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.pets" xml:space="preserve">
-				<source>Pets</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring" xml:space="preserve">
-				<source>Flooring</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.1" xml:space="preserve">
-				<source>tiled</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.2" xml:space="preserve">
-				<source>stone</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.3" xml:space="preserve">
-				<source>carpet</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.4" xml:space="preserve">
-				<source>parquet</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.5" xml:space="preserve">
-				<source>prefinished floor</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.6" xml:space="preserve">
-				<source>laminate</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.7" xml:space="preserve">
-				<source>timber piling</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.8" xml:space="preserve">
-				<source>PVC</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.9" xml:space="preserve">
-				<source>screed</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.10" xml:space="preserve">
-				<source>double floor</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.flooring.11" xml:space="preserve">
-				<source>linoleum</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.construction_year" xml:space="preserve">
-				<source>Year of construction</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.old_or_new_building" xml:space="preserve">
-				<source>Old or new building</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.old_or_new_building.I.1" xml:space="preserve">
-				<source>new building</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.old_or_new_building.I.2" xml:space="preserve">
-				<source>old building</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state" xml:space="preserve">
-				<source>Condition</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.1" xml:space="preserve">
-				<source>bare brickwork</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.2" xml:space="preserve">
-				<source>by arrangement</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.3" xml:space="preserve">
-				<source>dilapidated</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.4" xml:space="preserve">
-				<source>first occupancy</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.5" xml:space="preserve">
-				<source>for demolition</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.6" xml:space="preserve">
-				<source>gutted</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.7" xml:space="preserve">
-				<source>modernized</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.8" xml:space="preserve">
-				<source>neat</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.9" xml:space="preserve">
-				<source>in need of renovation</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.10" xml:space="preserve">
-				<source>reconditioned</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.11" xml:space="preserve">
-				<source>renovated</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.12" xml:space="preserve">
-				<source>sanitated</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.13" xml:space="preserve">
-				<source>planned</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.14" xml:space="preserve">
-				<source>not renovated</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.15" xml:space="preserve">
-				<source>partly renovated</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.16" xml:space="preserve">
-				<source>currently being planned</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.17" xml:space="preserve">
-				<source>in need of renovation</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.18" xml:space="preserve">
-				<source>fully rented</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.19" xml:space="preserve">
-				<source>vacant</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.20" xml:space="preserve">
-				<source>partly rented</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.state.21" xml:space="preserve">
-				<source>has building permit</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.furnishing_category" xml:space="preserve">
-				<source>Furnishing category</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.furnishing_category.1" xml:space="preserve">
-				<source>standard</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.furnishing_category.2" xml:space="preserve">
-				<source>upmarket</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.furnishing_category.3" xml:space="preserve">
-				<source>luxurious</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.balcony" xml:space="preserve">
-				<source>Balcony/patio</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.garden" xml:space="preserve">
-				<source>Garden (usage)</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.accessibility" xml:space="preserve">
-				<source>Accessibility</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.elevator" xml:space="preserve">
-				<source>Elevator</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve">
-				<source>Barrier-free</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.wheelchair_accessible" xml:space="preserve">
-				<source>Wheelchair-accessible</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.ramp" xml:space="preserve">
-				<source>Ramp</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.lifting_platform" xml:space="preserve">
-				<source>Lifting platform</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.suitable_for_the_elderly" xml:space="preserve">
-				<source>Suitable for the elderly</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve">
-				<source>Assisted living</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.fitted_kitchen" xml:space="preserve">
-				<source>Fitted kitchen</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.has_pool" xml:space="preserve">
-				<source>Pool</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.has_community_pool" xml:space="preserve">
-				<source>Community pool</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.teaser" xml:space="preserve">
-				<source>Teaser</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.description" xml:space="preserve">
-				<source>Description</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.equipment" xml:space="preserve">
-				<source>Equipment</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.layout" xml:space="preserve">
-				<source>Layout</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.location" xml:space="preserve">
-				<source>Location</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.misc" xml:space="preserve">
-				<source>Miscellaneous</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.details_page" xml:space="preserve">
-				<source>Separate page for the details view for this object</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.images" xml:space="preserve">
-				<source>Images</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.documents" xml:space="preserve">
-				<source>Documents</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.tstamp" xml:space="preserve">
-				<source>Last changed</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.employer" xml:space="preserve">
-				<source>Employer</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.openimmo_anid" xml:space="preserve">
-				<source>&quot;OpenImmo-ANID&quot;</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.openimmo_obid" xml:space="preserve">
-				<source>&quot;OpenImmo-OBID&quot;</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.utilization" xml:space="preserve">
-				<source>Utilization</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.contact_data_source" xml:space="preserve">
-				<source>Contact data source (for contact form and detail view)</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.contact_data_source.I.0" xml:space="preserve">
-				<source>This realty object</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.contact_data_source.I.1" xml:space="preserve">
-				<source>My account</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.contact_person" xml:space="preserve">
-				<source>Contact person</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.contact_person_first_name" xml:space="preserve">
-				<source>First name of the contact person</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.contact_person_salutation" xml:space="preserve">
-				<source>Salutation of the contact person</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.contact_email" xml:space="preserve">
-				<source>Contact e-mail</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.phone_switchboard" xml:space="preserve">
-				<source>Contact phone (switchboard)</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.phone_direct_extension" xml:space="preserve">
-				<source>Contact phone (direct extension)</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.owner" xml:space="preserve">
-				<source>FE user who has created this object</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.language" xml:space="preserve">
-				<source>Language of the record</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.currency" xml:space="preserve">
-				<source>Currency</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.sorting" xml:space="preserve">
-				<source>Positioning in the list view</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.advertised_date" xml:space="preserve">
-				<source>Advertised on</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.distance_to_the_sea" xml:space="preserve">
-				<source>Distance to the sea (in meters)</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.sea_view" xml:space="preserve">
-				<source>Sea view</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate" xml:space="preserve">
-				<source>Energy certificate</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_type" xml:space="preserve">
-				<source>Energy certificate type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_type.requirement" xml:space="preserve">
-				<source>requirement</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_type.consumption" xml:space="preserve">
-				<source>consumption</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_valid_until" xml:space="preserve">
-				<source>Energy certificate valid until</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_consumption_characteristic" xml:space="preserve">
-				<source>Energy consumption characteristic</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.with_hot_water" xml:space="preserve">
-				<source>with hot water</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.ultimate_energy_demand" xml:space="preserve">
-				<source>Ultimate energy demand</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.primary_energy_carrier" xml:space="preserve">
-				<source>Primary energy carrier</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.electric_power_consumption_characteristic" xml:space="preserve">
-				<source>Electric power consumption characteristic</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heat_energy_consumption_characteristic" xml:space="preserve">
-				<source>Heat energy consumption characteristic</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.value_category" xml:space="preserve">
-				<source>Value category according to EnEv 2014</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.year_of_construction" xml:space="preserve">
-				<source>Year of construction</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_issue_date" xml:space="preserve">
-				<source>Issue date</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_year" xml:space="preserve">
-				<source>Energy certificate year</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_year.2008" xml:space="preserve">
-				<source>before 2014</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_year.2014" xml:space="preserve">
-				<source>after 2014-05-01</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_year.not_available" xml:space="preserve">
-				<source>not available</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_year.not_required" xml:space="preserve">
-				<source>not required</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.building_type" xml:space="preserve">
-				<source>Building type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.building_type.residential" xml:space="preserve">
-				<source>residential</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.building_type.business" xml:space="preserve">
-				<source>business</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.energy_certificate_text" xml:space="preserve">
-				<source>Energy certificate text</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heat_energy_requirement_value" xml:space="preserve">
-				<source>Heat energy requirement value</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.heat_energy_requirement_class" xml:space="preserve">
-				<source>Heat energy requirement class</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.total_energy_efficiency_value" xml:space="preserve">
-				<source>Total energy efficiency value</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_objects.total_energy_efficiency_class" xml:space="preserve">
-				<source>Total energy efficiency class</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_apartment_types" xml:space="preserve">
-				<source>Apartment type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_apartment_types.title" xml:space="preserve">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_house_types" xml:space="preserve">
-				<source>House type</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_house_types.title" xml:space="preserve">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_car_places" xml:space="preserve">
-				<source>Car place</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_car_places.title" xml:space="preserve">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_pets" xml:space="preserve">
-				<source>Pets</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_pets.title" xml:space="preserve">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images" xml:space="preserve">
-				<source>Image</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.caption" xml:space="preserve">
-				<source>Caption</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.image" xml:space="preserve">
-				<source>Image</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.thumbnail" xml:space="preserve">
-				<source>Thumbnail</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.position" xml:space="preserve">
-				<source>Position</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.position.0" xml:space="preserve">
-				<source>Standard</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.position.1" xml:space="preserve">
-				<source>Position 1</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.position.2" xml:space="preserve">
-				<source>Position 2</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.position.3" xml:space="preserve">
-				<source>Position 3</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_images.position.4" xml:space="preserve">
-				<source>Position 4</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_documents" xml:space="preserve">
-				<source>Document</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_documents.title" xml:space="preserve">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_documents.filename" xml:space="preserve">
-				<source>File</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_cities" xml:space="preserve">
-				<source>City</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_cities.title" xml:space="preserve">
-				<source>City name</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_cities.save_folder" xml:space="preserve">
-				<source>Folder for objects in this city (only for FE-created records)</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_districts" xml:space="preserve">
-				<source>District</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_districts.title" xml:space="preserve">
-				<source>The district's name</source>
-			</trans-unit>
-			<trans-unit id="tx_realty_districts.city" xml:space="preserve">
-				<source>City which this district belongs to</source>
-			</trans-unit>
-			<trans-unit id="fe_users.tx_realty_tab" xml:space="preserve">
-				<source>Realty</source>
-			</trans-unit>
-			<trans-unit id="fe_users.tx_realty_openimmo_anid" xml:space="preserve">
-				<source>OpenImmo offerer ID</source>
-			</trans-unit>
-			<trans-unit id="fe_users.tx_realty_maximum_objects" xml:space="preserve">
-				<source>Maximum number of objects</source>
-			</trans-unit>
-			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve">
-				<source>Realty Manager</source>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" datatype="plaintext" original="messages" date="2018-01-22T16:00:30Z"
+          product-name="realty">
+        <header/>
+        <body>
+            <trans-unit id="tx_realty_objects" xml:space="preserve">
+                <source>Realty object</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.object_number" xml:space="preserve">
+                <source>Object number</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.object_type.I.0" xml:space="preserve">
+                <source>for renting</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.object_type.I.1" xml:space="preserve">
+                <source>for sale</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.object_type" xml:space="preserve">
+                <source>Object type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.emphasized" xml:space="preserve">
+                <source>Emphasized</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.street" xml:space="preserve">
+                <source>Street</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.zip" xml:space="preserve">
+                <source>ZIP code</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.city" xml:space="preserve">
+                <source>City</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.district" xml:space="preserve">
+                <source>District</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.country" xml:space="preserve">
+                <source>Country</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.show_address" xml:space="preserve">
+                <source>Show exact address in front end</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.geo" xml:space="preserve">
+                <source>Geo</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.has_coordinates" xml:space="preserve">
+                <source>Has coordinates</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.coordinates_problem" xml:space="preserve">
+                <source>Problem on retrieving the geo coordinates</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.longitude" xml:space="preserve">
+                <source>Longitude</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.latitude" xml:space="preserve">
+                <source>Latitude</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.number_of_rooms" xml:space="preserve">
+                <source>Number of rooms</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.living_area" xml:space="preserve">
+                <source>Living area in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.total_area" xml:space="preserve">
+                <source>Total area in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.shop_area" xml:space="preserve">
+                <source>Shop area in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.sales_area" xml:space="preserve">
+                <source>Sales area in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.total_usable_area" xml:space="preserve">
+                <source>Total usable area in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.storage_area" xml:space="preserve">
+                <source>Storage area in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.office_space" xml:space="preserve">
+                <source>Office space in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.other_area" xml:space="preserve">
+                <source>Other area in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.window_bank" xml:space="preserve">
+                <source>Window bank in m</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.estate_size" xml:space="preserve">
+                <source>Estate size in m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.site_occupancy_index" xml:space="preserve">
+                <source>Site occupancy index</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.floor_space_index" xml:space="preserve">
+                <source>Floor-space index</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.rent_excluding_bills" xml:space="preserve">
+                <source>Rent excluding bills</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.rent_with_heating_costs" xml:space="preserve">
+                <source>Rent with heating costs</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.rent_per_square_meter" xml:space="preserve">
+                <source>Rent/m²</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.extra_charges" xml:space="preserve">
+                <source>Extra charges</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_included" xml:space="preserve">
+                <source>Extra charges include heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.deposit" xml:space="preserve">
+                <source>Security deposit</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.provision" xml:space="preserve">
+                <source>Provision/Broker's fee</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.usable_from" xml:space="preserve">
+                <source>Can be used starting at</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.buying_price" xml:space="preserve">
+                <source>Price for buying</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.hoa_fee" xml:space="preserve">
+                <source>HOA fee</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.year_rent" xml:space="preserve">
+                <source>Net rent per year</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.rental_income_target" xml:space="preserve">
+                <source>Rental income (target)</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.status" xml:space="preserve">
+                <source>Status</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.status.0" xml:space="preserve">
+                <source>vacant</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.status.1" xml:space="preserve">
+                <source>reserved</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.status.2" xml:space="preserve">
+                <source>sold</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.status.3" xml:space="preserve">
+                <source>rented</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.apartment_type" xml:space="preserve">
+                <source>Apartment type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.house_type" xml:space="preserve">
+                <source>House type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.floor" xml:space="preserve">
+                <source>Floor</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.floors" xml:space="preserve">
+                <source>Number of floors</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.bedrooms" xml:space="preserve">
+                <source>Number of bedrooms</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.bathrooms" xml:space="preserve">
+                <source>Number of bathrooms</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type" xml:space="preserve">
+                <source>Type of heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.1" xml:space="preserve">
+                <source>district heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.2" xml:space="preserve">
+                <source>central heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.3" xml:space="preserve">
+                <source>electric heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.4" xml:space="preserve">
+                <source>floor heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.5" xml:space="preserve">
+                <source>gas heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.6" xml:space="preserve">
+                <source>green fuel heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.7" xml:space="preserve">
+                <source>heat pump heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.8" xml:space="preserve">
+                <source>oil heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.9" xml:space="preserve">
+                <source>self-contained central heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.10" xml:space="preserve">
+                <source>solar heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.11" xml:space="preserve">
+                <source>heating by stove</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.12" xml:space="preserve">
+                <source>zone heating</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.13" xml:space="preserve">
+                <source>air heat pump</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.14" xml:space="preserve">
+                <source>additional decentralized hot water</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.15" xml:space="preserve">
+                <source>pellets</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.16" xml:space="preserve">
+                <source>coal</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.17" xml:space="preserve">
+                <source>wood</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heating_type.18" xml:space="preserve">
+                <source>liquefied gas</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.has_air_conditioning" xml:space="preserve">
+                <source>Air conditioning</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.garage_type" xml:space="preserve">
+                <source>Parking space type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.parking_spaces" xml:space="preserve">
+                <source>Number of parking spaces</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.garage_rent" xml:space="preserve">
+                <source>Rent for garage/parking space</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.garage_price" xml:space="preserve">
+                <source>Price for buying the garage/parking space</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.pets" xml:space="preserve">
+                <source>Pets</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring" xml:space="preserve">
+                <source>Flooring</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.1" xml:space="preserve">
+                <source>tiled</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.2" xml:space="preserve">
+                <source>stone</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.3" xml:space="preserve">
+                <source>carpet</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.4" xml:space="preserve">
+                <source>parquet</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.5" xml:space="preserve">
+                <source>prefinished floor</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.6" xml:space="preserve">
+                <source>laminate</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.7" xml:space="preserve">
+                <source>timber piling</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.8" xml:space="preserve">
+                <source>PVC</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.9" xml:space="preserve">
+                <source>screed</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.10" xml:space="preserve">
+                <source>double floor</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.flooring.11" xml:space="preserve">
+                <source>linoleum</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.construction_year" xml:space="preserve">
+                <source>Year of construction</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.old_or_new_building" xml:space="preserve">
+                <source>Old or new building</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.old_or_new_building.I.1" xml:space="preserve">
+                <source>new building</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.old_or_new_building.I.2" xml:space="preserve">
+                <source>old building</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state" xml:space="preserve">
+                <source>Condition</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.1" xml:space="preserve">
+                <source>bare brickwork</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.2" xml:space="preserve">
+                <source>by arrangement</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.3" xml:space="preserve">
+                <source>dilapidated</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.4" xml:space="preserve">
+                <source>first occupancy</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.5" xml:space="preserve">
+                <source>for demolition</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.6" xml:space="preserve">
+                <source>gutted</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.7" xml:space="preserve">
+                <source>modernized</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.8" xml:space="preserve">
+                <source>neat</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.9" xml:space="preserve">
+                <source>in need of renovation</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.10" xml:space="preserve">
+                <source>reconditioned</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.11" xml:space="preserve">
+                <source>renovated</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.12" xml:space="preserve">
+                <source>sanitated</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.13" xml:space="preserve">
+                <source>planned</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.14" xml:space="preserve">
+                <source>not renovated</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.15" xml:space="preserve">
+                <source>partly renovated</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.16" xml:space="preserve">
+                <source>currently being planned</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.17" xml:space="preserve">
+                <source>in need of renovation</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.18" xml:space="preserve">
+                <source>fully rented</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.19" xml:space="preserve">
+                <source>vacant</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.20" xml:space="preserve">
+                <source>partly rented</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.state.21" xml:space="preserve">
+                <source>has building permit</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.furnishing_category" xml:space="preserve">
+                <source>Furnishing category</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.furnishing_category.1" xml:space="preserve">
+                <source>standard</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.furnishing_category.2" xml:space="preserve">
+                <source>upmarket</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.furnishing_category.3" xml:space="preserve">
+                <source>luxurious</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.balcony" xml:space="preserve">
+                <source>Balcony/patio</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.garden" xml:space="preserve">
+                <source>Garden (usage)</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.accessibility" xml:space="preserve">
+                <source>Accessibility</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.elevator" xml:space="preserve">
+                <source>Elevator</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve">
+                <source>Barrier-free</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.wheelchair_accessible" xml:space="preserve">
+                <source>Wheelchair-accessible</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.ramp" xml:space="preserve">
+                <source>Ramp</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.lifting_platform" xml:space="preserve">
+                <source>Lifting platform</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.suitable_for_the_elderly" xml:space="preserve">
+                <source>Suitable for the elderly</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve">
+                <source>Assisted living</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.fitted_kitchen" xml:space="preserve">
+                <source>Fitted kitchen</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.has_pool" xml:space="preserve">
+                <source>Pool</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.has_community_pool" xml:space="preserve">
+                <source>Community pool</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.teaser" xml:space="preserve">
+                <source>Teaser</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.description" xml:space="preserve">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.equipment" xml:space="preserve">
+                <source>Equipment</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.layout" xml:space="preserve">
+                <source>Layout</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.location" xml:space="preserve">
+                <source>Location</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.misc" xml:space="preserve">
+                <source>Miscellaneous</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.details_page" xml:space="preserve">
+                <source>Separate page for the details view for this object</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.images" xml:space="preserve">
+                <source>Images</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.documents" xml:space="preserve">
+                <source>Documents</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.tstamp" xml:space="preserve">
+                <source>Last changed</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.employer" xml:space="preserve">
+                <source>Employer</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.openimmo_anid" xml:space="preserve">
+                <source>&quot;OpenImmo-ANID&quot;</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.openimmo_obid" xml:space="preserve">
+                <source>&quot;OpenImmo-OBID&quot;</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.utilization" xml:space="preserve">
+                <source>Utilization</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.contact_data_source" xml:space="preserve">
+                <source>Contact data source (for contact form and detail view)</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.contact_data_source.I.0" xml:space="preserve">
+                <source>This realty object</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.contact_data_source.I.1" xml:space="preserve">
+                <source>My account</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.contact_person" xml:space="preserve">
+                <source>Contact person</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.contact_person_first_name" xml:space="preserve">
+                <source>First name of the contact person</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.contact_person_salutation" xml:space="preserve">
+                <source>Salutation of the contact person</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.contact_email" xml:space="preserve">
+                <source>Contact e-mail</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.phone_switchboard" xml:space="preserve">
+                <source>Contact phone (switchboard)</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.phone_direct_extension" xml:space="preserve">
+                <source>Contact phone (direct extension)</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.owner" xml:space="preserve">
+                <source>FE user who has created this object</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.language" xml:space="preserve">
+                <source>Language of the record</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.currency" xml:space="preserve">
+                <source>Currency</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.sorting" xml:space="preserve">
+                <source>Positioning in the list view</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.advertised_date" xml:space="preserve">
+                <source>Advertised on</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.distance_to_the_sea" xml:space="preserve">
+                <source>Distance to the sea (in meters)</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.sea_view" xml:space="preserve">
+                <source>Sea view</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate" xml:space="preserve">
+                <source>Energy certificate</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_type" xml:space="preserve">
+                <source>Energy certificate type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_type.requirement" xml:space="preserve">
+                <source>requirement</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_type.consumption" xml:space="preserve">
+                <source>consumption</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_valid_until" xml:space="preserve">
+                <source>Energy certificate valid until</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_consumption_characteristic" xml:space="preserve">
+                <source>Energy consumption characteristic</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.with_hot_water" xml:space="preserve">
+                <source>with hot water</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.ultimate_energy_demand" xml:space="preserve">
+                <source>Ultimate energy demand</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.primary_energy_carrier" xml:space="preserve">
+                <source>Primary energy carrier</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.electric_power_consumption_characteristic" xml:space="preserve">
+                <source>Electric power consumption characteristic</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heat_energy_consumption_characteristic" xml:space="preserve">
+                <source>Heat energy consumption characteristic</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.value_category" xml:space="preserve">
+                <source>Value category according to EnEv 2014</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.year_of_construction" xml:space="preserve">
+                <source>Year of construction</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_issue_date" xml:space="preserve">
+                <source>Issue date</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_year" xml:space="preserve">
+                <source>Energy certificate year</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_year.2008" xml:space="preserve">
+                <source>before 2014</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_year.2014" xml:space="preserve">
+                <source>after 2014-05-01</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_year.not_available" xml:space="preserve">
+                <source>not available</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_year.not_required" xml:space="preserve">
+                <source>not required</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.building_type" xml:space="preserve">
+                <source>Building type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.building_type.residential" xml:space="preserve">
+                <source>residential</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.building_type.business" xml:space="preserve">
+                <source>business</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.energy_certificate_text" xml:space="preserve">
+                <source>Energy certificate text</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heat_energy_requirement_value" xml:space="preserve">
+                <source>Heat energy requirement value</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.heat_energy_requirement_class" xml:space="preserve">
+                <source>Heat energy requirement class</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.total_energy_efficiency_value" xml:space="preserve">
+                <source>Total energy efficiency value</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_objects.total_energy_efficiency_class" xml:space="preserve">
+                <source>Total energy efficiency class</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_apartment_types" xml:space="preserve">
+                <source>Apartment type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_apartment_types.title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_house_types" xml:space="preserve">
+                <source>House type</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_house_types.title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_car_places" xml:space="preserve">
+                <source>Car place</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_car_places.title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_pets" xml:space="preserve">
+                <source>Pets</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_pets.title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images" xml:space="preserve">
+                <source>Image</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.caption" xml:space="preserve">
+                <source>Caption</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.image" xml:space="preserve">
+                <source>Image</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.thumbnail" xml:space="preserve">
+                <source>Thumbnail</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.position" xml:space="preserve">
+                <source>Position</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.position.0" xml:space="preserve">
+                <source>Standard</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.position.1" xml:space="preserve">
+                <source>Position 1</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.position.2" xml:space="preserve">
+                <source>Position 2</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.position.3" xml:space="preserve">
+                <source>Position 3</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_images.position.4" xml:space="preserve">
+                <source>Position 4</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_documents" xml:space="preserve">
+                <source>Document</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_documents.title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_documents.filename" xml:space="preserve">
+                <source>File</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_cities" xml:space="preserve">
+                <source>City</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_cities.title" xml:space="preserve">
+                <source>City name</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_cities.save_folder" xml:space="preserve">
+                <source>Folder for objects in this city (only for FE-created records)</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_districts" xml:space="preserve">
+                <source>District</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_districts.title" xml:space="preserve">
+                <source>The district's name</source>
+            </trans-unit>
+            <trans-unit id="tx_realty_districts.city" xml:space="preserve">
+                <source>City which this district belongs to</source>
+            </trans-unit>
+            <trans-unit id="fe_users.tx_realty_tab" xml:space="preserve">
+                <source>Realty</source>
+            </trans-unit>
+            <trans-unit id="fe_users.tx_realty_openimmo_anid" xml:space="preserve">
+                <source>OpenImmo offerer ID</source>
+            </trans-unit>
+            <trans-unit id="fe_users.tx_realty_maximum_objects" xml:space="preserve">
+                <source>Maximum number of objects</source>
+            </trans-unit>
+            <trans-unit id="tt_content.list_type_pi1" xml:space="preserve">
+                <source>Realty Manager</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

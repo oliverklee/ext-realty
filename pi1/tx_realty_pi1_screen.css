@@ -2,76 +2,81 @@
 
 .tx-realty-pi1 a.button,
 .tx-realty-pi1 span.button {
-	display: block;
-	height: 18px;
-	line-height: 18px;
-	margin: 1px;
-	text-align: center;
-	font-weight: bold;
-	font-size: 11px;
-	color: white;
-	text-decoration: none;
-	border: none;
-	background: url(images/button_bg_left.png) no-repeat top left #FF6600;
-	padding-left: .5em;
+    display: block;
+    height: 18px;
+    line-height: 18px;
+    margin: 1px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+    color: white;
+    text-decoration: none;
+    border: none;
+    background: url(images/button_bg_left.png) no-repeat top left #FF6600;
+    padding-left: .5em;
 }
+
 .tx-realty-pi1 a.button span,
 .tx-realty-pi1 span.button span {
-	display: block;
-	background: url(images/button_bg_right.png) no-repeat top right #FF6600;
-	padding-right: .5em;
+    display: block;
+    background: url(images/button_bg_right.png) no-repeat top right #FF6600;
+    padding-right: .5em;
 }
+
 .tx-realty-pi1 span.button span {
-	cursor: default; /* for disabled buttons, don't use the "I" text cursor */
+    cursor: default; /* for disabled buttons, don't use the "I" text cursor */
 }
+
 .tx-realty-pi1 a.button span {
-	cursor: pointer; /* IE hack */
+    cursor: pointer; /* IE hack */
 }
+
 .tx-realty-pi1 span.act,
 .tx-realty-pi1 a.act {
-	background: url(images/button_act_bg_left.png) no-repeat top left #B3C5D3;
+    background: url(images/button_act_bg_left.png) no-repeat top left #B3C5D3;
 }
+
 .tx-realty-pi1 span.act span,
 .tx-realty-pi1 a.act span {
-	background: url(images/button_act_bg_right.png) no-repeat top right #B3C5D3;
+    background: url(images/button_act_bg_right.png) no-repeat top right #B3C5D3;
 }
 
 /* Images in result list and single view */
 .tx-realty-pi1 .image {
-	border: 1px solid #B3C5D3;
+    border: 1px solid #B3C5D3;
 }
 
 /***** SEARCH WIDGET *****/
 
 #tx_realty_pi1_searchWidget_district {
-	position: relative;
+    position: relative;
 }
 
 #tx-realty-pi1-loading {
-	width: 32px;
-	height: 32px;
-	position: absolute;
-	top: -3px;
-	right: -12px;
-	background: url(images/loading.gif) no-repeat center #fff;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: -3px;
+    right: -12px;
+    background: url(images/loading.gif) no-repeat center #fff;
 }
 
 /***** SINGLE VIEW *****/
 
 .tx-realty-pi1 a.printPage {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 /* Lightbox Images */
 #prevLink:hover, #prevLink:visited:hover {
-	background: url(images/prevlabel.gif) left 15% no-repeat !important;
+    background: url(images/prevlabel.gif) left 15% no-repeat !important;
 }
 
 #nextLink:hover, #nextLink:visited:hover {
-	background: url(images/nextlabel.gif) right 15% no-repeat !important;
+    background: url(images/nextlabel.gif) right 15% no-repeat !important;
 }
 
 /***** FRONT-END EDITOR *****/
 .tx_realty_pi1_modalbox_buttons {
-	margin-top: 1em;
+    margin-top: 1em;
 }
