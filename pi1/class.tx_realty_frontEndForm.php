@@ -76,16 +76,6 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     }
 
     /**
-     * Frees as much memory that has been used by this object as possible.
-     */
-    public function __destruct()
-    {
-        unset($this->formCreator, $this->realtyObject);
-
-        parent::__destruct();
-    }
-
-    /**
      * Instantiates $this->formCreator (if it hasn't been created yet).
      *
      * This function does nothing if this object is running in test mode.

@@ -36,14 +36,6 @@ class tx_realty_fileNameMapper
     }
 
     /**
-     * Destructor.
-     */
-    public function __destruct()
-    {
-        unset($this->fileNames, $this->destinationPath);
-    }
-
-    /**
      * Returns the unique file name for the provided file name within the
      * destination directory and maps both names internally.
      *

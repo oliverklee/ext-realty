@@ -61,7 +61,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             true
         );
 
-        $this->message = $this->getMock(MailMessage::class, ['send', '__destruct']);
+        $this->message = $this->getMock(MailMessage::class, ['send']);
         GeneralUtility::addInstance(MailMessage::class, $this->message);
     }
 

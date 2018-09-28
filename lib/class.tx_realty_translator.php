@@ -41,14 +41,6 @@ class tx_realty_translator
     }
 
     /**
-     * The destructor.
-     */
-    public function __destruct()
-    {
-        unset($this->languageService);
-    }
-
-    /**
      * Retrieves the localized string for the local language key $key.
      *
      * @param string $key the local language key for which to return the value, must not be empty

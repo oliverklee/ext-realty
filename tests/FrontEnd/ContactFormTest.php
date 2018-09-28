@@ -73,7 +73,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
             'request'
         );
 
-        $this->message = $this->getMock(MailMessage::class, ['send', '__destruct']);
+        $this->message = $this->getMock(MailMessage::class, ['send']);
         GeneralUtility::addInstance(MailMessage::class, $this->message);
     }
 

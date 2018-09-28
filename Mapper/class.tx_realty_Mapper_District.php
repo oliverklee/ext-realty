@@ -40,16 +40,6 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
     private $cacheByNameAndCityUid = [];
 
     /**
-     * Frees as much memory that has been used by this object as possible.
-     */
-    public function __destruct()
-    {
-        $this->cacheByNameAndCityUid = [];
-
-        parent::__destruct();
-    }
-
-    /**
      * Finds all districts that belong to a certain city.
      *
      * If $uid is zero, this function returns all districts without a city.

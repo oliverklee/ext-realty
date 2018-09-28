@@ -244,16 +244,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Destructor.
-     */
-    public function __destruct()
-    {
-        unset($this->charsetConversion, $this->owner, $this->images);
-
-        parent::__destruct();
-    }
-
-    /**
      * Gets allowed image file extensions.
      *
      * @return string[] lowercased allowed image file extensions, might be empty
