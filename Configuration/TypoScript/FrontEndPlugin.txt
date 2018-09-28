@@ -7,8 +7,8 @@ plugin.tx_realty_pi1 {
     # location of the HTML template file for the FE editor and image upload
     feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
 
-    # location of language file for substitution of LABEL markers in the FE editor
-    locallangFilename = EXT:realty/Resources/Private/Language/FrontEnd/locallang_db.xlf
+    # location of language file for substitution of LABEL markers in the FE image upload
+    locallangFilename = EXT:realty/Resources/Private/Language/locallang.xlf
 
     # whether to use formal or informal language
     salutation = formal
