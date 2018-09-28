@@ -1764,6 +1764,14 @@
                 <source>Total energy efficiency class</source>
                 <target>Gesamtenergieeffizienz-Klasse</target>
             </trans-unit>
+            <trans-unit id="label_object_type" xml:space="preserve" approved="yes">
+                <source>Object type</source>
+                <target>Objektart</target>
+            </trans-unit>
+            <trans-unit id="label_contact_data_source" xml:space="preserve" approved="yes">
+                <source>Contact data source (for contact form and detail view)</source>
+                <target>Quelle der Kontaktdaten (für Kontaktformular und Detailansicht)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

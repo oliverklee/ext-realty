@@ -1324,6 +1324,12 @@
             <trans-unit id="label_total_energy_efficiency_class" xml:space="preserve">
                 <source>Total energy efficiency class</source>
             </trans-unit>
+            <trans-unit id="label_object_type" xml:space="preserve">
+                <source>Object type</source>
+            </trans-unit>
+            <trans-unit id="label_contact_data_source" xml:space="preserve">
+                <source>Contact data source (for contact form and detail view)</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

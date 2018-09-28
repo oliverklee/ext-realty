@@ -68,6 +68,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Remove double labels for radiobutton groups (#65)
 - Bring back the localized labels in the FE image upload (#64)
 - Update the composer package name of static-info-tables (#53)
 - Add the missing required PHP extensions to the composer.json (#51)
