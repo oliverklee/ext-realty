@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add compatibility with PHP 7.1 and 7.2 (#94)
 - Run the unit tests on TravisCI (#11)
 - Add more accessibility-related fields to the FE editor (#18, #60)
 - Display the rent with heating costs (#42)
