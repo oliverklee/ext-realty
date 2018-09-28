@@ -73,7 +73,6 @@ plugin.tx_realty_pi1.editor {
         object_type = renderlet:RADIOBUTTON
         object_type {
             name = object_type
-            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type
             data {
                 defaultvalue = 0
                 items {
@@ -87,6 +86,7 @@ plugin.tx_realty_pi1.editor {
                     }
                 }
             }
+            wrapitem = |<br/>
             onclick = updateHideAndShow();
         }
 
@@ -391,7 +391,6 @@ plugin.tx_realty_pi1.editor {
         contact_data_source = renderlet:RADIOBUTTON
         contact_data_source {
             name = contact_data_source
-            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source
             data {
                 defaultvalue = 0
                 items {
@@ -405,6 +404,7 @@ plugin.tx_realty_pi1.editor {
                     }
                 }
             }
+            wrapitem = |<br/>
             onclick = updateHideAndShow();
         }
 
