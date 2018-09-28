@@ -18,10 +18,6 @@ Installation
 
 #. In the install tool, disable  **FE > pageNotFoundOnCHashError** .
 
-#. If you want to use the OpenImmo import and your server uses SuSE
-   Linux, please make sure that the package  *php5-zip* or  *php-zip* is
-   installed
-
 #. Make sure that you use UTF-8 in the BE and FE. Otherwise, the OpenImmo
    import won’t work properly, and the FE output might be broken.
    **Don’t set config.renderCharset or config.metaCharset** (leaving
@@ -31,11 +27,11 @@ Installation
 #. If you want to use the offerers list view, make sure that the
    **sf\_register** or **sr\_feuser\_register** extension is installed.
 
-#. Install **ameos\_formidable**: Please use the `patched ameos\_formidable
-   <https://www.dropbox.com/s/y513ui1u08mcc2z/T3X_ameos_formidable-1_1_564-z-201506082123.t3x?dl=0>`_.
+#. Install the required extensions **mkforms**, **static\_info\_tables**
+   and **oelib**, which are available in the TER.
 
-#. Install the required extensions **static\_info\_tables** and **oelib**
-   which are available in the TER.
+#. Include the *MKFORMS - Basics (mkforms)* template in your site template
+   under "Include static (from extensions)."
 
 #. Install the Realty Manager extension.
 

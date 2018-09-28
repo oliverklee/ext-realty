@@ -216,8 +216,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      * The field "title" will be returned within the array as caption. The UID
      * will be the value.
      *
-     * @param array $unused
-     *        not used (items currently defined in the form)
      * @param array $formData
      *        Form data, must at least contain one element with the key 'table' and the table name to query as value.
      *        May also have an element 'title_column' where the database column name of the field that will be used as the title
@@ -229,7 +227,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      *
      * @throws Tx_Oelib_Exception_Database
      */
-    public function populateList(array $unused, array $formData)
+    public function populateList(array $formData)
     {
         $this->checkForValidTableName($formData['table']);
 
@@ -320,45 +318,28 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
     /**
      * Checks whether a form data value is within a range of allowed integers.
-     * The provided form data array must contain the keys 'value', 'range' and
-     * 'multiple'. 'range' must be two integers separated by '-'. If 'multiple',
-     * which is supposed to be boolean, is set to TRUE, multiple values are
-     * allowed in 'value'. In this case, 'value' is expected to contain an inner
-     * array.
+     * The provided form data array must contain the keys 'value' and 'range'.
+     * 'range' must be two integers separated by '-'.
      *
      * @param array $formData
-     *        array with the elements 'value', 'range' and 'multiple', 'value' is the form data value to check and can be empty,
-     *        'range' must be two integers separated by '-' and 'multiple' must be boolean
+     *        array with the elements 'value', 'range' 'value' is the form data value to check and can be empty,
+     *        'range' must be two integers separated by '-'
      *
-     * @return bool TRUE if the values to check are empty or in range,
-     *                 FALSE otherwise
+     * @return bool
      */
     public function isIntegerInRange(array $formData)
     {
-        if ($formData['value'] === '') {
+        $value = $formData['value'];
+        if ($value === '') {
             return true;
         }
-
-        $result = true;
+        if (!$this->isValidNonNegativeIntegerNumber(['value' => $value])) {
+            return false;
+        }
 
         $range = GeneralUtility::trimExplode('-', $formData['range'], true);
-        $valuesToCheck = $formData['multiple']
-            ? $formData['value']
-            : [$formData['value']];
 
-        foreach ($valuesToCheck as $value) {
-            if (!$this->isValidNonNegativeIntegerNumber(['value' => $value])) {
-                $result = false;
-            }
-        }
-
-        if ((min($valuesToCheck) < min($range))
-            || (max($valuesToCheck) > max($range))
-        ) {
-            $result = false;
-        }
-
-        return $result;
+        return $value >= min($range) && $value <= max($range);
     }
 
     /**
@@ -1126,23 +1107,22 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     /**
      * Creates a new district record.
      *
-     * This function is intended to be called via an AJAX FORMidable event.
+     * This function is intended to be called via an AJAX event.
      *
-     * @param tx_ameosformidable $formidable
-     *        the FORMidable object for the AJAX call
+     * @param \tx_mkforms_forms_Base $form
      *
      * @return array[] calls to be executed on the client
      */
-    public static function createNewDistrict(tx_ameosformidable $formidable)
+    public static function createNewDistrict(\tx_mkforms_forms_Base $form)
     {
         /** @var formidableajax $event */
-        $event = $formidable->oMajixEvent;
+        $event = $form->oMajixEvent;
         $formData = $event->getParams();
         $title = trim(strip_tags($formData['newDistrictTitle']));
         $cityUid = (int)$formData['newDistrictCity'];
 
         $validationErrors = self::validateDistrict(
-            $formidable,
+            $form,
             [
                 'title' => $title,
                 'city' => $cityUid,
@@ -1150,7 +1130,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         );
         if (!empty($validationErrors)) {
             return [
-                $formidable->majixExecJs(
+                $form->majixExecJs(
                     'alert("' . implode('\\n', $validationErrors) . '");'
                 ),
             ];
@@ -1162,7 +1142,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         try {
             $districtMapper->findByNameAndCityUid($title, $cityUid);
             /** @var tx_rdtmodalbox $renderlet */
-            $renderlet = $formidable->aORenderlets['newDistrictModalBox'];
+            $renderlet = $form->aORenderlets['newDistrictModalBox'];
             // just closes the modal box; doesn't save the district if it
             // already exists
             return [$renderlet->majixCloseBox()];
@@ -1182,10 +1162,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $districtMapper->save($district);
 
         /** @var tx_rdtmodalbox $renderlet */
-        $renderlet = $formidable->aORenderlets['newDistrictModalBox'];
+        $renderlet = $form->aORenderlets['newDistrictModalBox'];
         return [
             $renderlet->majixCloseBox(),
-            $formidable->majixExecJs(
+            $form->majixExecJs(
                 'appendDistrictInEditor(' . $district->getUid() . ', "' . addcslashes($district->getTitle(), '"\\') . '");'
             ),
         ];
@@ -1194,8 +1174,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     /**
      * Validates the entered data for a district.
      *
-     * @param tx_ameosformidable $formidable
-     *        the FORMidable object for the AJAX call
+     * @param \tx_mkforms_forms_Base $form
      * @param array $formData
      *        the entered form data, the key must be stripped of the
      *        "newDistrict" prefix, must not be empty
@@ -1203,18 +1182,18 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      * @return string[] any error messages, will be empty if there are no validation errors
      */
     private static function validateDistrict(
-        tx_ameosformidable $formidable,
+        \tx_mkforms_forms_Base $form,
         array $formData
     ) {
         $validationErrors = [];
 
         if ($formData['title'] == '') {
-            $validationErrors[] = $formidable->getLLLabel(
+            $validationErrors[] = $form->getLLLabel(
                 'LLL:EXT:realty/Resources/Private/Language/locallang.xlf:message_emptyTitle'
             );
         }
         if ($formData['city'] <= 0) {
-            $validationErrors[] = $formidable->getLLLabel(
+            $validationErrors[] = $form->getLLLabel(
                 'LLL:EXT:realty/Resources/Private/Language/locallang.xlf:message_emptyCity'
             );
         }
@@ -1326,7 +1305,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     ///////////////////////////////////
 
     /**
-     * Fakes that FORMidable has inserted a new record into the database.
+     * Fakes that mkforms has inserted a new record into the database.
      *
      * This function writes the array of faked form values to the database and
      * is for testing purposes.

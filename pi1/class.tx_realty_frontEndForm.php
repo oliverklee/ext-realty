@@ -1,6 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -13,9 +12,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
 {
     /**
-     * @var tx_ameosformidable
+     * @var \tx_mkforms_forms_Base
      */
-    protected $formCreator = null;
+    protected $form = null;
 
     /**
      * @var tx_realty_Model_RealtyObject
@@ -71,38 +70,46 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         $this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 
         parent::__construct($configuration, $contentObjectRenderer);
-
-        require_once(PATH_formidableapi);
     }
 
     /**
-     * Instantiates $this->formCreator (if it hasn't been created yet).
+     * Instantiates $this->form (if it hasn't been created yet).
      *
      * This function does nothing if this object is running in test mode.
      *
      * @return void
      */
-    protected function makeFormCreator()
+    protected function makeForm()
     {
-        if ($this->isTestMode) {
-            return;
-        }
-        if ($this->formCreator !== null) {
-            // This is necessary because FORMidable store the form data in the session and destroys the form reference
-            // from the data handler in the process.
-            $this->formCreator->oDataHandler->oForm = $this->formCreator;
+        if ($this->isTestMode || $this->form !== null) {
             return;
         }
 
-        $this->formCreator = GeneralUtility::makeInstance('tx_ameosformidable');
-        // FORMidable would produce an error message if it is initialized with
+        \tx_rnbase::load(\tx_mkforms_forms_Base::class);
+        \tx_rnbase::load(\Tx_Rnbase_Database_Connection::class);
+        \tx_rnbase::load(\tx_mkforms_forms_Factory::class);
+//        $this->form = \tx_mkforms_forms_Factory::createForm(null);
+        $this->form = GeneralUtility::makeInstance(\tx_mkforms_forms_Base::class);
+
+        /**
+         * Configuration instance for plugin data. Necessary for LABEL translation.
+         *
+         * @var \Tx_Rnbase_Configuration_Processor $pluginConfiguration
+         */
+        $pluginConfiguration = \tx_rnbase::makeInstance(\Tx_Rnbase_Configuration_Processor::class);
+        $pluginConfiguration->init($this->conf, $this->cObj, 'realty', 'tx_realty_pi1_form');
+
+        // mkforms would produce an error message if it is initialized with
         // a non-existing UID.
-        // The FORMidable object is never initialized for testing.
+        // The mkforms object is never initialized for testing.
         if ($this->realtyObjectExistsInDatabase()) {
-            $this->formCreator->initFromTs(
+            // Initialize the form from TypoScript data and provide configuration for the plugin.
+            $this->form->initFromTs(
                 $this,
                 $this->conf[$this->configurationNamespace . '.'],
-                ($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false
+                ($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false,
+                $pluginConfiguration,
+                $this->configurationNamespace
             );
         }
     }
@@ -120,8 +127,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     public function render(array $unused = [])
     {
         $this->addOnLoadHandler();
-        $this->makeFormCreator();
-        return $this->formCreator->render();
+        $this->makeForm();
+        return $this->form->render();
     }
 
     /**
@@ -177,7 +184,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     ////////////////////////////////////
 
     /**
-     * Returns a form value from the FORMidable object.
+     * Returns a form value from the mkforms object.
      *
      * Note: In test mode, this function will return faked values.
      *
@@ -187,14 +194,13 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      */
     protected function getFormValue($key)
     {
-        $this->makeFormCreator();
+        $this->makeForm();
 
         if ($this->isTestMode) {
             $result = $this->getFakedFormValue($key);
         } else {
-            /** @var \tx_dhdb $dataHandler */
-            $dataHandler = $this->formCreator->oDataHandler;
-            $result = $dataHandler->getThisFormData($key);
+            $formData = $this->form->getDataHandler()->getFormData();
+            $result = isset($formData[$key]) ? (string)$formData[$key] : '';
         }
 
         return $result;
@@ -242,8 +248,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     }
 
     /**
-     * Fakes a form data value that is usually provided by the FORMidable
-     * object.
+     * Fakes a form data value that is usually provided by the mkforms object.
      *
      * This function is for testing purposes.
      *
@@ -258,8 +263,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     }
 
     /**
-     * Gets a faked form data value that is usually provided by the FORMidable
-     * object.
+     * Gets a faked form data value that is usually provided by the mkforms object.
      *
      * This function is for testing purposes.
      *
@@ -269,6 +273,6 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      */
     public function getFakedFormValue($key)
     {
-        return isset($this->fakedFormValues[$key]) ? $this->fakedFormValues[$key] : '';
+        return isset($this->fakedFormValues[$key]) ? (string)$this->fakedFormValues[$key] : '';
     }
 }

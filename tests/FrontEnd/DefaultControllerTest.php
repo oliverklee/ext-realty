@@ -98,8 +98,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase
         $this->createDummyPages();
         $this->createDummyObjects();
 
-        // True enables the test mode which inhibits the FE editors FORMidable
-        // object from being created.
+        // True enables the test mode which inhibits the FE editor mkforms object from being created.
         $this->fixture = new tx_realty_pi1(true);
         // This passed array with configuration values becomes part of
         // $this->fixture->conf. "conf" is inherited from AbstractPlugin and needs

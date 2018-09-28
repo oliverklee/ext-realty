@@ -14,9 +14,6 @@
 /**
  * This file provides JavaScript functions for the Realty Manager.
  *
- * @package TYPO3
- * @subpackage tx_realty
- *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */

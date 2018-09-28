@@ -306,10 +306,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
      */
     public function populateListForValidTableReturnsARecordsTitleAsCaption()
     {
-        $result = $this->fixture->populateList(
-            [],
-            ['table' => 'tx_realty_cities']
-        );
+        $result = $this->fixture->populateList(['table' => 'tx_realty_cities']);
 
         self::assertEquals(
             self::$dummyStringValue,
@@ -326,10 +323,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             'InvalidArgumentException',
             '"invalid_table" is not a valid table name.'
         );
-        $this->fixture->populateList(
-            [],
-            ['table' => 'invalid_table']
-        );
+        $this->fixture->populateList(['table' => 'invalid_table']);
     }
 
     /**
@@ -341,10 +335,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             'InvalidArgumentException',
             '"foo" is not a valid column name for ' . 'tx_realty_cities' . '.'
         );
-        $this->fixture->populateList(
-            [],
-            ['title_column' => 'foo', 'table' => 'tx_realty_cities']
-        );
+        $this->fixture->populateList(['title_column' => 'foo', 'table' => 'tx_realty_cities']);
     }
 
     /**
@@ -357,10 +348,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
                 'value' => '54',
                 'caption' => 'Deutschland',
             ],
-            $this->fixture->populateList([], [
-                'table' => 'static_countries',
-                'title_column' => 'cn_short_local',
-            ])
+            $this->fixture->populateList(
+                [
+                    'table' => 'static_countries',
+                    'title_column' => 'cn_short_local',
+                ]
+            )
         );
     }
 
@@ -778,7 +771,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function isIntegerInRangeReturnsTrueForSingleAllowedInteger()
+    public function isIntegerInRangeReturnsTrueForAllowedInteger()
     {
         self::assertTrue(
             $this->fixture->isIntegerInRange(
@@ -790,7 +783,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function isIntegerInRangeReturnsFalseForSingleIntegerBelowTheRange()
+    public function isIntegerInRangeReturnsFalseForBelowTheRange()
     {
         self::assertFalse(
             $this->fixture->isIntegerInRange(
@@ -802,7 +795,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function isIntegerInRangeReturnsFalseForSingleIntegerHigherThanTheRange()
+    public function isIntegerInRangeReturnsFalseForHigherThanTheRange()
     {
         self::assertFalse(
             $this->fixture->isIntegerInRange(
@@ -819,42 +812,6 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertFalse(
             $this->fixture->isIntegerInRange(
                 ['value' => 'string', 'range' => '0-1', 'multiple' => '0']
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function isIntegerInRangeReturnsTrueForMultipleAllowedIntegers()
-    {
-        self::assertTrue(
-            $this->fixture->isIntegerInRange(
-                ['value' => [0, 1, 2], 'range' => '0-2', 'multiple' => '1']
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function isIntegerInRangeReturnsFalseForMultipleIntegersIfOneIsBelowTheRange()
-    {
-        self::assertFalse(
-            $this->fixture->isIntegerInRange(
-                ['value' => [0, 1, 2], 'range' => '1-2', 'multiple' => '1']
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function isIntegerInRangeReturnsFalseForMultipleIntegersIfOneIsHigherThanTheRange()
-    {
-        self::assertFalse(
-            $this->fixture->isIntegerInRange(
-                ['value' => [0, 1, 2], 'range' => '0-1', 'multiple' => '1']
             )
         );
     }
