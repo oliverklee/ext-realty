@@ -79,7 +79,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $this->fixture = new tx_realty_openImmoImportChild(true);
         $this->setupStaticConditions();
 
-        $this->message = $this->getMock(MailMessage::class, ['send', '__destruct']);
+        $this->message = $this->getMock(MailMessage::class, ['send']);
         GeneralUtility::addInstance(MailMessage::class, $this->message);
     }
 

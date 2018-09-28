@@ -106,14 +106,6 @@ class tx_realty_openImmoImport
     }
 
     /**
-     * Frees as much memory that has been used by this object as possible.
-     */
-    public function __destruct()
-    {
-        unset($this->globalConfiguration, $this->importedXml, $this->realtyObject, $this->fileNameMapper);
-    }
-
-    /**
      * Extracts ZIP archives from an absolute path of a directory and inserts
      * realty records to database:
      * If the directory, specified in the EM configuration, exists and ZIP

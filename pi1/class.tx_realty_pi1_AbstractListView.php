@@ -113,15 +113,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     }
 
     /**
-     * Frees as much memory that has been used by this object as possible.
-     */
-    public function __destruct()
-    {
-        unset($this->formatter, $this->realtyObject);
-        parent::__destruct();
-    }
-
-    /**
      * Sets the realty object of the actual row.
      *
      * @param int $realtyObjectUid the uid of the Realty object of the actual row, must be >= 0

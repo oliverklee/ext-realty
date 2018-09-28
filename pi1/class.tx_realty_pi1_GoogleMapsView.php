@@ -53,15 +53,6 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
     }
 
     /**
-     * Frees as much memory that has been used by this object as possible.
-     */
-    public function __destruct()
-    {
-        unset($this->realtyObject, $this->mapMarkers);
-        parent::__destruct();
-    }
-
-    /**
      * Returns the HTML for Google Maps.
      *
      * If none of the objects on the current page have coordinates, the result

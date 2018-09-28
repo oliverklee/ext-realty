@@ -186,14 +186,6 @@ class tx_realty_domDocumentConverter
     }
 
     /**
-     * Frees as much memory that has been used by this object as possible.
-     */
-    public function __destruct()
-    {
-        unset($this->rawRealtyData, $this->fileNameMapper);
-    }
-
-    /**
      * Handles the conversion of a DOMDocument and returns the realty records
      * found in the DOMDocument as values of an array. Each of this values is an
      * array with column names like in the database table 'tx_realty_objects' as

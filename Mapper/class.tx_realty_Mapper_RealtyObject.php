@@ -34,16 +34,6 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
     private $cacheByObjectNumberAndObjectIdAndLanguage = [];
 
     /**
-     * Frees as much memory that has been used by this object as possible.
-     */
-    public function __destruct()
-    {
-        $this->cacheByObjectNumberAndObjectIdAndLanguage = [];
-
-        parent::__destruct();
-    }
-
-    /**
      * Returns the number of realty objects in the city $city.
      *
      * @param tx_realty_Model_City $city the city for which to count the objects
