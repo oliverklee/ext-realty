@@ -142,8 +142,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
     protected function getViewSpecificWhereClauseParts()
     {
         return ' AND tx_realty_objects.owner = ' .
-            Tx_Oelib_FrontEndLoginManager::getInstance()
-            ->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid();
+            Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid();
     }
 
     /**
@@ -169,10 +168,12 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         );
         $this->setMarker(
             'really_delete',
-            $this->translate('label_really_delete') . '\\n' .
+            htmlspecialchars(
+                $this->translate('label_really_delete') . '\\n' .
                 $this->translate('label_object_number') . ' ' .
-                $this->internal['currentRow']['object_number'] . ': ' .
-                $this->internal['currentRow']['title']
+                addslashes($this->internal['currentRow']['object_number']) . ': ' .
+                addslashes($this->internal['currentRow']['title'])
+            )
         );
         $this->setMarker(
             'delete_link',
@@ -189,10 +190,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         );
         $this->setMarker(
             'record_state',
-            $this->translate(
-                $this->internal['currentRow']['hidden']
-                ? 'label_pending' : 'label_published'
-            )
+            $this->translate($this->internal['currentRow']['hidden'] ? 'label_pending' : 'label_published')
         );
 
         $this->setAdvertisementMarkers();
