@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="lightbox.css" />
     <link rel="stylesheet" type="text/css" href="tx_realty_pi1.tpl.css" />
     <title>
         HTML template for the Realty Manager
@@ -75,14 +74,14 @@
                         <!-- ###PAGINATION### --><!-- ###PAGINATION### -->
                         <!-- ###ADD_TO_FAVORITES_BUTTON### -->
                         <div class="favorites">
-                            <a href="#" class="button listViewAddToFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+                            <a href="#" class="js-realty-favorites button listViewAddToFavorites"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
                         </div>
                         <!-- ###ADD_TO_FAVORITES_BUTTON### -->
                         <!-- ###REMOVE_FROM_FAVORITES_BUTTON### -->
                         <div class="favorites">
                             <input type="hidden" name="tx_realty_pi1[remove]" value="1" />
                             <!-- ###WRAPPER_REMOVEFROMFAVORITES### -->
-                                <a href="#" class="button removeFromFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_REMOVE_FROM_FAVORITES###</span></a>
+                                <a href="#" class="js-realty-favorites button removeFromFavorites"><span>###LABEL_REMOVE_FROM_FAVORITES###</span></a>
                             <!-- ###WRAPPER_REMOVEFROMFAVORITES### -->
                         </div>
                         <!-- ###REMOVE_FROM_FAVORITES_BUTTON### -->
@@ -139,7 +138,7 @@
                                                     <!-- ###WRAPPER_ADVERTISED_STATUS### -->
                                                 <!--  ###WRAPPER_ADVERTISING### -->
                                                 <span class="button act tx-realty-pi1-record-state"><span>###RECORD_STATE###</span></span>
-                                                <a href="###DELETE_LINK###" class="button delete" onclick="return confirm('###REALLY_DELETE###')"><span>###LABEL_DELETE###</span></a>
+                                                <a href="###DELETE_LINK###" data-confirm-message="###REALLY_DELETE###" class="js-realty-confirm button delete"><span>###LABEL_DELETE###</span></a>
                                             </td>
                                         </tr>
                                     </table>
@@ -169,7 +168,7 @@
                             </td>
                             <td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderAsc" value="0"###SORT_CHECKED_ASC###/><label for="sortOrderAsc">###LABEL_ASCENDING###</label></td>
                             <td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderDesc" value="1"###SORT_CHECKED_DESC###/><label for="sortOrderDesc">###LABEL_DESCENDING###</label></td>
-                            <td><a href="#" class="button sort" onclick="document.forms['tx_realty_pi1_sorting'].submit(); return false;"><span>###LABEL_SORT###</span></a></td>
+                            <td><a href="#" class="js-realty-sort button sort"><span>###LABEL_SORT###</span></a></td>
                         </tr>
                     </table>
                 </td>
@@ -179,7 +178,7 @@
     <!-- ###WRAPPER_SORTING### -->
     <!-- ###LIST_RESULT### -->
     <!-- ###BACK_LINK### -->
-    <a href="#" onclick="history.back(); return false;" class="button listViewBack"><span>###LABEL_BACK###</span></a>
+    <a href="#" class="js-realty-back button listViewBack"><span>###LABEL_BACK###</span></a>
     <!-- ###BACK_LINK### -->
     <!-- ###NEW_RECORD_LINK### -->
     <a href="###EMPTY_EDITOR_LINK###" class="button newRecord"><span>###LABEL_NEW_RECORD###</span></a>
@@ -289,15 +288,15 @@
             <form id="addToFavorites" method="post" action="###FAVORITES_URL###">
                 <div>
                     <input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
-                    <a href="#" class="button singleViewAddToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+                    <a href="#" class="js-realty-favorites button singleViewAddToFavorites"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
                 </div>
             </form>
             <!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
             <!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
-            <a href="#" class="button printPage" onclick="window.print(); return false;"><span>###LABEL_PRINT_PAGE###</span></a>
+            <a href="#" class="js-realty-print button printPage"><span>###LABEL_PRINT_PAGE###</span></a>
             <!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
             <!-- ###FIELD_WRAPPER_BACKBUTTON### -->
-            <a href="###BACK_URL###" class="button singleViewBack"###JAVASCRIPT_BACK###><span>###LABEL_BACK###</span></a>
+            <a href="###BACK_URL###" class="js-realty-back button singleViewBack"><span>###LABEL_BACK###</span></a>
             <!-- ###FIELD_WRAPPER_BACKBUTTON### -->
         </div>
         <!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
@@ -404,7 +403,7 @@
         <!-- ###WRAPPER_CITY_SEARCH### -->
         <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_city">
             <label class="tx-realty-pi1-label" for="tx_realty_pi1-city">###LABEL_SELECT_CITY###</label>
-            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[city]" id="tx_realty_pi1-city"###CITY_SELECT_ON_CHANGE###>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[city]" id="tx_realty_pi1-city">
                 <option value="0">###LABEL_PLEASESELECTCITY###</option>
                 ###OPTIONS_CITY_SEARCH###
             </select>
@@ -413,7 +412,7 @@
         <!-- ###WRAPPER_DISTRICT_SEARCH### -->
         <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_district"###HIDE_DISTRICT_SELECTOR###>
             <label class="tx-realty-pi1-label" for="tx_realty_pi1-district">###LABEL_SELECT_DISTRICT###</label>
-            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[district]" id="tx_realty_pi1-district"###DISTRICT_SELECT_ON_CHANGE###>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[district]" id="tx_realty_pi1-district">
                 <option value="0">###LABEL_PLEASESELECTDISTRICT###</option>
                 ###OPTIONS_DISTRICT_SEARCH###
             </select>
@@ -423,7 +422,7 @@
         <!-- ###WRAPPER_HOUSE_TYPE_SEARCH### -->
         <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_houseType">
             <label class="tx-realty-pi1-label" for="tx_realty_pi1-houseType">###LABEL_SELECT_HOUSE_TYPE###</label>
-            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[houseType]" id="tx_realty_pi1-houseType"###HOUSE_TYPE_SELECT_ON_CHANGE###>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[houseType]" id="tx_realty_pi1-houseType">
                 <option value="">###LABEL_PLEASESELECTHOUSETYPE###</option>
                 ###OPTIONS_HOUSE_TYPE_SEARCH###
             </select>
@@ -432,7 +431,7 @@
         <!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
         <div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_priceRange">
             <label class="tx-realty-pi1-label" for="tx_realty_pi1-priceRange">###LABEL_SELECT_PRICE_RANGE###</label>
-            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange"###PRICE_RANGE_ON_CHANGE###>
+            <select class="tx-realty-pi1-input select" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange">
                 ###PRICE_RANGE_OPTIONS###
             </select>
         </div>

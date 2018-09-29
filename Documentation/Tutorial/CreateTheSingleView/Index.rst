@@ -20,10 +20,6 @@ Create the single view
    (as it should be reached via links from the list view, not via the
    page navigation). This will be the page for the single view.
 
-# The gallery uses PrototypeJS.
-  If you are using jQuery on your site, you will either need to disable
-  it on the pages with the plugin or use jQuery in no-conflict mode.
-
 #. As for the list view, add a content object with the Realty Manager
    plug-in.
 

@@ -150,20 +150,6 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $realtyObject->writeToDatabase();
     }
 
-    /*
-     * Tests concerning the basic functions
-     */
-
-    /**
-     * @test
-     */
-    public function viewIncludesMainJavaScript()
-    {
-        self::assertTrue(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
-        );
-    }
-
     /////////////////////////////////////
     // Tests concerning deleteRecord().
     /////////////////////////////////////
@@ -2290,36 +2276,6 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         tx_realty_cacheManager::injectCacheManager($cacheManager);
 
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
-    }
-
-    /*
-     * Tests concerning addOnloadHandler
-     */
-
-    /**
-     * @test
-     */
-    public function addOnLoadHandlerAddsOnLoadHandler()
-    {
-        $this->fixture->addOnLoadHandler();
-
-        self::assertTrue(
-            isset($this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function addOnLoadHandlerAddsCallToUpdateHideAndShow()
-    {
-        $this->fixture->addOnLoadHandler();
-
-        self::assertContains(
-            'updateHideAndShow();',
-            $this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
-        );
     }
 
     //////////////////////////////////////

@@ -313,34 +313,6 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function renderGoogleMapsForObjectWithCoordinatesViewAddsOnLoad()
-    {
-        $this->realtyObject->setGeoCoordinates(['latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE]);
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
-
-        self::assertTrue(
-            isset($this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_maps'])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderGoogleMapsViewForObjectWithCoordinatesAddsOnUnload()
-    {
-        $this->realtyObject->setGeoCoordinates(['latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE]);
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
-
-        self::assertTrue(
-            isset($this->getFrontEndController()->JSeventFuncCalls['onunload']['tx_realty_pi1_maps'])
-        );
-    }
-
-    /**
-     * @test
-     */
     public function renderGoogleMapsViewReturnsCoordinatesInJavaScript()
     {
         $this->realtyObject->setGeoCoordinates(['latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE]);

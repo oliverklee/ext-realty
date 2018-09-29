@@ -47,8 +47,8 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue(
             'singleViewPartsToDisplay',
             'heading,address,description,documents,furtherDescription,price,' .
-                'overviewTable,imageThumbnails,addToFavoritesButton,' .
-                'contactButton,offerer,status,printPageButton,backButton'
+            'overviewTable,imageThumbnails,addToFavoritesButton,' .
+            'contactButton,offerer,status,printPageButton,backButton'
         );
         $this->dummyCityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
@@ -409,7 +409,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         );
 
         self::assertContains(
-            'class="button singleViewAddToFavorites"',
+            'class="js-realty-favorites button singleViewAddToFavorites"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -428,7 +428,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         );
 
         self::assertNotContains(
-            'class="button singleViewAddToFavorites"',
+            'class="js-realty-favorites button singleViewAddToFavorites"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -447,7 +447,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         );
 
         self::assertContains(
-            'class="button printPage"',
+            'class="js-realty-print button printPage"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -466,7 +466,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         );
 
         self::assertNotContains(
-            'class="button printPage"',
+            'class="js-realty-print button printPage"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -480,7 +480,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         self::assertContains(
-            'class="button singleViewBack"',
+            'class="js-realty-back button singleViewBack"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -499,7 +499,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         );
 
         self::assertNotContains(
-            'class="button singleViewBack"',
+            'class="js-realty-back button singleViewBack"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }

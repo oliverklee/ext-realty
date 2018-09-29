@@ -564,7 +564,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
 
         $termsPid = $this->getConfValueInteger('termsPID', 's_contactForm');
         $termsUrl = $this->cObj->getTypoLink_URL($termsPid);
-        $linkStart = '<a href="' . $termsUrl . '" onclick="window.open(\'' . $termsUrl . '\'); return FALSE;">';
+        $linkStart = '<a href="' . $termsUrl . '" target="_blank">';
         $linkEnd = '</a>';
 
         $label = sprintf($this->translate('label_terms'), $linkStart, $linkEnd);

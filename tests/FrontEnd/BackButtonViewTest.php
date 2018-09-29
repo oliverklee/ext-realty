@@ -47,7 +47,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsButtonBack()
     {
         self::assertContains(
-            'class="button singleViewBack"',
+            'class="js-realty-back button singleViewBack"',
             $this->fixture->render(['showUid' => 0])
         );
     }
@@ -55,132 +55,6 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase
     //////////////////////////////
     // Tests concerning the link
     //////////////////////////////
-
-    /**
-     * @test
-     */
-    public function forPreviousNextButtonsDisabledAndNoListUidViewIsJavaScriptBack()
-    {
-        $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons',
-            false
-        );
-
-        self::assertContains(
-            'history.back();',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function forPreviousNextButtonsDisabledAndListUidViewIsJavaScriptBack()
-    {
-        $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons',
-            false
-        );
-        $listUid = $this->testingFramework->createContentElement(
-            $this->testingFramework->createFrontEndPage()
-        );
-        $this->fixture->piVars['listUid'] = $listUid;
-
-        self::assertContains(
-            'history.back();',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function forPreviousNextButtonsDisabledAndSingleViewPartNextPreviousButtonEnabledIsJavaScriptBack()
-    {
-        $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons',
-            false
-        );
-        $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay',
-            'nextPreviousButtons'
-        );
-        $listUid = $this->testingFramework->createContentElement(
-            $this->testingFramework->createFrontEndPage()
-        );
-        $this->fixture->piVars['listUid'] = $listUid;
-
-        self::assertContains(
-            'history.back();',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function forPreviousNextButtonsEnabledAndNoListUidViewIsJavaScriptBack()
-    {
-        $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons',
-            true
-        );
-
-        self::assertContains(
-            'history.back();',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function forPreviousNextButtonsEnabledAndSingleViewPartNotContainsNextPreviousButtonIsJavaScriptBack()
-    {
-        $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons',
-            true
-        );
-        $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay',
-            'backButton'
-        );
-        $listUid = $this->testingFramework->createContentElement(
-            $this->testingFramework->createFrontEndPage()
-        );
-        $this->fixture->piVars['listUid'] = $listUid;
-
-        self::assertContains(
-            'history.back();',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function forPreviousNextButtonsEnabledAndListUidViewNotIsJavaScriptBack()
-    {
-        $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons',
-            true
-        );
-        $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay',
-            'nextPreviousButtons'
-        );
-
-        $listViewPageUid = $this->testingFramework->createFrontEndPage();
-        $listUid = $this->testingFramework->createContentElement(
-            $listViewPageUid
-        );
-        $this->fixture->piVars['listUid'] = $listUid;
-
-        self::assertNotContains(
-            'history.back();',
-            $this->fixture->render()
-        );
-    }
 
     /**
      * @test

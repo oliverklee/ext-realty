@@ -35,11 +35,6 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
     public function render(array $unused = [])
     {
         $result = parent::render($unused);
-        tx_realty_lightboxIncluder::includeLightboxFiles(
-            $this->prefixId,
-            $this->extKey
-        );
-        tx_realty_lightboxIncluder::includeMainJavaScript();
         $this->processTemplate($result);
         $this->setLabels();
 
@@ -227,9 +222,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
             $imageTag = $this->cObj->IMAGE($imageConfiguration);
             $this->setMarker(
                 'single_image_item',
-                '<a href="' . $imageUrl . '" rel="lightbox[objectGallery]" ' .
-                'title="' . htmlspecialchars($title) . '"' .
-                '>' . $imageTag . '</a>'
+                '<a href="' . $imageUrl . '" data-lightbox="objectGallery" ' .
+                'data-title="' . htmlspecialchars($title) . '"' . '>' . $imageTag . '</a>'
             );
             $this->setMarker(
                 'image_title',
@@ -237,7 +231,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
             );
             $this->setMarker(
                 'image_title_for_js',
-                htmlspecialchars(addslashes($title))
+                htmlspecialchars($title)
             );
             $this->setMarker(
                 'single_attached_image_id',

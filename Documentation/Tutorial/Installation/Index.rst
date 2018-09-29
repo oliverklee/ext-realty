@@ -16,6 +16,9 @@
 Installation
 ^^^^^^^^^^^^
 
+#. Please make sure that your site provides jQuery, and that it includes jQuery
+   in the HEAD. The latter is necessary for the FE editor.
+
 #. In the install tool, disable  **FE > pageNotFoundOnCHashError** .
 
 #. Make sure that you use UTF-8 in the BE and FE. Otherwise, the OpenImmo
@@ -28,10 +31,7 @@ Installation
    **sf\_register** or **sr\_feuser\_register** extension is installed.
 
 #. Install the required extensions **mkforms**, **static\_info\_tables**
-   and **oelib**, which are available in the TER.
-
-#. Include the *MKFORMS - Basics (mkforms)* template in your site template
-   under "Include static (from extensions)."
+   and **oelib**, which are available in the TER or from Packagist.
 
 #. Install the Realty Manager extension.
 
@@ -40,6 +40,9 @@ Installation
 
 #. You don’t need to set the other values in the Extension Manager yet
    (they’re used for the OpenImmo import).
+
+#. Include the *MKFORMS - Basics (mkforms)* and *Realty Manager* static templates
+   in your TypoScript template under "Include static (from extensions)."
 
 #. In your TS setup, please set config.language and config.locale\_all so
    the extension will use the correct language in the front end.

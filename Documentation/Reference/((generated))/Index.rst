@@ -927,23 +927,6 @@ override the corresponding value from TS Setup.**
          0
 
 
-.. container:: table-row
-
-   Property
-         includeJavaScriptLibraries
-
-   Data type
-         string
-
-   Description
-         which Lightbox-related JavaScript libraries to include on the single
-         view page and the image upload dialog; allowed is a comma-separated
-         list of some of the following: prototype, scriptaculous, lightbox
-
-   Default
-         prototype, scriptaculous, lightbox
-
-
 .. ###### END~OF~TABLE ######
 
 [tsref:plugin.tx\_realty\_pi1]

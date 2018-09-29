@@ -52,14 +52,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->extractValidFilterFormData($filterFormData);
         $this->displayedSearchFields = GeneralUtility::trimExplode(
             ',',
-            $this->getConfValueString(
-                'displayedSearchWidgetFields',
-                's_searchForm'
-            ),
+            $this->getConfValueString('displayedSearchWidgetFields', 's_searchForm'),
             true
         );
-
-        $this->includeJavaScript();
 
         $this->setTargetUrlMarker();
         $this->fillOrHideUidSearch();
@@ -75,20 +70,6 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->fillOrHideObjectTypeSelect();
 
         return $this->getSubpart('FILTER_FORM');
-    }
-
-    /**
-     * Includes the extension's main JavaScript and Prototype in the page header
-     * if this is needed.
-     *
-     * @return void
-     */
-    private function includeJavaScript()
-    {
-        if ($this->hasSearchField('city') && $this->hasSearchField('district')) {
-            tx_realty_lightboxIncluder::includePrototype();
-            tx_realty_lightboxIncluder::includeMainJavaScript();
-        }
     }
 
     /**
@@ -310,11 +291,6 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                 $label . '</option>';
         }
         $this->setMarker('price_range_options', $optionTags);
-
-        $this->setMarker(
-            'price_range_on_change',
-            $this->getOnChangeForSingleField()
-        );
     }
 
     /**
@@ -365,10 +341,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function fillOrHideCitySearch()
     {
-        $onChange = $this->hasSearchField('district')
-            ? ' onchange="updateDistrictsInSearchWidget();"'
-            : $this->getOnChangeForSingleField();
-        $this->createAndSetDropDown('city', $onChange);
+        $this->createAndSetDropDown('city');
     }
 
     /**
@@ -379,15 +352,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function fillOrHideDistrictSearch()
     {
-        $this->createAndSetDropDown(
-            'district',
-            $this->getOnChangeForSingleField()
-        );
+        $this->createAndSetDropDown('district');
 
         $this->setMarker(
             'hide_district_selector',
-            $this->hasSearchField('city') ?
-                ' style="display: none;"' : ' style="display: block;"'
+            $this->hasSearchField('city') ? ' style="display: none;"' : ' style="display: block;"'
         );
     }
 
@@ -402,13 +371,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      *
      * @param string $type
      *        the type of the selector, for example "city", must not be empty
-     * @param string $onChange
-     *        onchange attribute, must either start with " onchange" (including
-     *        the leading space) or be empty
      *
      * @return void
      */
-    private function createAndSetDropDown($type, $onChange = '')
+    private function createAndSetDropDown($type)
     {
         if (!$this->hasSearchField($type)) {
             $this->hideSubparts('wrapper_' . $type . '_search');
@@ -418,11 +384,6 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->setMarker(
             'options_' . $type . '_search',
             $this->createDropDownItems($type, $this->filterFormData[$type])
-        );
-
-        $this->setMarker(
-            $type . '_select_on_change',
-            $onChange
         );
     }
 
@@ -529,8 +490,6 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                 '>' . htmlspecialchars($record['title']) . '</option>' . LF;
         }
         $this->setMarker('options_' . $columnName . '_search', $options);
-
-        $this->setMarker($columnName . '_select_on_change', $this->getOnChangeForSingleField());
     }
 
     /**
@@ -549,11 +508,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         foreach (['forRent' => 'rent', 'forSale' => 'sale'] as $key => $markerPrefix) {
             $this->setMarker(
                 $markerPrefix . '_attributes',
-                (
-                ($this->filterFormData['objectType'] == $key)
-                    ? ' checked="checked"'
-                    : ''
-                ) . $this->getOnChangeForSingleField()
+                $this->filterFormData['objectType'] === $key ? ' checked="checked"' : ''
             );
         }
     }
@@ -885,30 +840,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      *
      * @param string $fieldToCheck the search field name to check, must not be empty
      *
-     * @return bool TRUE if the given field should be displayed as set per
-     *                 configuration, FALSE otherwise
+     * @return bool true if the given field should be displayed as set per configuration, false otherwise
      */
     private function hasSearchField($fieldToCheck)
     {
-        return in_array($fieldToCheck, $this->displayedSearchFields);
-    }
-
-    /**
-     * Returns an onChange attribute for the search wigdet fields.
-     *
-     * @return string attribute which sends the search widget on change event
-     *                handler, will be empty if more than one field is shown
-     */
-    private function getOnChangeForSingleField()
-    {
-        if (count($this->displayedSearchFields) == 1) {
-            $result = ' onchange="document.' .
-                'forms[\'tx_realty_pi1_searchWidget\'].submit();"';
-        } else {
-            $result = '';
-        }
-
-        return $result;
+        return in_array($fieldToCheck, $this->displayedSearchFields, true);
     }
 
     /**

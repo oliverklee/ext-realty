@@ -64,6 +64,7 @@ plugin.tx_realty_pi1.imageUpload {
 
         imagesToDelete = renderlet:HIDDEN
         imagesToDelete {
+            name = imagesToDelete
             data.defaultvalue =
         }
 

@@ -689,21 +689,6 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function termsLabelContainsTermsPagePopup()
-    {
-        $termsPid = 1337;
-        $this->fixture->setConfigurationValue('termsPID', $termsPid);
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
-
-        self::assertContains(
-            'onclick="window.open(\'index.php?id=' . $termsPid,
-            $this->fixture->render()
-        );
-    }
-
     /*
      * Tests concerning (error) messages.
      */

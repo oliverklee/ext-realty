@@ -1,6 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -58,20 +57,21 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         $configurationRegistry = Tx_Oelib_ConfigurationRegistry::getInstance();
         $this->configuration = new Tx_Oelib_Configuration();
-        $this->configuration->setData([
-            'enableLightbox' => false,
-            'singleImageMaxX' => 102,
-            'singleImageMaxY' => 77,
-            'lightboxImageWidthMax' => 1024,
-            'lightboxImageHeightMax' => 768,
-            'images.' => [
-                '1.' => [],
-                '2.' => [],
-                '3.' => [],
-                '4.' => [],
-            ],
-            'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox',
-        ]);
+        $this->configuration->setData(
+            [
+                'enableLightbox' => false,
+                'singleImageMaxX' => 102,
+                'singleImageMaxY' => 77,
+                'lightboxImageWidthMax' => 1024,
+                'lightboxImageHeightMax' => 768,
+                'images.' => [
+                    '1.' => [],
+                    '2.' => [],
+                    '3.' => [],
+                    '4.' => [],
+                ],
+            ]
+        );
         $configurationRegistry->set('plugin.tx_realty_pi1', $this->configuration);
 
         $this->imagesConfiguration = new Tx_Oelib_Configuration();
@@ -143,7 +143,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
         self::assertContains(
-            'rel="lightbox[objectGallery]"',
+            'data-lightbox="objectGallery"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -166,145 +166,6 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function renderIncludesLightboxConfiguration()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo', 'foo.jpg');
-
-        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
-
-        self::assertTrue(
-            array_key_exists(
-                'tx_realty_pi1_lightbox_config',
-                $this->getFrontEndController()->additionalHeaderData
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderIncludesLightboxJsFile()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo', 'foo.jpg');
-
-        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
-
-        self::assertTrue(
-            in_array(
-                '<script type="text/javascript" src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
-                '/pi1/contrib/lightbox.js" ></script>',
-                $this->getFrontEndController()->additionalHeaderData
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderIncludesLightboxCssFile()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo', 'foo.jpg');
-
-        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
-
-        self::assertTrue(
-            in_array(
-                '<link rel="stylesheet" type="text/css" href="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') .
-                'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
-                $this->getFrontEndController()->additionalHeaderData
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderIncludesPrototypeJsFile()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo', 'foo.jpg');
-
-        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
-
-        self::assertTrue(
-            in_array(
-                '<script type="text/javascript" src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
-                '/pi1/contrib/prototype.js"></script>',
-                $this->getFrontEndController()->additionalHeaderData
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderIncludesScriptaculousJsFile()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo', 'foo.jpg');
-
-        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
-
-        self::assertTrue(
-            in_array(
-                '<script type="text/javascript"src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty/pi1' .
-                '/contrib/scriptaculous.js?load=effects,builder"></script>',
-                $this->getFrontEndController()->additionalHeaderData
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderForDisabledLightboxIncludesLightboxJsFile()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo', 'foo.jpg');
-
-        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
-
-        self::assertTrue(
-            in_array(
-                '<script type="text/javascript" src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
-                '/pi1/contrib/lightbox.js" ></script>',
-                $this->getFrontEndController()->additionalHeaderData
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderForDisabledLightboxIncludesLightboxCssFile()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo', 'foo.jpg');
-
-        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
-
-        self::assertTrue(
-            in_array(
-                '<link rel="stylesheet" type="text/css" href="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') .
-                'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
-                $this->getFrontEndController()->additionalHeaderData
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
     public function renderForDisabledLightboxNotAddsLightboxAttributeToImage()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
@@ -312,7 +173,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
         self::assertNotContains(
-            'rel="lightbox[objectGallery]"',
+            'data-lightbox="objectGallery"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -578,7 +439,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
         self::assertNotContains(
-            'rel="lightbox[',
+            'data-lightbox',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -595,7 +456,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
         self::assertContains(
-            'rel="lightbox[objectGallery_1]"',
+            'data-lightbox="objectGallery_1"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -612,7 +473,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
         self::assertContains(
-            'rel="lightbox[objectGallery_1]"',
+            'data-lightbox="objectGallery_1"',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -630,7 +491,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
         self::assertNotContains(
-            'rel="lightbox[',
+            'data-lightbox',
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }

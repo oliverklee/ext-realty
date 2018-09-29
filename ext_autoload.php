@@ -28,7 +28,6 @@ return [
     'tx_realty_cachemanager' => $extensionPath . 'lib/class.tx_realty_cacheManager.php',
     'tx_realty_domdocumentconverter' => $extensionPath . 'lib/class.tx_realty_domDocumentConverter.php',
     'tx_realty_filenamemapper' => $extensionPath . 'lib/class.tx_realty_fileNameMapper.php',
-    'tx_realty_lightboxincluder' => $extensionPath . 'lib/class.tx_realty_lightboxIncluder.php',
     'tx_realty_mapmarker' => $extensionPath . 'lib/class.tx_realty_mapMarker.php',
     'tx_realty_openimmoimport' => $extensionPath . 'lib/class.tx_realty_openImmoImport.php',
     'tx_realty_translator' => $extensionPath . 'lib/class.tx_realty_translator.php',

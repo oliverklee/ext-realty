@@ -234,26 +234,6 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function priceRangeForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'priceRanges'
-        );
-        $this->fixture->setConfigurationValue(
-            'priceRangesForFilterForm',
-            '-100'
-        );
-
-        self::assertContains(
-            'onchange="',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function priceRangeForNoOtherDisplayedSearchFieldsHasSubmitButton()
     {
         $this->fixture->setConfigurationValue(
@@ -267,26 +247,6 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             $this->fixture->translate('label_search'),
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function priceRangeForOtherDisplayedSearchFieldDoesNotHaveOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'priceRanges, uid'
-        );
-        $this->fixture->setConfigurationValue(
-            'priceRangesForFilterForm',
-            '-100'
-        );
-
-        self::assertNotContains(
-            'onchange="',
             $this->fixture->render()
         );
     }
@@ -465,162 +425,6 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function citySelectorForNoOtherDisplayedSearchFieldsGetsOnChangeSubmit()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city'
-        );
-
-        self::assertContains(
-            'onchange="document.forms',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorForOtherDisplayedSearchFieldDoesNotHaveOnChangeSubmit()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city, priceRanges'
-        );
-
-        self::assertNotContains(
-            'onchange="document.forms',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorWithDistrictSelectorHasOnChangeUpdateDistricts()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city, district'
-        );
-
-        self::assertContains(
-            'onchange="updateDistrictsInSearchWidget',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorWithoutDistrictSelectorNotIncludesPrototype()
-    {
-        $this->testingFramework->createRecord('tx_realty_cities');
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city'
-        );
-
-        $this->fixture->render();
-
-        self::assertFalse(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorWithUidSelectorNotIncludesPrototype()
-    {
-        $this->testingFramework->createRecord('tx_realty_cities');
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city,uid'
-        );
-
-        $this->fixture->render();
-
-        self::assertFalse(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorWithDistrictSelectorIncludesPrototype()
-    {
-        $this->testingFramework->createRecord('tx_realty_cities');
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city,district'
-        );
-
-        $this->fixture->render();
-
-        self::assertTrue(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorWithoutDistrictSelectorsNotIncludesMainJavaScript()
-    {
-        $this->testingFramework->createRecord('tx_realty_cities');
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city'
-        );
-
-        $this->fixture->render();
-
-        self::assertFalse(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorWithUidSelectorsNotIncludesMainJavaScript()
-    {
-        $this->testingFramework->createRecord('tx_realty_cities');
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city,uid'
-        );
-
-        $this->fixture->render();
-
-        self::assertFalse(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function citySelectorWithDistrictSelectorIncludesMainJavaScript()
-    {
-        $this->testingFramework->createRecord('tx_realty_cities');
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'city,district'
-        );
-
-        $this->fixture->render();
-
-        self::assertTrue(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
-        );
-    }
-
     //////////////////////////////////////////////////////////
     // Tests concerning the rendering of the district search
     //////////////////////////////////////////////////////////
@@ -668,38 +472,6 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function districtSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'district'
-        );
-
-        self::assertContains(
-            'onchange="',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function districtSelectorForOtherDisplayedSearchFieldDoesNotHaveOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'district, priceRanges'
-        );
-
-        self::assertNotContains(
-            'onchange="',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function districtSearchWithoutCitySearchShowsDistrictSearch()
     {
         $this->fixture->setConfigurationValue(
@@ -726,26 +498,6 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
         self::assertContains(
             'id="tx_realty_pi1_searchWidget_district" style="display: none;"',
             $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function districtSelectorWithoutOtherSelectorsNotIncludesPrototype()
-    {
-        $this->testingFramework->createRecord(
-            'tx_realty_districts'
-        );
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'district'
-        );
-
-        $this->fixture->render();
-
-        self::assertFalse(
-            isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
         );
     }
 
@@ -789,38 +541,6 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'Foo house type',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function houseTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'houseType'
-        );
-
-        self::assertContains(
-            'onchange="',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function houseTypeSelectorForOtherDisplayedSearchFieldDoesNotHaveOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'houseType, priceRanges'
-        );
-
-        self::assertNotContains(
-            'onchange="',
             $this->fixture->render()
         );
     }
@@ -890,70 +610,6 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
         self::assertContains(
             'value="forSale" checked="checked"',
             $this->fixture->render(['objectType' => 'forSale'])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function objectTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'objectType'
-        );
-
-        self::assertContains(
-            'onchange="',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function objectTypeSelectorForOtherDisplayedSearchFieldsDoesNotHaveOnChangeAttribute()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'objectType,city'
-        );
-
-        self::assertNotContains(
-            'onchange="',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function objectTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttributeOnForRentRadioButton()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'objectType'
-        );
-
-        self::assertContains(
-            'value="forRent" onchange="',
-            $this->fixture->render()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function objectTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttributeOnForSaleRadioButton()
-    {
-        $this->fixture->setConfigurationValue(
-            'displayedSearchWidgetFields',
-            'objectType'
-        );
-
-        self::assertContains(
-            'value="forSale" onchange="',
-            $this->fixture->render()
         );
     }
 

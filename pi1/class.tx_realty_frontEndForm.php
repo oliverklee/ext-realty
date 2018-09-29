@@ -126,20 +126,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      */
     public function render(array $unused = [])
     {
-        $this->addOnLoadHandler();
         $this->makeForm();
         return $this->form->render();
-    }
-
-    /**
-     * Adds an onload handler to the page header.
-     *
-     * This function is intended to be overridden by subclasses if needed.
-     *
-     * @return void
-     */
-    public function addOnLoadHandler()
-    {
     }
 
     //////////////////////////////////////

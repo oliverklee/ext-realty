@@ -1,10 +1,28 @@
-page.includeCSS {
-    tx_realty_pi1 = {$plugin.tx_realty_pi1.cssFile}
-    tx_realty_pi1.media = all
+page {
+    includeCSSLibs {
+        lightbox = EXT:realty/Resources/Public/Lightbox/css/lightbox.css
+    }
 
-    tx_realty_pi1_screen = {$plugin.tx_realty_pi1.cssFileScreen}
-    tx_realty_pi1_screen.media = screen
+    includeCSS {
+        tx_realty_pi1 = {$plugin.tx_realty_pi1.cssFile}
+        tx_realty_pi1.media = all
 
-    tx_realty_pi1_print = {$plugin.tx_realty_pi1.cssFilePrint}
-    tx_realty_pi1_print.media = print
+        tx_realty_pi1_screen = {$plugin.tx_realty_pi1.cssFileScreen}
+        tx_realty_pi1_screen.media = screen
+
+        tx_realty_pi1_print = {$plugin.tx_realty_pi1.cssFilePrint}
+        tx_realty_pi1_print.media = print
+    }
+
+    includeJSFooterlibs {
+        lightbox = EXT:realty/Resources/Public/Lightbox/js/lightbox.js
+        async = 1
+        defer = 1
+    }
+
+    includeJSFooter {
+        tx_realty_pi1 = EXT:realty/pi1/tx_realty_pi1.js
+        async = 1
+        defer = 1
+    }
 }

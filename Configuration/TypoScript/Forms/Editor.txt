@@ -6,7 +6,6 @@ plugin.tx_realty_pi1.editor {
         form.formid = tx_realty_frontEndEditor
         debug = false
         displaylabels = false
-        minify.enabled = 1
         keepinsession = false
     }
 
@@ -87,7 +86,6 @@ plugin.tx_realty_pi1.editor {
                 }
             }
             wrapitem = |<br/>
-            onclick = updateHideAndShow();
         }
 
         object_number = renderlet:TEXT
@@ -405,7 +403,6 @@ plugin.tx_realty_pi1.editor {
                 }
             }
             wrapitem = |<br/>
-            onclick = updateHideAndShow();
         }
 
         employer = renderlet:TEXT
@@ -2119,7 +2116,6 @@ plugin.tx_realty_pi1.editor {
         has_coordinates {
             name = has_coordinates
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_coordinates
-            onclick = updateHideAndShow();
         }
 
         coordinates_problem = renderlet:CHECKSINGLE
