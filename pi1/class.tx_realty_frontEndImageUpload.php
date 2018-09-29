@@ -88,10 +88,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         $caption = (string)$formData['caption'];
         $fileName = (string)$formData['image'];
         if ($caption !== '' && $fileName !== '') {
-            $this->realtyObject->addImageRecord(
-                strip_tags($caption),
-                $this->getFormUniqueFileName($fileName)
-            );
+            $this->realtyObject->addImageRecord(strip_tags($caption), $fileName);
         }
 
         $idsOfImagesToDelete = GeneralUtility::trimExplode(
@@ -120,7 +117,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
     /**
      * Checks whether the provided file is valid.
      *
-     * @param array $valueToCheck  data to check, must not be empty
+     * @param array $valueToCheck data to check, must not be empty
      *
      * @return bool whether the provided file is a valid image
      */
@@ -177,27 +174,6 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
     ////////////////////////////////////
 
     /**
-     * Returns the file name of an image to upload that will be used to store
-     * this image in the upload directory.
-     * This function can only return the correct result if it is called after
-     * mkforms has created the file name for writing the image to the upload
-     * directory.
-     *
-     * Note: In the test mode, just the input string will be returned.
-     *
-     * @param string $fileName file name derived from the form data, must not be empty
-     *
-     * @return string unique file name used under wich this file is stored
-     *                in the upload directory, will not be empty
-     */
-    private function getFormUniqueFileName($fileName)
-    {
-        $this->makeForm();
-
-        return $this->isTestMode ? $fileName : $this->form->aORenderlets['image']->sCoolFileName;
-    }
-
-    /**
      * Returns the URL to the current page.
      *
      * @return string URL of the current page, will not be empty
@@ -235,7 +211,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         foreach ($images as $image) {
             $imagePath = tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName();
             $imageUrl = htmlspecialchars(GeneralUtility::locationHeaderUrl(
-                    $this->cObj->typoLink_URL(['parameter' => $imagePath, 'useCacheHash' => true])
+                $this->cObj->typoLink_URL(['parameter' => $imagePath, 'useCacheHash' => true])
             ));
             $title = $image->getTitle();
 
@@ -252,8 +228,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
             $this->setMarker(
                 'single_image_item',
                 '<a href="' . $imageUrl . '" rel="lightbox[objectGallery]" ' .
-                    'title="' . htmlspecialchars($title) . '"' .
-                    '>' . $imageTag . '</a>'
+                'title="' . htmlspecialchars($title) . '"' .
+                '>' . $imageTag . '</a>'
             );
             $this->setMarker(
                 'image_title',

@@ -68,6 +68,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Adapt the FE image upload to mkforms (#67)
 - Properly encode alert texts (#66)
 - Remove double labels for radiobutton groups (#65)
 - Bring back the localized labels in the FE image upload (#64)
