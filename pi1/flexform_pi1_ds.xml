@@ -6,78 +6,54 @@
         <sDEF>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_general
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_general</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <what_to_display>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.what_to_display
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.what_to_display</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.realty_list
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.realty_list</numIndex>
                                         <numIndex index="1">realty_list</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.favorites
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.favorites</numIndex>
                                         <numIndex index="1">favorites</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.single_view
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.single_view</numIndex>
                                         <numIndex index="1">single_view</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.filter_form
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.filter_form</numIndex>
                                         <numIndex index="1">filter_form</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.contact_form
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.contact_form</numIndex>
                                         <numIndex index="1">contact_form</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.my_objects
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.my_objects</numIndex>
                                         <numIndex index="1">my_objects</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offerer_list
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offerer_list</numIndex>
                                         <numIndex index="1">offerer_list</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objects_by_owner
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objects_by_owner</numIndex>
                                         <numIndex index="1">objects_by_owner</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.fe_editor
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.fe_editor</numIndex>
                                         <numIndex index="1">fe_editor</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.image_upload
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.image_upload</numIndex>
                                         <numIndex index="1">image_upload</numIndex>
                                     </numIndex>
                                 </items>
@@ -145,23 +121,18 @@
                     </recursive>
                     <staticSqlFilter>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.staticSqlFilter
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.staticSqlFilter</label>
                             <config>
                                 <type>input</type>
                                 <size>256</size>
                                 <checkbox></checkbox>
                             </config>
-                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects
-                            </displayCond>
+                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
                         </TCEforms>
                     </staticSqlFilter>
                     <showContactPageLink>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.showContactPageLink
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.showContactPageLink</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -170,9 +141,7 @@
                     </showContactPageLink>
                     <checkboxesFilter>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.checkboxesFilter
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.checkboxesFilter</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
@@ -181,39 +150,27 @@
                                         <numIndex index="1"></numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city</numIndex>
                                         <numIndex index="1">city</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district</numIndex>
                                         <numIndex index="1">district</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.apartment_type
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.apartment_type</numIndex>
                                         <numIndex index="1">apartment_type</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.house_type
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.house_type</numIndex>
                                         <numIndex index="1">house_type</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_type
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_type</numIndex>
                                         <numIndex index="1">garage_type</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.pets
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.pets</numIndex>
                                         <numIndex index="1">pets</numIndex>
                                     </numIndex>
                                 </items>
@@ -227,152 +184,106 @@
                     <orderBy>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.orderBy
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.orderBy</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.fromTsSetup
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.fromTsSetup</numIndex>
                                         <numIndex index="1"></numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number</numIndex>
                                         <numIndex index="1">object_number</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title</numIndex>
                                         <numIndex index="1">title</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city</numIndex>
                                         <numIndex index="1">city</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district</numIndex>
                                         <numIndex index="1">district</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price</numIndex>
                                         <numIndex index="1">buying_price</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills</numIndex>
                                         <numIndex index="1">rent_excluding_bills</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms</numIndex>
                                         <numIndex index="1">number_of_rooms</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area</numIndex>
                                         <numIndex index="1">living_area</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.tstamp
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.tstamp</numIndex>
                                         <numIndex index="1">tstamp</numIndex>
                                     </numIndex>
                                     <numIndex index="10" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.random
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.random</numIndex>
                                         <numIndex index="1">random</numIndex>
                                     </numIndex>
                                 </items>
                                 <maxitems>1</maxitems>
                                 <minitems>0</minitems>
                             </config>
-                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects
-                            </displayCond>
+                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
                         </TCEforms>
                     </orderBy>
                     <sortCriteria>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sortCriteria
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sortCriteria</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number</numIndex>
                                         <numIndex index="1">object_number</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title</numIndex>
                                         <numIndex index="1">title</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city</numIndex>
                                         <numIndex index="1">city</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district</numIndex>
                                         <numIndex index="1">district</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price</numIndex>
                                         <numIndex index="1">buying_price</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills</numIndex>
                                         <numIndex index="1">rent_excluding_bills</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms</numIndex>
                                         <numIndex index="1">number_of_rooms</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area</numIndex>
                                         <numIndex index="1">living_area</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.tstamp
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.tstamp</numIndex>
                                         <numIndex index="1">tstamp</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.random
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.random</numIndex>
                                         <numIndex index="1">random</numIndex>
                                     </numIndex>
                                 </items>
@@ -380,113 +291,78 @@
                                 <minitems>0</minitems>
                                 <renderMode>checkbox</renderMode>
                             </config>
-                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects
-                            </displayCond>
+                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
                         </TCEforms>
                     </sortCriteria>
                     <singleViewPartsToDisplay>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.singleViewPartsToDisplay
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.singleViewPartsToDisplay</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.nextPreviousButtons
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.nextPreviousButtons</numIndex>
                                         <numIndex index="1">nextPreviousButtons</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.heading
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.heading</numIndex>
                                         <numIndex index="1">heading</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.address
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.address</numIndex>
                                         <numIndex index="1">address</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.description
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.description</numIndex>
                                         <numIndex index="1">description</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.documents
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.documents</numIndex>
                                         <numIndex index="1">documents</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.price
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.price</numIndex>
                                         <numIndex index="1">price</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.overviewTable
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.overviewTable</numIndex>
                                         <numIndex index="1">overviewTable</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.contactButton
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.contactButton</numIndex>
                                         <numIndex index="1">contactButton</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.addToFavoritesButton
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.addToFavoritesButton</numIndex>
                                         <numIndex index="1">addToFavoritesButton</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.printPageButton
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.printPageButton</numIndex>
                                         <numIndex index="1">printPageButton</numIndex>
                                     </numIndex>
                                     <numIndex index="10" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.backButton
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.backButton</numIndex>
                                         <numIndex index="1">backButton</numIndex>
                                     </numIndex>
                                     <numIndex index="11" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.furtherDescription
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.furtherDescription</numIndex>
                                         <numIndex index="1">furtherDescription</numIndex>
                                     </numIndex>
                                     <numIndex index="12" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.imageThumbnails
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.imageThumbnails</numIndex>
                                         <numIndex index="1">imageThumbnails</numIndex>
                                     </numIndex>
                                     <numIndex index="13" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offerer
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offerer</numIndex>
                                         <numIndex index="1">offerer</numIndex>
                                     </numIndex>
                                     <numIndex index="14" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.status
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.status</numIndex>
                                         <numIndex index="1">status</numIndex>
                                     </numIndex>
                                     <numIndex index="15" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.googleMaps
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.googleMaps</numIndex>
                                         <numIndex index="1">googleMaps</numIndex>
                                     </numIndex>
                                 </items>
@@ -500,9 +376,7 @@
                     <singlePID>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.singlePID
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.singlePID</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -512,16 +386,13 @@
                                 <minitems>0</minitems>
                                 <show_thumbs>1</show_thumbs>
                             </config>
-                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects
-                            </displayCond>
+                            <displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
                         </TCEforms>
                     </singlePID>
                     <favoritesPID>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.favoritesPID
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.favoritesPID</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -537,9 +408,7 @@
                     <editorPID>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.editorPID
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.editorPID</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -555,9 +424,7 @@
                     <imageUploadPID>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.imageUploadPID
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.imageUploadPID</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -576,18 +443,14 @@
         <s_feeditor>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_feeditor
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_feeditor</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <sysFolderForFeCreatedRecords>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sysFolderForFeCreatedRecords
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sysFolderForFeCreatedRecords</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -602,9 +465,7 @@
                     <feEditorRedirectPid>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.feEditorRedirectPid
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.feEditorRedirectPid</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -618,9 +479,7 @@
                     </feEditorRedirectPid>
                     <feEditorNotifyEmail>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.feEditorNotifyEmail
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.feEditorNotifyEmail</label>
                             <config>
                                 <type>input</type>
                                 <eval>trim</eval>
@@ -633,17 +492,13 @@
         <s_googlemaps>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_googlemaps
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_googlemaps</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <showGoogleMaps>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.showGoogleMaps
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.showGoogleMaps</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -651,9 +506,7 @@
                     </showGoogleMaps>
                     <defaultCountryUID>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.defaultCountry
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.defaultCountry</label>
                             <config>
                                 <type>select</type>
                                 <items>
@@ -676,85 +529,59 @@
         <s_searchForm>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_searchForm
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_searchForm</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <displayedSearchWidgetFields>
                         <TCEforms>
                             <exclude>0</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayedSearchWidgetFields
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayedSearchWidgetFields</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayUid
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayUid</numIndex>
                                         <numIndex index="1">uid</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayObjectNumber
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayObjectNumber</numIndex>
                                         <numIndex index="1">objectNumber</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displaySite
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displaySite</numIndex>
                                         <numIndex index="1">site</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayCity
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayCity</numIndex>
                                         <numIndex index="1">city</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayDistrict
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayDistrict</numIndex>
                                         <numIndex index="1">district</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayHouseType
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayHouseType</numIndex>
                                         <numIndex index="1">houseType</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayPriceRange
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayPriceRange</numIndex>
                                         <numIndex index="1">priceRanges</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayRent
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayRent</numIndex>
                                         <numIndex index="1">rent</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayLivingArea
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayLivingArea</numIndex>
                                         <numIndex index="1">livingArea</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayObjectType
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayObjectType</numIndex>
                                         <numIndex index="1">objectType</numIndex>
                                     </numIndex>
                                     <numIndex index="10" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayNumberOfRooms
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayNumberOfRooms</numIndex>
                                         <numIndex index="1">numberOfRooms</numIndex>
                                     </numIndex>
                                 </items>
@@ -767,9 +594,7 @@
                     <filterTargetPID>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.filterTargetPID
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.filterTargetPID</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -783,9 +608,7 @@
                     </filterTargetPID>
                     <priceRangesForFilterForm>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.priceRangesForFilterForm
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.priceRangesForFilterForm</label>
                             <config>
                                 <type>input</type>
                                 <eval>trim</eval>
@@ -798,79 +621,55 @@
         <s_offererInformation>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_offererInformation
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_offererInformation</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <displayedContactInformation>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayedContactInformation
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayedContactInformation</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.firstUserGroup
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.firstUserGroup</numIndex>
                                         <numIndex index="1">usergroup</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.company
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.company</numIndex>
                                         <numIndex index="1">company</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel</numIndex>
                                         <numIndex index="1">offerer_label</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street</numIndex>
                                         <numIndex index="1">street</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.city
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.city</numIndex>
                                         <numIndex index="1">city</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone</numIndex>
                                         <numIndex index="1">telephone</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.email
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.email</numIndex>
                                         <numIndex index="1">email</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.homepage
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.homepage</numIndex>
                                         <numIndex index="1">www</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.image
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.image</numIndex>
                                         <numIndex index="1">image</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objectsByOwnerLink
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objectsByOwnerLink</numIndex>
                                         <numIndex index="1">objects_by_owner_link</numIndex>
                                     </numIndex>
                                 </items>
@@ -883,9 +682,7 @@
                     <groupsWithSpeciallyDisplayedContactInformation>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -901,70 +698,48 @@
                     <displayedContactInformationSpecial>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayedContactInformationSpecial
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.displayedContactInformationSpecial</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.firstUserGroup
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.firstUserGroup</numIndex>
                                         <numIndex index="1">usergroup</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.company
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.company</numIndex>
                                         <numIndex index="1">company</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel</numIndex>
                                         <numIndex index="1">offerer_label</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street</numIndex>
                                         <numIndex index="1">street</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.city
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.city</numIndex>
                                         <numIndex index="1">city</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone</numIndex>
                                         <numIndex index="1">telephone</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.email
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.email</numIndex>
                                         <numIndex index="1">email</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.homepage
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.homepage</numIndex>
                                         <numIndex index="1">www</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.image
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.image</numIndex>
                                         <numIndex index="1">image</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objectsByOwnerLink
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objectsByOwnerLink</numIndex>
                                         <numIndex index="1">objects_by_owner_link</numIndex>
                                     </numIndex>
                                 </items>
@@ -977,9 +752,7 @@
                     <objectsByOwnerPID>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objectsByOwnerPID
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.objectsByOwnerPID</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -994,9 +767,7 @@
                     <userGroupsForOffererList>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.userGroupsForOffererList
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.userGroupsForOffererList</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -1014,18 +785,14 @@
         <s_advertisements>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_advertisements
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_advertisements</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <advertisementPID>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.advertisementPID
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.advertisementPID</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -1039,9 +806,7 @@
                     </advertisementPID>
                     <advertisementParameterForObjectUid>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.advertisementParameterForObjectUid
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.advertisementParameterForObjectUid</label>
                             <config>
                                 <type>input</type>
                                 <size>64</size>
@@ -1050,9 +815,7 @@
                     </advertisementParameterForObjectUid>
                     <advertisementExpirationInDays>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.advertisementExpirationInDays
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.advertisementExpirationInDays</label>
                             <config>
                                 <type>input</type>
                                 <size>3</size>
@@ -1073,17 +836,13 @@
         <s_contactForm>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_contactForm
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_contactForm</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <defaultContactEmail>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.defaultContactEmail
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.defaultContactEmail</label>
                             <config>
                                 <type>input</type>
                                 <eval>trim</eval>
@@ -1092,9 +851,7 @@
                     </defaultContactEmail>
                     <blindCarbonCopyAddress>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.blindCarbonCopyAddress
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.blindCarbonCopyAddress</label>
                             <config>
                                 <type>input</type>
                                 <eval>trim</eval>
@@ -1104,70 +861,48 @@
                     <visibleContactFormFields>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.visibleContactFormFields
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.visibleContactFormFields</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel</numIndex>
                                         <numIndex index="1">name</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street</numIndex>
                                         <numIndex index="1">street</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.zip_and_city
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.zip_and_city</numIndex>
                                         <numIndex index="1">zip_and_city</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone</numIndex>
                                         <numIndex index="1">telephone</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.request
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.request</numIndex>
                                         <numIndex index="1">request</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.viewing
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.viewing</numIndex>
                                         <numIndex index="1">viewing</numIndex>
                                     </numIndex>
                                     <numIndex index="6" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.information
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.information</numIndex>
                                         <numIndex index="1">information</numIndex>
                                     </numIndex>
                                     <numIndex index="7" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.callback
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.callback</numIndex>
                                         <numIndex index="1">callback</numIndex>
                                     </numIndex>
                                     <numIndex index="8" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.terms
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.terms</numIndex>
                                         <numIndex index="1">terms</numIndex>
                                     </numIndex>
                                     <numIndex index="9" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.law
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.law</numIndex>
                                         <numIndex index="1">law</numIndex>
                                     </numIndex>
                                 </items>
@@ -1180,46 +915,32 @@
                     <requiredContactFormFields>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.requiredContactFormFields
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.requiredContactFormFields</label>
                             <config>
                                 <type>select</type>
                                 <items type="array">
                                     <numIndex index="0" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.offererLabel</numIndex>
                                         <numIndex index="1">name</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.street</numIndex>
                                         <numIndex index="1">street</numIndex>
                                     </numIndex>
                                     <numIndex index="2" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.zip
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.zip</numIndex>
                                         <numIndex index="1">zip</numIndex>
                                     </numIndex>
                                     <numIndex index="3" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.city
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.city</numIndex>
                                         <numIndex index="1">city</numIndex>
                                     </numIndex>
                                     <numIndex index="4" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.telephone</numIndex>
                                         <numIndex index="1">telephone</numIndex>
                                     </numIndex>
                                     <numIndex index="5" type="array">
-                                        <numIndex index="0">
-                                            LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.request
-                                        </numIndex>
+                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.request</numIndex>
                                         <numIndex index="1">request</numIndex>
                                     </numIndex>
                                 </items>
@@ -1251,17 +972,13 @@
         <s_template_special>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>
-                        LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_template_and_special
-                    </sheetTitle>
+                    <sheetTitle>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.sheet_template_and_special</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <templateFile>
                         <TCEforms>
-                            <label>
-                                LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.templateFile
-                            </label>
+                            <label>LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.templateFile</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>file</internal_type>
