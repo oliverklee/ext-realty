@@ -64,21 +64,17 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     protected function setUp()
     {
         $this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
+        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
 
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->createFakeFrontEnd();
 
-        Tx_Oelib_MapperRegistry::getInstance()
-            ->activateTestingMode($this->testingFramework);
+        Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
         $this->createDummyRecords();
 
         $this->fixture = new tx_realty_frontEndImageUpload(
-            ['feEditorTemplateFile'
-                => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
-            ],
+            ['feEditorTemplateFile' => 'EXT:realty/pi1/tx_realty_frontEndEditor.html'],
             $this->getFrontEndController()->cObj,
             0,
             '',

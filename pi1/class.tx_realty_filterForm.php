@@ -18,10 +18,20 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      *            integer values and fields initialized with '' to strings.
      */
     private $filterFormData = [
-        'uid' => 0, 'objectNumber' => '', 'site' => '', 'city' => 0,
-        'district' => 0, 'houseType' => 0, 'priceRange' => '', 'rentFrom' => 0,
-        'rentTo' => 0, 'livingAreaFrom' => 0, 'livingAreaTo' => 0,
-        'objectType' => '', 'numberOfRoomsFrom' => 0, 'numberOfRoomsTo' => 0,
+        'uid' => 0,
+        'objectNumber' => '',
+        'site' => '',
+        'city' => 0,
+        'district' => 0,
+        'houseType' => 0,
+        'priceRange' => '',
+        'rentFrom' => 0,
+        'rentTo' => 0,
+        'livingAreaFrom' => 0,
+        'livingAreaTo' => 0,
+        'objectType' => '',
+        'numberOfRoomsFrom' => 0,
+        'numberOfRoomsTo' => 0,
     ];
 
     /**
@@ -144,10 +154,17 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                     $this->filterFormData[$key] = $rawValue;
                     break;
                 case 'objectType':
-                    $this->filterFormData['objectType'] = in_array($rawValue, ['forSale', 'forRent'], true) ? $rawValue : '';
+                    $this->filterFormData['objectType'] = in_array(
+                        $rawValue,
+                        ['forSale', 'forRent'],
+                        true
+                    ) ? $rawValue : '';
                     break;
                 case 'priceRange':
-                    $this->filterFormData['priceRange'] = preg_match('/^(\\d+-\\d+|-\\d+|\\d+-)$/', $rawValue) ? $rawValue : '';
+                    $this->filterFormData['priceRange'] = preg_match(
+                        '/^(\\d+-\\d+|-\\d+|\\d+-)$/',
+                        $rawValue
+                    ) ? $rawValue : '';
                     break;
                 case 'numberOfRoomsFrom':
                     // The fallthrough is intended.
@@ -160,7 +177,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                     }
                     $decimalMark = $this->translate('decimal_mark');
                     $this->filterFormData[$key] = number_format($commaFreeValue, $decimals, $decimalMark, '');
-                    // no break
+                    break;
                 default:
             }
         }
@@ -285,8 +302,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
             $label = $this->getPriceRangeLabel($range);
             $selectedAttribute
                 = ($this->filterFormData['priceRange'] == $priceRangeString)
-                    ? ' selected="selected"'
-                    : '';
+                ? ' selected="selected"'
+                : '';
 
             $optionTags .= '<option value="' . $priceRangeString .
                 '" label="' . $label . '" ' . $selectedAttribute . '>' .
@@ -317,7 +334,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->setMarker(
             'searched_uid',
             (
-                ((int)$this->filterFormData['uid'] === 0) ? '' : (int)$this->filterFormData['uid']
+            ((int)$this->filterFormData['uid'] === 0) ? '' : (int)$this->filterFormData['uid']
             )
         );
     }
@@ -370,7 +387,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->setMarker(
             'hide_district_selector',
             $this->hasSearchField('city') ?
-            ' style="display: none;"' : ' style="display: block;"'
+                ' style="display: none;"' : ' style="display: block;"'
         );
     }
 
@@ -497,9 +514,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
             $tableName . '.uid, ' . $tableName . '.title',
             'tx_realty_objects' . ',' . $tableName,
             'tx_realty_objects' . '.' . $columnName .
-                ' = ' . $tableName . '.uid' .
-                Tx_Oelib_Db::enableFields('tx_realty_objects') .
-                Tx_Oelib_Db::enableFields($tableName),
+            ' = ' . $tableName . '.uid' .
+            Tx_Oelib_Db::enableFields('tx_realty_objects') .
+            Tx_Oelib_Db::enableFields($tableName),
             'uid',
             $tableName . '.title'
         );
@@ -533,7 +550,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
             $this->setMarker(
                 $markerPrefix . '_attributes',
                 (
-                    ($this->filterFormData['objectType'] == $key)
+                ($this->filterFormData['objectType'] == $key)
                     ? ' checked="checked"'
                     : ''
                 ) . $this->getOnChangeForSingleField()
@@ -751,7 +768,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         }
 
         return ' AND ' . 'tx_realty_objects' . '.object_number="' .
-            Tx_Oelib_Db::getDatabaseConnection()->quoteStr($this->filterFormData['objectNumber'], 'tx_realty_objects') . '"';
+            Tx_Oelib_Db::getDatabaseConnection()->quoteStr(
+                $this->filterFormData['objectNumber'],
+                'tx_realty_objects'
+            ) . '"';
     }
 
     /**
@@ -852,11 +872,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     {
         return (($this->filterFormData['livingAreaFrom'] != 0)
                 ? ' AND (' . 'tx_realty_objects' . '.living_area >= '
-                    . $this->filterFormData['livingAreaFrom'] . ')'
+                . $this->filterFormData['livingAreaFrom'] . ')'
                 : '') .
             (($this->filterFormData['livingAreaTo'] != 0)
                 ? ' AND (' . 'tx_realty_objects' . '.living_area <= '
-                    . $this->filterFormData['livingAreaTo'] . ')'
+                . $this->filterFormData['livingAreaTo'] . ')'
                 : '');
     }
 
@@ -942,9 +962,20 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     public static function getPiVarKeys()
     {
         return [
-            'uid', 'objectNumber', 'site', 'city', 'district', 'houseType',
-            'priceRange', 'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo',
-            'objectType', 'numberOfRoomsFrom', 'numberOfRoomsTo',
+            'uid',
+            'objectNumber',
+            'site',
+            'city',
+            'district',
+            'houseType',
+            'priceRange',
+            'rentFrom',
+            'rentTo',
+            'livingAreaFrom',
+            'livingAreaTo',
+            'objectType',
+            'numberOfRoomsFrom',
+            'numberOfRoomsTo',
         ];
     }
 }

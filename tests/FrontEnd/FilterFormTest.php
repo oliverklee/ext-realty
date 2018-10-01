@@ -392,8 +392,8 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function searchFormForDisplayedSearchWidgetFieldsSetToObjectNumberAndGivenObjectNumberSetsValueOfObjectNumberField()
-    {
+    public function searchFormForDisplayedSearchWidgetFieldsSetToObjectNumberAndGivenObjectNumberSetsValueOfObjectNumberField(
+    ) {
         $this->fixture->setConfigurationValue(
             'displayedSearchWidgetFields',
             'objectNumber'
@@ -1066,7 +1066,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND ((tx_realty_objects.rent_excluding_bills >= 1) ' .
-                'OR (tx_realty_objects.buying_price >= 1))',
+            'OR (tx_realty_objects.buying_price >= 1))',
             $this->fixture->getWhereClausePart(['priceRange' => '1-'])
         );
     }
@@ -1078,11 +1078,11 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND ((tx_realty_objects.rent_excluding_bills > 0 ' .
-                'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
-                'OR (tx_realty_objects.buying_price > 0 ' .
-                'AND tx_realty_objects.buying_price <= 10) ' .
-                'OR (tx_realty_objects.rent_excluding_bills = 0 ' .
-                'AND tx_realty_objects.buying_price = 0))',
+            'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+            'OR (tx_realty_objects.buying_price > 0 ' .
+            'AND tx_realty_objects.buying_price <= 10) ' .
+            'OR (tx_realty_objects.rent_excluding_bills = 0 ' .
+            'AND tx_realty_objects.buying_price = 0))',
             $this->fixture->getWhereClausePart(['priceRange' => '-10'])
         );
     }
@@ -1094,9 +1094,9 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
-                'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
-                'OR (tx_realty_objects.buying_price >= 1 ' .
-                'AND tx_realty_objects.buying_price <= 10))',
+            'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+            'OR (tx_realty_objects.buying_price >= 1 ' .
+            'AND tx_realty_objects.buying_price <= 10))',
             $this->fixture->getWhereClausePart(['priceRange' => '1-10'])
         );
     }
@@ -1130,11 +1130,11 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND (tx_realty_objects.zip LIKE "fo%" ' .
-                'OR tx_realty_cities.title LIKE "%foo%") ' .
-                'AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
-                'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
-                'OR (tx_realty_objects.buying_price >= 1 ' .
-                'AND tx_realty_objects.buying_price <= 10))',
+            'OR tx_realty_cities.title LIKE "%foo%") ' .
+            'AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
+            'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+            'OR (tx_realty_objects.buying_price >= 1 ' .
+            'AND tx_realty_objects.buying_price <= 10))',
             $this->fixture->getWhereClausePart(
                 ['site' => 'foo', 'priceRange' => '1-10']
             )
@@ -1298,7 +1298,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND tx_realty_objects.object_type = ' .
-                tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+            tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
             $this->fixture->getWhereClausePart(['objectType' => 'forSale'])
         );
     }
@@ -1310,7 +1310,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND tx_realty_objects.object_type = ' .
-                tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
+            tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
             $this->fixture->getWhereClausePart(['objectType' => 'forRent'])
         );
     }
@@ -1333,7 +1333,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND ((tx_realty_objects.rent_excluding_bills >= 1) ' .
-                'OR (tx_realty_objects.buying_price >= 1))',
+            'OR (tx_realty_objects.buying_price >= 1))',
             $this->fixture->getWhereClausePart(['rentFrom' => '1'])
         );
     }
@@ -1345,11 +1345,11 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND ((tx_realty_objects.rent_excluding_bills > 0 ' .
-                'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
-                'OR (tx_realty_objects.buying_price > 0 ' .
-                'AND tx_realty_objects.buying_price <= 10) ' .
-                'OR (tx_realty_objects.rent_excluding_bills = 0 ' .
-                'AND tx_realty_objects.buying_price = 0))',
+            'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+            'OR (tx_realty_objects.buying_price > 0 ' .
+            'AND tx_realty_objects.buying_price <= 10) ' .
+            'OR (tx_realty_objects.rent_excluding_bills = 0 ' .
+            'AND tx_realty_objects.buying_price = 0))',
             $this->fixture->getWhereClausePart(['rentTo' => '10'])
         );
     }
@@ -1361,9 +1361,9 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
-                'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
-                'OR (tx_realty_objects.buying_price >= 1 ' .
-                'AND tx_realty_objects.buying_price <= 10))',
+            'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+            'OR (tx_realty_objects.buying_price >= 1 ' .
+            'AND tx_realty_objects.buying_price <= 10))',
             $this->fixture->getWhereClausePart(
                 ['rentFrom' => '1', 'rentTo' => '10']
             )
@@ -1377,9 +1377,9 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             ' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
-                'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
-                'OR (tx_realty_objects.buying_price >= 1 ' .
-                'AND tx_realty_objects.buying_price <= 10))',
+            'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+            'OR (tx_realty_objects.buying_price >= 1 ' .
+            'AND tx_realty_objects.buying_price <= 10))',
             $this->fixture->getWhereClausePart(
                 ['rentFrom' => '1', 'rentTo' => '10', 'priceRange' => '100-1000']
             )
@@ -1521,8 +1521,8 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function searchFormForSetNumberOfRoomsInputFieldsAndDataWithCommaAsDecimalSeparatorKeepsDecimalAfterSeparator()
-    {
+    public function searchFormForSetNumberOfRoomsInputFieldsAndDataWithCommaAsDecimalSeparatorKeepsDecimalAfterSeparator(
+    ) {
         $this->fixture->setConfigurationValue(
             'displayedSearchWidgetFields',
             'numberOfRooms'

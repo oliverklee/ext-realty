@@ -30,11 +30,24 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      * @var string[] field keys that are numeric
      */
     private static $numericFields = [
-        'number_of_rooms', 'living_area', 'total_area', 'estate_size',
-        'rent_excluding_bills', 'extra_charges', 'year_rent', 'floor', 'floors',
-        'bedrooms', 'bathrooms', 'garage_rent', 'garage_price',
-        'construction_year', 'exact_longitude', 'exact_latitude',
-        'rough_longitude', 'rough_latitude',
+        'number_of_rooms',
+        'living_area',
+        'total_area',
+        'estate_size',
+        'rent_excluding_bills',
+        'extra_charges',
+        'year_rent',
+        'floor',
+        'floors',
+        'bedrooms',
+        'bathrooms',
+        'garage_rent',
+        'garage_price',
+        'construction_year',
+        'exact_longitude',
+        'exact_latitude',
+        'rough_longitude',
+        'rough_latitude',
     ];
 
     /**
@@ -233,8 +246,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         $titleColumn = (
             isset($formData['title_column'])
-                && ($formData['title_column'] != '')
-            ) ? $formData['title_column']
+            && ($formData['title_column'] != '')
+        ) ? $formData['title_column']
             : 'title';
         $this->checkForValidFieldName($titleColumn, $formData['table']);
 
@@ -433,7 +446,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             'tx_realty_objects',
             'object_number="' .
             $databaseConnection->quoteStr($formData['value'], 'tx_realty_objects') . '"' .
-                Tx_Oelib_Db::enableFields('tx_realty_objects', 1) . $this->getWhereClauseForTesting()
+            Tx_Oelib_Db::enableFields('tx_realty_objects', 1) . $this->getWhereClauseForTesting()
         );
         if ($dbResult === false) {
             throw new Tx_Oelib_Exception_Database();
@@ -477,7 +490,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             'uid',
             $formData['table'],
             'uid="' . $databaseConnection->quoteStr($formData['value'], $formData['table']) . '"' .
-                Tx_Oelib_Db::enableFields($formData['table'])
+            Tx_Oelib_Db::enableFields($formData['table'])
         );
         if ($dbResult === false) {
             throw new Tx_Oelib_Exception_Database();
@@ -506,7 +519,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         return $this->checkKeyExistsInTable(
             [
-                'value' => $formData['value'], 'table' => 'tx_realty_cities',
+                'value' => $formData['value'],
+                'table' => 'tx_realty_cities',
             ],
             $mayBeEmpty
         );
@@ -742,7 +756,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         return $this->getMessageForRealtyObjectField([
             'fieldName' => 'city',
             'label' => (
-                ($this->getFormValue('city') == 0)
+            ($this->getFormValue('city') == 0)
                 ? 'message_required_field'
                 : 'message_value_not_allowed'
             ),
@@ -767,11 +781,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     {
         // This  will lead to an exception for an invalid non-empty field name.
         $labelOfField = $this->checkForValidFieldName(
-                $formData['fieldName'],
+            $formData['fieldName'],
             'tx_realty_objects',
             true
-            ) ? 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:' . 'tx_realty_objects' . '.' .
-                $formData['fieldName']
+        ) ? 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:' . 'tx_realty_objects' . '.' .
+            $formData['fieldName']
             : '';
         // This will cause an exception if the locallang key was invalid.
         $this->checkForValidLocallangKey($formData['label']);
@@ -897,12 +911,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         $insertId = Tx_Oelib_Db::getDatabaseConnection()->sql_insert_id();
         foreach ([
-            'username' => $user->getUserName(),
-            'name' => $user->getName(),
-            'object_number' => $this->getFormValue('object_number'),
-            'title' => $this->getFormValue('title'),
-            'uid' => $insertId,
-        ] as $marker => $value) {
+                     'username' => $user->getUserName(),
+                     'name' => $user->getName(),
+                     'object_number' => $this->getFormValue('object_number'),
+                     'title' => $this->getFormValue('title'),
+                     'uid' => $insertId,
+                 ] as $marker => $value) {
             $this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
         }
 
@@ -1166,7 +1180,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         return [
             $renderlet->majixCloseBox(),
             $form->majixExecJs(
-                'appendDistrictInEditor(' . $district->getUid() . ', "' . addcslashes($district->getTitle(), '"\\') . '");'
+                'appendDistrictInEditor(' . $district->getUid() . ', "' . addcslashes(
+                    $district->getTitle(),
+                    '"\\'
+                ) . '");'
             ),
         ];
     }

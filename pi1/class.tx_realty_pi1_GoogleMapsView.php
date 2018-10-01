@@ -109,7 +109,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
             '}; ' . LF .
             'var map = new google.maps.Map(document.getElementById("tx_realty_map"), mapOptions);' . LF .
             'var myInfoWindow = new google.maps.InfoWindow({' . LF .
-                'content: "Loading …"' . LF .
+            'content: "Loading …"' . LF .
             '});' . LF .
             'var bounds = new google.maps.LatLngBounds();' . LF .
             'var markersArray = [];';

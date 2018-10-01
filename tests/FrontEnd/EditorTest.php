@@ -140,9 +140,9 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $realtyObject->loadRealtyObject($this->dummyObjectUid);
 
         foreach ([
-            'city' => 'tx_realty_cities',
-            'district' => 'tx_realty_districts',
-        ] as $key => $table) {
+                     'city' => 'tx_realty_cities',
+                     'district' => 'tx_realty_districts',
+                 ] as $key => $table) {
             $realtyObject->setProperty($key, self::$dummyStringValue);
             $this->testingFramework->markTableAsDirty($table);
         }
@@ -186,7 +186,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'uid=' . $this->dummyObjectUid .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -368,7 +368,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor') . ': ' .
-                $this->fixture->translate('message_no_valid_number'),
+            $this->fixture->translate('message_no_valid_number'),
             $this->fixture->getMessageForRealtyObjectField(
                 ['fieldName' => 'floor', 'label' => 'message_no_valid_number']
             )
@@ -435,7 +435,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price') . ': ' .
-                $this->fixture->translate('message_enter_valid_non_empty_buying_price'),
+            $this->fixture->translate('message_enter_valid_non_empty_buying_price'),
             $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
         );
     }
@@ -449,7 +449,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price') . ': ' .
-                $this->fixture->translate('message_enter_valid_or_empty_buying_price'),
+            $this->fixture->translate('message_enter_valid_or_empty_buying_price'),
             $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
         );
     }
@@ -463,7 +463,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills') . ': ' .
-                $this->fixture->translate('message_enter_valid_non_empty_rent'),
+            $this->fixture->translate('message_enter_valid_non_empty_rent'),
             $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
         );
     }
@@ -477,7 +477,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills') . ': ' .
-                $this->fixture->translate('message_enter_valid_or_empty_rent'),
+            $this->fixture->translate('message_enter_valid_or_empty_rent'),
             $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
         );
     }
@@ -491,7 +491,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number') . ': ' .
-                $this->fixture->translate('message_required_field'),
+            $this->fixture->translate('message_required_field'),
             $this->fixture->getInvalidObjectNumberMessage()
         );
     }
@@ -505,7 +505,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number') . ': ' .
-                $this->fixture->translate('message_object_number_exists'),
+            $this->fixture->translate('message_object_number_exists'),
             $this->fixture->getInvalidObjectNumberMessage()
         );
     }
@@ -519,7 +519,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city') . ': ' .
-                $this->fixture->translate('message_required_field'),
+            $this->fixture->translate('message_required_field'),
             $this->fixture->getInvalidOrEmptyCityMessage()
         );
     }
@@ -539,7 +539,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city') . ': ' .
-                $this->fixture->translate('message_value_not_allowed'),
+            $this->fixture->translate('message_value_not_allowed'),
             $this->fixture->getInvalidOrEmptyCityMessage()
         );
     }
@@ -1137,10 +1137,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isAllowedValueForCity(
-                ['value' => $this->testingFramework->createRecord(
-                    'tx_realty_cities',
-                    ['deleted' => 1]
-                )]
+                [
+                    'value' => $this->testingFramework->createRecord(
+                        'tx_realty_cities',
+                        ['deleted' => 1]
+                    ),
+                ]
             )
         );
     }
@@ -1200,7 +1202,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             '"invalid_table" is not a valid table name.'
         );
         $this->fixture->checkKeyExistsInTable([
-            'value' => 1, 'table' => 'invalid_table',
+            'value' => 1,
+            'table' => 'invalid_table',
         ]);
     }
 
@@ -1831,7 +1834,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $formData = [
-            'title' => '12,3.45', 'employer' => 'abc,de.fgh',
+            'title' => '12,3.45',
+            'employer' => 'abc,de.fgh',
         ];
         $result = $this->fixture->modifyDataToInsert($formData);
         // PID, object type and time stamp will always be added,

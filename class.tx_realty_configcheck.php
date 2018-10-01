@@ -279,8 +279,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the type of the realty plug-in to display. '
-                . 'If it is not set correctly, it is ignored and the list view '
-                . 'is displayed.',
+            . 'If it is not set correctly, it is ignored and the list view '
+            . 'is displayed.',
             [
                 'realty_list',
                 'single_view',
@@ -308,13 +308,25 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This setting specifies which single view parts to render, ' .
-                'incorrect keys will not be displayed and the single view will ' .
-                'be an empty page if no value is provided.',
+            'incorrect keys will not be displayed and the single view will ' .
+            'be an empty page if no value is provided.',
             [
-                'nextPreviousButtons', 'heading', 'address', 'description',
-                'documents', 'price', 'overviewTable', 'contactButton',
-                'addToFavoritesButton', 'furtherDescription', 'imageThumbnails',
-                'offerer', 'status', 'googleMaps', 'printPageButton', 'backButton',
+                'nextPreviousButtons',
+                'heading',
+                'address',
+                'description',
+                'documents',
+                'price',
+                'overviewTable',
+                'contactButton',
+                'addToFavoritesButton',
+                'furtherDescription',
+                'imageThumbnails',
+                'offerer',
+                'status',
+                'googleMaps',
+                'printPageButton',
+                'backButton',
             ]
         );
     }
@@ -335,9 +347,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                 'currencyUnit',
                 false,
                 'This value specifies the ISO alpha 3 code of the currency used for displayed prices. ' .
-                    'If this value is empty, prices of objects that do not provide ' .
-                    'their own currency will be displayed without a currency. ' .
-                    'You have set it to a non valid ISO code, or the table static_currencies is not installed.'
+                'If this value is empty, prices of objects that do not provide ' .
+                'their own currency will be displayed without a currency. ' .
+                'You have set it to a non valid ISO code, or the table static_currencies is not installed.'
             );
         }
     }
@@ -354,8 +366,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This determines the way dates and times are displayed. '
-                . 'If this is not set correctly, dates and times might '
-                . 'be mangled or not get displayed at all.'
+            . 'If this is not set correctly, dates and times might '
+            . 'be mangled or not get displayed at all.'
         );
     }
 
@@ -377,7 +389,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                 false,
                 '',
                 'This value specifies image dimensions. Images will not be '
-                    . 'displayed correctly if this value is invalid.'
+                . 'displayed correctly if this value is invalid.'
             );
         }
     }
@@ -400,7 +412,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                 false,
                 '',
                 'This value specifies image dimensions. Images will not be '
-                    . 'displayed correctly if this value is invalid.'
+                . 'displayed correctly if this value is invalid.'
             );
         }
     }
@@ -417,8 +429,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the fields which should be displayed in '
-                . 'single view. If this value is empty, the single view only '
-                . 'shows the title of an object.',
+            . 'single view. If this value is empty, the single view only '
+            . 'shows the title of an object.',
             $this->getDbColumnNames('tx_realty_objects')
         );
     }
@@ -436,9 +448,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the field names that will be stored in the '
-                . 'session when displaying the favorites list. This value may be '
-                . 'empty. Wrong values cause empty fields in the session data '
-                . 'array.',
+            . 'session when displaying the favorites list. This value may be '
+            . 'empty. Wrong values cause empty fields in the session data '
+            . 'array.',
             $this->getDbColumnNames('tx_realty_objects')
         );
     }
@@ -456,8 +468,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies whether a login is required to access the '
-                . 'single view page. It might be interpreted incorrectly if no '
-                . 'logical value was set.'
+            . 'single view page. It might be interpreted incorrectly if no '
+            . 'logical value was set.'
         );
     }
 
@@ -473,8 +485,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the login page and is needed if a login ' .
-                'is required. Users could not be directed to the login ' .
-                'page if this value is invalid.'
+            'is required. Users could not be directed to the login ' .
+            'page if this value is invalid.'
         );
     }
 
@@ -490,8 +502,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies whether a link to the contact form should be ' .
-                'displayed in the current view. A misconfigured value might lead ' .
-                'to undesired results.'
+            'displayed in the current view. A misconfigured value might lead ' .
+            'to undesired results.'
         );
     }
 
@@ -507,8 +519,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the contact page which will be linked from ' .
-                'the current page. The link to the contact form will not work ' .
-                'as long as this value is misconfigured.'
+            'the current page. The link to the contact form will not work ' .
+            'as long as this value is misconfigured.'
         );
     }
 
@@ -524,11 +536,20 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_searchForm',
             'This value specifies which search widget fields to display in the ' .
-                'front-end. The search widget will not display any fields at ' .
-                'all if this value is empty or contains only invalid keys.',
+            'front-end. The search widget will not display any fields at ' .
+            'all if this value is empty or contains only invalid keys.',
             [
-                'site', 'priceRanges', 'uid', 'objectNumber', 'city', 'district',
-                'objectType', 'rent', 'livingArea', 'houseType', 'numberOfRooms',
+                'site',
+                'priceRanges',
+                'uid',
+                'objectNumber',
+                'city',
+                'district',
+                'objectType',
+                'rent',
+                'livingArea',
+                'houseType',
+                'numberOfRooms',
             ]
         );
     }
@@ -557,8 +578,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_searchForm',
             'This value defines the ranges to be displayed in the filter ' .
-                'form\'s selectbox for prices. With an invalid configuration, ' .
-                'price ranges will not be displayed correctly.',
+            'form\'s selectbox for prices. With an invalid configuration, ' .
+            'price ranges will not be displayed correctly.',
             '/^(((\\d+-\\d+|-\\d+|\\d+-), *)*(\\d+-\\d+|-\\d+|\\d+-))$/'
         );
     }
@@ -576,8 +597,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the list of PIDs that contain the realty '
-                . 'records to be displayed. If this list is empty, there is only '
-                . 'a message about no search results displayed.'
+            . 'records to be displayed. If this list is empty, there is only '
+            . 'a message about no search results displayed.'
         );
     }
 
@@ -593,9 +614,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the recursion level for the pages list. The '
-                . 'recursion can only be set to include subfolders of the '
-                . 'folders in "pages". It is impossible to access superior '
-                . 'folders with this option.'
+            . 'recursion can only be set to include subfolders of the '
+            . 'folders in "pages". It is impossible to access superior '
+            . 'folders with this option.'
         );
     }
 
@@ -641,9 +662,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_offererInformation',
             'This value specifies the group from which the users are displayed ' .
-                'in the offerer list. The list will be empty if this value is ' .
-                'invalid. All front-end user will be displayed if this value is ' .
-                'empty.'
+            'in the offerer list. The list will be empty if this value is ' .
+            'invalid. All front-end user will be displayed if this value is ' .
+            'empty.'
         );
     }
 
@@ -667,11 +688,19 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_offererInformation',
             'This value specifies which contact data to display in the front-end. ' .
-                'The contact data will not be displayed at all if this value is ' .
-                'empty or contains only invalid keys.',
+            'The contact data will not be displayed at all if this value is ' .
+            'empty or contains only invalid keys.',
             [
-                'company', 'offerer_label', 'usergroup', 'street', 'city',
-                'telephone', 'email', 'www', 'image', 'objects_by_owner_link',
+                'company',
+                'offerer_label',
+                'usergroup',
+                'street',
+                'city',
+                'telephone',
+                'email',
+                'www',
+                'image',
+                'objects_by_owner_link',
             ]
         );
     }
@@ -688,14 +717,22 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_offererInformation',
             'This value specifies which contact data to display in the front-end. ' .
-                'This value only defines which contact data to display of ' .
-                'offerers which are members in the front-end user groups for ' .
-                'which to display special contact data. The contact data will ' .
-                'not be displayed at all if this value is empty or contains only' .
-                'invalid keys.',
+            'This value only defines which contact data to display of ' .
+            'offerers which are members in the front-end user groups for ' .
+            'which to display special contact data. The contact data will ' .
+            'not be displayed at all if this value is empty or contains only' .
+            'invalid keys.',
             [
-                'company', 'offerer_label', 'usergroup', 'street', 'city',
-                'telephone', 'email', 'www', 'image', 'objects_by_owner_link',
+                'company',
+                'offerer_label',
+                'usergroup',
+                'street',
+                'city',
+                'telephone',
+                'email',
+                'www',
+                'image',
+                'objects_by_owner_link',
             ]
         );
     }
@@ -713,9 +750,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_offererInformation',
             'This value specifies of which front-end user group\'s offerers ' .
-                'special contact data should be displayed. If this value is ' .
-                'empty or invalid, the special contact data will not be displayed ' .
-                'for any owner.'
+            'special contact data should be displayed. If this value is ' .
+            'empty or invalid, the special contact data will not be displayed ' .
+            'for any owner.'
         );
     }
 
@@ -732,9 +769,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             's_contactForm',
             true,
             'This value specifies the recipient for requests on objects. ' .
-                'This address is always used if direct requests for objects ' .
-                'are disabled and it is used if a direct request is not ' .
-                'possible because an object\'s contact data cannot be found.'
+            'This address is always used if direct requests for objects ' .
+            'are disabled and it is used if a direct request is not ' .
+            'possible because an object\'s contact data cannot be found.'
         );
     }
 
@@ -751,7 +788,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             's_contactForm',
             true,
             'This value specifies the recipient for for a blind carbon copy of ' .
-                'each request on objects and may be left empty.'
+            'each request on objects and may be left empty.'
         );
     }
 
@@ -767,11 +804,19 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_contactForm',
             'This value specifies which fields are visible in the contact form. ' .
-                'Some fields will be not be visible if this configuration is ' .
-                'incorrect.',
+            'Some fields will be not be visible if this configuration is ' .
+            'incorrect.',
             [
-                'name', 'street', 'zip_and_city', 'telephone', 'request',
-                'viewing', 'information', 'callback', 'terms', 'law',
+                'name',
+                'street',
+                'zip_and_city',
+                'telephone',
+                'request',
+                'viewing',
+                'information',
+                'callback',
+                'terms',
+                'law',
             ]
         );
     }
@@ -807,8 +852,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_contactForm',
             'This value specifies which fields are required to be filled when ' .
-                'committing a contact request. Some fields will be not be ' .
-                'required if this configuration is incorrect.',
+            'committing a contact request. Some fields will be not be ' .
+            'required if this configuration is incorrect.',
             ['name', 'street', 'zip', 'city', 'telephone', 'request']
         );
 
@@ -818,10 +863,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_contactForm',
             'This value specifies which fields are required to be filled when ' .
-                'committing a contact request. Some fields are set to required ' .
-                'but are actually not configured to be visible in the form. ' .
-                'The form cannot be submitted as long as this inconsistency ' .
-                'remains.',
+            'committing a contact request. Some fields are set to required ' .
+            'but are actually not configured to be visible in the form. ' .
+            'The form cannot be submitted as long as this inconsistency ' .
+            'remains.',
             GeneralUtility::trimExplode(
                 ',',
                 // Replaces "zip_and_city" with "zip,city" as visiblity can only
@@ -852,8 +897,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_contactForm',
             'This value specifies the PID containing the terms linked from ' .
-                'the contact form. If this value is invalid, the link to ' .
-                'the terms page will not work.'
+            'the contact form. If this value is invalid, the link to ' .
+            'the terms page will not work.'
         );
     }
 
@@ -869,8 +914,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_searchForm',
             'This value specifies the name of the DB field to create the search ' .
-                'filter checkboxes from. Searching will not work properly if ' .
-                'non-database fields are set.',
+            'filter checkboxes from. Searching will not work properly if ' .
+            'non-database fields are set.',
             'tx_realty_objects'
         );
     }
@@ -887,8 +932,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the database field name by which the list view ' .
-                'should be sorted initially. Displaying the list view might not ' .
-                'work properly if this value is misconfigured.',
+            'should be sorted initially. Displaying the list view might not ' .
+            'work properly if this value is misconfigured.',
             [
                 'object_number',
                 'title',
@@ -916,8 +961,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the database field names by which a FE user ' .
-                'can sort the list view. This value is usually set via ' .
-                'flexforms.',
+            'can sort the list view. This value is usually set via ' .
+            'flexforms.',
             [
                 'object_number',
                 'title',
@@ -945,8 +990,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the PID of the page for the single view. If '
-                . 'this value is empty or invalid, the single view is shown on '
-                . 'the same page as the list view.'
+            . 'this value is empty or invalid, the single view is shown on '
+            . 'the same page as the list view.'
         );
     }
 
@@ -962,7 +1007,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the PID of the page for the favorites view. '
-                . 'Favorites cannot be displayed if this value is invalid.'
+            . 'Favorites cannot be displayed if this value is invalid.'
         );
     }
 
@@ -978,7 +1023,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the PID of the page for the FE editor. '
-                . 'This page cannot be displayed if this value is invalid.'
+            . 'This page cannot be displayed if this value is invalid.'
         );
     }
 
@@ -995,8 +1040,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_searchForm',
             'This value specifies the PID of the target page for the filter '
-                . 'form and the city selector. These forms will not direct to '
-                . 'the correct page after submit if this value is invalid.'
+            . 'form and the city selector. These forms will not direct to '
+            . 'the correct page after submit if this value is invalid.'
         );
     }
 
@@ -1012,8 +1057,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             'sDEF',
             'This value specifies the PID of the page with the image upload for '
-                . 'the FE editor. The image upload cannot be displayed if this '
-                . 'value is invalid.'
+            . 'the FE editor. The image upload cannot be displayed if this '
+            . 'value is invalid.'
         );
     }
 
@@ -1030,8 +1075,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_feeditor',
             'This value specifies the PID of the system folder for FE-created '
-                . 'records. New records will be stored on the root page if this '
-                . 'value is invalid.'
+            . 'records. New records will be stored on the root page if this '
+            . 'value is invalid.'
         );
     }
 
@@ -1048,8 +1093,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the PID of the system folder for FE-created ' .
-                'auxiliary records. New cities and districts will be stored on' .
-                'the root page if this value is invalid.'
+            'auxiliary records. New cities and districts will be stored on' .
+            'the root page if this value is invalid.'
         );
     }
 
@@ -1065,9 +1110,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies whether a the price will be shown for sold ' .
-                'or rented objects. If this value is set incorrectly, the ' .
-                'price might get shown although this is not intended (or ' .
-                'vice versa).'
+            'or rented objects. If this value is set incorrectly, the ' .
+            'price might get shown although this is not intended (or ' .
+            'vice versa).'
         );
     }
 
@@ -1084,9 +1129,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_feeditor',
             'This value specifies the PID of the FE page to which users will ' .
-                'be redirected after a FE-created record or an image was saved. ' .
-                'This redirecting will not proceed correctly if this value is ' .
-                'invalid or empty.'
+            'be redirected after a FE-created record or an image was saved. ' .
+            'This redirecting will not proceed correctly if this value is ' .
+            'invalid or empty.'
         );
     }
 
@@ -1103,8 +1148,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             's_feeditor',
             true,
             'This value specifies the recipient for a notification when a new '
-                . 'record has been created in the FE. No e-mail will be send if '
-                . 'this value is not configured correctly.'
+            . 'record has been created in the FE. No e-mail will be send if '
+            . 'this value is not configured correctly.'
         );
     }
 
@@ -1120,8 +1165,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_googlemaps',
             'This value specifies the UID of the default country for realty ' .
-                'objects. If this value is not configured correctly, the ' .
-                'objects will be mislocated in Google Maps.'
+            'objects. If this value is not configured correctly, the ' .
+            'objects will be mislocated in Google Maps.'
         );
     }
 
@@ -1137,8 +1182,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_googlemaps',
             'This value specifies whether a Google Map of an object should be ' .
-                'shown. If this value is not set correctly, the map might not ' .
-                'get shown although it should be shown (or vice versa).'
+            'shown. If this value is not set correctly, the map might not ' .
+            'get shown although it should be shown (or vice versa).'
         );
     }
 
@@ -1167,8 +1212,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the width of the thumbnails in the image ' .
-                'upload. If it is not configured properly, the image will be ' .
-                'shown at original size.'
+            'upload. If it is not configured properly, the image will be ' .
+            'shown at original size.'
         );
     }
 
@@ -1185,8 +1230,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the height of the thumbnails in the image ' .
-                'upload. If it is not configured properly, the image will be ' .
-                'shown at original size.'
+            'upload. If it is not configured properly, the image will be ' .
+            'shown at original size.'
         );
     }
 
@@ -1202,8 +1247,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_advertisements',
             'This value specifies the page that contains the advertisement ' .
-                'form. If this value is incorrect, the link to the form ' .
-                'will not work.'
+            'form. If this value is incorrect, the link to the form ' .
+            'will not work.'
         );
     }
 
@@ -1229,8 +1274,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             true,
             's_advertisements',
             'This value specifies the period after which an advertisement ' .
-                'expires. If this value is invalid, advertisements will ' .
-                'not expire at all.'
+            'expires. If this value is invalid, advertisements will ' .
+            'not expire at all.'
         );
     }
 
@@ -1257,9 +1302,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the width of the offerer image in the ' .
-                'offerer list view and the single view. If it is not ' .
-                'configured properly, the image will be shown in its original ' .
-                'size.'
+            'offerer list view and the single view. If it is not ' .
+            'configured properly, the image will be shown in its original ' .
+            'size.'
         );
     }
 
@@ -1275,9 +1320,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the height of the offerer image in the ' .
-                'offerer list view and the single view. If it is not ' .
-                'configured properly, the image will be shown in its original ' .
-                'size.'
+            'offerer list view and the single view. If it is not ' .
+            'configured properly, the image will be shown in its original ' .
+            'size.'
         );
     }
 
@@ -1310,10 +1355,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies whether the Lightbox for the images in the ' .
-                'single view should be enabled. If this is not set correctly, ' .
-                'the Lighbtox might not be enabled although it should be ' .
-                '(or vice versa).'
-            );
+            'single view should be enabled. If this is not set correctly, ' .
+            'the Lighbtox might not be enabled although it should be ' .
+            '(or vice versa).'
+        );
     }
 
     /**
@@ -1328,8 +1373,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the width of the gallery images in the ' .
-                'lightbox window. If it is not configured properly, the ' .
-                'images will be shown in their original size.'
+            'lightbox window. If it is not configured properly, the ' .
+            'images will be shown in their original size.'
         );
     }
 
@@ -1345,8 +1390,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies the height of the gallery images in the ' .
-                'lightbox window. If it is not configured properly, the ' .
-                'images will be shown in their original size.'
+            'lightbox window. If it is not configured properly, the ' .
+            'images will be shown in their original size.'
         );
     }
 
@@ -1362,8 +1407,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies which Lightbox-related JavaScript libraries ' .
-                'get included. If this value is not set correctly, the ' .
-                'Lightbox will not work.',
+            'get included. If this value is not set correctly, the ' .
+            'Lightbox will not work.',
             ['prototype', 'scriptaculous', 'lightbox']
         );
     }
@@ -1380,9 +1425,9 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             false,
             '',
             'This value specifies whether the next and previous buttons should ' .
-                'be shown. If this value is not set correctly, the buttons ' .
-                'might not get shown although they should be shown (or vice ' .
-                'versa).'
+            'be shown. If this value is not set correctly, the buttons ' .
+            'might not get shown although they should be shown (or vice ' .
+            'versa).'
         );
     }
 
