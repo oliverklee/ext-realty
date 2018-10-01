@@ -22,7 +22,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView
             $backUrl = $this->getBackLinkUrl();
             $javaScriptBack = '';
         } else {
-            $backUrl =  '#';
+            $backUrl = '#';
             $javaScriptBack = ' onclick="history.back(); return false;"';
         }
 

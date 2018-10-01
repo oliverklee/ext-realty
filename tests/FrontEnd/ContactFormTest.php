@@ -230,7 +230,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'value="test user" disabled="disabled"',
-             $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->fixture->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -247,7 +247,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'value="test user"',
-             $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->fixture->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -262,7 +262,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'value="frontend-user@example.com" disabled="disabled"',
-             $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->fixture->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -277,7 +277,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'value="test user" disabled="disabled"',
-             $this->fixture->render()
+            $this->fixture->render()
         );
     }
 
@@ -292,7 +292,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'value="frontend-user@example.com" disabled="disabled"',
-             $this->fixture->render()
+            $this->fixture->render()
         );
     }
 
@@ -369,10 +369,12 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
         self::assertNotContains(
             '###',
             $this->fixture->render(
-                ['showUid' => $this->testingFramework->createRecord(
-                    'tx_realty_objects',
-                    ['deleted' => 1]
-                )]
+                [
+                    'showUid' => $this->testingFramework->createRecord(
+                        'tx_realty_objects',
+                        ['deleted' => 1]
+                    ),
+                ]
             )
         );
     }
@@ -385,10 +387,12 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
         self::assertNotContains(
             $this->fixture->translate('label_object_number'),
             $this->fixture->render(
-                ['showUid' => $this->testingFramework->createRecord(
-                    'tx_realty_objects',
-                    ['deleted' => 1]
-                )]
+                [
+                    'showUid' => $this->testingFramework->createRecord(
+                        'tx_realty_objects',
+                        ['deleted' => 1]
+                    ),
+                ]
             )
         );
     }
@@ -401,10 +405,12 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
         self::assertNotContains(
             $this->fixture->translate('label_title'),
             $this->fixture->render(
-                ['showUid' => $this->testingFramework->createRecord(
-                    'tx_realty_objects',
-                    ['deleted' => 1]
-                )]
+                [
+                    'showUid' => $this->testingFramework->createRecord(
+                        'tx_realty_objects',
+                        ['deleted' => 1]
+                    ),
+                ]
             )
         );
     }
@@ -418,10 +424,11 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
             $this->fixture->translate('label_submit'),
             $this->fixture->render(
                 [
-                'showUid' => $this->testingFramework->createRecord(
-                    'tx_realty_objects',
-                    ['deleted' => 1]
-                ), ]
+                    'showUid' => $this->testingFramework->createRecord(
+                        'tx_realty_objects',
+                        ['deleted' => 1]
+                    ),
+                ]
             )
         );
     }
@@ -435,10 +442,11 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
             $this->fixture->translate('label_your_name'),
             $this->fixture->render(
                 [
-                'showUid' => $this->testingFramework->createRecord(
-                    'tx_realty_objects',
-                    ['deleted' => 1]
-                ), ]
+                    'showUid' => $this->testingFramework->createRecord(
+                        'tx_realty_objects',
+                        ['deleted' => 1]
+                    ),
+                ]
             )
         );
     }
@@ -708,10 +716,12 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
         self::assertContains(
             $this->fixture->translate('message_noResultsFound_contact_form'),
             $this->fixture->render(
-                ['showUid' => $this->testingFramework->createRecord(
-                    'tx_realty_objects',
-                    ['deleted' => 1]
-                )]
+                [
+                    'showUid' => $this->testingFramework->createRecord(
+                        'tx_realty_objects',
+                        ['deleted' => 1]
+                    ),
+                ]
             )
         );
     }
@@ -937,8 +947,8 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function specializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet()
-    {
+    public function specializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet(
+    ) {
         $this->fixture->setConfigurationValue('defaultContactEmail', '');
 
         self::assertContains(
@@ -985,7 +995,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
         self::assertEquals(
             2,
             substr_count(
-                 $this->fixture->render(
+                $this->fixture->render(
                     [
                         'isSubmitted' => true,
                         'requesterName' => '',

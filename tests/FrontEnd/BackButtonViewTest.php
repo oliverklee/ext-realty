@@ -82,7 +82,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase
             false
         );
         $listUid = $this->testingFramework->createContentElement(
-                $this->testingFramework->createFrontEndPage()
+            $this->testingFramework->createFrontEndPage()
         );
         $this->fixture->piVars['listUid'] = $listUid;
 
@@ -106,7 +106,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase
             'nextPreviousButtons'
         );
         $listUid = $this->testingFramework->createContentElement(
-                $this->testingFramework->createFrontEndPage()
+            $this->testingFramework->createFrontEndPage()
         );
         $this->fixture->piVars['listUid'] = $listUid;
 
