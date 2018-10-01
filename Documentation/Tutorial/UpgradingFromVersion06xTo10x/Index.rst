@@ -16,6 +16,8 @@
 Upgrading from version 0.6.x to 1.0.x
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+#. Make sure that you have jQuery in your page HEAD.
+
 #. Install the latest version of the  *oelib* and  *static\_info\_tables*
    extensions.
 
@@ -40,3 +42,12 @@ Upgrading from version 0.6.x to 1.0.x
 
 #. In the extension manager, disable “Automatic configuration check”
    (this will improve performance).
+
+#. If you are using a modified HTML template, you will need to do some changes
+   to you template regarding the way JavaScript events are attached to elements.
+   Please see this change for details:
+   https://github.com/oliverklee/ext-realty/pull/69/files#diff-a4cb18715aa583919424191c6ad93483
+
+#. The gallery also has been updated from Lightbox to Lightbox 2. Please check
+   that the gallery works for you (if you are using the gallery) and that you
+   do not get any warnings or error in your browser error console.
