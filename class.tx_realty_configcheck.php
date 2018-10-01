@@ -210,7 +210,6 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
         $this->checkFeEditorRedirectPid();
         $this->checkLoginPid();
         $this->checkImageUploadThumbnailConfiguration();
-        $this->checkIncludeJavaScriptLibraries();
     }
 
     /**
@@ -1340,7 +1339,6 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
         }
         // The inclusion of JavaScript libraries is not influenced by the
         // enableLightbox configuration.
-        $this->checkIncludeJavaScriptLibraries();
     }
 
     /**
@@ -1392,24 +1390,6 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies the height of the gallery images in the ' .
             'lightbox window. If it is not configured properly, the ' .
             'images will be shown in their original size.'
-        );
-    }
-
-    /**
-     * Checks the value of includeJavaScriptLibraries.
-     *
-     * @return void
-     */
-    private function checkIncludeJavaScriptLibraries()
-    {
-        $this->checkIfMultiInSetOrEmpty(
-            'includeJavaScriptLibraries',
-            false,
-            '',
-            'This value specifies which Lightbox-related JavaScript libraries ' .
-            'get included. If this value is not set correctly, the ' .
-            'Lightbox will not work.',
-            ['prototype', 'scriptaculous', 'lightbox']
         );
     }
 

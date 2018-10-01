@@ -1,16 +1,3 @@
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
- */
-
 /**
  * This file provides JavaScript functions for the Realty Manager.
  *
@@ -18,87 +5,60 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-/**
- * Marks the current attachment as deleted if the confirm becomes submitted.
- *
- * @param {string} listItemId ID of the list item with the attachment to delete, must not be empty
- * @param {string} confirmMessage localized confirm message for whether really to mark an attachment for deletion
- */
-function markAttachmentAsDeleted(listItemId, confirmMessage) {
-    var listItem = document.getElementById(listItemId);
-    var fileNameDiv = listItem.getElementsByTagName("span")[0];
-    var deleteButton = listItem.getElementsByTagName("input")[0];
-
-    if (confirm(confirmMessage)) {
-        document.getElementById("tx_realty_frontEndImageUpload_imagesToDelete").value
-            += "," + listItemId;
-        fileNameDiv.setAttribute("class", "deleted");
-        deleteButton.className += " deleted";
-        deleteButton.disabled = true;
-    }
-}
+var TYPO3 = TYPO3 || {};
+TYPO3.realty = TYPO3.realty || {};
 
 /**
  * In the front-end editor, hides/shows fields depending on whether currently
  * "rent" or "sale" is selected for the edited object.
  */
-function updateHideAndShow() {
-    if ($("tx_realty_frontEndEditor_object_type_item").checked) {
-        $$(".rent").invoke("show");
-        $$(".sale").invoke("hide");
+TYPO3.realty.updateHideAndShow = function () {
+    if (jQuery("#tx_realty_frontEndEditor__object_type_0").prop("checked")) {
+        jQuery(".rent").show();
+        jQuery(".sale").hide();
     } else {
-        $$(".rent").invoke("hide");
-        $$(".sale").invoke("show");
+        jQuery(".rent").hide();
+        jQuery(".sale").show();
     }
 
-    if ($("tx_realty_frontEndEditor_contact_data_source_item").checked) {
-        $("contact-data").show();
+    if (jQuery("#tx_realty_frontEndEditor__contact_data_source_0").prop("checked")) {
+        jQuery("#contact-data").show();
     } else {
-        $("contact-data").hide();
+        jQuery("#contact-data").hide();
     }
 
-    if ($("tx_realty_frontEndEditor_has_coordinates").checked) {
-        $$(".coordinates").invoke("show");
+    if (jQuery("#tx_realty_frontEndEditor__has_coordinates").prop("checked")) {
+        jQuery(".coordinates").show();
     } else {
-        $$(".coordinates").invoke("hide");
+        jQuery(".coordinates").hide();
     }
-}
+};
 
 /**
  * Updates the districts selector via AJAX, depending on which city is selected.
  *
  * If no city is selected, the district selector will be hidden.
- *
- * This function must only be called if Prototype is loaded.
  */
-function updateDistrictsInSearchWidget() {
-    if (!$("tx_realty_pi1-city") || !$("tx_realty_pi1-district")) {
+TYPO3.realty.updateDistrictsInSearchWidget = function () {
+    var $districtSelectorWidget = jQuery("#tx_realty_pi1_searchWidget_district");
+    var $loader = jQuery("#tx-realty-pi1-loading");
+
+    var cityUid = jQuery("#tx_realty_pi1-city").val();
+    if (cityUid === "0") {
+        $districtSelectorWidget.hide();
         return;
     }
 
-    var cityUid = $("tx_realty_pi1-city").value;
-    if (cityUid == "0") {
-        Element.hide($("tx_realty_pi1_searchWidget_district"));
-        return;
-    }
+    $districtSelectorWidget.hide();
+    $loader.show();
 
-    new Ajax.Updater(
-        "tx_realty_pi1-district",
-        "/index.php?eID=realty&type=withNumber&city=" + encodeURI(cityUid),
-        {
-            method: "get",
-            onLoading: function () {
-                $("tx_realty_pi1-district").disabled = true;
-                Element.show($("tx_realty_pi1_searchWidget_district"));
-                Element.show($("tx-realty-pi1-loading"));
-            },
-            onComplete: function () {
-                $("tx_realty_pi1-district").disabled = false;
-                Element.hide($("tx-realty-pi1-loading"));
-            }
-        }
-    );
-}
+    var url = "/index.php?eID=realty&type=withNumber&city=" + encodeURIComponent(cityUid);
+    var $districtsDropDown = jQuery('#tx_realty_pi1-district');
+    $districtsDropDown.load(url, function () {
+        $districtSelectorWidget.show();
+        $loader.hide();
+    });
+};
 
 /**
  * Updates the district element in the editor, depending on whether a city is
@@ -107,18 +67,18 @@ function updateDistrictsInSearchWidget() {
  * If no city is selected, the district element will be hidden.
  */
 function updateDistrictsInEditor() {
-    if (!$("tx_realty_frontEndEditor_city")
-        || !$("tx_realty_frontEndEditor_district_wrapper")
-        || !$("tx_realty_frontEndEditor_district")
-        || !$("tx_realty_frontEndEditor_new_district_wrapper")
+    if (!jQuery("tx_realty_frontEndEditor_city")
+        || !jQuery("tx_realty_frontEndEditor_district_wrapper")
+        || !jQuery("tx_realty_frontEndEditor_district")
+        || !jQuery("tx_realty_frontEndEditor_new_district_wrapper")
     ) {
         return;
     }
 
-    var cityUid = $("tx_realty_frontEndEditor_city").value;
+    var cityUid = jQuery("tx_realty_frontEndEditor_city").value;
     if (cityUid == "0") {
-        Element.hide($("tx_realty_frontEndEditor_district_wrapper"));
-        Element.hide($("tx_realty_frontEndEditor_new_district_wrapper"));
+        Element.hide(jQuery("tx_realty_frontEndEditor_district_wrapper"));
+        Element.hide(jQuery("tx_realty_frontEndEditor_new_district_wrapper"));
         return;
     }
 
@@ -128,12 +88,12 @@ function updateDistrictsInEditor() {
         {
             method: "get",
             onLoading: function () {
-                $("tx_realty_frontEndEditor_district").disabled = true;
-                Element.show($("tx_realty_frontEndEditor_district_wrapper"));
-                Element.show($("tx_realty_frontEndEditor_new_district_wrapper"));
+                jQuery("tx_realty_frontEndEditor_district").disabled = true;
+                Element.show(jQuery("tx_realty_frontEndEditor_district_wrapper"));
+                Element.show(jQuery("tx_realty_frontEndEditor_new_district_wrapper"));
             },
             onComplete: function () {
-                $("tx_realty_frontEndEditor_district").disabled = false;
+                jQuery("tx_realty_frontEndEditor_district").disabled = false;
             }
         }
     );
@@ -146,7 +106,7 @@ function updateDistrictsInEditor() {
  * @param {string} title the title of the district, must not be empty
  */
 function appendDistrictInEditor(uid, title) {
-    var container = $("tx_realty_frontEndEditor_district");
+    var container = jQuery("tx_realty_frontEndEditor_district");
     if (!container) {
         return;
     }
@@ -155,3 +115,110 @@ function appendDistrictInEditor(uid, title) {
 
     container.appendChild(optionElement);
 }
+
+TYPO3.realty.initializeFrontEndEditor = function () {
+    var $editorForm = jQuery('#tx_realty_frontEndEditor');
+    if ($editorForm.length === 0) {
+        return;
+    }
+
+    TYPO3.realty.updateHideAndShow();
+    jQuery(".js-realty-update-editor").click(TYPO3.realty.updateHideAndShow);
+};
+
+TYPO3.realty.initializeGoogleMaps = function () {
+    var $map = jQuery('#tx_realty_map');
+    if ($map.length === 0 || typeof TYPO3.realty.initializeMapMarkers !== 'function') {
+        return;
+    }
+
+    TYPO3.realty.initializeMapMarkers();
+};
+
+TYPO3.realty.initializeSearchWidget = function () {
+    var $districts = jQuery('#tx_realty_pi1_searchWidget_district');
+    if ($districts.length === 0) {
+        return;
+    }
+
+    jQuery('#tx_realty_pi1-city').change(TYPO3.realty.updateDistrictsInSearchWidget);
+};
+
+TYPO3.realty.initializeBackButton = function () {
+    var $backButton = jQuery('.js-realty-back');
+    if ($backButton.length === 0 || $backButton.attr('href') !== '#') {
+        return;
+    }
+
+    $backButton.click(function () {
+        history.back();
+        return false;
+    });
+};
+
+TYPO3.realty.initializePrintButton = function () {
+    var $printButton = jQuery('.js-realty-print');
+    $printButton.click(function () {
+        window.print();
+        return false;
+    });
+};
+
+TYPO3.realty.initializeFavoritesButtons = function () {
+    var $favoritesButtons = jQuery('.js-realty-favorites');
+    $favoritesButtons.click(function () {
+        jQuery('form#tx_realty_pi1_list_view').submit();
+        return false;
+    });
+};
+
+TYPO3.realty.initializeSortButton = function () {
+    var $sortButton = jQuery('.js-realty-sort');
+    $sortButton.click(function () {
+        jQuery('form#tx_realty_pi1_sorting').submit();
+        return false;
+    });
+};
+
+TYPO3.realty.initializeConfirms = function () {
+    var $confirmButtons = jQuery('.js-realty-confirm');
+    $confirmButtons.click(function () {
+        var confirmMessage = jQuery(this).data('confirm-message');
+        return confirm(confirmMessage);
+    });
+};
+
+TYPO3.realty.initializeDeleteImageButtons = function () {
+    var $deleteImageButtons = jQuery('.js-realty-delete-image');
+    $deleteImageButtons.click(function () {
+        var $button = jQuery(this);
+        var $deletedImageCollector = jQuery('#tx_realty_frontEndImageUpload__imagesToDelete');
+        var imageId = $button.data('image-id');
+
+        var confirmMessage = $button.data('confirm-message');
+        if (confirm(confirmMessage)) {
+            $deletedImageCollector.val($deletedImageCollector.val() + ',' + imageId);
+            $button.parent().find('span').addClass('deleted');
+            $button.addClass('deleted');
+            $button.prop('disabled', true);
+        }
+
+        return false;
+    });
+};
+
+jQuery(document).ready(function () {
+    if (jQuery('.tx-realty-pi1').length === 0) {
+        return;
+    }
+
+    TYPO3.realty.initializeFrontEndEditor();
+    TYPO3.realty.initializeGoogleMaps();
+    TYPO3.realty.initializeSearchWidget();
+    TYPO3.realty.initializeBackButton();
+    TYPO3.realty.initializePrintButton();
+    TYPO3.realty.initializeFavoritesButtons();
+    TYPO3.realty.initializeSortButton();
+    TYPO3.realty.initializeConfirms();
+    TYPO3.realty.initializeDeleteImageButtons();
+});

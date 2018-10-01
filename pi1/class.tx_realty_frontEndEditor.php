@@ -76,8 +76,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             $configurationNamespace,
             $isTestMode
         );
-
-        tx_realty_lightboxIncluder::includeMainJavaScript();
     }
 
     /**
@@ -1305,16 +1303,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         }
 
         return true;
-    }
-
-    /**
-     * Adds an onload handler (which calls updateHideAndShow) to the page header.
-     *
-     * @return void
-     */
-    public function addOnLoadHandler()
-    {
-        $this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_editor'] = 'updateHideAndShow();';
     }
 
     ///////////////////////////////////

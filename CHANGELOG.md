@@ -31,6 +31,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
+- !!! Switch from PrototypeJS to jQuery (#69)
 - !!! Switch from ameos_formidable to mkforms (#62)
 - Convert the image upload form configuration from XML to TypoScript (#59)
 - Convert the form configuration from XML to TypoScript (#57)

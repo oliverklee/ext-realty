@@ -58,7 +58,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
     public function renderReturnsButtonAddToFavorites()
     {
         self::assertContains(
-            'class="button singleViewAddToFavorites"',
+            'class="js-realty-favorites button singleViewAddToFavorites"',
             $this->fixture->render(['showUid' => 0])
         );
     }

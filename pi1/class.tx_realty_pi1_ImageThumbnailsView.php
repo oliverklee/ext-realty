@@ -55,8 +55,6 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      */
     private function renderImages()
     {
-        tx_realty_lightboxIncluder::includeLightboxFiles($this->prefixId, $this->extKey);
-
         /** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
         $realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
         /** @var tx_realty_Model_RealtyObject $realtyObject */
@@ -181,8 +179,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         $fullSizeImageUrl = $imagePath[1];
 
         $lightboxGallerySuffix = ($position > 0) ? '_' . $position : '';
-        $linkAttribute = ' rel="lightbox[objectGallery' . $lightboxGallerySuffix .
-            ']" title="' . htmlspecialchars($image->getTitle()) . '"';
+        $linkAttribute = ' data-lightbox="objectGallery' . $lightboxGallerySuffix .
+            '" data-title="' . htmlspecialchars($image->getTitle()) . '"';
 
         return '<a href="' . $fullSizeImageUrl . '"' . $linkAttribute . '>' . $thumbnailTag . '</a>';
     }

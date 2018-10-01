@@ -5,13 +5,13 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-tslib_eidtools::connectDB();
-tslib_eidtools::initTCA();
+\tslib_eidtools::connectDB();
+\tslib_eidtools::initTCA();
 
 $cityUid = (int)\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('city');
-$showWithNumbers = (\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('type') == 'withNumber');
+$showWithNumbers = (\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('type') === 'withNumber');
 if ($cityUid > 0) {
-    $output = tx_realty_Ajax_DistrictSelector::render($cityUid, $showWithNumbers);
+    $output = \tx_realty_Ajax_DistrictSelector::render($cityUid, $showWithNumbers);
 } else {
     $output = '';
 }

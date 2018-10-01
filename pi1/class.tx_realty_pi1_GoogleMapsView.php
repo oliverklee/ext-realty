@@ -98,7 +98,9 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
         $generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
             'src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>' . LF;
         $createMapJavaScript = '<script type="text/javascript">' . LF .
-            'function initializeMap() {' . LF .
+            'var TYPO3 = TYPO3 || {};' . LF .
+            'TYPO3.realty = TYPO3.realty || {};' . LF .
+            'TYPO3.realty.initializeMapMarkers = function() {' . LF .
             'var mapOptions = {' . LF .
             'zoom: ' . self::ZOOM_FOR_SINGLE_MARKER . ',' . LF .
             'center: ' . $this->mapMarkers[0]->getCoordinates() . ',' . LF .
@@ -123,12 +125,9 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
             $createMapJavaScript .= 'map.fitBounds(bounds);' . LF;
         }
 
-        $createMapJavaScript .= '}' . LF . '</script>';
+        $createMapJavaScript .= '};' . LF . '</script>';
         $frontEndController = $this->getFrontEndController();
         $frontEndController->additionalHeaderData['tx_realty_pi1_maps'] = $generalGoogleMapsJavaScript . $createMapJavaScript;
-
-        $frontEndController->JSeventFuncCalls['onload']['tx_realty_pi1_maps'] = 'initializeMap();';
-        $frontEndController->JSeventFuncCalls['onunload']['tx_realty_pi1_maps'] = 'GUnload();';
     }
 
     /**

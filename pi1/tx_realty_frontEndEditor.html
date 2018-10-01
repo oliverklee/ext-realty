@@ -26,7 +26,7 @@
                     <span class="chooser2">###LABEL_OBJECT_TYPE###</span>
                     <dl>
                         <dt>
-                            <span class="chooser">{object_type}</span>
+                            <span class="chooser js-realty-update-editor">{object_type}</span>
                         </dt>
                     </dl>
                 </div>
@@ -125,7 +125,7 @@
                     <span class="chooser2">###LABEL_CONTACT_DATA_SOURCE###</span>
                     <dl>
                         <dt>
-                            <span class="chooser">{contact_data_source}</span>
+                            <span class="chooser js-realty-update-editor">{contact_data_source}</span>
                         </dt>
                     </dl>
                 </div>
@@ -534,7 +534,7 @@
                         <dl>
                             <dt>&nbsp;</dt>
                             <dd>
-                                <span class="checkbox">{has_coordinates}&nbsp;{has_coordinates.label.tag}</span>
+                                <span class="checkbox js-realty-update-editor">{has_coordinates}&nbsp;{has_coordinates.label.tag}</span>
                             </dd>
                         </dl>
                         <dl>
@@ -597,8 +597,7 @@
                             <dt id="###SINGLE_ATTACHED_IMAGE_ID###">
                                 <span class="image">###SINGLE_IMAGE_ITEM###</span>
                                 <span class="label">###IMAGE_TITLE###</span>
-                                <input type="button" name="tx_realty_pi1_delete" value="###LABEL_DELETE###"
-                                       onclick="markAttachmentAsDeleted('###SINGLE_ATTACHED_IMAGE_ID###', '###LABEL_REALLY_DELETE###\n###IMAGE_TITLE_FOR_JS###');"/>
+                                <input type="button" data-image-id="###SINGLE_ATTACHED_IMAGE_ID###" data-confirm-message="###LABEL_REALLY_DELETE### ###IMAGE_TITLE_FOR_JS###" class="js-realty-delete-image" name="tx_realty_pi1_delete" value="###LABEL_DELETE###"/>
                             </dt>
                             <!--###SINGLE_ATTACHED_IMAGE### -->
                         </dl>

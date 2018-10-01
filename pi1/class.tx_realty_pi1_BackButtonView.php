@@ -20,14 +20,10 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView
     {
         if ($this->nextPreviousButtonsAreEnabled()) {
             $backUrl = $this->getBackLinkUrl();
-            $javaScriptBack = '';
         } else {
             $backUrl = '#';
-            $javaScriptBack = ' onclick="history.back(); return false;"';
         }
-
         $this->setMarker('BACK_URL', $backUrl);
-        $this->setMarker('JAVASCRIPT_BACK', $javaScriptBack);
 
         return $this->getSubpart('FIELD_WRAPPER_BACKBUTTON');
     }
@@ -59,7 +55,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView
         $additionalParameters = [];
         if (isset($this->piVars['listViewLimitation'])) {
             $decodedParameters = json_decode($this->piVars['listViewLimitation'], true);
-            $additionalParameters = (is_array($decodedParameters)) ? $decodedParameters : [];
+            $additionalParameters = is_array($decodedParameters) ? $decodedParameters : [];
         }
 
         $urlParameter = [
