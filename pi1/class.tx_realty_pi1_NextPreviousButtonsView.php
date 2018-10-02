@@ -106,12 +106,12 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
     {
         $sanitizedPiVars = [];
 
-        $sanitizedPiVars['recordPosition'] = (isset($this->piVars['recordPosition']))
+        $sanitizedPiVars['recordPosition'] = isset($this->piVars['recordPosition'])
             ? (int)$this->piVars['recordPosition'] : -1;
-        $sanitizedPiVars['listUid'] = (isset($this->piVars['listUid']))
+        $sanitizedPiVars['listUid'] = isset($this->piVars['listUid'])
             ? max((int)$this->piVars['listUid'], 0) : 0;
 
-        $sanitizedPiVars['listViewType'] = (isset($this->piVars['listViewType']))
+        $sanitizedPiVars['listViewType'] = isset($this->piVars['listViewType'])
             ? $this->piVars['listViewType']
             : '';
 

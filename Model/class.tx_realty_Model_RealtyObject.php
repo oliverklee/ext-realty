@@ -2066,7 +2066,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getContactEMailAddress()
     {
-        return ($this->usesContactDataOfOwner())
+        return $this->usesContactDataOfOwner()
             ? $this->owner->getEmailAddress()
             : $this->getAsString('contact_email');
     }
@@ -2079,7 +2079,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getContactCity()
     {
-        return ($this->usesContactDataOfOwner())
+        return $this->usesContactDataOfOwner()
             ? $this->owner->getCity()
             : '';
     }
@@ -2093,7 +2093,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getContactStreet()
     {
-        return ($this->usesContactDataOfOwner())
+        return $this->usesContactDataOfOwner()
             ? $this->owner->getStreet()
             : '';
     }
@@ -2106,7 +2106,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getContactZip()
     {
-        return ($this->usesContactDataOfOwner())
+        return $this->usesContactDataOfOwner()
             ? $this->owner->getZip()
             : '';
     }
@@ -2119,7 +2119,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getContactHomepage()
     {
-        return ($this->usesContactDataOfOwner())
+        return $this->usesContactDataOfOwner()
             ? $this->owner->getHomepage()
             : '';
     }

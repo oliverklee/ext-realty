@@ -212,7 +212,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $listedObjectsUids = [];
 
         $databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
-        while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
+        while ($row = $databaseConnection->sql_fetch_assoc($dbResult)) {
             $this->internal['currentRow'] = $row;
             $this->internal['currentRow']['recordPosition'] = $this->startingRecordNumber + $rowCounter;
             $listItems .= $this->createListRow($rowCounter);
@@ -601,12 +601,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         $whereClause .= $this->getWhereClausePartForPidList();
 
-        $whereClause .= ($this->hasConfValueString('staticSqlFilter'))
+        $whereClause .= $this->hasConfValueString('staticSqlFilter')
             ? ' AND ' . $this->getConfValueString('staticSqlFilter')
             : '';
 
         $searchSelection = implode(',', $this->getSearchSelection());
-        if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
+        if (!empty($searchSelection) && $this->hasConfValueString('checkboxesFilter')) {
             $whereClause .= ' AND ' . 'tx_realty_objects' .
                 '.' . $this->getConfValueString('checkboxesFilter') .
                 ' IN (' . $searchSelection . ')';
@@ -1149,7 +1149,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     private function createLoginPageLink($linkText, $hasExternalSingleViewPage = false)
     {
-        $redirectPage = ($hasExternalSingleViewPage)
+        $redirectPage = $hasExternalSingleViewPage
             ? $this->cObj->lastTypoLinkUrl
             : $this->getSelfUrl(false);
 
