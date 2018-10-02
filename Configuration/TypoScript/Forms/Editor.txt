@@ -255,6 +255,53 @@ plugin.tx_realty_pi1.editor {
             }
         }
 
+        district = renderlet:LISTBOX
+        district {
+            name = district
+            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district
+            data {
+                items {
+                    10 {
+                        caption =
+                        value = 0
+                    }
+                }
+                userobj {
+                    extension = this
+                    method = populateDistrictList
+                }
+            }
+            validators {
+                10 = validator:STANDARD
+                10.custom {
+                    userobj {
+                        extension = this
+                        method = checkKeyExistsInTable
+                        params {
+                            10 {
+                                name = table
+                                value = tx_realty_districts
+                            }
+                        }
+                    }
+                    message.userobj {
+                        extension = this
+                        method = getMessageForRealtyObjectField
+                        params {
+                            10 {
+                                name = fieldName
+                                value = tx_realty_districts
+                            }
+                            20 {
+                                name = label
+                                value = message_value_not_allowed
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         newDistrictButton = renderlet:BUTTON
         newDistrictButton {
             name = newDistrictButton
