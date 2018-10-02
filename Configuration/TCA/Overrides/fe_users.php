@@ -9,7 +9,7 @@ defined('TYPO3_MODE') or die('Access denied.');
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:fe_users.tx_realty_openimmo_anid',
             'config' => [
                 'type' => 'input',
-                'size' => '31',
+                'size' => 31,
                 'eval' => 'trim',
             ],
         ],
@@ -18,13 +18,13 @@ defined('TYPO3_MODE') or die('Access denied.');
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:fe_users.tx_realty_maximum_objects',
             'config' => [
                 'type' => 'input',
-                'size' => '4',
-                'max' => '4',
+                'size' => 4,
+                'max' => 4,
                 'eval' => 'int',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => '9999',
-                    'lower' => '0',
+                    'upper' => 9999,
+                    'lower' => 0,
                 ],
                 'default' => 0,
             ],

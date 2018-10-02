@@ -55,21 +55,21 @@ return [
     'columns' => [
         'sys_language_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                    ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+                    ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0],
                 ],
             ],
         ],
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
                 'items' => [
@@ -86,7 +86,7 @@ return [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
                 'default' => '0',
@@ -94,11 +94,11 @@ return [
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
-                'max' => '20',
+                'size' => 8,
+                'max' => 20,
                 'eval' => 'date',
                 'default' => '0',
                 'checkbox' => '0',
@@ -106,11 +106,11 @@ return [
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
-                'max' => '20',
+                'size' => 8,
+                'max' => 20,
                 'eval' => 'date',
                 'checkbox' => '0',
                 'default' => '0',
@@ -125,7 +125,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -151,7 +151,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'required,trim',
             ],
         ],
@@ -167,13 +167,13 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sorting',
             'config' => [
                 'type' => 'input',
-                'size' => '4',
-                'max' => '4',
+                'size' => 4,
+                'max' => 4,
                 'default' => '0',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => '9999',
-                    'lower' => '0',
+                    'lower' => 0,
+                    'upper' => 9999,
                 ],
                 'eval' => 'num',
             ],
@@ -190,7 +190,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.street',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -199,8 +199,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.zip',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
-                'max' => '5',
+                'size' => 5,
+                'max' => 5,
                 'eval' => 'num',
             ],
         ],
@@ -248,7 +248,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.distance_to_the_sea',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'num',
                 'checkbox' => '0',
             ],
@@ -280,7 +280,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.longitude',
             'config' => [
                 'type' => 'input',
-                'size' => '19',
+                'size' => 19,
                 'eval' => 'trim',
                 'default' => '0.000000',
             ],
@@ -291,7 +291,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.latitude',
             'config' => [
                 'type' => 'input',
-                'size' => '19',
+                'size' => 19,
                 'eval' => 'trim',
                 'default' => '0.000000',
             ],
@@ -301,12 +301,12 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms',
             'config' => [
                 'type' => 'input',
-                'size' => '2',
-                'max' => '5',
+                'size' => 2,
+                'max' => 5,
                 'eval' => 'double2',
                 'range' => [
-                    'upper' => '99',
-                    'lower' => '0',
+                    'lower' => 0.0,
+                    'upper' => 99.0,
                 ],
             ],
         ],
@@ -315,7 +315,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
             ],
         ],
@@ -324,7 +324,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_area',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
             ],
         ],
@@ -333,7 +333,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.shop_area',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -343,7 +343,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sales_area',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -353,7 +353,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_usable_area',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -363,7 +363,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.storage_area',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -373,7 +373,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.office_space',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -383,7 +383,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.other_area',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -393,7 +393,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.window_bank',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -403,7 +403,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.estate_size',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
             ],
         ],
@@ -412,7 +412,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.site_occupancy_index',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -422,7 +422,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor_space_index',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -432,7 +432,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
             ],
         ],
@@ -450,7 +450,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_per_square_meter',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
                 'checkbox' => '0.00',
             ],
@@ -460,7 +460,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.extra_charges',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
             ],
         ],
@@ -476,7 +476,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.deposit',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -485,7 +485,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.provision',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -494,7 +494,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.usable_from',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -503,7 +503,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
             ],
         ],
@@ -512,7 +512,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.hoa_fee',
             'config' => [
                 'type' => 'input',
-                'size' => '7',
+                'size' => 7,
                 'eval' => 'double2',
             ],
         ],
@@ -521,7 +521,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.year_rent',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
+                'size' => 8,
                 'eval' => 'double2',
             ],
         ],
@@ -530,7 +530,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rental_income_target',
             'config' => [
                 'type' => 'input',
-                'size' => '10',
+                'size' => 10,
                 'eval' => 'double2',
             ],
         ],
@@ -582,13 +582,13 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor',
             'config' => [
                 'type' => 'input',
-                'size' => '2',
-                'max' => '2',
+                'size' => 2,
+                'max' => 2,
                 'eval' => 'int',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => '99',
-                    'lower' => '-99',
+                    'lower' => -99,
+                    'upper' => 99,
                 ],
                 'default' => 0,
             ],
@@ -598,13 +598,13 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floors',
             'config' => [
                 'type' => 'input',
-                'size' => '2',
-                'max' => '2',
+                'size' => 2,
+                'max' => 2,
                 'eval' => 'int',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => '99',
-                    'lower' => '0',
+                    'lower' => 0,
+                    'upper' => 99,
                 ],
                 'default' => 0,
             ],
@@ -614,13 +614,13 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bedrooms',
             'config' => [
                 'type' => 'input',
-                'size' => '2',
-                'max' => '5',
+                'size' => 2,
+                'max' => 2,
                 'eval' => 'double2',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => '99',
-                    'lower' => '0',
+                    'lower' => 0,
+                    'upper' => 99,
                 ],
                 'default' => 0,
             ],
@@ -630,13 +630,13 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bathrooms',
             'config' => [
                 'type' => 'input',
-                'size' => '2',
-                'max' => '5',
+                'size' => 2,
+                'max' => 5,
                 'eval' => 'double2',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => '99',
-                    'lower' => '0',
+                    'lower' => 0,
+                    'upper' => 99,
                 ],
                 'default' => 0,
             ],
@@ -725,7 +725,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.parking_spaces',
             'config' => [
                 'type' => 'input',
-                'size' => '3',
+                'size' => 3,
                 'eval' => 'num',
                 'checkbox' => '0',
             ],
@@ -735,7 +735,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_rent',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'double2',
             ],
         ],
@@ -744,7 +744,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_price',
             'config' => [
                 'type' => 'input',
-                'size' => '6',
+                'size' => 6,
                 'eval' => 'double2',
             ],
         ],
@@ -791,13 +791,13 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.construction_year',
             'config' => [
                 'type' => 'input',
-                'size' => '4',
-                'max' => '4',
+                'size' => 4,
+                'max' => 4,
                 'eval' => 'int',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => '2100',
-                    'lower' => '1400',
+                    'lower' => 1400,
+                    'upper' => 2100,
                 ],
                 'default' => 0,
             ],
@@ -961,8 +961,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.teaser',
             'config' => [
                 'type' => 'text',
-                'cols' => '20',
-                'rows' => '3',
+                'cols' => 20,
+                'rows' => 3,
             ],
         ],
         'description' => [
@@ -970,8 +970,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.description',
             'config' => [
                 'type' => 'text',
-                'cols' => '30',
-                'rows' => '5',
+                'cols' => 30,
+                'rows' => 5,
             ],
         ],
         'equipment' => [
@@ -979,8 +979,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.equipment',
             'config' => [
                 'type' => 'text',
-                'cols' => '30',
-                'rows' => '5',
+                'cols' => 30,
+                'rows' => 5,
             ],
         ],
         'layout' => [
@@ -988,8 +988,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.layout',
             'config' => [
                 'type' => 'text',
-                'cols' => '30',
-                'rows' => '3',
+                'cols' => 30,
+                'rows' => 3,
             ],
         ],
         'location' => [
@@ -997,8 +997,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.location',
             'config' => [
                 'type' => 'text',
-                'cols' => '30',
-                'rows' => '5',
+                'cols' => 30,
+                'rows' => 5,
             ],
         ],
         'misc' => [
@@ -1006,8 +1006,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.misc',
             'config' => [
                 'type' => 'text',
-                'cols' => '30',
-                'rows' => '5',
+                'cols' => 30,
+                'rows' => 5,
             ],
         ],
         'details_page' => [
@@ -1015,8 +1015,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.details_page',
             'config' => [
                 'type' => 'input',
-                'size' => '15',
-                'max' => '255',
+                'size' => 15,
+                'max' => 255,
                 'checkbox' => '',
                 'eval' => 'trim',
                 'wizards' => [
@@ -1077,7 +1077,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.employer',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1086,7 +1086,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.openimmo_anid',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1095,7 +1095,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.openimmo_obid',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1104,7 +1104,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.utilization',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1130,7 +1130,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1139,7 +1139,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person_first_name',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1148,7 +1148,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person_salutation',
             'config' => [
                 'type' => 'input',
-                'size' => '5',
+                'size' => 5,
                 'eval' => 'trim',
             ],
         ],
@@ -1157,7 +1157,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_email',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1166,7 +1166,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_switchboard',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1175,7 +1175,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_direct_extension',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'trim',
             ],
         ],
@@ -1214,8 +1214,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.advertised_date',
             'config' => [
                 'type' => 'input',
-                'size' => '10',
-                'max' => '10',
+                'size' => 10,
+                'max' => 10,
                 'eval' => 'date',
                 'checkbox' => '0',
                 'default' => '0',
@@ -1324,8 +1324,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate_issue_date',
             'config' => [
                 'type' => 'input',
-                'size' => '8',
-                'max' => '20',
+                'size' => 8,
+                'max' => 20,
                 'eval' => 'date',
                 'default' => '0',
                 'checkbox' => '0',
@@ -1380,8 +1380,8 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate_text',
             'config' => [
                 'type' => 'text',
-                'cols' => '30',
-                'rows' => '5',
+                'cols' => 30,
+                'rows' => 5,
             ],
         ],
         'heat_energy_requirement_value' => [

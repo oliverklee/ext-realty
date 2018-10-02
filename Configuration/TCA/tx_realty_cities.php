@@ -22,21 +22,21 @@ return [
     'columns' => [
         'sys_language_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+                    ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+                    ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0],
                 ],
             ],
         ],
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
                 'items' => [
@@ -56,7 +56,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_cities.title',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
+                'size' => 30,
                 'eval' => 'required',
             ],
         ],
