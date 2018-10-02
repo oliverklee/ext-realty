@@ -1038,7 +1038,7 @@ class tx_realty_domDocumentConverter
         $nodeWithAttributes = $this->findFirstGrandchild('geo', 'land');
         $attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
 
-        if (!isset($attributes['iso_land']) || ((string)$attributes['iso_land'] === '')) {
+        if (!isset($attributes['iso_land']) || $attributes['iso_land'] === '') {
             return;
         }
 

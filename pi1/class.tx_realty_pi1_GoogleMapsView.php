@@ -215,7 +215,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
                     $this->prefixId,
                     ['showUid' => $realtyObjectUid]
                 ),
-                'useCacheHash' => ($this->getConfValueString('what_to_display') != 'favorites'),
+                'useCacheHash' => $this->getConfValueString('what_to_display') != 'favorites',
             ]);
         }
 

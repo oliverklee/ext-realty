@@ -67,7 +67,7 @@ class tx_realty_Model_FrontEndUser extends Tx_Oelib_Model_FrontEndUser
         }
 
         return max(
-            ($numberOfAllowedObjects - $this->getNumberOfObjects()),
+            $numberOfAllowedObjects - $this->getNumberOfObjects(),
             0
         );
     }

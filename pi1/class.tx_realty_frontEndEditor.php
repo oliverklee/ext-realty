@@ -265,7 +265,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         /** @var array[] $items */
         $items = [];
-        while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
+        while ($row = $databaseConnection->sql_fetch_assoc($dbResult)) {
             $items[] = [
                 'value' => $row['uid'],
                 'caption' => $row[$titleColumn],
@@ -451,7 +451,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         }
 
         $languages = [];
-        while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
+        while ($row = $databaseConnection->sql_fetch_assoc($dbResult)) {
             $languages[] = $row['language'];
         }
         $databaseConnection->sql_free_result($dbResult);
@@ -750,11 +750,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     {
         return $this->getMessageForRealtyObjectField([
             'fieldName' => 'city',
-            'label' => (
-            ($this->getFormValue('city') == 0)
+            'label' => ($this->getFormValue('city') == 0)
                 ? 'message_required_field'
-                : 'message_value_not_allowed'
-            ),
+                : 'message_value_not_allowed',
         ]);
     }
 
