@@ -29,10 +29,6 @@ Upgrading from version 0.6.x to 1.0.x
 
 #. Update the Realty Manager.
 
-#. Select the “UPDATE” drop-down in the extension manager for the Realty
-   Manager. This will assign cities to your district records if the
-   relation is unambiguous.
-
 #. View your front-end pages that contain the Realty Manager plug-in and
    check that there are no configuration check warnings. If there are any
    warnings, fix your setup and reload that page.

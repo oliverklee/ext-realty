@@ -61,6 +61,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Drop the update wizard that does nothing (#80)
 - !!! Remove the possibility of adding new districts in the FE editor (#74)
 - Drop support for TYPO3 <= 6.2
 - Only depend on the Composer formidable on Travis (#25)
