@@ -1153,7 +1153,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         try {
             $districtMapper->findByNameAndCityUid($title, $cityUid);
-            /** @var tx_rdtmodalbox $renderlet */
+            /** @var \tx_mkforms_widgets_modalbox_Main $renderlet */
             $renderlet = $form->aORenderlets['newDistrictModalBox'];
             // just closes the modal box; doesn't save the district if it
             // already exists
@@ -1173,15 +1173,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $district->markAsDirty();
         $districtMapper->save($district);
 
-        /** @var tx_rdtmodalbox $renderlet */
+        /** @var \tx_mkforms_widgets_modalbox_Main $renderlet */
         $renderlet = $form->aORenderlets['newDistrictModalBox'];
         return [
             $renderlet->majixCloseBox(),
             $form->majixExecJs(
-                'appendDistrictInEditor(' . $district->getUid() . ', "' . addcslashes(
-                    $district->getTitle(),
-                    '"\\'
-                ) . '");'
+                'TYPO3.realty.appendDistrictInEditor(' . $district->getUid() . ', "' .
+                addcslashes($district->getTitle(), '"\\') . '");'
             ),
         ];
     }
