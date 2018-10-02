@@ -155,10 +155,9 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         $this->createObjectWithOwner();
 
         self::assertTrue(
-            $this->testingFramework->existsRecordWithUid(
+            $this->testingFramework->existsRecord(
                 'tx_realty_objects',
-                $this->objectUid,
-                ' AND owner = ' . $this->ownerUid
+                'owner = ' . $this->ownerUid . ' AND uid = ' . $this->objectUid
             )
         );
     }

@@ -142,13 +142,12 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
      */
     public function prepareMyObjectsMakesUserOwnerOfOneObject()
     {
-        $this->prepareMyObjects();
+        $this->prepareMyObjects(['uid' => 123412]);
 
         self::assertTrue(
-            $this->testingFramework->existsRecordWithUid(
+            $this->testingFramework->existsRecord(
                 'tx_realty_objects',
-                $this->realtyUid,
-                ' AND owner <> 0'
+                'uid = ' . $this->realtyUid . ' AND owner <> 0'
             )
         );
     }
