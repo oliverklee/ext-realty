@@ -74,6 +74,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Replace deprecated code usages in 6.2 (#81)
 - Fix the number of call arguments (#79)
 - Add missing ext-json requirement to the composer.json (#78)
 - Fix/add PHPDoc type annotations (#77)

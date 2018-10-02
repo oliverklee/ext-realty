@@ -214,29 +214,6 @@ return [
                 'size' => 1,
                 'minitems' => 1,
                 'maxitems' => 1,
-                'wizards' => [
-                    '_PADDING' => 2,
-                    '_VERTICAL' => 1,
-                    'add' => [
-                        'type' => 'script',
-                        'title' => 'Create new record',
-                        'icon' => 'add.gif',
-                        'params' => [
-                            'table' => 'tx_realty_cities',
-                            'pid' => '###STORAGE_PID###',
-                            'setValue' => 'prepend',
-                        ],
-                        'script' => 'wizard_add.php',
-                    ],
-                    'edit' => [
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'script' => 'wizard_edit.php',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'icon' => 'edit2.gif',
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
             ],
         ],
         'district' => [
@@ -249,29 +226,6 @@ return [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'wizards' => [
-                    '_PADDING' => 2,
-                    '_VERTICAL' => 1,
-                    'add' => [
-                        'type' => 'script',
-                        'title' => 'Create new record',
-                        'icon' => 'add.gif',
-                        'params' => [
-                            'table' => 'tx_realty_districts',
-                            'pid' => '###STORAGE_PID###',
-                            'setValue' => 'prepend',
-                        ],
-                        'script' => 'wizard_add.php',
-                    ],
-                    'edit' => [
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'script' => 'wizard_edit.php',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'icon' => 'edit2.gif',
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
             ],
         ],
         'country' => [
@@ -606,29 +560,6 @@ return [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'wizards' => [
-                    '_PADDING' => 2,
-                    '_VERTICAL' => 1,
-                    'add' => [
-                        'type' => 'script',
-                        'title' => 'Create new record',
-                        'icon' => 'add.gif',
-                        'params' => [
-                            'table' => 'tx_realty_apartment_types',
-                            'pid' => '###STORAGE_PID###',
-                            'setValue' => 'prepend',
-                        ],
-                        'script' => 'wizard_add.php',
-                    ],
-                    'edit' => [
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'script' => 'wizard_edit.php',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'icon' => 'edit2.gif',
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
             ],
         ],
         'house_type' => [
@@ -644,29 +575,6 @@ return [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'wizards' => [
-                    '_PADDING' => 2,
-                    '_VERTICAL' => 1,
-                    'add' => [
-                        'type' => 'script',
-                        'title' => 'Create new record',
-                        'icon' => 'add.gif',
-                        'params' => [
-                            'table' => 'tx_realty_house_types',
-                            'pid' => '###STORAGE_PID###',
-                            'setValue' => 'prepend',
-                        ],
-                        'script' => 'wizard_add.php',
-                    ],
-                    'edit' => [
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'script' => 'wizard_edit.php',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'icon' => 'edit2.gif',
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
             ],
         ],
         'floor' => [
@@ -810,29 +718,6 @@ return [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'wizards' => [
-                    '_PADDING' => 2,
-                    '_VERTICAL' => 1,
-                    'add' => [
-                        'type' => 'script',
-                        'title' => 'Create new record',
-                        'icon' => 'add.gif',
-                        'params' => [
-                            'table' => 'tx_realty_car_places',
-                            'pid' => '###STORAGE_PID###',
-                            'setValue' => 'prepend',
-                        ],
-                        'script' => 'wizard_add.php',
-                    ],
-                    'edit' => [
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'script' => 'wizard_edit.php',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'icon' => 'edit2.gif',
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
             ],
         ],
         'parking_spaces' => [
@@ -876,29 +761,6 @@ return [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'wizards' => [
-                    '_PADDING' => 2,
-                    '_VERTICAL' => 1,
-                    'add' => [
-                        'type' => 'script',
-                        'title' => 'Create new record',
-                        'icon' => 'add.gif',
-                        'params' => [
-                            'table' => 'tx_realty_pets',
-                            'pid' => '###STORAGE_PID###',
-                            'setValue' => 'prepend',
-                        ],
-                        'script' => 'wizard_add.php',
-                    ],
-                    'edit' => [
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'script' => 'wizard_edit.php',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'icon' => 'edit2.gif',
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
             ],
         ],
         'flooring' => [
@@ -1163,7 +1025,12 @@ return [
                         'type' => 'popup',
                         'title' => 'Link',
                         'icon' => 'link_popup.gif',
-                        'script' => 'browse_links.php?mode=wizard',
+                        'module' => [
+                            'name' => 'wizard_element_browser',
+                            'urlParameters' => [
+                                'mode' => 'wizard',
+                            ],
+                        ],
                         'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
                     ],
                 ],

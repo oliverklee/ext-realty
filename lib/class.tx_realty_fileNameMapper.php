@@ -1,6 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\File\BasicFileUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -21,11 +20,6 @@ class tx_realty_fileNameMapper
      * @var string path of the folder in which to check whether a file exists
      */
     private $destinationPath = '';
-
-    /**
-     * @var BasicFileUtility
-     */
-    private static $fileFunctions = null;
 
     /**
      * Constructor.
@@ -68,14 +62,10 @@ class tx_realty_fileNameMapper
      */
     private function getUniqueFileName($originalFileName)
     {
-        $splittedFileName = GeneralUtility::split_fileref($originalFileName);
-        $newFileName = $this->getCleanedFileNameBody(
-                $splittedFileName['filebody']
-            ) . '.' . $splittedFileName['realFileext'];
+        $fileNameParts = GeneralUtility::split_fileref($originalFileName);
+        $newFileName = $this->getCleanedFileNameBody($fileNameParts['filebody']) . '.' . $fileNameParts['realFileext'];
 
-        while (isset($this->fileNames[$newFileName])
-            || file_exists($this->destinationPath . $newFileName)
-        ) {
+        while (isset($this->fileNames[$newFileName]) || file_exists($this->destinationPath . $newFileName)) {
             $this->createNewFileName($newFileName);
         }
 
@@ -86,17 +76,13 @@ class tx_realty_fileNameMapper
      * Returns the given file name body with any character not matching
      * [.a-zA-Z0-9_-] replaced by '_'.
      *
-     * @param string $fileNameBody file name body, must not be empty
+     * @param string $fileName file name body, must not be empty
      *
      * @return string cleaned file name body, will not be empty
      */
-    private function getCleanedFileNameBody($fileNameBody)
+    private function getCleanedFileNameBody($fileName)
     {
-        if (self::$fileFunctions === null) {
-            self::$fileFunctions = GeneralUtility::makeInstance(BasicFileUtility::class);
-        }
-
-        return self::$fileFunctions->cleanFileName($fileNameBody);
+        return preg_replace('/[^\\.a-zA-Z0-9_\\-]/', '_', $fileName);
     }
 
     /**
