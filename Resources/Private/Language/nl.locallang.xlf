@@ -1160,10 +1160,6 @@
                 <source>Save</source>
                 <target>Opslaan</target>
             </trans-unit>
-            <trans-unit id="label_cancel" xml:space="preserve" approved="yes">
-                <source>Cancel</source>
-                <target>Cancel</target>
-            </trans-unit>
             <trans-unit id="label_save_and_close" xml:space="preserve" approved="yes">
                 <source>Save and close</source>
                 <target>Opslaan en sluiten</target>
@@ -1316,21 +1312,9 @@
                 <source>A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</source>
                 <target>Een nieuw en bestaand object kunnen niet tegerlijk worden opgeslagen</target>
             </trans-unit>
-            <trans-unit id="message_emptyTitle" xml:space="preserve" approved="yes">
-                <source>Please enter a title.</source>
-                <target>Vul een titel in</target>
-            </trans-unit>
-            <trans-unit id="message_emptyCity" xml:space="preserve" approved="yes">
-                <source>Please select a city.</source>
-                <target>Kies een plaats</target>
-            </trans-unit>
             <trans-unit id="label_new_city" xml:space="preserve" approved="yes">
                 <source>Create new city</source>
                 <target>Nieuwe plaats invoeren</target>
-            </trans-unit>
-            <trans-unit id="label_new_district" xml:space="preserve" approved="yes">
-                <source>Create new district</source>
-                <target>Nieuw district invoeren</target>
             </trans-unit>
             <trans-unit id="label_email_subject_fe_editor" xml:space="preserve" approved="yes">
                 <source>A new realty record has been created in the FE.</source>

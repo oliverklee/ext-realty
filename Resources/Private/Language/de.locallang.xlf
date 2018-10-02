@@ -1428,10 +1428,6 @@
                 <source>Save</source>
                 <target>Speichern</target>
             </trans-unit>
-            <trans-unit id="label_cancel" xml:space="preserve" approved="yes">
-                <source>Cancel</source>
-                <target>Abbrechen</target>
-            </trans-unit>
             <trans-unit id="label_save_and_close" xml:space="preserve" approved="yes">
                 <source>Save and close</source>
                 <target>Speichern und schließen</target>
@@ -1588,21 +1584,9 @@
                 <source>A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</source>
                 <target>Ein neuer und ein existierender Datensatz können nicht für dasselbe Objekt gespeichert werden. Bitte wählen Sie entweder einen der existierenden Datensätze oder geben Sie einen neuen Titel an.</target>
             </trans-unit>
-            <trans-unit id="message_emptyTitle" xml:space="preserve" approved="yes">
-                <source>Please enter a title.</source>
-                <target>Bitte geben Sie einen Titel ein.</target>
-            </trans-unit>
-            <trans-unit id="message_emptyCity" xml:space="preserve" approved="yes">
-                <source>Please select a city.</source>
-                <target>Bitte wählen Sie eine Stadt aus.</target>
-            </trans-unit>
             <trans-unit id="label_new_city" xml:space="preserve" approved="yes">
                 <source>Create new city</source>
                 <target>Neuen Ort anlegen</target>
-            </trans-unit>
-            <trans-unit id="label_new_district" xml:space="preserve" approved="yes">
-                <source>Create new district</source>
-                <target>Neuen Ortsteil anlegen</target>
             </trans-unit>
             <trans-unit id="label_email_subject_fe_editor" xml:space="preserve" approved="yes">
                 <source>A new realty record has been created in the FE.</source>

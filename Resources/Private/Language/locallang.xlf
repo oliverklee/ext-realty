@@ -1072,9 +1072,6 @@
             <trans-unit id="label_save" xml:space="preserve">
                 <source>Save</source>
             </trans-unit>
-            <trans-unit id="label_cancel" xml:space="preserve">
-                <source>Cancel</source>
-            </trans-unit>
             <trans-unit id="label_save_and_close" xml:space="preserve">
                 <source>Save and close</source>
             </trans-unit>
@@ -1192,17 +1189,8 @@
             <trans-unit id="message_either_new_or_existing_record" xml:space="preserve">
                 <source>A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</source>
             </trans-unit>
-            <trans-unit id="message_emptyTitle" xml:space="preserve">
-                <source>Please enter a title.</source>
-            </trans-unit>
-            <trans-unit id="message_emptyCity" xml:space="preserve">
-                <source>Please select a city.</source>
-            </trans-unit>
             <trans-unit id="label_new_city" xml:space="preserve">
                 <source>Create new city</source>
-            </trans-unit>
-            <trans-unit id="label_new_district" xml:space="preserve">
-                <source>Create new district</source>
             </trans-unit>
             <trans-unit id="label_email_subject_fe_editor" xml:space="preserve">
                 <source>A new realty record has been created in the FE.</source>

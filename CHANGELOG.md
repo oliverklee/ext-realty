@@ -60,6 +60,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- !!! Remove the possibility of adding new districts in the FE editor (#74)
 - Drop support for TYPO3 <= 6.2
 - Only depend on the Composer formidable on Travis (#25)
 - Drop the incorrect TYPO3 Core license headers  (#24)

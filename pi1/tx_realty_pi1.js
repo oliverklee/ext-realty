@@ -70,12 +70,10 @@ TYPO3.realty.updateDistrictsInEditor = function () {
     var $citySelector = jQuery('#tx_realty_frontEndEditor__city');
     var $districtWrapper = jQuery('#tx_realty_frontEndEditor_district_wrapper');
     var $districtDropDown = jQuery('#tx_realty_frontEndEditor__district');
-    var $newDistrictWrapper = jQuery('#tx_realty_frontEndEditor_new_district_wrapper');
 
     var cityUid = $citySelector.val();
     if (cityUid === "0") {
         $districtWrapper.hide();
-        $newDistrictWrapper.hide();
         return;
     }
 
@@ -83,23 +81,8 @@ TYPO3.realty.updateDistrictsInEditor = function () {
     $districtDropDown.prop('disabled', true);
     $districtDropDown.load(url, function () {
         $districtWrapper.show();
-        $newDistrictWrapper.show();
         $districtDropDown.prop('disabled', false);
     });
-};
-
-/**
- * Appends a district so that it is available for selection in the FE editor.
- *
- * @param {integer} uid the UID of the district to add, must be > 0
- * @param {string} title the title of the district, must not be empty
- */
-TYPO3.realty.appendDistrictInEditor = function (uid, title) {
-    var $districtDropDown = jQuery('#tx_realty_frontEndEditor__district');
-    var $optionElement = jQuery('<option value="' + uid + '"/>');
-    $optionElement.append(document.createTextNode(title));
-
-    $districtDropDown.append($optionElement);
 };
 
 TYPO3.realty.initializeFrontEndEditor = function () {
