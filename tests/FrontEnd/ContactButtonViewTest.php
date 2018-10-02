@@ -87,7 +87,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel(['title' => 'test title']);
 
         self::assertContains(
-            'tx_realty_pi1[showUid]=' . $realtyObject->getUid(),
+            '=' . $realtyObject->getUid(),
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }

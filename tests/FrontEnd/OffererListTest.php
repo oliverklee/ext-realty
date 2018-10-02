@@ -1193,10 +1193,10 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
             'objects_by_owner_link'
         );
 
-        self::assertContains(
-            'tx_realty_pi1[owner]=' . $this->offererUid,
-            $this->fixture->render()
-        );
+        $result = $this->fixture->render();
+
+        self::assertContains('owner', $result);
+        self::assertContains('=' . $this->offererUid, $result);
     }
 
     /**

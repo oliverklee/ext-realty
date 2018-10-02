@@ -573,14 +573,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         );
         $output = $this->fixture->render();
 
-        self::assertContains(
-            'tx_realty_pi1[showUid]=' . $this->firstRealtyUid,
-            $output
-        );
-        self::assertContains(
-            '?id=' . $this->singlePid,
-            $output
-        );
+        self::assertContains('=' . $this->firstRealtyUid, $output);
+        self::assertContains('?id=' . $this->singlePid, $output);
     }
 
     /**
@@ -1560,8 +1554,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNonNumericObjectNumber()
-    {
+    public function listViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNonNumericObjectNumber(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -1596,7 +1590,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->render(['objectNumber' => self::$firstObjectNumber]);
 
         self::assertContains(
-            'tx_realty_pi1[showUid]=' . $this->firstRealtyUid,
+            '=' . $this->firstRealtyUid,
             Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
@@ -1661,7 +1655,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             'This title is longer than 75 Characters, so the rest should be' .
-                ' cropped and…',
+            ' cropped and…',
             $this->fixture->render()
         );
     }
@@ -1692,7 +1686,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $output = $this->fixture->render();
 
         self::assertNotContains(
-           'listUid',
+            'listUid',
             $output
         );
     }
@@ -1706,7 +1700,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $output = $this->fixture->render();
 
         self::assertContains(
-           'listUid',
+            'listUid',
             $output
         );
     }
@@ -1720,7 +1714,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $output = $this->fixture->render();
 
         self::assertNotContains(
-           'listViewType',
+            'listViewType',
             $output
         );
     }
@@ -1734,7 +1728,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $output = $this->fixture->render();
 
         self::assertContains(
-           'listViewType',
+            'listViewType',
             $output
         );
     }
@@ -1744,15 +1738,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listViewForEnabledEnableNextPreviousButtonsAndListTypeRealtyListAddsCorrectListViewTypeToLink()
     {
-        // TODO: Move this test into a testing class for the abstract list view,
-        // when Bug# 3075 is finished
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
         $output = $this->fixture->render();
 
-        self::assertContains(
-           'listViewType]=realty_list',
-            $output
-        );
+        self::assertContains('=realty_list', $output);
     }
 
     /**
@@ -1763,7 +1752,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 0);
 
         self::assertNotContains(
-           'recordPosition',
+            'recordPosition',
             $this->fixture->render()
         );
     }
@@ -1776,7 +1765,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
 
         self::assertContains(
-           'recordPosition',
+            'recordPosition',
             $this->fixture->render()
         );
     }
@@ -1788,8 +1777,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        self::assertRegExp(
-            '/' . $this->secondRealtyUid . '[^>]+recordPosition]=0/',
+        self::assertContains(
+            '=0',
             $this->fixture->render(['orderBy' => 'title', 'descFlag' => 1])
         );
     }
@@ -1801,10 +1790,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        self::assertRegExp(
-            '/' . $this->firstRealtyUid . '[^>]+recordPosition]=0/',
-            $this->fixture->render()
-        );
+        self::assertContains('=0', $this->fixture->render());
     }
 
     /**
@@ -1814,10 +1800,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        self::assertRegExp(
-            '/' . $this->secondRealtyUid . '[^>]+recordPosition]=1/',
-            $this->fixture->render()
-        );
+        self::assertContains('=1', $this->fixture->render());
     }
 
     /**
@@ -1831,10 +1814,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['results_at_a_time' => 1]
         );
 
-        self::assertContains(
-           'recordPosition]=1',
-            $this->fixture->render(['pointer' => 1])
-        );
+        self::assertContains('=1', $this->fixture->render(['pointer' => 1]));
     }
 
     /**
@@ -1845,7 +1825,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
 
         self::assertContains(
-           'listViewLimitation',
+            'listViewLimitation',
             $this->fixture->render()
         );
     }
@@ -1858,7 +1838,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
 
         self::assertContains(
-           'listViewLimitation',
+            'listViewLimitation',
             $this->fixture->render()
         );
     }
@@ -1907,18 +1887,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function listViewForEnabledNextPreviousButtonsForSetOrderByContainsOrderByValue()
     {
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $listViewLimitation = [];
-        preg_match(
-            '/listViewLimitation]=([^&]*)/',
-            $this->fixture->render(['orderBy' => 'foo']),
-            $listViewLimitation
-        );
 
-        $reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), true);
-        self::assertSame(
-            'foo',
-            $reconstructedLimitations['orderBy']
-        );
+        $result = $this->fixture->render(['orderBy' => 'foo']);
+
+        self::assertContains('foo', $result);
     }
 
     /**
@@ -1927,18 +1899,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function listViewForEnabledNextPreviousButtonsForSetDescFlagContainsDescFlagValue()
     {
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $listViewLimitation = [];
-        preg_match(
-            '/listViewLimitation]=([^&]*)/',
-            $this->fixture->render(['orderBy' => 'foo', 'descFlag' => 1]),
-            $listViewLimitation
-        );
 
-        $reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), true);
-        self::assertSame(
-            1,
-            $reconstructedLimitations['descFlag']
-        );
+        $result = $this->fixture->render(['orderBy' => 'foo', 'descFlag' => 1]);
+
+        self::assertContains('descFlag', $result);
     }
 
     /**
@@ -1947,18 +1911,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function listViewForEnabledNextPreviousButtonsForSetSearchContainsSearchValue()
     {
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $listViewLimitation = [];
-        preg_match(
-            '/listViewLimitation]=([^&]*)/',
-            $this->fixture->render(['search' => ['0' => '42']]),
-            $listViewLimitation
-        );
 
-        $reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), true);
-        self::assertSame(
-            ['0' => '42'],
-            $reconstructedLimitations['search']
-        );
+        self::assertContains('42', $this->fixture->render(['search' => ['0' => '42']]));
     }
 
     /**
@@ -1967,18 +1921,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function listViewFilteredBySiteForEnabledNextPreviousButtonsContainsFilteredSite()
     {
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $listViewLimitation = [];
-        preg_match(
-            '/listViewLimitation]=([^&]*)/',
-            $this->fixture->render(['site' => self::$firstCityTitle]),
-            $listViewLimitation
-        );
 
-        $reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), true);
-        self::assertSame(
-            self::$firstCityTitle,
-            $reconstructedLimitations['site']
-        );
+        self::assertContains(self::$firstCityTitle, $this->fixture->render(['site' => self::$firstCityTitle]));
     }
 
     /*
@@ -2073,8 +2017,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByPriceNotDisplaysRealtyObjectWithZeroBuyingPriceAndRentOutOfRangeForNoLowerLimitSet()
-    {
+    public function listViewFilteredByPriceNotDisplaysRealtyObjectWithZeroBuyingPriceAndRentOutOfRangeForNoLowerLimitSet(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2341,7 +2285,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         self::assertContains(
             self::$firstObjectTitle,
             $this->fixture->render([
-                'priceRange' => '10-100', 'site' => self::$firstCityTitle,
+                'priceRange' => '10-100',
+                'site' => self::$firstCityTitle,
             ])
         );
     }
@@ -2542,8 +2487,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaAndSetLowerLimitDisplaysRealtyObjectWithLivingAreaGreaterThanTheLowerLimit()
-    {
+    public function listViewFilteredByLivingAreaAndSetLowerLimitDisplaysRealtyObjectWithLivingAreaGreaterThanTheLowerLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2559,8 +2504,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaAndSetUpperLimitDisplaysRealtyObjectWithLivingAreaLowerThanTheGreaterLimit()
-    {
+    public function listViewFilteredByLivingAreaAndSetUpperLimitDisplaysRealtyObjectWithLivingAreaLowerThanTheGreaterLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2576,8 +2521,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithLivingAreaZero()
-    {
+    public function listViewFilteredByLivingAreaForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithLivingAreaZero(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2612,8 +2557,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithLivingAreaGreaterThanLimit()
-    {
+    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithLivingAreaGreaterThanLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->secondRealtyUid,
@@ -2631,8 +2576,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToLowerLimit()
-    {
+    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToLowerLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2650,8 +2595,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToUpperLimit()
-    {
+    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToUpperLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2700,8 +2645,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsAndSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsGreaterThanTheLowerLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsAndSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsGreaterThanTheLowerLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2717,8 +2662,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsAndSetUpperLimitDisplaysRealtyObjectWithNumberOfRoomsLowerThanTheGreaterLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsAndSetUpperLimitDisplaysRealtyObjectWithNumberOfRoomsLowerThanTheGreaterLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2734,8 +2679,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsZero()
-    {
+    public function listViewFilteredByNumberOfRoomsForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsZero(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2751,8 +2696,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowNumberOfRoomsLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowNumberOfRoomsLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->secondRealtyUid,
@@ -2770,8 +2715,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithNumberOfRoomsGreaterThanLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithNumberOfRoomsGreaterThanLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->secondRealtyUid,
@@ -2789,8 +2734,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToLowerLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToLowerLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2808,8 +2753,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToUpperLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToUpperLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2827,8 +2772,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheNumberOfRoomsInRange()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheNumberOfRoomsInRange(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2854,8 +2799,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualHidesRealtyObjectWithNumberOfRoomsHigherThanLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualHidesRealtyObjectWithNumberOfRoomsHigherThanLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2873,8 +2818,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualAndCommaAsDecimalSeparatorHidesRealtyObjectWithNumberOfRoomsLowerThanLimit()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualAndCommaAsDecimalSeparatorHidesRealtyObjectWithNumberOfRoomsLowerThanLimit(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2892,8 +2837,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitFourPointFiveDisplaysObjectWithFourPointFiveRooms()
-    {
+    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitFourPointFiveDisplaysObjectWithFourPointFiveRooms(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2951,8 +2896,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber()
-    {
+    public function listViewIsSortedInAscendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2980,8 +2925,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewIsSortedInDescendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber()
-    {
+    public function listViewIsSortedInDescendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,

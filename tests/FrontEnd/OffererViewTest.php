@@ -449,10 +449,10 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->createFrontEndPage()
         );
 
-        self::assertContains(
-            'tx_realty_pi1[owner]=' . $ownerUid,
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
-        );
+        $result = $this->fixture->render(['showUid' => $realtyObject->getUid()]);
+
+        self::assertContains('owner', $result);
+        self::assertContains('=' . $ownerUid, $result);
     }
 
     /**

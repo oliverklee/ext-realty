@@ -102,10 +102,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->piVars['listUid'] = $listUid;
         $this->fixture->piVars['listViewLimitation'] = $listViewLimitation;
 
-        self::assertContains(
-            'objectNumber]=foo',
-            $this->fixture->render()
-        );
+        self::assertContains('=foo', $this->fixture->render());
     }
 
     /**

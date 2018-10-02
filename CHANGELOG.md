@@ -75,6 +75,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Make the tests URL-encoding agnostic (#91)
 - Fix the casing of used classes and methods (#87)
 - Use a fixed SIM_EXEC_TIME in the tests (#86)
 - Replace deprecated code usages in 6.2 (#81)

@@ -278,10 +278,10 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        self::assertContains(
-            'showUid]=' . $objectUid1,
-            $this->fixture->render()
-        );
+        $result = $this->fixture->render();
+
+        self::assertContains('showUid', $result);
+        self::assertContains('=' . $objectUid1, $result);
     }
 
     /**
@@ -312,10 +312,10 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        self::assertContains(
-            'showUid]=' . $objectUid2,
-            $this->fixture->render()
-        );
+        $result = $this->fixture->render();
+
+        self::assertContains('showUid', $result);
+        self::assertContains('=' . $objectUid2, $result);
     }
 
     /**
@@ -379,10 +379,10 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listViewType' => 'realty_list',
         ];
 
-        self::assertContains(
-            'listUid]=' . $this->listViewUid,
-            $this->fixture->render()
-        );
+        $result = $this->fixture->render();
+
+        self::assertContains('listUid', $result);
+        self::assertContains('=' . $this->listViewUid, $result);
     }
 
     /**
@@ -400,10 +400,10 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        self::assertContains(
-            'listViewType]=favorites',
-            $this->fixture->render()
-        );
+        $result = $this->fixture->render();
+
+        self::assertContains('listViewType', $result);
+        self::assertContains('=favorites', $result);
     }
 
     /**
@@ -424,10 +424,10 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        self::assertContains(
-            'listViewLimitation]=' . urlencode($listViewLimitation),
-            $this->fixture->render()
-        );
+        $result = $this->fixture->render();
+
+        self::assertContains('listViewLimitation', $result);
+        self::assertContains('=' . urlencode($listViewLimitation), $result);
     }
 
     /**
@@ -486,7 +486,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
     /**
      * @test
      */
-    public function renderForRecordPositionStringAddsRecordPositionOnetoNextLink()
+    public function renderForRecordPositionStringAddsRecordPositionOneToNextLink()
     {
         $objectUid = $this->createRealtyRecordWithCity();
         $this->createRealtyRecordWithCity();
@@ -497,10 +497,10 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        self::assertContains(
-            'recordPosition]=1',
-            $this->fixture->render()
-        );
+        $result = $this->fixture->render();
+
+        self::assertContains('recordPosition', $result);
+        self::assertContains('=1', $result);
     }
 
     /**

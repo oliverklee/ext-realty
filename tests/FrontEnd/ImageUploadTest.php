@@ -385,10 +385,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('feEditorRedirectPid', $pageUid);
         $this->fixture->setFakedFormValue('proceed_image_upload', 1);
 
-        self::assertContains(
-            'tx_realty_pi1[showUid]',
-            $this->fixture->getRedirectUrl()
-        );
+        self::assertContains('showUid', $this->fixture->getRedirectUrl());
     }
 
     /**
