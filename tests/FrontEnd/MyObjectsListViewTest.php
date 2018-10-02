@@ -42,6 +42,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
     protected function setUp()
     {
+        $GLOBALS['SIM_EXEC_TIME'] = 1524751343;
+
         Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->createFakeFrontEnd();
@@ -635,7 +637,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->realtyUid,
-            ['advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - Tx_Oelib_Time::SECONDS_PER_DAY]
+            ['advertised_date' => $GLOBALS['SIM_EXEC_TIME'] - Tx_Oelib_Time::SECONDS_PER_DAY]
         );
 
         $this->fixture->setConfigurationValue(
@@ -664,7 +666,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->realtyUid,
-            ['advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 10]
+            ['advertised_date' => $GLOBALS['SIM_EXEC_TIME'] - 10]
         );
 
         $this->fixture->setConfigurationValue(
@@ -693,7 +695,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->realtyUid,
-            ['advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * Tx_Oelib_Time::SECONDS_PER_DAY]
+            ['advertised_date' => $GLOBALS['SIM_EXEC_TIME'] - 2 * Tx_Oelib_Time::SECONDS_PER_DAY]
         );
 
         $this->fixture->setConfigurationValue(
