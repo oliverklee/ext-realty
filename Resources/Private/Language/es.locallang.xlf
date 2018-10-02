@@ -1364,10 +1364,6 @@
                 <source>Save</source>
                 <target>Grabar</target>
             </trans-unit>
-            <trans-unit id="label_cancel" xml:space="preserve" approved="yes">
-                <source>Cancel</source>
-                <target>Anular</target>
-            </trans-unit>
             <trans-unit id="label_save_and_close" xml:space="preserve" approved="yes">
                 <source>Save and close</source>
                 <target>Grabar y cerrar</target>
@@ -1524,21 +1520,9 @@
                 <source>A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</source>
                 <target>Un objeto nuevo y otro existente no se pueden grabar en el mismo objeto. Por favor seleccione otro objeto a dele un nuevo titulo.</target>
             </trans-unit>
-            <trans-unit id="message_emptyTitle" xml:space="preserve" approved="yes">
-                <source>Please enter a title.</source>
-                <target>Por favor introducza un titulo</target>
-            </trans-unit>
-            <trans-unit id="message_emptyCity" xml:space="preserve" approved="yes">
-                <source>Please select a city.</source>
-                <target>Por favor seleccione una ciudad</target>
-            </trans-unit>
             <trans-unit id="label_new_city" xml:space="preserve" approved="yes">
                 <source>Create new city</source>
                 <target>Por favor cree una nueva ciudad</target>
-            </trans-unit>
-            <trans-unit id="label_new_district" xml:space="preserve" approved="yes">
-                <source>Create new district</source>
-                <target>Por favor cree un nuevo distrito</target>
             </trans-unit>
             <trans-unit id="label_email_subject_fe_editor" xml:space="preserve" approved="yes">
                 <source>A new realty record has been created in the FE.</source>

@@ -1220,10 +1220,6 @@
                 <source>Create new city</source>
                 <target>Crea una nuova citt&amp;agrave;</target>
             </trans-unit>
-            <trans-unit id="label_new_district" xml:space="preserve" approved="yes">
-                <source>Create new district</source>
-                <target>Crea una nuova area</target>
-            </trans-unit>
             <trans-unit id="label_email_subject_fe_editor" xml:space="preserve" approved="yes">
                 <source>A new realty record has been created in the FE.</source>
                 <target>Un nuovo immobile &amp;egrave; stato inserito nel FE.</target>
