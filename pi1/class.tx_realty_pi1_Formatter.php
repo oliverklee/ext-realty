@@ -9,7 +9,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
+class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
 {
     /**
      * faking $this->scriptRelPath so the locallang.xlf file is found

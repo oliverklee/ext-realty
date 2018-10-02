@@ -1256,7 +1256,7 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
         );
         $this->fixture->setConfigurationValue(
             'groupsWithSpeciallyDisplayedContactInformation',
-            $this->testingFramework->getAutoincrement('fe_groups')
+            $this->testingFramework->getAutoIncrement('fe_groups')
         );
 
         self::assertContains(
