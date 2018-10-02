@@ -153,7 +153,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             '*',
             'fe_users',
             $whereClause . Tx_Oelib_Db::enableFields('fe_users') .
-                $this->getWhereClauseForTesting(),
+            $this->getWhereClauseForTesting(),
             '',
             $fieldOrder
         );
@@ -351,9 +351,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
         &$information,
         tx_realty_Model_FrontEndUser $offerer
     ) {
-        if (($this->getConfValueString('what_to_display') != 'single_view')
+        if ($information !== ''
+            && ($this->getConfValueString('what_to_display') !== 'single_view')
             && $this->mayDisplayInformation($offerer, 'usergroup')
-            && ($information != '')
         ) {
             $information
                 .= ' ' . $this->getFirstUserGroup($offerer->getUserGroups());

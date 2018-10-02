@@ -199,9 +199,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
             }
         }
 
-        if (in_array('terms', $this->getVisibleFields())
-            && ($this->contactFormData['terms'] != 1)
-        ) {
+        if ((int)$this->contactFormData['terms'] !== 1 && in_array('terms', $this->getVisibleFields(), true)) {
             $result[] = 'terms';
         }
 
@@ -354,7 +352,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
                      'requesterEmail' => 'getEMailAddress',
                      'requesterPhone' => 'getPhoneNumber',
                  ] as $contactFormDataKey => $functionName) {
-            if (isset($visibleFields[$contactFormDataKey]) || ($contactFormDataKey == 'requesterEmail')) {
+            if ($contactFormDataKey === 'requesterEmail' || isset($visibleFields[$contactFormDataKey])) {
                 $this->contactFormData[$contactFormDataKey] = $loggedInUser->$functionName();
             }
         }
