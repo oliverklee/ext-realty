@@ -15,21 +15,6 @@ class tx_realty_Service_TranslatorTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function translatorReturnsGermanString()
-    {
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')
-            ->setAsString('cliLanguage', 'de');
-        $this->fixture = new tx_realty_translator();
-
-        self::assertEquals(
-            'Erlaubt',
-            $this->fixture->translate('label_allowed')
-        );
-    }
-
-    /**
-     * @test
-     */
     public function translatorReturnsEnglishString()
     {
         Tx_Oelib_ConfigurationProxy::getInstance('realty')
