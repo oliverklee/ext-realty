@@ -22,8 +22,6 @@ Live examples
 
 - `Dieter Schwab Immobilien <https://www.immobilien-schwab.de/>`_
 
-- `EWG Berlin-Pankow eG <https://www.ewg-pankow.de/wohnen/wohnungsangebote.html>`_
-
 - `Haas - Immobilien & Partner <https://haas-immobilienpartner.de/>`_
 
 If you would like to have your site listed here, please drop the
