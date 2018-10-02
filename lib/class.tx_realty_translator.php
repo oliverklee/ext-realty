@@ -28,7 +28,7 @@ class tx_realty_translator
         if (is_object($GLOBALS['LANG'])) {
             $this->languageService = $GLOBALS['LANG'];
         } else {
-            $this->languageService = GeneralUtility::makeInstance('language');
+            $this->languageService = GeneralUtility::makeInstance(LanguageService::class);
         }
         $cliLanguage = Tx_Oelib_ConfigurationProxy::getInstance('realty')->getAsString('cliLanguage');
         // "default" is used as language key if the configured language key is not within the set of available language keys.

@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase
+class tx_realty_Service_ListViewFactoryTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject

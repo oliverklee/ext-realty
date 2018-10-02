@@ -39,10 +39,10 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView
      */
     private function fetchContactDataFromSource($uid)
     {
-        /** @var tx_realty_offererList $offererList */
-        $offererList = GeneralUtility::makeInstance('tx_realty_offererList', $this->conf, $this->cObj);
+        /** @var \tx_realty_offererList $offererList */
+        $offererList = GeneralUtility::makeInstance(\tx_realty_offererList::class, $this->conf, $this->cObj);
         /** @var tx_realty_Mapper_RealtyObject $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($uid);
 

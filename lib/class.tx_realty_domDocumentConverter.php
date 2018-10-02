@@ -522,7 +522,7 @@ class tx_realty_domDocumentConverter
     private function getTranslator()
     {
         if (!self::$translator) {
-            self::$translator = GeneralUtility::makeInstance('tx_realty_translator');
+            self::$translator = GeneralUtility::makeInstance(\tx_realty_translator::class);
         }
 
         return self::$translator;

@@ -5,7 +5,7 @@
  *
  * @author Bernd Schönbach <bernd.schoenbach@googlemail.com>
  */
-class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase
+class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Mapper_Document
@@ -70,7 +70,7 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase
     public function getObjectReturnsRelatedRealtyObject()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->getNewGhost();
         /** @var tx_realty_Model_Document $document */
         $document = $this->fixture->getLoadedTestingModel(
             ['object' => $realtyObject->getUid()]

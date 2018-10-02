@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_DescriptionViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_DescriptionView
@@ -46,7 +46,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsNonEmptyResultForShowUidOfExistingRecord()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['description' => 'foo']);
 
         self::assertNotEquals(
@@ -60,7 +60,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['description' => 'foo']);
 
         $result = $this->fixture->render(
@@ -82,7 +82,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheRealtyObjectsDescriptionForValidRealtyObject()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['description' => 'foo']);
 
         self::assertContains(
@@ -96,7 +96,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['description' => 'foo</br>bar']);
 
         self::assertContains(
@@ -110,7 +110,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['description' => '']);
 
         self::assertEquals(

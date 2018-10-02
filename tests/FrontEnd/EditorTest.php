@@ -1,7 +1,8 @@
 <?php
 
+use TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
+use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -12,7 +13,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_frontEndEditor object to be tested
@@ -109,7 +110,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     private function createDummyRecords()
     {
         /** @var tx_realty_Model_FrontEndUser $user */
-        $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(
+        $user = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)->getLoadedTestingModel(
             [
                 'username' => 'test_user',
                 'name' => 'Mr. Test',
@@ -2257,17 +2258,17 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->testingFramework->createContentElement($pageUid, ['list_type' => 'realty_pi1']);
 
-        /** @var AbstractCacheFrontend|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
+        /** @var AbstractFrontend|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
         $cacheFrontEnd = $this->getMock(
-            AbstractCacheFrontend::class,
+            AbstractFrontend::class,
             ['getIdentifier', 'set', 'get', 'getByTag', 'getBackend'],
             [],
             '',
             false
         );
         $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
-        /** @var \TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
-        $cacheBackEnd = $this->getMock('TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface');
+        /** @var TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
+        $cacheBackEnd = $this->getMock(TaggableBackendInterface::class);
         $cacheFrontEnd->expects(self::any())->method('getBackend')->will(self::returnValue($cacheBackEnd));
         $cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 

@@ -22,8 +22,8 @@ class tx_realty_cli
     public function main()
     {
         try {
-            /** @var tx_realty_openImmoImport $importer */
-            $importer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_realty_openImmoImport');
+            /** @var \tx_realty_openImmoImport $importer */
+            $importer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\tx_realty_openImmoImport::class);
             echo $importer->importFromZip();
         } catch (Exception $exception) {
             echo $exception->getMessage() . LF . LF .
@@ -32,6 +32,6 @@ class tx_realty_cli
     }
 }
 
-/** @var tx_realty_cli $cli */
-$cli = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_realty_cli');
+/** @var \tx_realty_cli $cli */
+$cli = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\tx_realty_cli::class);
 $cli->main();

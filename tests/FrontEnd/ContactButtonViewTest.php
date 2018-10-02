@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_ContactButtonView
@@ -69,7 +69,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsNonEmptyResultForShowUidOfRealtyRecordProvided()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['title' => 'test title']);
 
         self::assertNotEquals(
@@ -83,7 +83,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsProvidedShowUidOfRealtyRecordAsLinkParameter()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['title' => 'test title']);
 
         self::assertContains(

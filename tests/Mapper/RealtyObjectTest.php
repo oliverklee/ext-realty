@@ -6,7 +6,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
+class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Mapper_RealtyObject
@@ -83,7 +83,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         /** @var tx_realty_Model_City $city */
-        $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+        $city = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class)->find($cityUid);
 
         self::assertSame(0, $this->fixture->countByCity($city));
     }
@@ -95,7 +95,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         /** @var tx_realty_Model_City $city */
-        $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+        $city = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class)->find($cityUid);
 
         $this->testingFramework->createRecord(
             'tx_realty_objects',
@@ -112,7 +112,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         /** @var tx_realty_Model_City $city */
-        $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+        $city = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class)->find($cityUid);
 
         $this->testingFramework->createRecord(
             'tx_realty_objects',
@@ -133,7 +133,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         /** @var \tx_realty_Model_City $city */
-        $city = \Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+        $city = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class)->find($cityUid);
 
         $this->testingFramework->createRecord('tx_realty_objects', ['city' => $cityUid, 'title' => 'Studio']);
         $this->testingFramework->createRecord('tx_realty_objects', ['city' => $cityUid, 'title' => 'Shared flat']);
@@ -152,7 +152,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
         /** @var tx_realty_Model_District $district */
-        $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+        $district = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class)->find($districtUid);
 
         self::assertSame(0, $this->fixture->countByDistrict($district));
     }
@@ -164,7 +164,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
         /** @var tx_realty_Model_District $district */
-        $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+        $district = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class)->find($districtUid);
 
         $this->testingFramework->createRecord(
             'tx_realty_objects',
@@ -181,7 +181,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
         /** @var tx_realty_Model_District $district */
-        $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+        $district = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class)->find($districtUid);
 
         $this->testingFramework->createRecord(
             'tx_realty_objects',
@@ -202,7 +202,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
         /** @var tx_realty_Model_District $district */
-        $district = \Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+        $district = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class)->find($districtUid);
 
         $this->testingFramework->createRecord('tx_realty_objects', ['district' => $districtUid, 'title' => 'Studio']);
         $this->testingFramework->createRecord('tx_realty_objects', ['district' => $districtUid, 'title' => 'Room']);

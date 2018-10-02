@@ -70,7 +70,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         }
 
         /** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-        $realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         if (!$realtyObjectMapper->existsModel($uid, true)) {
             return false;
         }
@@ -153,7 +153,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
     private function setPageTitle($uid)
     {
         /** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($uid);
         $title = $realtyObject->getProperty('title');

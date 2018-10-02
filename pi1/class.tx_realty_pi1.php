@@ -112,14 +112,14 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
 
         switch ($this->getCurrentView()) {
             case 'filter_form':
-                /** @var tx_realty_filterForm $filterForm */
-                $filterForm = GeneralUtility::makeInstance('tx_realty_filterForm', $this->conf, $this->cObj);
+                /** @var \tx_realty_filterForm $filterForm */
+                $filterForm = GeneralUtility::makeInstance(\tx_realty_filterForm::class, $this->conf, $this->cObj);
                 $result = $filterForm->render($this->piVars);
                 break;
             case 'single_view':
-                /** @var tx_realty_pi1_SingleView $singleView */
+                /** @var \tx_realty_pi1_SingleView $singleView */
                 $singleView = GeneralUtility::makeInstance(
-                    'tx_realty_pi1_SingleView',
+                    \tx_realty_pi1_SingleView::class,
                     $this->conf,
                     $this->cObj,
                     $this->isTestMode
@@ -134,18 +134,22 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
                 }
                 break;
             case 'contact_form':
-                /** @var tx_realty_contactForm $contactForm */
-                $contactForm = GeneralUtility::makeInstance('tx_realty_contactForm', $this->conf, $this->cObj);
+                /** @var \tx_realty_contactForm $contactForm */
+                $contactForm = GeneralUtility::makeInstance(\tx_realty_contactForm::class, $this->conf, $this->cObj);
                 $formData = $this->piVars;
-                /** @var tx_realty_pi1_FavoritesListView $favoritesList */
-                $favoritesList = GeneralUtility::makeInstance('tx_realty_pi1_FavoritesListView', $this->conf, $this->cObj);
+                /** @var \tx_realty_pi1_FavoritesListView $favoritesList */
+                $favoritesList = GeneralUtility::makeInstance(
+                    \tx_realty_pi1_FavoritesListView::class,
+                    $this->conf,
+                    $this->cObj
+                );
                 $formData['summaryStringOfFavorites'] = $favoritesList->createSummaryStringOfFavorites();
                 $result = $contactForm->render($formData);
                 break;
             case 'fe_editor':
-                /** @var tx_realty_frontEndEditor $frontEndEditor */
+                /** @var \tx_realty_frontEndEditor $frontEndEditor */
                 $frontEndEditor = GeneralUtility::makeInstance(
-                    'tx_realty_frontEndEditor',
+                    \tx_realty_frontEndEditor::class,
                     $this->conf,
                     $this->cObj,
                     $this->piVars['showUid'],
@@ -154,9 +158,9 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
                 $result = $frontEndEditor->render();
                 break;
             case 'image_upload':
-                /** @var tx_realty_frontEndImageUpload $imageUpload */
+                /** @var \tx_realty_frontEndImageUpload $imageUpload */
                 $imageUpload = GeneralUtility::makeInstance(
-                    'tx_realty_frontEndImageUpload',
+                    \tx_realty_frontEndImageUpload::class,
                     $this->conf,
                     $this->cObj,
                     $this->piVars['showUid'],
@@ -165,8 +169,8 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
                 $result = $imageUpload->render();
                 break;
             case 'offerer_list':
-                /** @var tx_realty_offererList $offererList */
-                $offererList = GeneralUtility::makeInstance('tx_realty_offererList', $this->conf, $this->cObj);
+                /** @var \tx_realty_offererList $offererList */
+                $offererList = GeneralUtility::makeInstance(\tx_realty_offererList::class, $this->conf, $this->cObj);
                 $result = $offererList->render();
                 break;
             case 'favorites':
@@ -210,13 +214,13 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
         }
 
         try {
-            /** @var tx_realty_pi1_AccessCheck $accessCheck */
-            $accessCheck = GeneralUtility::makeInstance('tx_realty_pi1_AccessCheck');
+            /** @var \tx_realty_pi1_AccessCheck $accessCheck */
+            $accessCheck = GeneralUtility::makeInstance(\tx_realty_pi1_AccessCheck::class);
             $accessCheck->checkAccess($this->getCurrentView(), $this->piVars);
             $result = '';
         } catch (Tx_Oelib_Exception_AccessDenied $exception) {
-            /** @var tx_realty_pi1_ErrorView $errorView */
-            $errorView = GeneralUtility::makeInstance('tx_realty_pi1_ErrorView', $this->conf, $this->cObj);
+            /** @var \tx_realty_pi1_ErrorView $errorView */
+            $errorView = GeneralUtility::makeInstance(\tx_realty_pi1_ErrorView::class, $this->conf, $this->cObj);
             $result = $errorView->render([$exception->getMessage()]);
         }
 

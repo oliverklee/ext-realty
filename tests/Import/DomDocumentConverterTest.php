@@ -7,7 +7,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Benjamin Schulte <benj@minschulte.de>
  */
-class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
+class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_domDocumentConverterChild

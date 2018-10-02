@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_Formatter
@@ -35,7 +35,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
         $this->testingFramework->createFakeFrontEnd();
 
         $this->realtyObject = Tx_Oelib_MapperRegistry
-            ::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
+            ::get(\tx_realty_Mapper_RealtyObject::class)->getNewGhost();
         $this->realtyObject->setData(['title' => 'test realty object']);
 
         $this->fixture = new tx_realty_pi1_Formatter(

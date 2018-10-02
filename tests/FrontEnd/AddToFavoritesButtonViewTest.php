@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_AddToFavoritesButtonView
@@ -68,7 +68,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
      */
     public function renderReturnsProvidedShowUidOfRealtyRecordAsFormValue()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getNewGhost();
 
         self::assertContains(

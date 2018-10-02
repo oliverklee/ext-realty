@@ -56,7 +56,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
     private function renderImages()
     {
         /** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-        $realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $realtyObjectMapper->find($this->getUid());
         $allImages = $realtyObject->getImages();

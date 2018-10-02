@@ -5,7 +5,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
+class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Model_Image

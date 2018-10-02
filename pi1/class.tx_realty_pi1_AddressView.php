@@ -18,7 +18,7 @@ class tx_realty_pi1_AddressView extends tx_realty_pi1_FrontEndView
     public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $object */
         $object = $mapper->find($piVars['showUid']);
         $address = $object->getAddressAsHtml();

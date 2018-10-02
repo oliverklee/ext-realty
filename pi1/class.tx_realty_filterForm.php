@@ -405,7 +405,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         }
 
         /** @var tx_realty_Mapper_RealtyObject $objectMapper */
-        $objectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $objectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         $countFunction = 'countBy' . ucfirst($type);
         $models = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
 

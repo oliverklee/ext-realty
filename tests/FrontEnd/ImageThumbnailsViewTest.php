@@ -8,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_ImageThumbnailsView
@@ -83,7 +83,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         ]);
         $configurationRegistry->set('plugin.tx_realty_pi1.images', $this->imagesConfiguration);
 
-        $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
     }
 
     protected function tearDown()

@@ -65,9 +65,9 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
                 $this->doc->spacer(10) . $this->createTab()
             );
 
-            if (GeneralUtility::_GP('action') == 'startImport') {
-                /** @var tx_realty_openImmoImport $importer */
-                $importer = GeneralUtility::makeInstance('tx_realty_openImmoImport');
+            if (GeneralUtility::_GP('action') === 'startImport') {
+                /** @var \tx_realty_openImmoImport $importer */
+                $importer = GeneralUtility::makeInstance(\tx_realty_openImmoImport::class);
                 $this->template->setMarker(
                     'import_logs',
                     nl2br(htmlspecialchars($importer->importFromZip()))

@@ -153,7 +153,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $options = [];
 
         /** @var tx_realty_Mapper_City $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class);
         $cities = $mapper->findAll('title');
         /** @var tx_realty_Model_City $city */
         foreach ($cities as $city) {
@@ -182,7 +182,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $options = [];
 
         /** @var tx_realty_Mapper_District $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class);
         $districts = $mapper->findAllByCityUidOrUnassigned($cityUid);
         /** @var tx_realty_Model_District $district */
         foreach ($districts as $district) {
@@ -1215,7 +1215,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         // The faked record is marked as a test record and no fields are
         // required to be set.
         $this->setFakedFormValue('is_dummy_record', 1);
-        $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+        $this->realtyObject = GeneralUtility::makeInstance(\tx_realty_Model_RealtyObject::class, $this->isTestMode);
         $this->realtyObject->setRequiredFields([]);
         $this->realtyObject->loadRealtyObject($this->fakedFormValues);
         $this->realtyObject->writeToDatabase();

@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
+class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
 {
     /**
      * Checks the configuration for the filter form of the Realty Manager.
@@ -337,11 +337,11 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
      */
     protected function checkCurrencyUnit()
     {
-        $quotedCurrencyUnit = Tx_Oelib_Db::getDatabaseConnection()->quoteStr(
+        $quotedCurrencyUnit = \Tx_Oelib_Db::getDatabaseConnection()->quoteStr(
             $this->objectToCheck->getConfValueString('currencyUnit'),
             'static_currencies'
         );
-        if (!Tx_Oelib_Db::existsRecord('static_currencies', 'cu_iso_3 = "' . $quotedCurrencyUnit . '"')) {
+        if (!\Tx_Oelib_Db::existsRecord('static_currencies', 'cu_iso_3 = "' . $quotedCurrencyUnit . '"')) {
             $this->setErrorMessageAndRequestCorrection(
                 'currencyUnit',
                 false,

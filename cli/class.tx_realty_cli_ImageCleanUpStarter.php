@@ -13,7 +13,6 @@ setlocale(LC_NUMERIC, 'C');
  * To run this script, use the following command in a console: '/[absolute path
  * of the TYPO3 installation]/typo3/cli_dispatch.phpsh cleanUpRealtyImages'.
  *
- *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_cli_ImageCleanUpStarter
@@ -27,7 +26,7 @@ class tx_realty_cli_ImageCleanUpStarter
     {
         try {
             /** @var tx_realty_cli_ImageCleanUp $cleanUp */
-            $cleanUp = GeneralUtility::makeInstance('tx_realty_cli_ImageCleanUp');
+            $cleanUp = GeneralUtility::makeInstance(\tx_realty_cli_ImageCleanUp::class);
             $cleanUp->checkUploadFolder();
             $cleanUp->hideUnusedImagesInDatabase();
             $cleanUp->deleteUnusedDocumentRecords();
@@ -41,6 +40,6 @@ class tx_realty_cli_ImageCleanUpStarter
     }
 }
 
-/** @var tx_realty_cli_ImageCleanUpStarter $starter */
-$starter = GeneralUtility::makeInstance('tx_realty_cli_ImageCleanUpStarter');
+/** @var \tx_realty_cli_ImageCleanUpStarter $starter */
+$starter = GeneralUtility::makeInstance(\tx_realty_cli_ImageCleanUpStarter::class);
 $starter->main();

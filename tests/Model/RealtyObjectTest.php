@@ -7,7 +7,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase
+class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Model_RealtyObjectChild
@@ -64,7 +64,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase
             ->activateTestingMode($this->testingFramework);
 
         $this->templateHelper = $this->getMock(
-            'Tx_Oelib_Templatehelper',
+            \Tx_Oelib_TemplateHelper::class,
             ['hasConfValueString', 'getConfValueString']
         );
 
@@ -155,7 +155,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase
             [
                 'contact_data_source' => $ownerSource,
                 'owner' =>
-                    Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+                    Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)
                         ->getLoadedTestingModel($userData)->getUid(),
             ]
         );
@@ -4622,7 +4622,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase
         );
         $this->fixture->setData(['city' => $cityUid]);
         /** @var tx_realty_Mapper_City $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class);
         /** @var tx_realty_Model_City $city */
         $city = $mapper->find($cityUid);
 

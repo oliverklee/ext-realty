@@ -5,7 +5,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase
+class tx_realty_Mapper_ImageTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Mapper_Image
@@ -70,7 +70,7 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase
     public function getObjectReturnsRelatedRealtyObject()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->getNewGhost();
         /** @var tx_realty_Model_Image $image */
         $image = $this->fixture->getLoadedTestingModel(
             ['object' => $realtyObject->getUid()]

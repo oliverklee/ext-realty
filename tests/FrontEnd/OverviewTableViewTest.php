@@ -8,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_OverviewTableView
@@ -50,7 +50,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsNonEmptyResultForShowUidOfExistingRecord()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => '12345']);
 
         self::assertNotEquals(
@@ -64,7 +64,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => '12345']);
 
         $result = $this->fixture->render(['showUid' => $realtyObject->getUid()]);
@@ -84,7 +84,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheRealtyObjectsObjectNumberForValidRealtyObject()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => '12345']);
 
         self::assertContains(
@@ -98,7 +98,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => '12345</br>']);
 
         self::assertContains(
@@ -112,7 +112,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsEmptyResultForValidRealtyObjectWithoutData()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel([]);
 
         self::assertEquals(
@@ -130,7 +130,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsHasAirConditioningRowForTrue()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['has_air_conditioning' => 1]);
 
         $this->fixture->setConfigurationValue(
@@ -149,7 +149,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderNotReturnsHasAirConditioningRowForFalse()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['has_air_conditioning' => 0]);
 
         $this->fixture->setConfigurationValue(
@@ -168,7 +168,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsHasPoolRowForTrue()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['has_pool' => 1]);
 
         $this->fixture->setConfigurationValue(
@@ -187,7 +187,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderNotReturnsHasPoolRowForFalse()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['has_pool' => 0]);
 
         $this->fixture->setConfigurationValue(
@@ -206,7 +206,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsHasCommunityPoolRowForTrue()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['has_community_pool' => 1]);
 
         $this->fixture->setConfigurationValue(
@@ -225,7 +225,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderNotReturnsHasCommunityPoolRowForFalse()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['has_community_pool' => 0]);
 
         $this->fixture->setConfigurationValue(
@@ -244,7 +244,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheLabelForStateIfAValidStateIsSet()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['state' => 8]);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
@@ -260,7 +260,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheStateIfAValidStateIsSet()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['state' => 8]);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
@@ -276,7 +276,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderNotReturnsTheLabelForStateIfNoStateIsSet()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['state' => 0]);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
@@ -292,7 +292,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderNotReturnsTheLabelForStateIfTheStateIsInvalid()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['state' => 10000000]);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
@@ -308,7 +308,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheLabelForHeatingTypeIfOneValidHeatingTypeIsSet()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['heating_type' => '1']);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
@@ -324,7 +324,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheHeatingTypeIfOneValidHeatingTypeIsSet()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['heating_type' => '1']);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
@@ -340,7 +340,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsAHeatingTypeListIfMultipleValidHeatingTypesAreSet()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['heating_type' => '1,3,4']);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
@@ -358,7 +358,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function renderNotReturnsTheHeatingTypeLabelIfOnlyAnInvalidHeatingTypeIsSet()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['heating_type' => '100']);
 
         $this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
@@ -378,7 +378,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function getFieldNamesByDefaultReturnsAllFieldsNamesFromConfiguration()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel([]);
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
@@ -402,7 +402,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function getFieldNamesWithPriceOnlyIfAvailableForVacantObjectReturnsAllFieldsNamesFromConfiguration()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(
                 ['status' => tx_realty_Model_RealtyObject::STATUS_VACANT]
             );
@@ -430,7 +430,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function getFieldNamesWithPriceOnlyIfAvailableForReservedObjectReturnsAllFieldsNamesFromConfiguration()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(
                 ['status' => tx_realty_Model_RealtyObject::STATUS_RESERVED]
             );
@@ -458,7 +458,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function getFieldNamesWithPriceOnlyIfAvailableForSoldObjectDropsPriceRelatedFields()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(
                 ['status' => tx_realty_Model_RealtyObject::STATUS_SOLD]
             );
@@ -484,7 +484,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
      */
     public function getFieldNamesWithPriceOnlyIfAvailableForRentedObjectDropsPriceRelatedFields()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(
                 ['status' => tx_realty_Model_RealtyObject::STATUS_RENTED]
             );

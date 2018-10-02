@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_AbstractViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_AbstractViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_tests_fixtures_testingFrontEndView the fixture to test

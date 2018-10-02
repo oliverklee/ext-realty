@@ -23,7 +23,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView
     public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($piVars['showUid']);
         if ($this->getConfValueBoolean('priceOnlyIfAvailable')
@@ -46,9 +46,14 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView
                 $keyToHide = '';
         }
 
-        if (($keyToShow) !== '' && ($keyToHide !== '')) {
-            /** @var tx_realty_pi1_Formatter $formatter */
-            $formatter = GeneralUtility::makeInstance('tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf, $this->cObj);
+        if ($keyToShow !== '' && $keyToHide !== '') {
+            /** @var \tx_realty_pi1_Formatter $formatter */
+            $formatter = GeneralUtility::makeInstance(
+                \tx_realty_pi1_Formatter::class,
+                $piVars['showUid'],
+                $this->conf,
+                $this->cObj
+            );
             $hasValidContent = $this->setOrDeleteMarkerIfNotEmpty(
                 $keyToShow,
                 $formatter->getProperty($keyToShow),

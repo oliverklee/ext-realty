@@ -21,7 +21,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
     public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($piVars['showUid']);
         $objectNumber = htmlspecialchars($realtyObject->getProperty('object_number'));
@@ -51,8 +51,8 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
 
         $rows = [];
         $rowCounter = 0;
-        /** @var tx_realty_pi1_Formatter $formatter */
-        $formatter = GeneralUtility::makeInstance('tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj);
+        /** @var \tx_realty_pi1_Formatter $formatter */
+        $formatter = GeneralUtility::makeInstance(\tx_realty_pi1_Formatter::class, $uid, $this->conf, $this->cObj);
 
         foreach ($fieldNames as $key) {
             if ($this->setMarkerIfNotEmpty('data_current_row', $formatter->getProperty($key))) {
@@ -84,7 +84,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
         }
 
         /** @var tx_realty_Mapper_RealtyObject $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($uid);
 

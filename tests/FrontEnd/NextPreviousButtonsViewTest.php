@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_NextPreviousButtonsView
@@ -133,7 +133,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
      */
     public function renderForDisabledNextPreviousButtonsReturnsEmptyString()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => 'ABC112']);
 
         $this->fixture->setConfigurationValue('enableNextPreviousButtons', false);
@@ -156,7 +156,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
      */
     public function renderForEnabledNextPreviousButtonsAndOnlyOneRecordReturnsEmptyString()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => 'ABC112']);
 
         $this->fixture->piVars = [
@@ -340,7 +340,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
             ['pi_flexform' => $flexforms]
         );
 
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['pid' => $sysFolder]);
 
         $this->fixture->piVars = [
