@@ -41,7 +41,7 @@ Installation
 #. You don’t need to set the other values in the Extension Manager yet
    (they’re used for the OpenImmo import).
 
-#. Include the *MKFORMS - Basics (mkforms)* and *Realty Manager* static templates
+#. Include the *Realty Manager* static template
    in your TypoScript template under "Include static (from extensions)."
 
 #. In your TS setup, please set config.language and config.locale\_all so

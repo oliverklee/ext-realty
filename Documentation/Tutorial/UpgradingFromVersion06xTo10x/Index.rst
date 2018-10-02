@@ -27,9 +27,6 @@ Upgrading from version 0.6.x to 1.0.x
 
 #. Install the mkforms and rn\_base extensions.
 
-#. Include the *MKFORMS - Basics (mkforms)* template in your site template
-   under "Include static (from extensions)."
-
 #. Update the Realty Manager.
 
 #. Select the “UPDATE” drop-down in the extension manager for the Realty
