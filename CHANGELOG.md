@@ -70,6 +70,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Re-add missing district drop-down to the FE editor (#72)
 - Adapt the FE image upload to mkforms (#67)
 - Properly encode alert texts (#66)
 - Remove double labels for radiobutton groups (#65)
