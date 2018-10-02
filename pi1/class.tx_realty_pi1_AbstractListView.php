@@ -268,18 +268,18 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         Tx_Oelib_Db::enableQueryLogging();
 
         return '(' .
-                'SELECT ' . 'tx_realty_objects' . '.*' .
-                ' FROM ' . self::TABLES .
-                ' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '>0' .
-                ' ORDER BY ' . $sortingColumn .
-                // ORDER BY within the SELECT call of a UNION requires a LIMIT.
-                ' LIMIT 10000000000000' .
+            'SELECT ' . 'tx_realty_objects' . '.*' .
+            ' FROM ' . self::TABLES .
+            ' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '>0' .
+            ' ORDER BY ' . $sortingColumn .
+            // ORDER BY within the SELECT call of a UNION requires a LIMIT.
+            ' LIMIT 10000000000000' .
             ') UNION (' .
-                'SELECT ' . 'tx_realty_objects' . '.*' .
-                ' FROM ' . self::TABLES .
-                ' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '<1' .
-                ' ORDER BY ' . $this->createOrderByStatement() .
-                ' LIMIT 10000000000000' .
+            'SELECT ' . 'tx_realty_objects' . '.*' .
+            ' FROM ' . self::TABLES .
+            ' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '<1' .
+            ' ORDER BY ' . $this->createOrderByStatement() .
+            ' LIMIT 10000000000000' .
             ')';
     }
 
@@ -421,21 +421,32 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         }
 
         foreach ([
-            'uid' => $this->internal['currentRow']['uid'],
-            'object_number' => $this->internal['currentRow']['object_number'],
-            'teaser' => $this->internal['currentRow']['teaser'],
-            'linked_title' => $this->getLinkedTitle(),
-            'features' => $this->getFeatureList(),
-            'list_image_left' => $leftImage,
-            'list_image_right' => $rightImage,
-        ] as $key => $value) {
+                     'uid' => $this->internal['currentRow']['uid'],
+                     'object_number' => $this->internal['currentRow']['object_number'],
+                     'teaser' => $this->internal['currentRow']['teaser'],
+                     'linked_title' => $this->getLinkedTitle(),
+                     'features' => $this->getFeatureList(),
+                     'list_image_left' => $leftImage,
+                     'list_image_right' => $rightImage,
+                 ] as $key => $value) {
             $this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper');
         }
 
         foreach ([
-            'city', 'district', 'living_area', 'total_area', 'sales_area', 'number_of_rooms', 'heating_type',
-            'buying_price', 'extra_charges', 'rent_excluding_bills', 'rent_with_heating_costs', 'status', 'floor',
-        ] as $key) {
+                     'city',
+                     'district',
+                     'living_area',
+                     'total_area',
+                     'sales_area',
+                     'number_of_rooms',
+                     'heating_type',
+                     'buying_price',
+                     'extra_charges',
+                     'rent_excluding_bills',
+                     'rent_with_heating_costs',
+                     'status',
+                     'floor',
+                 ] as $key) {
             $this->setOrDeleteMarkerIfNotEmpty(
                 $key,
                 $this->getFormatter()->getProperty($key),
@@ -595,9 +606,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         // The result may only contain non-deleted and non-hidden records except
         // for the my objects view.
         $whereClause .= Tx_Oelib_Db::enableFields(
-            'tx_realty_objects',
-            $this->shouldShowHiddenObjects()
-        ) . Tx_Oelib_Db::enableFields('tx_realty_cities');
+                'tx_realty_objects',
+                $this->shouldShowHiddenObjects()
+            ) . Tx_Oelib_Db::enableFields('tx_realty_cities');
 
         $whereClause .= $this->getWhereClausePartForPidList();
 
@@ -806,8 +817,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 ['parameter' => $separateSingleViewPage]
             );
         } else {
-            $additionalParameters
-                = $this->getAdditionalParametersForSingleViewLink($uid);
+            $additionalParameters = $this->getAdditionalParametersForSingleViewLink($uid);
             $completeLink = $this->cObj->typoLink(
                 $linkText,
                 [
@@ -1235,7 +1245,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 ? $image['thumbnail'] : $image['image'];
 
             $result = $this->createImageTag(
-                    $fileName,
+                $fileName,
                 $maxSizeVariable,
                 $image['caption'],
                 $id
@@ -1270,7 +1280,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 'image, caption, thumbnail',
                 'tx_realty_images',
                 'object = ' . $this->internal['currentRow']['uid'] .
-                    Tx_Oelib_Db::enableFields('tx_realty_images'),
+                Tx_Oelib_Db::enableFields('tx_realty_images'),
                 '',
                 'sorting',
                 (int)$offset
@@ -1436,7 +1446,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
         $dbResult = $databaseConnection->sql_query(
             $this->getSelectForListView($this->createWhereClause()) .
-                ' LIMIT ' . $recordPosition . ',1'
+            ' LIMIT ' . $recordPosition . ',1'
         );
         if ($dbResult === false) {
             throw new Tx_Oelib_Exception_Database();

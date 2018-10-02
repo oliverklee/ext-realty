@@ -300,13 +300,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->createFrontEndPage()
         );
 
-        self::assertEquals(
-            1,
-            substr_count(
-                $this->fixture->render(),
-                'tx_realty_pi1[showUid]=' . $this->realtyUid
-            )
-        );
+        self::assertContains('=' . $this->realtyUid, $this->fixture->render());
     }
 
     /**
