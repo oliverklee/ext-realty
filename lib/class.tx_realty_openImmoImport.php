@@ -101,7 +101,7 @@ class tx_realty_openImmoImport
         $this->isTestMode = $isTestMode;
         libxml_use_internal_errors(true);
         $this->globalConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('realty');
-        $this->fileNameMapper = GeneralUtility::makeInstance('tx_realty_fileNameMapper');
+        $this->fileNameMapper = GeneralUtility::makeInstance(\tx_realty_fileNameMapper::class);
         $this->setUploadDirectory(PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER);
     }
 
@@ -171,7 +171,7 @@ class tx_realty_openImmoImport
     private function getTranslator()
     {
         if (self::$translator === null) {
-            self::$translator = GeneralUtility::makeInstance('tx_realty_translator');
+            self::$translator = GeneralUtility::makeInstance(\tx_realty_translator::class);
         }
 
         return self::$translator;
@@ -296,7 +296,7 @@ class tx_realty_openImmoImport
         if (!$this->hasValidOwnerForImport()) {
             $this->addToErrorLog(
                 $this->getTranslator()->translate('message_openimmo_anid_not_matches_allowed_fe_user') . ' "'
-                    . $this->realtyObject->getProperty('openimmo_anid') . '".' . LF
+                . $this->realtyObject->getProperty('openimmo_anid') . '".' . LF
             );
             return;
         }
@@ -306,38 +306,38 @@ class tx_realty_openImmoImport
 
         switch ($errorMessage) {
             case '':
-            $this->addToLogEntry($this->getTranslator()->translate('message_written_to_database') . LF);
-            break;
-        case 'message_deleted_flag_set':
-            // The fall-through is intended.
-        case 'message_deleted_flag_causes_deletion':
-            // A set deleted flag is no real error, so is not stored in the error log.
-            $this->addToLogEntry($this->getTranslator()->translate($errorMessage) . LF);
-            break;
-        case 'message_fields_required':
-            $this->addToErrorLog(
-                $this->getTranslator()->translate($errorMessage) . ': ' .
+                $this->addToLogEntry($this->getTranslator()->translate('message_written_to_database') . LF);
+                break;
+            case 'message_deleted_flag_set':
+                // The fall-through is intended.
+            case 'message_deleted_flag_causes_deletion':
+                // A set deleted flag is no real error, so is not stored in the error log.
+                $this->addToLogEntry($this->getTranslator()->translate($errorMessage) . LF);
+                break;
+            case 'message_fields_required':
+                $this->addToErrorLog(
+                    $this->getTranslator()->translate($errorMessage) . ': ' .
                     implode(', ', $this->realtyObject->checkForRequiredFields()) .
                     '. ' . $this->getPleaseActivateValidationMessage() . LF
-            );
-            break;
-        case 'message_object_limit_reached':
-            $this->deleteCurrentZipFile = false;
-            $owner = $this->realtyObject->getOwner();
-            $this->addToErrorLog(
-                sprintf(
-                    $this->getTranslator()->translate($errorMessage),
-                    $owner->getName(),
-                    $owner->getUid(),
-                    $owner->getTotalNumberOfAllowedObjects()
-                ) . LF
-            );
-            break;
-        default:
-            $this->addToErrorLog(
-                $this->getTranslator()->translate($errorMessage) . ' ' .
-                $this->getPleaseActivateValidationMessage() . LF
-            );
+                );
+                break;
+            case 'message_object_limit_reached':
+                $this->deleteCurrentZipFile = false;
+                $owner = $this->realtyObject->getOwner();
+                $this->addToErrorLog(
+                    sprintf(
+                        $this->getTranslator()->translate($errorMessage),
+                        $owner->getName(),
+                        $owner->getUid(),
+                        $owner->getTotalNumberOfAllowedObjects()
+                    ) . LF
+                );
+                break;
+            default:
+                $this->addToErrorLog(
+                    $this->getTranslator()->translate($errorMessage) . ' ' .
+                    $this->getPleaseActivateValidationMessage() . LF
+                );
         }
     }
 
@@ -492,7 +492,8 @@ class tx_realty_openImmoImport
 
         if (!@is_dir($this->uploadDirectory)) {
             $this->addToErrorLog(
-                sprintf($this->getTranslator()->translate('message_upload_directory_not_existing'), $this->uploadDirectory)
+                sprintf($this->getTranslator()->translate('message_upload_directory_not_existing'),
+                    $this->uploadDirectory)
             );
         } elseif (!@is_writable($this->uploadDirectory)) {
             $this->addFolderAccessErrorMessage('message_upload_directory_not_writable', $this->uploadDirectory);
@@ -742,8 +743,8 @@ class tx_realty_openImmoImport
      */
     private function fillEmailTemplate($recordsForOneEmail)
     {
-        /** @var $template Tx_Oelib_TemplateHelper */
-        $template = GeneralUtility::makeInstance('Tx_Oelib_TemplateHelper');
+        /** @var $template \Tx_Oelib_TemplateHelper */
+        $template = GeneralUtility::makeInstance(\Tx_Oelib_TemplateHelper::class);
         $template->init(['templateFile' => $this->globalConfiguration->getAsString('emailTemplate')]);
         $template->getTemplateCode();
         $contentItem = [];
@@ -795,7 +796,8 @@ class tx_realty_openImmoImport
 
         if (!empty($addressesAndMessages)) {
             $this->addToLogEntry(
-                $this->getTranslator()->translate('message_log_sent_to') . ': ' . implode(', ', array_keys($addressesAndMessages))
+                $this->getTranslator()->translate('message_log_sent_to') . ': ' . implode(', ',
+                    array_keys($addressesAndMessages))
             );
         }
     }
@@ -917,12 +919,14 @@ class tx_realty_openImmoImport
                 $this->filesToDelete[] = $folderForZipExtraction;
                 if (!is_writable($folderForZipExtraction)) {
                     $this->addToErrorLog(
-                        sprintf($this->getTranslator()->translate('message_folder_not_writable'), $folderForZipExtraction)
+                        sprintf($this->getTranslator()->translate('message_folder_not_writable'),
+                            $folderForZipExtraction)
                     );
                 }
             } else {
                 $this->addToErrorLog(
-                    sprintf($this->getTranslator()->translate('message_folder_creation_failed'), $folderForZipExtraction)
+                    sprintf($this->getTranslator()->translate('message_folder_creation_failed'),
+                        $folderForZipExtraction)
                 );
             }
         } else {
@@ -1058,13 +1062,13 @@ class tx_realty_openImmoImport
             case 'message_no_schema_file':
                 $this->addToLogEntry(
                     $this->getTranslator()->translate($validationResult) . ' ' .
-                        $this->getTranslator()->translate('message_import_without_validation')
+                    $this->getTranslator()->translate('message_import_without_validation')
                 );
                 break;
             case 'message_invalid_schema_file_path':
                 $this->addToErrorLog(
                     $this->getTranslator()->translate($validationResult) . ' ' .
-                        $this->getTranslator()->translate('message_import_without_validation')
+                    $this->getTranslator()->translate('message_import_without_validation')
                 );
                 break;
             case 'message_validation_impossible':
@@ -1092,7 +1096,8 @@ class tx_realty_openImmoImport
         $imagesNotToCopy = $this->findFileNamesOfDeletedRecords($realtyRecords);
 
         /** @var string[] $lowercaseFileExtensions */
-        $lowercaseFileExtensions = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], true);
+        $lowercaseFileExtensions = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            true);
         if (!in_array('pdf', $lowercaseFileExtensions, true)) {
             $lowercaseFileExtensions[] = 'pdf';
         }
@@ -1222,8 +1227,11 @@ class tx_realty_openImmoImport
             return [];
         }
 
-        /** @var tx_realty_domDocumentConverter $domDocumentConverter */
-        $domDocumentConverter = GeneralUtility::makeInstance('tx_realty_domDocumentConverter', $this->fileNameMapper);
+        /** @var \tx_realty_domDocumentConverter $domDocumentConverter */
+        $domDocumentConverter = GeneralUtility::makeInstance(
+            \tx_realty_domDocumentConverter::class,
+            $this->fileNameMapper
+        );
 
         return $domDocumentConverter->getConvertedData($realtyRecords);
     }
@@ -1243,7 +1251,7 @@ class tx_realty_openImmoImport
      */
     protected function loadRealtyObject($data)
     {
-        $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+        $this->realtyObject = GeneralUtility::makeInstance(\tx_realty_Model_RealtyObject::class, $this->isTestMode);
         $this->realtyObject->loadRealtyObject($data, true);
     }
 

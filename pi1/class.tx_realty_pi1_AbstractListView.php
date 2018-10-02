@@ -122,7 +122,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     protected function setRealtyObjectFromUid($realtyObjectUid)
     {
         // @todo This needs to be changed to use the data mapper.
-        $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+        $this->realtyObject = GeneralUtility::makeInstance(\tx_realty_Model_RealtyObject::class, $this->isTestMode);
         $this->realtyObject->loadRealtyObject($realtyObjectUid, true);
     }
 
@@ -612,8 +612,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 ' IN (' . $searchSelection . ')';
         }
 
-        /** @var tx_realty_filterForm $filterForm */
-        $filterForm = GeneralUtility::makeInstance('tx_realty_filterForm', $this->conf, $this->cObj);
+        /** @var \tx_realty_filterForm $filterForm */
+        $filterForm = GeneralUtility::makeInstance(\tx_realty_filterForm::class, $this->conf, $this->cObj);
         $whereClause .= $filterForm->getWhereClausePart($this->piVars);
 
         return $whereClause;
@@ -872,7 +872,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     private function getLinkedTitle()
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($this->internal['currentRow']['uid']);
 
@@ -981,7 +981,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             return $this->formatter;
         }
 
-        $this->formatter = GeneralUtility::makeInstance('tx_realty_pi1_Formatter', $currentUid, $this->conf, $this->cObj);
+        $this->formatter = GeneralUtility::makeInstance(
+            \tx_realty_pi1_Formatter::class,
+            $currentUid,
+            $this->conf,
+            $this->cObj
+        );
 
         return $this->formatter;
     }
@@ -1353,7 +1358,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         /** @var tx_realty_pi1_GoogleMapsView $googleMapsView */
         $googleMapsView = GeneralUtility::makeInstance(
-            'tx_realty_pi1_GoogleMapsView',
+            \tx_realty_pi1_GoogleMapsView::class,
             $this->conf,
             $this->cObj,
             $this->isTestMode

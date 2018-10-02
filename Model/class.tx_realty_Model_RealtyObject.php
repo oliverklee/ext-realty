@@ -425,12 +425,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         $result = $data;
         $result['images'] = count($data['images']);
-        $this->images = GeneralUtility::makeInstance(Tx_Oelib_List::class);
+        $this->images = GeneralUtility::makeInstance(\Tx_Oelib_List::class);
 
         /** @var string[] $imageData */
         foreach ($data['images'] as $imageData) {
-            /** @var $image tx_realty_Model_Image */
-            $image = GeneralUtility::makeInstance('tx_realty_Model_Image');
+            /** @var \tx_realty_Model_Image $image */
+            $image = GeneralUtility::makeInstance(\tx_realty_Model_Image::class);
             $image->setTitle($imageData['caption']);
             $image->setFileName($imageData['image']);
             $image->setPageUid((int)$imageData['pid']);
@@ -470,8 +470,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         /** @var string[] $documentData */
         foreach ($data['documents'] as $documentData) {
-            /** @var $document tx_realty_Model_Document */
-            $document = GeneralUtility::makeInstance('tx_realty_Model_Document');
+            /** @var \tx_realty_Model_Document $document */
+            $document = GeneralUtility::makeInstance(\tx_realty_Model_Document::class);
             $document->setTitle($documentData['title']);
             $document->setFileName($documentData['filename']);
             $document->setPageUid((int)$documentData['pid']);
@@ -529,7 +529,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             } else {
                 $this->discardExistingImages();
                 $this->discardExistingDocuments();
-                Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->delete($this);
+                Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->delete($this);
                 $errorMessage = 'message_deleted_flag_causes_deletion';
             }
         } elseif (!$ownerCanAddObjects) {
@@ -709,7 +709,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         try {
             /** @var tx_realty_Model_FrontEndUser $result */
-            $result = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getModel($this->ownerData);
+            $result = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)->getModel($this->ownerData);
         } catch (Exception $exception) {
             throw new Tx_Oelib_Exception_NotFound('There is no owner for the current realty object.', 1333035795);
         }
@@ -984,7 +984,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         /** @var tx_realty_Mapper_Image $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
 
         $pageUid = ($overridePid > 0)
             ? $overridePid
@@ -1020,7 +1020,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     protected function discardExistingImages()
     {
         /** @var tx_realty_Mapper_Image $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
         /** @var tx_realty_Model_Image $image */
         foreach ($mapper->findAllByRelation($this, 'object') as $image) {
             $mapper->delete($image);
@@ -1050,7 +1050,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
 
         $pageUid = ($overridePid > 0)
             ? $overridePid
@@ -1086,7 +1086,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     protected function discardExistingDocuments()
     {
         /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
         foreach ($mapper->findAllByRelation($this, 'object') as $document) {
             $mapper->delete($document);
         }
@@ -1146,7 +1146,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         /** @var tx_realty_Mapper_Image $imageMapper */
-        $imageMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+        $imageMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
         $images = $imageMapper->findAllByRelation($this, 'object');
         $images->sortBySorting();
 
@@ -1168,7 +1168,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
         $documents = $mapper->findAllByRelation($this, 'object');
         $documents->sortBySorting();
 
@@ -1207,8 +1207,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         $this->set('images', $this->getAsInteger('images') + 1);
 
-        /** @var $image tx_realty_Model_Image */
-        $image = GeneralUtility::makeInstance('tx_realty_Model_Image');
+        /** @var \tx_realty_Model_Image $image */
+        $image = GeneralUtility::makeInstance(\tx_realty_Model_Image::class);
         $image->setTitle($caption);
         if ($fileName != '') {
             $image->setFileName($fileName);
@@ -1248,8 +1248,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         $this->set('documents', $this->getAsInteger('documents') + 1);
 
-        /** @var $document tx_realty_Model_Document */
-        $document = GeneralUtility::makeInstance('tx_realty_Model_Document');
+        /** @var \tx_realty_Model_Document $document */
+        $document = GeneralUtility::makeInstance(\tx_realty_Model_Document::class);
         if ($title != '') {
             $document->setTitle($title);
         }
@@ -1292,7 +1292,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         /** @var tx_realty_Mapper_Image $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
         $mapper->delete($image);
 
         $this->setAsInteger('images', $this->getAsInteger('images') - 1);
@@ -1326,7 +1326,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
         $mapper->delete($document);
 
         $this->setAsInteger('documents', $this->getAsInteger('documents') - 1);
@@ -1617,7 +1617,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         /** @var tx_realty_Mapper_City $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class);
         return $mapper->find($this->getAsInteger('city'));
     }
 
@@ -2167,7 +2167,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         if ($useContactDataOfOwner && $this->owner === null) {
             /** @var tx_realty_Mapper_FrontEndUser $mapper */
-            $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+            $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class);
             $this->owner = $mapper->find($this->getAsInteger('owner'));
         }
 

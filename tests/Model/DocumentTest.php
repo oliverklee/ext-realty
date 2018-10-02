@@ -5,7 +5,7 @@
  *
  * @author Bernd Schönbach <bernd.schoenbach@googlemail.com>
  */
-class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
+class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Model_Document

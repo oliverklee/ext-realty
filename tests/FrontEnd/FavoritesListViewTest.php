@@ -8,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_FavoritesListViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_FavoritesListView

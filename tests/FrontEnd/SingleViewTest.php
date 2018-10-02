@@ -8,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_SingleViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_SingleView
@@ -37,7 +37,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->createFakeFrontEnd();
 
-        $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
 
         $this->fixture = new tx_realty_pi1_SingleView(
             ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
@@ -121,7 +121,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
      */
     public function singleViewReturnsEmptyResultForShowUidOfHiddenRecordNonOwnerLoggedIn()
     {
-        $userMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+        $userMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class);
         /** @var tx_realty_Model_FrontEndUser $owner */
         $owner = $userMapper->getNewGhost();
 
@@ -148,7 +148,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
      */
     public function singleViewReturnsNonEmptyResultForShowUidOfHiddenRecordOwnerLoggedIn()
     {
-        $userMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+        $userMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class);
         /** @var tx_realty_Model_FrontEndUser $owner */
         $owner = $userMapper->getNewGhost();
         /** @var tx_realty_Model_RealtyObject $realtyObject */

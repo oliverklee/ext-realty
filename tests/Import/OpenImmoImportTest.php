@@ -1,5 +1,6 @@
 <?php
 
+use TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
 use TYPO3\CMS\Core\Mail\MailMessage;
@@ -12,7 +13,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
+class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_openImmoImportChild
@@ -3156,8 +3157,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
             false
         );
         $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
-        /** @var \TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
-        $cacheBackEnd = $this->getMock('TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface');
+        /** @var TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
+        $cacheBackEnd = $this->getMock(TaggableBackendInterface::class);
         $cacheFrontEnd->expects(self::any())->method('getBackend')->will(self::returnValue($cacheBackEnd));
         $cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 

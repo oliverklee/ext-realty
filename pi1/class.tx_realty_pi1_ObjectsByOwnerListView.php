@@ -126,7 +126,7 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
         }
 
         /** @var tx_realty_Mapper_FrontEndUser $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class);
         if (!$mapper->existsModel($ownerUid)) {
             throw new Tx_Oelib_Exception_NotFound('The owner does not exist.', 1333036603);
         }

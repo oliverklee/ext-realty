@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_DocumentsView
@@ -29,7 +29,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->createFakeFrontEnd();
 
-        $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];

@@ -5,7 +5,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_tests_fixtures_TestingListView extends tx_realty_pi1_AbstractListView
+class tx_realty_tests_fixtures_TestingListView extends \tx_realty_pi1_AbstractListView
 {
     /**
      * @var string the list view type to display

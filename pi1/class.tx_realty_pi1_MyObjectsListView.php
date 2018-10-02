@@ -121,9 +121,9 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         }
 
         // For testing, the FE editor's mkforms object must not be created.
-        /** @var tx_realty_frontEndEditor $frontEndEditor */
+        /** @var \tx_realty_frontEndEditor $frontEndEditor */
         $frontEndEditor = GeneralUtility::makeInstance(
-            'tx_realty_frontEndEditor',
+            \tx_realty_frontEndEditor::class,
             $this->conf,
             $this->cObj,
             $this->piVars['delete'],

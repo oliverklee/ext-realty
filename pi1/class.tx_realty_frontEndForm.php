@@ -66,7 +66,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         $this->realtyObjectUid = $uidOfObjectToEdit;
         $this->configurationNamespace = $configurationNamespace;
 
-        $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+        $this->realtyObject = GeneralUtility::makeInstance(\tx_realty_Model_RealtyObject::class, $this->isTestMode);
         $this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 
         parent::__construct($configuration, $contentObjectRenderer);
@@ -230,7 +230,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         $this->realtyObjectUid = $uid;
 
         if ($this->realtyObject->getUid() != $uid) {
-            $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+            $this->realtyObject = GeneralUtility::makeInstance(\tx_realty_Model_RealtyObject::class, $this->isTestMode);
             $this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
         }
     }

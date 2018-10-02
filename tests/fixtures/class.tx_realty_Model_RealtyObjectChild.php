@@ -5,7 +5,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObject
+final class tx_realty_Model_RealtyObjectChild extends \tx_realty_Model_RealtyObject
 {
     /**
      * Checks whether a record exists in the database.

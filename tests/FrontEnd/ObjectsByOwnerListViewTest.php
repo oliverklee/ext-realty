@@ -8,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var string the title of a dummy object for the tests
@@ -84,7 +84,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
      */
     private function createObjectWithOwner(array $userData = [])
     {
-        $owner = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+        $owner = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)
             ->getLoadedTestingModel($userData);
         $this->ownerUid = $owner->getUid();
         $this->cityUid
@@ -142,7 +142,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         $this->createObjectWithOwner();
 
         self::assertTrue(
-            Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+            Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)
                 ->existsModel($this->ownerUid)
         );
     }
@@ -170,7 +170,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         $this->createObjectWithOwner(['username' => 'foo']);
 
         /** @var tx_realty_Mapper_FrontEndUser $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class);
         /** @var tx_realty_Model_FrontEndUser $user */
         $user = $mapper->find($this->ownerUid);
         self::assertEquals(

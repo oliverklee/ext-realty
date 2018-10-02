@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_AddressViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_AddressViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_AddressView
@@ -46,7 +46,7 @@ class tx_realty_FrontEnd_AddressViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsNonEmptyResultForShowUidOfExistingRecordWithZip()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['zip' => '12345']);
 
         self::assertNotEquals(
@@ -60,7 +60,7 @@ class tx_realty_FrontEnd_AddressViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['zip' => '12345']);
 
         $result = $this->fixture->render(
@@ -82,7 +82,7 @@ class tx_realty_FrontEnd_AddressViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsTheRealtyObjectsAddressForValidRealtyObject()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['zip' => '12345']);
 
         self::assertContains(
@@ -96,7 +96,7 @@ class tx_realty_FrontEnd_AddressViewTest extends Tx_Phpunit_TestCase
      */
     public function renderReturnsEmptyResultForEmptyAddressDataOfValidRealtyObject()
     {
-        $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+        $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel([]);
 
         self::assertEquals(

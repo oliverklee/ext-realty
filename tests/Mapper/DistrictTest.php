@@ -5,7 +5,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase
+class tx_realty_Mapper_DistrictTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var Tx_Oelib_TestingFramework
@@ -71,7 +71,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase
     public function getCityReturnsCityFromRelation()
     {
         /** @var tx_realty_Model_City $city */
-        $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->getNewGhost();
+        $city = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_City::class)->getNewGhost();
 
         /** @var tx_realty_Model_District $district */
         $district = $this->fixture->getLoadedTestingModel(['city' => $city->getUid()]);

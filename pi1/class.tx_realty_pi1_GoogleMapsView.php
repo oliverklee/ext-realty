@@ -145,7 +145,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
     protected function createMarkerFromCoordinates($realtyObjectUid, $createLink = false)
     {
         /** @vartx_realty_Mapper_RealtyObject  $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($realtyObjectUid);
         if ($realtyObject->hasGeoError()) {
@@ -165,8 +165,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
             return;
         }
 
-        /** @var tx_realty_mapMarker $mapMarker */
-        $mapMarker = GeneralUtility::makeInstance('tx_realty_mapMarker');
+        /** @var \tx_realty_mapMarker $mapMarker */
+        $mapMarker = GeneralUtility::makeInstance(\tx_realty_mapMarker::class);
         $coordinates = $realtyObject->getGeoCoordinates();
         $mapMarker->setCoordinates($coordinates['latitude'], $coordinates['longitude']);
         $mapMarker->setTitle($realtyObject->getAddressAsSingleLine());
@@ -198,7 +198,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
         }
 
         /** @var tx_realty_Mapper_RealtyObject $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($realtyObjectUid);
         $separateSingleViewPage = $realtyObject->getProperty('details_page');

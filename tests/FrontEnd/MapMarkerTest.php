@@ -5,7 +5,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_MapMarkerTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_MapMarkerTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_mapMarker

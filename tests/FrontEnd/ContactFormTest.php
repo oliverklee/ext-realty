@@ -10,7 +10,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_contactForm

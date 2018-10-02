@@ -5,7 +5,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase
+class tx_realty_Model_AbstractTitledModelTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Model_AbstractTitledModel
@@ -14,7 +14,7 @@ class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase
 
     protected function setUp()
     {
-        $this->subject = $this->getMockForAbstractClass('tx_realty_Model_AbstractTitledModel');
+        $this->subject = $this->getMockForAbstractClass(\tx_realty_Model_AbstractTitledModel::class);
     }
 
     /**

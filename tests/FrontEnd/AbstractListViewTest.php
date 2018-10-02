@@ -9,7 +9,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_AbstractListViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var int static_info_tables UID of Germany

@@ -8,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_pi1_GoogleMapsView
@@ -71,10 +71,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase
         $this->geoCoder = $this->getMock(Tx_Oelib_Geocoding_Dummy::class);
         Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
 
-        $this->realtyMapper = $this->getMock('tx_realty_Mapper_RealtyObject');
+        $this->realtyMapper = $this->getMock(\tx_realty_Mapper_RealtyObject::class);
         Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $this->realtyMapper);
 
-        $this->realtyObject = $this->getMock('tx_realty_Model_RealtyObject', ['writeToDatabase']);
+        $this->realtyObject = $this->getMock(\tx_realty_Model_RealtyObject::class, ['writeToDatabase']);
         $this->realtyObject->setData($realtyData);
         $this->realtyMapper->expects(self::any())->method('find')->with($this->realtyUid)
             ->will(self::returnValue($this->realtyObject));

@@ -5,7 +5,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase
+class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Tca
@@ -72,7 +72,7 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase
 
         /** @var tx_realty_Mapper_District|PHPUnit_Framework_MockObject_MockObject $mapper */
         $mapper = $this->getMock(
-            'tx_realty_Mapper_District',
+            \tx_realty_Mapper_District::class,
             ['findAllByCityUidOrUnassigned']
         );
         $mapper->expects(self::once())

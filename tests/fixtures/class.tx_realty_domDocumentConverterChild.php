@@ -6,7 +6,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentConverter
+final class tx_realty_domDocumentConverterChild extends \tx_realty_domDocumentConverter
 {
     /**
      * Adds a new element $value to the array $arrayExpand, using the key $key.

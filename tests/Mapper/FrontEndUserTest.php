@@ -5,7 +5,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase
+class tx_realty_Mapper_FrontEndUserTest extends \Tx_Phpunit_TestCase
 {
     /**
      * @var tx_realty_Mapper_FrontEndUser

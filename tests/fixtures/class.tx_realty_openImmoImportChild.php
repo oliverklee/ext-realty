@@ -5,7 +5,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport
+final class tx_realty_openImmoImportChild extends \tx_realty_openImmoImport
 {
     /**
      * Checks the correct punctuation of a path to a directory. Adds a slash if

@@ -90,8 +90,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             );
         }
 
-        /** @var $frontEndUser tx_realty_Model_FrontEndUser */
-        $frontEndUser = GeneralUtility::makeInstance('tx_realty_Model_FrontEndUser');
+        /** @var \tx_realty_Model_FrontEndUser $frontEndUser */
+        $frontEndUser = GeneralUtility::makeInstance(\tx_realty_Model_FrontEndUser::class);
 
         // setData() will not create the relations, but "usergroup" is expected
         // to hold a list instance.
@@ -158,7 +158,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             $fieldOrder
         );
         /** @var tx_realty_Mapper_FrontEndUser $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class);
         $offererList = $mapper->getListOfModels($offererRecords);
 
         /** @var tx_realty_Model_FrontEndUser $offerer */
