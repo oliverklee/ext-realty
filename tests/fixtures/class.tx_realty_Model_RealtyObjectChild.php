@@ -90,17 +90,6 @@ final class tx_realty_Model_RealtyObjectChild extends \tx_realty_Model_RealtyObj
     }
 
     /**
-     * Checks whether all required fields are set in the realty object.
-     * $this->requiredFields must have already been loaded.
-     *
-     * @return string[] missing required fields, empty if all required fields are set
-     */
-    public function checkForRequiredFields()
-    {
-        return parent::checkForRequiredFields();
-    }
-
-    /**
      * Prepares the realty object for insertion and inserts records to
      * the related tables.
      * It writes the values of 'city', 'apartment_type', 'house_type',

@@ -49,8 +49,9 @@ class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
             ['title' => 'foo']
         );
 
-        self::assertTrue(
-            $this->fixture->find($uid) instanceof tx_realty_Model_RealtyObject
+        self::assertInstanceOf(
+            tx_realty_Model_RealtyObject::class,
+            $this->fixture->find($uid)
         );
     }
 
@@ -67,8 +68,9 @@ class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
         /** @var tx_realty_Model_RealtyObject $model */
         $model = $this->fixture->find($objectUid);
-        self::assertTrue(
-            $model->getOwner() instanceof tx_realty_Model_FrontEndUser
+        self::assertInstanceOf(
+            tx_realty_Model_FrontEndUser::class,
+            $model->getOwner()
         );
     }
 
@@ -237,12 +239,13 @@ class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        self::assertTrue(
+        self::assertInstanceOf(
+            tx_realty_Model_RealtyObject::class,
             $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-                'FLAT0001',
-                'abc01234',
-                'de'
-            ) instanceof tx_realty_Model_RealtyObject
+            'FLAT0001',
+            'abc01234',
+            'de'
+        )
         );
     }
 

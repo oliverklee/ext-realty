@@ -43,9 +43,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
             ['row' => ['city' => 0]]
         );
 
-        self::assertTrue(
-            isset($result['items'])
-        );
+        self::assertTrue(isset($result['items']));
     }
 
     /**
@@ -57,9 +55,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
             ['row' => ['city' => 0]]
         );
 
-        self::assertTrue(
-            in_array(['', 0], $result['items'])
-        );
+        self::assertContains(['', 0], $result['items']);
     }
 
     /**
@@ -86,8 +82,6 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
             ['row' => ['city' => 42]]
         );
 
-        self::assertTrue(
-            in_array(['Kreuzberg', 2], $result['items'])
-        );
+        self::assertContains(['Kreuzberg', 2], $result['items']);
     }
 }

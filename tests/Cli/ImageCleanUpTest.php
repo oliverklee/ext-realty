@@ -307,8 +307,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertFalse(
-            file_exists($fileName)
+        self::assertFileNotExists(
+            $fileName
         );
     }
 
@@ -323,8 +323,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertFalse(
-            file_exists($fileName)
+        self::assertFileNotExists(
+            $fileName
         );
     }
 
@@ -343,8 +343,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertTrue(
-            file_exists($fileName)
+        self::assertFileExists(
+            $fileName
         );
     }
 
@@ -359,8 +359,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertFalse(
-            file_exists($fileName)
+        self::assertFileNotExists(
+            $fileName
         );
     }
 
@@ -379,8 +379,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertTrue(
-            file_exists($fileName)
+        self::assertFileExists(
+            $fileName
         );
     }
 
@@ -398,11 +398,11 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertFalse(
-            file_exists($fileName1)
+        self::assertFileNotExists(
+            $fileName1
         );
-        self::assertFalse(
-            file_exists($fileName2)
+        self::assertFileNotExists(
+            $fileName2
         );
     }
 
@@ -421,8 +421,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertFalse(
-            file_exists($fileName)
+        self::assertFileNotExists(
+            $fileName
         );
     }
 
@@ -437,8 +437,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertFalse(
-            file_exists($fileName)
+        self::assertFileNotExists(
+            $fileName
         );
     }
 
@@ -457,8 +457,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->deleteUnusedFiles();
 
-        self::assertTrue(
-            file_exists($fileName)
+        self::assertFileExists(
+            $fileName
         );
     }
 

@@ -91,8 +91,9 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function createRealtyRecordWithCityRunTwiceCreatesTwoDifferentRecords()
     {
-        self::assertTrue(
-            $this->createRealtyRecordWithCity() != $this->createRealtyRecordWithCity()
+        self::assertNotEquals(
+            $this->createRealtyRecordWithCity(),
+            $this->createRealtyRecordWithCity()
         );
     }
 
@@ -325,15 +326,15 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $sysFolder = $this->testingFramework->createSystemFolder();
         $flexforms = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>' .
             '<T3FlexForms>' .
-                '<data>' .
-                    '<sheet index="sDEF">' .
-                        '<language index="lDEF">' .
-                            '<field index="pages">' .
-                                '<value index="vDEF">' . $sysFolder . '</value>' .
-                            '</field>' .
-                        '</language>' .
-                    '</sheet>' .
-                '</data>' .
+            '<data>' .
+            '<sheet index="sDEF">' .
+            '<language index="lDEF">' .
+            '<field index="pages">' .
+            '<value index="vDEF">' . $sysFolder . '</value>' .
+            '</field>' .
+            '</language>' .
+            '</sheet>' .
+            '</data>' .
             '</T3FlexForms>';
         $listViewUid = $this->testingFramework->createContentElement(
             0,

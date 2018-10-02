@@ -1477,8 +1477,9 @@ class tx_realty_FrontEnd_FilterFormTest extends \Tx_Phpunit_TestCase
      */
     public function getPiVarKeysReturnsAnArray()
     {
-        self::assertTrue(
-            is_array(tx_realty_filterForm::getPiVarKeys())
+        self::assertInternalType(
+            'array',
+            tx_realty_filterForm::getPiVarKeys()
         );
     }
 
@@ -1489,8 +1490,8 @@ class tx_realty_FrontEnd_FilterFormTest extends \Tx_Phpunit_TestCase
     {
         $result = tx_realty_filterForm::getPiVarKeys();
 
-        self::assertTrue(
-            !empty($result)
+        self::assertNotEmpty(
+            $result
         );
     }
 }
