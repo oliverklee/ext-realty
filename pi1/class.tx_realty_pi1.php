@@ -66,7 +66,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
             ::get('plugin.tx_realty_pi1.views.' . $this->getCurrentView());
 
         if (!$viewConfiguration->getAsBoolean('cache')
-            && ($this->cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER)
+            && $this->cObj->getUserObjectType() === ContentObjectRenderer::OBJECTTYPE_USER
         ) {
             $this->cObj->convertToUserIntObject();
             return '';

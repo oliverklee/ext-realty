@@ -181,20 +181,18 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
     {
         // The configuration check is created during initialization, therefore
         // the object to test is recreated for this test.
-        unset($this->fixture);
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')
-            ->setAsBoolean('enableConfigCheck', true);
-        $this->fixture = new tx_realty_pi1();
-        $this->fixture->init([
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', true);
+        $fixture = new tx_realty_pi1();
+        $fixture->init([
             'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
             'pages' => $this->systemFolderPid,
         ]);
         // ensures there is at least one configuration error to report
-        $this->fixture->setConfigurationValue('currencyUnit', 'foo');
+        $fixture->setConfigurationValue('isStaticTemplateLoaded', false);
 
         self::assertContains(
             'Configuration check warning',
-            $this->fixture->main('', [])
+            $fixture->main('', [])
         );
     }
 
@@ -205,20 +203,18 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
     {
         // The configuration check is created during initialization, therefore
         // the object to test is recreated for this test.
-        unset($this->fixture);
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')
-            ->setAsBoolean('enableConfigCheck', false);
-        $this->fixture = new tx_realty_pi1();
-        $this->fixture->init([
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', false);
+        $fixture = new tx_realty_pi1();
+        $fixture->init([
             'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
             'pages' => $this->systemFolderPid,
         ]);
         // ensures there is at least one configuration error to report
-        $this->fixture->setConfigurationValue('currencyUnit', 'ABC');
+        $fixture->setConfigurationValue('isStaticTemplateLoaded', false);
 
         self::assertNotContains(
             'Configuration check warning',
-            $this->fixture->main('', [])
+            $fixture->main('', [])
         );
     }
 

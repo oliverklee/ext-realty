@@ -5,7 +5,7 @@
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('realty');
 return [
     'OliverKlee\\Realty\\BackEnd\\Tca' => $extensionPath . 'Classes/Backend/Tca.php',
-    'tx_realty_configcheck' => $extensionPath . 'class.tx_realty_configcheck.php',
+    'tx_realty_configcheck' => $extensionPath . 'Classes/configcheck.php',
     'tx_realty_ajax_districtselector' => $extensionPath . 'Ajax/class.tx_realty_Ajax_DistrictSelector.php',
     'tx_realty_configuration_realurl_configuration' => $extensionPath . 'Configuration/RealUrl/Configuration.php',
     'tx_realty_backend_module' => $extensionPath . 'BackEnd/class.tx_realty_BackEnd_Module.php',
