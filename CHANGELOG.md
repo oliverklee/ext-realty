@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Run the unit tests on TravisCI (#11)
 - Add more accessibility-related fields to the FE editor (#18, #60)
 - Display the rent with heating costs (#42)
 - Import the rent with heating costs (#41)
