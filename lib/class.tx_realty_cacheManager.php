@@ -1,7 +1,8 @@
 <?php
 
+use TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface as CacheFrontEndInterface;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -59,10 +60,12 @@ class tx_realty_cacheManager
      */
     private static function clearCacheWithCachingFramework()
     {
-        /** @var CacheFrontEndInterface $pageCache */
+        /** @var FrontendInterface $pageCache */
         $pageCache = self::getCacheManager()->getCache('cache_pages');
+        /** @var TaggableBackendInterface $cacheBackend */
+        $cacheBackend = $pageCache->getBackend();
         foreach (self::getPageUids() as $pageUid) {
-            $pageCache->getBackend()->flushByTag('pageId_' . $pageUid);
+            $cacheBackend->flushByTag('pageId_' . $pageUid);
         }
     }
 
