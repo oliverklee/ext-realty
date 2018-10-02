@@ -31,6 +31,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
+- Convert the FE editor JavaScript to jQuery (#73)
 - Automatically include the mkforms static TypoScript template (#71)
 - !!! Switch from PrototypeJS to jQuery (#69)
 - !!! Switch from ameos_formidable to mkforms (#62)

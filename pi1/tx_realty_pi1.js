@@ -53,8 +53,8 @@ TYPO3.realty.updateDistrictsInSearchWidget = function () {
     $loader.show();
 
     var url = "/index.php?eID=realty&type=withNumber&city=" + encodeURIComponent(cityUid);
-    var $districtsDropDown = jQuery('#tx_realty_pi1-district');
-    $districtsDropDown.load(url, function () {
+    var $districtDropDown = jQuery('#tx_realty_pi1-district');
+    $districtDropDown.load(url, function () {
         $districtSelectorWidget.show();
         $loader.hide();
     });
@@ -66,38 +66,27 @@ TYPO3.realty.updateDistrictsInSearchWidget = function () {
  *
  * If no city is selected, the district element will be hidden.
  */
-function updateDistrictsInEditor() {
-    if (!jQuery("tx_realty_frontEndEditor_city")
-        || !jQuery("tx_realty_frontEndEditor_district_wrapper")
-        || !jQuery("tx_realty_frontEndEditor_district")
-        || !jQuery("tx_realty_frontEndEditor_new_district_wrapper")
-    ) {
+TYPO3.realty.updateDistrictsInEditor = function () {
+    var $citySelector = jQuery('#tx_realty_frontEndEditor__city');
+    var $districtWrapper = jQuery('#tx_realty_frontEndEditor_district_wrapper');
+    var $districtDropDown = jQuery('#tx_realty_frontEndEditor__district');
+    var $newDistrictWrapper = jQuery('#tx_realty_frontEndEditor_new_district_wrapper');
+
+    var cityUid = $citySelector.val();
+    if (cityUid === "0") {
+        $districtWrapper.hide();
+        $newDistrictWrapper.hide();
         return;
     }
 
-    var cityUid = jQuery("tx_realty_frontEndEditor_city").value;
-    if (cityUid == "0") {
-        Element.hide(jQuery("tx_realty_frontEndEditor_district_wrapper"));
-        Element.hide(jQuery("tx_realty_frontEndEditor_new_district_wrapper"));
-        return;
-    }
-
-    new Ajax.Updater(
-        "tx_realty_frontEndEditor_district",
-        "/index.php?eID=realty&city=" + encodeURI(cityUid),
-        {
-            method: "get",
-            onLoading: function () {
-                jQuery("tx_realty_frontEndEditor_district").disabled = true;
-                Element.show(jQuery("tx_realty_frontEndEditor_district_wrapper"));
-                Element.show(jQuery("tx_realty_frontEndEditor_new_district_wrapper"));
-            },
-            onComplete: function () {
-                jQuery("tx_realty_frontEndEditor_district").disabled = false;
-            }
-        }
-    );
-}
+    var url = "/index.php?eID=realty&city=" + encodeURIComponent(cityUid);
+    $districtDropDown.prop('disabled', true);
+    $districtDropDown.load(url, function () {
+        $districtWrapper.show();
+        $newDistrictWrapper.show();
+        $districtDropDown.prop('disabled', false);
+    });
+};
 
 /**
  * Appends a district so that it is available for selection in the FE editor.
@@ -105,16 +94,13 @@ function updateDistrictsInEditor() {
  * @param {integer} uid the UID of the district to add, must be > 0
  * @param {string} title the title of the district, must not be empty
  */
-function appendDistrictInEditor(uid, title) {
-    var container = jQuery("tx_realty_frontEndEditor_district");
-    if (!container) {
-        return;
-    }
-    var optionElement = new Element("option", {"value": uid});
-    optionElement.appendChild(document.createTextNode(title));
+TYPO3.realty.appendDistrictInEditor = function (uid, title) {
+    var $districtDropDown = jQuery('#tx_realty_frontEndEditor__district');
+    var $optionElement = jQuery('<option value="' + uid + '"/>');
+    $optionElement.append(document.createTextNode(title));
 
-    container.appendChild(optionElement);
-}
+    $districtDropDown.append($optionElement);
+};
 
 TYPO3.realty.initializeFrontEndEditor = function () {
     var $editorForm = jQuery('#tx_realty_frontEndEditor');
@@ -124,6 +110,7 @@ TYPO3.realty.initializeFrontEndEditor = function () {
 
     TYPO3.realty.updateHideAndShow();
     jQuery(".js-realty-update-editor").click(TYPO3.realty.updateHideAndShow);
+    jQuery("#tx_realty_frontEndEditor__city").change(TYPO3.realty.updateDistrictsInEditor);
 };
 
 TYPO3.realty.initializeGoogleMaps = function () {

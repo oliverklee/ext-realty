@@ -204,7 +204,6 @@ plugin.tx_realty_pi1.editor {
                     return \tx_realty_frontEndEditor::populateCityList();
                 )
             }
-            onchange = updateDistrictsInEditor();
             validators {
                 10 = validator:STANDARD
                 10.custom {
