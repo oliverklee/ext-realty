@@ -6,6 +6,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## 1.0.0
+
+### Added
 - Add compatibility with PHP 7.1 and 7.2 (#94)
 - Run the unit tests on TravisCI (#11)
 - Add more accessibility-related fields to the FE editor (#18, #60)
@@ -60,8 +72,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - reformat the code to PSR-2
 - replace "language" in the PHPDoc
 - clean up the OpenImmo import classes
-
-### Deprecated
 
 ### Removed
 - Drop the update wizard that does nothing (#80)
