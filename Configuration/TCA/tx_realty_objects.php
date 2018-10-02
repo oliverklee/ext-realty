@@ -135,8 +135,14 @@ return [
             'config' => [
                 'type' => 'radio',
                 'items' => [
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.0', '0'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.1', '1'],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.0',
+                        '0',
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.1',
+                        '1',
+                    ],
                 ],
             ],
         ],
@@ -742,15 +748,42 @@ return [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.7', 7],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.8', 8],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.9', 9],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.10', 10],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.11', 11],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.12', 12],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.13', 13],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.14', 14],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.15', 15],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.16', 16],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.17', 17],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.18', 18],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.10',
+                        10,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.11',
+                        11,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.12',
+                        12,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.13',
+                        13,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.14',
+                        14,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.15',
+                        15,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.16',
+                        16,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.17',
+                        17,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.18',
+                        18,
+                    ],
                 ],
                 'renderMode' => 'checkbox',
                 'minitems' => 0,
@@ -914,8 +947,14 @@ return [
                 'type' => 'select',
                 'items' => [
                     ['', '0'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.1', '1'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.2', '2'],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.1',
+                        '1',
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.2',
+                        '2',
+                    ],
                 ],
             ],
         ],
@@ -957,9 +996,18 @@ return [
                 'type' => 'select',
                 'items' => [
                     ['', '0'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.1', 1],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.2', 2],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.3', 3],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.1',
+                        1,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.2',
+                        2,
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.3',
+                        3,
+                    ],
                 ],
             ],
         ],
@@ -1199,8 +1247,14 @@ return [
             'config' => [
                 'type' => 'radio',
                 'items' => [
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.0', '0'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.1', '1'],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.0',
+                        '0',
+                    ],
+                    [
+                        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.1',
+                        '1',
+                    ],
                 ],
             ],
         ],
