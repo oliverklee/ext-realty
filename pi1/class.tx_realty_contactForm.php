@@ -433,9 +433,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
     /**
      * Sets or hides the specialized contact form.
      *
-     * @return bool FALSE if the specialized contact form is supposed to
-     *                 be set but no object data could be fetched, TRUE
-     *                 otherwise
+     * @return bool false if the specialized contact form is supposed to
+     *                 be set but no object data could be fetched, true otherwise
      */
     private function setOrHideSpecializedView()
     {
@@ -450,10 +449,10 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
                 $wasSuccessful = false;
             } else {
                 foreach (['object_number', 'title', 'uid'] as $key) {
-                    $value = ($key == 'uid')
+                    $value = ($key === 'uid')
                         ? $this->getRealtyObject()->getUid()
                         : $this->getRealtyObject()->getProperty($key);
-                    $this->setMarker($key, $value, '', 'wrapper');
+                    $this->setMarker($key, $value);
                 }
             }
         } else {

@@ -554,10 +554,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      */
     public function isAtMostOneValueForCityRecordProvided(array $valueToCheck)
     {
-        return $this->isAtMostOneValueForAuxiliaryRecordProvided(
-            $valueToCheck['value'],
-            'city'
-        );
+        return $this->isAtMostOneValueForAuxiliaryRecordProvided($valueToCheck['value']);
     }
 
     /**
