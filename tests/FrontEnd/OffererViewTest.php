@@ -73,8 +73,9 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
      */
     public function getRealtyObjectWithOwnerReturnsRealtyObjectModel()
     {
-        self::assertTrue(
-            $this->getRealtyObjectWithOwner() instanceof tx_realty_Model_RealtyObject
+        self::assertInstanceOf(
+            tx_realty_Model_RealtyObject::class,
+            $this->getRealtyObjectWithOwner()
         );
     }
 
@@ -255,7 +256,7 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
 
         /** @var tx_realty_Mapper_RealtyObject|PHPUnit_Framework_MockObject_MockObject $mapper */
         $mapper = $this->getMock(\tx_realty_Mapper_RealtyObject::class, ['find']);
-        $mapper->expects(self::any())->method('find')
+        $mapper->method('find')
             ->will(self::returnValue($model));
         Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $mapper);
 

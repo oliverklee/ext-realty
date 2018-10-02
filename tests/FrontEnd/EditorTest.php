@@ -222,11 +222,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         );
         $this->fixture->setFakedFormValue('city', $cityUid);
 
-        self::assertTrue(
-            in_array(
-                ['value' => $districtUid, 'caption' => 'Kreuzberg'],
-                $this->fixture->populateDistrictList()
-            )
+        self::assertContains(
+            ['value' => $districtUid, 'caption' => 'Kreuzberg'],
+            $this->fixture->populateDistrictList()
         );
     }
 
@@ -242,11 +240,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         );
         $this->fixture->setFakedFormValue('city', $cityUid);
 
-        self::assertTrue(
-            in_array(
-                ['value' => $districtUid, 'caption' => 'Kreuzberg'],
-                $this->fixture->populateDistrictList()
-            )
+        self::assertContains(
+            ['value' => $districtUid, 'caption' => 'Kreuzberg'],
+            $this->fixture->populateDistrictList()
         );
     }
 
@@ -263,11 +259,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         );
         $this->fixture->setFakedFormValue('city', $cityUid);
 
-        self::assertFalse(
-            in_array(
-                ['value' => $districtUid, 'caption' => 'Kreuzberg'],
-                $this->fixture->populateDistrictList()
-            )
+        self::assertNotContains(
+            ['value' => $districtUid, 'caption' => 'Kreuzberg'],
+            $this->fixture->populateDistrictList()
         );
     }
 
@@ -821,7 +815,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidYearReturnsTrueForTheCurrentYear()
     {
         self::assertTrue(
-            $this->fixture->isValidYear(['value' => date('Y', time())])
+            $this->fixture->isValidYear(['value' => date('Y')])
         );
     }
 
@@ -1551,8 +1545,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid(0);
 
-        self::assertTrue(
-            in_array('tstamp', $this->fixture->modifyDataToInsert([]))
+        self::assertContains(
+            'tstamp',
+            $this->fixture->modifyDataToInsert([])
         );
     }
 
@@ -1563,8 +1558,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid(0);
 
-        self::assertTrue(
-            in_array('crdate', $this->fixture->modifyDataToInsert([]))
+        self::assertContains(
+            'crdate',
+            $this->fixture->modifyDataToInsert([])
         );
     }
 
@@ -1575,8 +1571,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid(0);
 
-        self::assertTrue(
-            in_array('pid', $this->fixture->modifyDataToInsert([]))
+        self::assertContains(
+            'pid',
+            $this->fixture->modifyDataToInsert([])
         );
     }
 
@@ -1587,8 +1584,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid(0);
 
-        self::assertTrue(
-            in_array('hidden', $this->fixture->modifyDataToInsert([]))
+        self::assertContains(
+            'hidden',
+            $this->fixture->modifyDataToInsert([])
         );
     }
 
@@ -1599,8 +1597,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid(0);
 
-        self::assertTrue(
-            in_array('object_type', $this->fixture->modifyDataToInsert([]))
+        self::assertContains(
+            'object_type',
+            $this->fixture->modifyDataToInsert([])
         );
     }
 
@@ -1611,8 +1610,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid(0);
 
-        self::assertTrue(
-            in_array('owner', $this->fixture->modifyDataToInsert([]))
+        self::assertContains(
+            'owner',
+            $this->fixture->modifyDataToInsert([])
         );
     }
 
@@ -1623,8 +1623,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid(0);
 
-        self::assertTrue(
-            in_array('openimmo_anid', $this->fixture->modifyDataToInsert([]))
+        self::assertContains(
+            'openimmo_anid',
+            $this->fixture->modifyDataToInsert([])
         );
     }
 
@@ -2269,7 +2270,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
         /** @var TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
         $cacheBackEnd = $this->getMock(TaggableBackendInterface::class);
-        $cacheFrontEnd->expects(self::any())->method('getBackend')->will(self::returnValue($cacheBackEnd));
+        $cacheFrontEnd->method('getBackend')->will(self::returnValue($cacheBackEnd));
         $cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 
         $cacheManager = new CacheManager();
@@ -2293,11 +2294,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
             ['title' => 'Bonn']
         );
 
-        self::assertTrue(
-            in_array(
-                ['value' => $cityUid, 'caption' => 'Bonn'],
-                tx_realty_frontEndEditor::populateCityList()
-            )
+        self::assertContains(
+            ['value' => $cityUid, 'caption' => 'Bonn'],
+            tx_realty_frontEndEditor::populateCityList()
         );
     }
 }

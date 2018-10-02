@@ -84,7 +84,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData($userData);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->cityUid = $this->testingFramework->createRecord(
@@ -342,7 +342,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 0]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue(
@@ -364,7 +364,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 2]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue(
@@ -386,7 +386,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 1]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue(
@@ -408,7 +408,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData([]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(0));
+        $user->method('getNumberOfObjects')->will(self::returnValue(0));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $editorPid = $this->testingFramework->createFrontEndPage();
@@ -459,7 +459,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 0]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertNotContains(
@@ -476,7 +476,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 1]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
@@ -493,7 +493,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 1]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
@@ -510,7 +510,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 1]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(2));
+        $user->method('getNumberOfObjects')->will(self::returnValue(2));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
@@ -527,7 +527,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 2]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
@@ -544,7 +544,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
         $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 2]);
-        $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(0));
+        $user->method('getNumberOfObjects')->will(self::returnValue(0));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(

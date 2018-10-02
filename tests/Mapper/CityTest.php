@@ -38,8 +38,9 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
      */
     public function findWithUidReturnsCityInstance()
     {
-        self::assertTrue(
-            $this->fixture->find(1) instanceof tx_realty_Model_City
+        self::assertInstanceOf(
+            tx_realty_Model_City::class,
+            $this->fixture->find(1)
         );
     }
 

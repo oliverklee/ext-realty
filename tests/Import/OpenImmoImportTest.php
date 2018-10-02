@@ -801,9 +801,9 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->extractZip($this->importFolder . 'foo.zip');
         $this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-        self::assertSame(
-            'DOMDocument',
-            get_class($this->fixture->getImportedXml())
+        self::assertInstanceOf(
+            \DOMDocument::class,
+            $this->fixture->getImportedXml()
         );
     }
 
@@ -818,9 +818,9 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->extractZip($this->importFolder . 'foo.zip');
         $this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-        self::assertSame(
-            'DOMDocument',
-            get_class($this->fixture->getImportedXml())
+        self::assertInstanceOf(
+            \DOMDocument::class,
+            $this->fixture->getImportedXml()
         );
     }
 
@@ -835,10 +835,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->extractZip($this->importFolder . 'bar.zip');
         $this->fixture->loadXmlFile($this->importFolder . 'bar.zip');
 
-        self::assertSame(
-            'DOMDocument',
-            get_class($this->fixture->getImportedXml())
-        );
+        self::assertInstanceOf(\DOMDocument::class, $this->fixture->getImportedXml());
     }
 
     /**
@@ -868,7 +865,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number="bar1234567" AND zip="changed zip" '
-                    . 'AND uid=' . $result['uid']
+                . 'AND uid=' . $result['uid']
             )
         );
     }
@@ -909,7 +906,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
         copy(
             ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
-                'changed-copy-of-same-name/same-name.zip',
+            'changed-copy-of-same-name/same-name.zip',
             $this->importFolder . 'changed-copy-of-same-name/same-name.zip'
         );
 
@@ -933,20 +930,20 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>foobar</strasse>'
-                            . '<plz>bar</plz>'
-                        . '</geo>'
-                        . '<freitexte>'
-                            . '<lage>foo</lage>'
-                        . '</freitexte>'
-                        . '<verwaltung_techn>'
-                            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
-                        . '</verwaltung_techn>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>foobar</strasse>'
+            . '<plz>bar</plz>'
+            . '</geo>'
+            . '<freitexte>'
+            . '<lage>foo</lage>'
+            . '</freitexte>'
+            . '<verwaltung_techn>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -958,7 +955,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -974,29 +971,29 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<objektkategorie>'
-                            . '<nutzungsart WOHNEN="1"/>'
-                            . '<vermarktungsart KAUF="1"/>'
-                            . '<objektart><zimmer/></objektart>'
-                        . '</objektkategorie>'
-                        . '<geo>'
-                            . '<plz>bar</plz>'
-                        . '</geo>'
-                        . '<kontaktperson>'
-                            . '<name>bar</name>'
-                            . '<email_zentrale>bar</email_zentrale>'
-                        . '</kontaktperson>'
-                        . '<verwaltung_techn>'
-                            . '<openimmo_obid>foo</openimmo_obid>'
-                            . '<aktion/>'
-                            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
-                        . '</verwaltung_techn>'
-                    . '</immobilie>'
-                    . '<openimmo_anid>foo</openimmo_anid>'
-                    . '<firma>bar</firma>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>bar</plz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -1019,29 +1016,29 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<objektkategorie>'
-                            . '<nutzungsart WOHNEN="1"/>'
-                            . '<vermarktungsart KAUF="1"/>'
-                            . '<objektart><zimmer/></objektart>'
-                        . '</objektkategorie>'
-                        . '<geo>'
-                            . '<plz>bar</plz>'
-                        . '</geo>'
-                        . '<kontaktperson>'
-                            . '<name>bar</name>'
-                            . '<email_zentrale>bar</email_zentrale>'
-                        . '</kontaktperson>'
-                        . '<verwaltung_techn>'
-                            . '<openimmo_obid>foo</openimmo_obid>'
-                            . '<aktion aktionart="CHANGE"/>'
-                            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
-                        . '</verwaltung_techn>'
-                    . '</immobilie>'
-                    . '<openimmo_anid>foo</openimmo_anid>'
-                    . '<firma>bar</firma>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>bar</plz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion aktionart="CHANGE"/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -1064,29 +1061,29 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<objektkategorie>'
-                            . '<nutzungsart WOHNEN="1"/>'
-                            . '<vermarktungsart KAUF="1"/>'
-                            . '<objektart><zimmer/></objektart>'
-                        . '</objektkategorie>'
-                        . '<geo>'
-                            . '<plz>bar</plz>'
-                        . '</geo>'
-                        . '<kontaktperson>'
-                            . '<name>bar</name>'
-                            . '<email_zentrale>bar</email_zentrale>'
-                        . '</kontaktperson>'
-                        . '<verwaltung_techn>'
-                            . '<openimmo_obid>foo</openimmo_obid>'
-                            . '<aktion aktionart="DELETE"/>'
-                            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
-                        . '</verwaltung_techn>'
-                    . '</immobilie>'
-                    . '<openimmo_anid>foo</openimmo_anid>'
-                    . '<firma>bar</firma>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>bar</plz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion aktionart="DELETE"/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -1107,24 +1104,24 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         $objectNumber = 'bar1234567';
         $objectData = '<immobilie>'
-        . '<objektkategorie>'
-        . '<nutzungsart WOHNEN="1"/>'
-        . '<vermarktungsart KAUF="1"/>'
-        . '<objektart><zimmer/></objektart>'
-        . '</objektkategorie>'
-        . '<geo>'
-        . '<plz>bar</plz>'
-        . '</geo>'
-        . '<kontaktperson>'
-        . '<name>bar</name>'
-        . '<email_zentrale>bar</email_zentrale>'
-        . '</kontaktperson>'
-        . '<verwaltung_techn>'
-        . '<openimmo_obid>foo</openimmo_obid>'
-        . '<aktion/>'
-        . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
-        . '</verwaltung_techn>'
-        . '</immobilie>';
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>bar</plz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>';
 
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
@@ -1398,10 +1395,16 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->writeToDatabase($records[0]);
 
         self::assertFalse(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+            $this->testingFramework->existsRecord(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 0'
+            )
         );
         self::assertTrue(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+            $this->testingFramework->existsRecord(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 1'
+            )
         );
     }
 
@@ -1457,10 +1460,16 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->writeToDatabase($records[0]);
 
         self::assertFalse(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+            $this->testingFramework->existsRecord(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 0'
+            )
         );
         self::assertTrue(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+            $this->testingFramework->existsRecord(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 1'
+            )
         );
     }
 
@@ -1515,11 +1524,17 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 0'
+            )
         );
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 1'
+            )
         );
     }
 
@@ -1574,11 +1589,17 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 0'
+            )
         );
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 1'
+            )
         );
     }
 
@@ -1632,11 +1653,17 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->writeToDatabase($records[0]);
 
         self::assertFalse(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+            $this->testingFramework->existsRecord(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 0'
+            )
         );
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND deleted = 1'
+            )
         );
     }
 
@@ -1691,11 +1718,17 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 1')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND hidden = 1'
+            )
         );
         self::assertSame(
             0,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 0')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND hidden = 0'
+            )
         );
     }
 
@@ -1750,11 +1783,17 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 1')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND hidden = 1'
+            )
         );
         self::assertSame(
             0,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 0')
+            $this->testingFramework->countRecords(
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '" AND hidden = 0'
+            )
         );
     }
 
@@ -2299,31 +2338,31 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<geo>' .
-                            '<plz>01234</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                            '<email_zentrale>bar</email_zentrale>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<aktion/>' .
-                            '<objektnr_extern>' .
-                                $objectNumber .
-                            '</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<openimmo_anid>foo</openimmo_anid>' .
-                    '<firma>bar</firma>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<geo>' .
+            '<plz>01234</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '<email_zentrale>bar</email_zentrale>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<aktion/>' .
+            '<objektnr_extern>' .
+            $objectNumber .
+            '</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<openimmo_anid>foo</openimmo_anid>' .
+            '<firma>bar</firma>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2335,7 +2374,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND zip="01234"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -2353,32 +2392,32 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<flaechen>' .
-                            '<anzahl_zimmer>1.25</anzahl_zimmer>' .
-                        '</flaechen>' .
-                        '<geo>' .
-                            '<plz>01234</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<objektnr_extern>' .
-                                $objectNumber .
-                            '</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<openimmo_anid>foo</openimmo_anid>' .
-                    '<firma>bar</firma>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<flaechen>' .
+            '<anzahl_zimmer>1.25</anzahl_zimmer>' .
+            '</flaechen>' .
+            '<geo>' .
+            '<plz>01234</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<objektnr_extern>' .
+            $objectNumber .
+            '</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<openimmo_anid>foo</openimmo_anid>' .
+            '<firma>bar</firma>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2390,8 +2429,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND ' .
-                    'number_of_rooms = 1.25' .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                'number_of_rooms = 1.25' .
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -2506,8 +2545,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function recordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction()
-    {
+    public function recordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction(
+    ) {
         $this->checkForZipArchive();
         $this->testingFramework->markTableAsDirty('tx_realty_objects');
         $this->testingFramework->markTableAsDirty('tx_realty_house_types');
@@ -2531,8 +2570,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function recordWithAnidThatMatchesAnExistingFeUserInAForbiddenGroupIsNotImportedForEnabledOwnerAndGroupRestriction()
-    {
+    public function recordWithAnidThatMatchesAnExistingFeUserInAForbiddenGroupIsNotImportedForEnabledOwnerAndGroupRestriction(
+    ) {
         $this->checkForZipArchive();
 
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
@@ -2581,27 +2620,27 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $singleObject = new DOMDocument();
         $singleObject->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<geo>' .
-                            '<plz>bar</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<objektnr_extern>bar1234567</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<openimmo_anid>foo</openimmo_anid>' .
-                    '<firma>bar</firma>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<geo>' .
+            '<plz>bar</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<objektnr_extern>bar1234567</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<openimmo_anid>foo</openimmo_anid>' .
+            '<firma>bar</firma>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2639,44 +2678,44 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $multipleRecords = new DOMDocument();
         $multipleRecords->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<geo>' .
-                            '<plz>bar</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<objektnr_extern>bar1234567</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<geo>' .
-                            '<plz>bar</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<objektnr_extern>bar2345678</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<openimmo_anid>foo</openimmo_anid>' .
-                    '<firma>bar</firma>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<geo>' .
+            '<plz>bar</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<objektnr_extern>bar1234567</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<geo>' .
+            '<plz>bar</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<objektnr_extern>bar2345678</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<openimmo_anid>foo</openimmo_anid>' .
+            '<firma>bar</firma>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2707,27 +2746,27 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $singleObject = new DOMDocument();
         $singleObject->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<geo>' .
-                            '<plz>bar</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<objektnr_extern>bar1234567</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<openimmo_anid>foo</openimmo_anid>' .
-                    '<firma>bar</firma>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<geo>' .
+            '<plz>bar</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<objektnr_extern>bar1234567</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<openimmo_anid>foo</openimmo_anid>' .
+            '<firma>bar</firma>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2765,44 +2804,44 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $multipleRecords = new DOMDocument();
         $multipleRecords->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<geo>' .
-                            '<plz>bar</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<objektnr_extern>bar1234567</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1"/>' .
-                            '<vermarktungsart KAUF="1"/>' .
-                            '<objektart><zimmer/></objektart>' .
-                        '</objektkategorie>' .
-                        '<geo>' .
-                            '<plz>bar</plz>' .
-                        '</geo>' .
-                        '<kontaktperson>' .
-                            '<name>bar</name>' .
-                        '</kontaktperson>' .
-                        '<verwaltung_techn>' .
-                            '<openimmo_obid>foo</openimmo_obid>' .
-                            '<objektnr_extern>bar2345678</objektnr_extern>' .
-                        '</verwaltung_techn>' .
-                    '</immobilie>' .
-                    '<openimmo_anid>foo</openimmo_anid>' .
-                    '<firma>bar</firma>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<geo>' .
+            '<plz>bar</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<objektnr_extern>bar1234567</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1"/>' .
+            '<vermarktungsart KAUF="1"/>' .
+            '<objektart><zimmer/></objektart>' .
+            '</objektkategorie>' .
+            '<geo>' .
+            '<plz>bar</plz>' .
+            '</geo>' .
+            '<kontaktperson>' .
+            '<name>bar</name>' .
+            '</kontaktperson>' .
+            '<verwaltung_techn>' .
+            '<openimmo_obid>foo</openimmo_obid>' .
+            '<objektnr_extern>bar2345678</objektnr_extern>' .
+            '</verwaltung_techn>' .
+            '</immobilie>' .
+            '<openimmo_anid>foo</openimmo_anid>' .
+            '<firma>bar</firma>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3148,7 +3187,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->testingFramework->createContentElement($pageUid, ['list_type' => 'realty_pi1']);
 
-        /** @var AbstractCacheFrontEnd|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd  */
+        /** @var AbstractCacheFrontEnd|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
         $cacheFrontEnd = $this->getMock(
             AbstractCacheFrontEnd::class,
             ['getIdentifier', 'set', 'get', 'getByTag', 'getBackend'],
@@ -3159,7 +3198,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
         /** @var TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
         $cacheBackEnd = $this->getMock(TaggableBackendInterface::class);
-        $cacheFrontEnd->expects(self::any())->method('getBackend')->will(self::returnValue($cacheBackEnd));
+        $cacheFrontEnd->method('getBackend')->will(self::returnValue($cacheBackEnd));
         $cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 
         $cacheManager = new CacheManager();
@@ -3318,7 +3357,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number="bar1234567" '
-                    . 'AND pid=' . $this->systemFolderPid . Tx_Oelib_Db::enableFields('tx_realty_objects')
+                . 'AND pid=' . $this->systemFolderPid . Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }

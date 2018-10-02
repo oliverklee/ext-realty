@@ -255,9 +255,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     private function createContentMock()
     {
         $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'IMAGE']);
-        $this->contentObject->expects(self::any())->method('typoLink_URL')
+        $this->contentObject->method('typoLink_URL')
             ->will(self::returnCallback([$this, 'getTypoLinkUrl']));
-        $this->contentObject->expects(self::any())->method('IMAGE')
+        $this->contentObject->method('IMAGE')
             ->will(self::returnCallback([$this, 'imageCallback']));
     }
 

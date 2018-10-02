@@ -2526,8 +2526,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         $this->fixture->markImageRecordAsDeleted(0);
         $this->fixture->writeToDatabase();
 
-        self::assertFalse(
-            file_exists($fileName)
+        self::assertFileNotExists(
+            $fileName
         );
     }
 
@@ -2795,8 +2795,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         $this->fixture->deleteDocument(0);
         $this->fixture->writeToDatabase();
 
-        self::assertFalse(
-            file_exists($fileName)
+        self::assertFileNotExists(
+            $fileName
         );
     }
 
@@ -3870,8 +3870,9 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        self::assertTrue(
-            $this->fixture->getOwner() instanceof tx_realty_Model_FrontEndUser
+        self::assertInstanceOf(
+            tx_realty_Model_FrontEndUser::class,
+            $this->fixture->getOwner()
         );
     }
 

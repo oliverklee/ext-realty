@@ -28,12 +28,13 @@ class tx_realty_Service_ListViewFactoryTest extends \Tx_Phpunit_TestCase
      */
     public function canCreateARealtyListViewInstance()
     {
-        self::assertTrue(
+        self::assertInstanceOf(
+            tx_realty_pi1_DefaultListView::class,
             tx_realty_pi1_ListViewFactory::make(
                 'realty_list',
                 [],
                 $this->cObjMock
-            ) instanceof tx_realty_pi1_DefaultListView
+            )
         );
     }
 
@@ -42,12 +43,13 @@ class tx_realty_Service_ListViewFactoryTest extends \Tx_Phpunit_TestCase
      */
     public function canCreateAFavoritesListViewInstance()
     {
-        self::assertTrue(
+        self::assertInstanceOf(
+            tx_realty_pi1_FavoritesListView::class,
             tx_realty_pi1_ListViewFactory::make(
                 'favorites',
                 [],
                 $this->cObjMock
-            ) instanceof tx_realty_pi1_FavoritesListView
+            )
         );
     }
 
@@ -56,12 +58,13 @@ class tx_realty_Service_ListViewFactoryTest extends \Tx_Phpunit_TestCase
      */
     public function canCreateAMyObjectsListViewInstance()
     {
-        self::assertTrue(
+        self::assertInstanceOf(
+            tx_realty_pi1_MyObjectsListView::class,
             tx_realty_pi1_ListViewFactory::make(
                 'my_objects',
                 [],
                 $this->cObjMock
-            ) instanceof tx_realty_pi1_MyObjectsListView
+            )
         );
     }
 
@@ -70,12 +73,13 @@ class tx_realty_Service_ListViewFactoryTest extends \Tx_Phpunit_TestCase
      */
     public function canCreateAnObjectsByOwnerListViewInstance()
     {
-        self::assertTrue(
+        self::assertInstanceOf(
+            tx_realty_pi1_ObjectsByOwnerListView::class,
             tx_realty_pi1_ListViewFactory::make(
                 'objects_by_owner',
                 [],
                 $this->cObjMock
-            ) instanceof tx_realty_pi1_ObjectsByOwnerListView
+            )
         );
     }
 

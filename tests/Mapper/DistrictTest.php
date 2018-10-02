@@ -38,8 +38,9 @@ class tx_realty_Mapper_DistrictTest extends \Tx_Phpunit_TestCase
      */
     public function findWithUidReturnsDistrictInstance()
     {
-        self::assertTrue(
-            $this->fixture->find(1) instanceof tx_realty_Model_District
+        self::assertInstanceOf(
+            tx_realty_Model_District::class,
+            $this->fixture->find(1)
         );
     }
 
@@ -197,11 +198,11 @@ class tx_realty_Mapper_DistrictTest extends \Tx_Phpunit_TestCase
 
         $this->testingFramework->createRecord(
             'tx_realty_districts',
-            ['city'=> $cityUid, 'title' => 'Xen District']
+            ['city' => $cityUid, 'title' => 'Xen District']
         );
         $districtUid2 = $this->testingFramework->createRecord(
             'tx_realty_districts',
-            ['city'=> $cityUid, 'title' => 'Another District']
+            ['city' => $cityUid, 'title' => 'Another District']
         );
 
         self::assertEquals(
@@ -431,9 +432,9 @@ class tx_realty_Mapper_DistrictTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        self::assertTrue(
+        self::assertInstanceOf(
+            tx_realty_Model_District::class,
             $this->fixture->findByNameAndCityUid('Kreuzberg', 0)
-                instanceof tx_realty_Model_District
         );
     }
 

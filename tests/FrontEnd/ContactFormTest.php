@@ -97,12 +97,12 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      *
      * The page ID isn't checked for existence. So any page ID can be used.
      *
-     * @return ContentObjectRenderer
+     * @return ContentObjectRenderer|\PHPUnit_Framework_MockObject_MockObject
      */
     private function createContentMock()
     {
         $mock = $this->getMock(ContentObjectRenderer::class, ['getTypoLink_URL']);
-        $mock->expects(self::any())->method('getTypoLink_URL')
+        $mock->method('getTypoLink_URL')
             ->will(self::returnCallback([$this, 'getTypoLinkUrl']));
 
         return $mock;

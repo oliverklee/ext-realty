@@ -39,8 +39,9 @@ class tx_realty_Mapper_FrontEndUserTest extends \Tx_Phpunit_TestCase
     {
         $uid = $this->testingFramework->createFrontEndUser();
 
-        self::assertTrue(
-            $this->fixture->find($uid) instanceof tx_realty_Model_FrontEndUser
+        self::assertInstanceOf(
+            tx_realty_Model_FrontEndUser::class,
+            $this->fixture->find($uid)
         );
     }
 }

@@ -73,9 +73,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>'
-                . '<child>'
-                    . '<grandchild>foo</grandchild>'
-                . '</child>'
+            . '<child>'
+            . '<grandchild>foo</grandchild>'
+            . '</child>'
             . '</immobilie>'
         );
 
@@ -92,7 +92,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>'
-                . '<child/>'
+            . '<child/>'
             . '</immobilie>'
         );
 
@@ -122,12 +122,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>'
-                . '<child>'
-                    . '<grandchild>foo</grandchild>'
-                . '</child>'
-                . '<child>'
-                    . '<grandchild>bar</grandchild>'
-                . '</child>'
+            . '<child>'
+            . '<grandchild>foo</grandchild>'
+            . '</child>'
+            . '<child>'
+            . '<grandchild>bar</grandchild>'
+            . '</child>'
             . '</immobilie>'
         );
 
@@ -144,10 +144,10 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>'
-                . '<child>'
-                    . '<grandchild>foo</grandchild>'
-                    . '<grandchild>bar</grandchild>'
-                . '</child>'
+            . '<child>'
+            . '<grandchild>foo</grandchild>'
+            . '<grandchild>bar</grandchild>'
+            . '</child>'
             . '</immobilie>'
         );
 
@@ -240,7 +240,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter/>'
+            . '<anbieter/>'
             . '</openimmo>'
         );
 
@@ -257,9 +257,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie/>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie/>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -285,10 +285,10 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie/>' .
-                    '<immobilie/>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie/>' .
+            '<immobilie/>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -322,18 +322,18 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -357,13 +357,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>klein und teuer</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>klein und teuer</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -381,13 +381,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo' . LF . 'bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo' . LF . 'bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -405,13 +405,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo' . LF . LF . 'bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo' . LF . LF . 'bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -429,13 +429,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo' . CR . 'bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo' . CR . 'bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -453,13 +453,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo' . CR . CR . 'bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo' . CR . CR . 'bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -477,13 +477,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo' . CRLF . 'bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo' . CRLF . 'bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -521,13 +521,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<' . $xmlKey . '>foo' . CRLF . 'bar 123</' . $xmlKey . '>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<' . $xmlKey . '>foo' . CRLF . 'bar 123</' . $xmlKey . '>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $importedData = $this->fixture->getConvertedData($node);
@@ -550,13 +550,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<' . $xmlKey . '>foo' . CR . 'bar 123</' . $xmlKey . '>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<' . $xmlKey . '>foo' . CR . 'bar 123</' . $xmlKey . '>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $importedData = $this->fixture->getConvertedData($node);
@@ -579,13 +579,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<' . $xmlKey . '>foo' . LF . 'bar 123</' . $xmlKey . '>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<' . $xmlKey . '>foo' . LF . 'bar 123</' . $xmlKey . '>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $importedData = $this->fixture->getConvertedData($node);
@@ -603,13 +603,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo' . TAB . 'bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo' . TAB . 'bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -627,13 +627,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<freitexte>' .
-                            '<objekttitel>foo' . TAB . TAB . 'bar</objekttitel>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<freitexte>' .
+            '<objekttitel>foo' . TAB . TAB . 'bar</objekttitel>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -651,13 +651,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<vermarktungsart KAUF="true" MIETE_PACHT="false"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<vermarktungsart KAUF="true" MIETE_PACHT="false"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -675,13 +675,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<vermarktungsart KAUF="false" MIETE_PACHT="true"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<vermarktungsart KAUF="false" MIETE_PACHT="true"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -699,13 +699,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<vermarktungsart KAUF="1" MIETE_PACHT="0"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<vermarktungsart KAUF="1" MIETE_PACHT="0"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -723,13 +723,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<vermarktungsart KAUF="0" MIETE_PACHT="1"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<vermarktungsart KAUF="0" MIETE_PACHT="1"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -747,12 +747,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<firma>foo</firma>'
-                    . '<openimmo_anid>bar</openimmo_anid>'
-                    . '<immobilie/>'
-                    . '<immobilie/>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<firma>foo</firma>'
+            . '<openimmo_anid>bar</openimmo_anid>'
+            . '<immobilie/>'
+            . '<immobilie/>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -787,17 +787,17 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<strasse>foobar</strasse>' .
-                            '<plz>bar</plz>' .
-                        '</geo>' .
-                        '<freitexte>' .
-                            '<lage>foo</lage>' .
-                        '</freitexte>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<strasse>foobar</strasse>' .
+            '<plz>bar</plz>' .
+            '</geo>' .
+            '<freitexte>' .
+            '<lage>foo</lage>' .
+            '</freitexte>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -826,13 +826,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<verwaltung_objekt>'
-                            . '<haustiere>TRUE</haustiere>'
-                        . '</verwaltung_objekt>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<verwaltung_objekt>'
+            . '<haustiere>TRUE</haustiere>'
+            . '</verwaltung_objekt>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -852,13 +852,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<verwaltung_objekt>'
-                            . '<haustiere>1</haustiere>'
-                        . '</verwaltung_objekt>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<verwaltung_objekt>'
+            . '<haustiere>1</haustiere>'
+            . '</verwaltung_objekt>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -878,13 +878,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>1.00</strasse>'
-                        . '</geo>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>1.00</strasse>'
+            . '</geo>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -902,13 +902,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>-1.00</strasse>'
-                        . '</geo>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>-1.00</strasse>'
+            . '</geo>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -926,13 +926,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>0.00</strasse>'
-                        . '</geo>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>0.00</strasse>'
+            . '</geo>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -950,13 +950,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>0.0</strasse>'
-                        . '</geo>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>0.0</strasse>'
+            . '</geo>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -974,13 +974,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>1.11</strasse>'
-                        . '</geo>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>1.11</strasse>'
+            . '</geo>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -998,13 +998,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>-1.11</strasse>'
-                        . '</geo>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>-1.11</strasse>'
+            . '</geo>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -1022,13 +1022,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<geo>'
-                            . '<strasse>1.1</strasse>'
-                        . '</geo>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<geo>'
+            . '<strasse>1.1</strasse>'
+            . '</geo>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -1047,13 +1047,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $name = 'Jane Doe';
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<kontaktperson>' .
-                            '<name>' . $name . '</name>' .
-                        '</kontaktperson>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<kontaktperson>' .
+            '<name>' . $name . '</name>' .
+            '</kontaktperson>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -1072,13 +1072,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $name = 'Jane';
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<kontaktperson>' .
-                            '<vorname>' . $name . '</vorname>' .
-                        '</kontaktperson>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<kontaktperson>' .
+            '<vorname>' . $name . '</vorname>' .
+            '</kontaktperson>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -1097,13 +1097,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $salutation = 'Frau';
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<kontaktperson>' .
-                            '<anrede>' . $salutation . '</anrede>' .
-                        '</kontaktperson>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<kontaktperson>' .
+            '<anrede>' . $salutation . '</anrede>' .
+            '</kontaktperson>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -1122,13 +1122,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $emailAddress = 'any-email@example.com';
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<kontaktperson>' .
-                            '<email_direkt>' . $emailAddress . '</email_direkt>' .
-                        '</kontaktperson>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<kontaktperson>' .
+            '<email_direkt>' . $emailAddress . '</email_direkt>' .
+            '</kontaktperson>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -1147,13 +1147,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<zustand_angaben>' .
-                            '<zustand ZUSTAND_ART="gepflegt" />' .
-                        '</zustand_angaben>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<zustand_angaben>' .
+            '<zustand ZUSTAND_ART="gepflegt" />' .
+            '</zustand_angaben>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1173,13 +1173,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<zustand_angaben>' .
-                            '<zustand ZUSTAND_ART="geputzt" />' .
-                        '</zustand_angaben>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<zustand_angaben>' .
+            '<zustand ZUSTAND_ART="geputzt" />' .
+            '</zustand_angaben>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1198,13 +1198,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<heizungsart ZENTRAL="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1221,13 +1221,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<heizungsart ZENTRAL="1" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="1" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1247,13 +1247,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<heizungsart ZENTRAL="true" OFEN="true" ETAGE="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="true" OFEN="true" ETAGE="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1323,13 +1323,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<heizungsart ZENTRAL="true" OFEN="false" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="true" OFEN="false" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1346,13 +1346,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<befeuerung OEL="true" GAS="true" BLOCK="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung OEL="true" GAS="true" BLOCK="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1372,14 +1372,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<heizungsart OFEN="true" />' .
-                            '<befeuerung BLOCK="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart OFEN="true" />' .
+            '<befeuerung BLOCK="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1399,13 +1399,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<befeuerung BLOCK="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1422,13 +1422,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<befeuerung BLOCK="1" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="1" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1445,13 +1445,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<befeuerung BLOCK="false" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="false" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1468,13 +1468,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<befeuerung BLOCK="0" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="0" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1514,13 +1514,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<heizungsart BACKOFEN="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart BACKOFEN="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1539,13 +1539,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<befeuerung KERZE="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung KERZE="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1564,13 +1564,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<heizungsart ZENTRAL="true" FUSSBODEN="true" BACKOFEN="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="true" FUSSBODEN="true" BACKOFEN="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1687,13 +1687,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<kontaktperson>'
-                            . '<tel_zentrale>1234567</tel_zentrale>'
-                        . '</kontaktperson>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<kontaktperson>'
+            . '<tel_zentrale>1234567</tel_zentrale>'
+            . '</kontaktperson>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1713,13 +1713,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<kontaktperson>'
-                            . '<tel_durchw>1234567</tel_durchw>'
-                        . '</kontaktperson>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<kontaktperson>'
+            . '<tel_durchw>1234567</tel_durchw>'
+            . '</kontaktperson>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1742,13 +1742,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="true" GEWERBE="false"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="true" GEWERBE="false"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1771,13 +1771,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="1" GEWERBE="0"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="1" GEWERBE="0"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1799,13 +1799,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="false" GEWERBE="true"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="false" GEWERBE="true"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1827,13 +1827,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="true" GEWERBE="true"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="true" GEWERBE="true"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1855,13 +1855,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<objektkategorie>' .
-                            '<nutzungsart WOHNEN="false" GEWERBE="false"/>' .
-                        '</objektkategorie>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<objektkategorie>' .
+            '<nutzungsart WOHNEN="false" GEWERBE="false"/>' .
+            '</objektkategorie>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1880,13 +1880,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<ausstatt_kategorie>STANDARD</ausstatt_kategorie>' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<ausstatt_kategorie>STANDARD</ausstatt_kategorie>' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1906,13 +1906,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<ausstatt_kategorie>GEHOBEN</ausstatt_kategorie>' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<ausstatt_kategorie>GEHOBEN</ausstatt_kategorie>' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1932,13 +1932,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<ausstatt_kategorie>LUXUS</ausstatt_kategorie>' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<ausstatt_kategorie>LUXUS</ausstatt_kategorie>' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1958,13 +1958,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<ausstatt_kategorie>FOO</ausstatt_kategorie>' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<ausstatt_kategorie>FOO</ausstatt_kategorie>' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -1983,13 +1983,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<boden FLIESEN="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<boden FLIESEN="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -2009,13 +2009,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<boden STEIN="true" TEPPICH="true" PARKETT="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<boden STEIN="true" TEPPICH="true" PARKETT="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -2035,13 +2035,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<boden RAUHFAHSER="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<boden RAUHFAHSER="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -2060,13 +2060,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<boden FERTIGPARKETT="true" LAMINAT="true" FENSTER="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<boden FERTIGPARKETT="true" LAMINAT="true" FENSTER="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -2086,13 +2086,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<boden FERTIGPARKETT="false" LINOLEUM="true" />' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<boden FERTIGPARKETT="false" LINOLEUM="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
         $this->fixture->setRawRealtyData($node);
@@ -2111,13 +2111,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<verwaltung_objekt>' .
-                            '<vermietet>TRUE</vermietet>' .
-                        '</verwaltung_objekt>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<verwaltung_objekt>' .
+            '<vermietet>TRUE</vermietet>' .
+            '</verwaltung_objekt>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2135,13 +2135,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<verwaltung_objekt>' .
-                            '<vermietet>FALSE</vermietet>' .
-                        '</verwaltung_objekt>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<verwaltung_objekt>' .
+            '<vermietet>FALSE</vermietet>' .
+            '</verwaltung_objekt>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2159,12 +2159,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<verwaltung_objekt>' .
-                        '</verwaltung_objekt>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<verwaltung_objekt>' .
+            '</verwaltung_objekt>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2182,13 +2182,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<mitwarmwasser>true</mitwarmwasser>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<mitwarmwasser>true</mitwarmwasser>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2204,13 +2204,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<mitwarmwasser>false</mitwarmwasser>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<mitwarmwasser>false</mitwarmwasser>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2226,12 +2226,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2251,13 +2251,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<gueltig_bis>' . $value . '</gueltig_bis>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<gueltig_bis>' . $value . '</gueltig_bis>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2278,13 +2278,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<energieverbrauchkennwert>' . $value . '</energieverbrauchkennwert>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<energieverbrauchkennwert>' . $value . '</energieverbrauchkennwert>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2305,13 +2305,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<endenergiebedarf>' . $value . '</endenergiebedarf>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<endenergiebedarf>' . $value . '</endenergiebedarf>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2332,13 +2332,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<primaerenergietraeger>' . $value . '</primaerenergietraeger>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<primaerenergietraeger>' . $value . '</primaerenergietraeger>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2359,13 +2359,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<stromwert>' . $value . '</stromwert>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<stromwert>' . $value . '</stromwert>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2386,13 +2386,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<waermewert>' . $value . '</waermewert>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<waermewert>' . $value . '</waermewert>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2413,13 +2413,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<wertklasse>' . $value . '</wertklasse>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<wertklasse>' . $value . '</wertklasse>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2440,13 +2440,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<baujahr>' . $value . '</baujahr>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<baujahr>' . $value . '</baujahr>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2467,13 +2467,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<epasstext>' . $value . '</epasstext>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<epasstext>' . $value . '</epasstext>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2494,13 +2494,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<hwbwert>' . $value . '</hwbwert>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<hwbwert>' . $value . '</hwbwert>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2521,13 +2521,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<hwbklasse>' . $value . '</hwbklasse>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<hwbklasse>' . $value . '</hwbklasse>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2548,13 +2548,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<fgeewert>' . $value . '</fgeewert>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<fgeewert>' . $value . '</fgeewert>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2575,13 +2575,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<fgeeklasse>' . $value . '</fgeeklasse>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<fgeeklasse>' . $value . '</fgeeklasse>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2602,13 +2602,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<ausstelldatum>' . $value . '</ausstelldatum>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<ausstelldatum>' . $value . '</ausstelldatum>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2627,12 +2627,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2653,13 +2653,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<epart>' . $value . '</epart>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<epart>' . $value . '</epart>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2680,13 +2680,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<epart>' . $value . '</epart>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<epart>' . $value . '</epart>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2707,13 +2707,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<epart>' . $value . '</epart>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<epart>' . $value . '</epart>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2733,13 +2733,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<jahrgang>' . $value . '</jahrgang>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<jahrgang>' . $value . '</jahrgang>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2760,13 +2760,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<jahrgang>' . $value . '</jahrgang>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<jahrgang>' . $value . '</jahrgang>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2787,13 +2787,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<jahrgang>' . $value . '</jahrgang>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<jahrgang>' . $value . '</jahrgang>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2814,13 +2814,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<jahrgang>' . $value . '</jahrgang>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<jahrgang>' . $value . '</jahrgang>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2841,13 +2841,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<jahrgang>' . $value . '</jahrgang>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<jahrgang>' . $value . '</jahrgang>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2867,13 +2867,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<gebaeudeart>' . $value . '</gebaeudeart>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<gebaeudeart>' . $value . '</gebaeudeart>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2894,13 +2894,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<gebaeudeart>' . $value . '</gebaeudeart>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<gebaeudeart>' . $value . '</gebaeudeart>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2921,13 +2921,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<energiepass>' .
-                            '<gebaeudeart>' . $value . '</gebaeudeart>' .
-                        '</energiepass>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<energiepass>' .
+            '<gebaeudeart>' . $value . '</gebaeudeart>' .
+            '</energiepass>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -2948,11 +2948,11 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>foo</anhangtitel>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -2969,14 +2969,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_image_test.jpg</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -2998,14 +2998,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_image_test.JPG</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.JPG</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3027,14 +3027,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>layout.pdf</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>layout.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3051,14 +3051,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>layout.ps</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>layout.ps</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3075,14 +3075,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>evil-virus.exe</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>evil-virus.exe</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3099,14 +3099,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel/>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_image_test.jpg</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel/>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3128,20 +3128,20 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_image_test2.jpg</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                    '<anhang>' .
-                        '<anhangtitel>foo</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_image_test.jpg</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test2.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
         $images = $this->fixture->createRecordsForImages();
@@ -3169,20 +3169,20 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_image_test2.jpg</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_image_test.jpg</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test2.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
         $images = $this->fixture->createRecordsForImages();
@@ -3210,32 +3210,32 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<openimmo>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>bar</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_image_test2.jpg</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>foo</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_image_test.jpg</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test2.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
             '</openimmo>'
         );
 
-        self::assertSame(
+        self::assertCount(
             1,
-            count($this->fixture->createRecordsForImages())
+            $this->fixture->createRecordsForImages()
         );
     }
 
@@ -3246,26 +3246,26 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>bar</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_image_test.jpg</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>foo</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_image_test.jpg</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
             '</openimmo>'
         );
         $result = $this->fixture->getConvertedData($node);
@@ -3297,11 +3297,11 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>foo</anhangtitel>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3318,14 +3318,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_document_test.pdf</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3347,14 +3347,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_document_test.PDF</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.PDF</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3376,15 +3376,15 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang location="EXTERN" gruppe="TITELBILD">' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<format>PDF</format>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_document_test.pdf</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang location="EXTERN" gruppe="TITELBILD">' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<format>PDF</format>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3406,14 +3406,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>layout.jpg</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>layout.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3430,14 +3430,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>layout.ps</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>layout.ps</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3454,14 +3454,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>evil-virus.exe</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>evil-virus.exe</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3478,14 +3478,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel/>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_document_test.pdf</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel/>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
             '</immobilie>'
         );
 
@@ -3502,21 +3502,21 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<immobilie>' .
-                '<anhaenge>' .
-                    '<anhang>' .
-                        '<anhangtitel>bar</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_document_test2.pdf</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                    '<anhang>' .
-                        '<anhangtitel>foo</anhangtitel>' .
-                        '<daten>' .
-                            '<pfad>tx_realty_document_test.pdf</pfad>' .
-                        '</daten>' .
-                    '</anhang>' .
-                '</anhaenge>' .
-        '</immobilie>'
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test2.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>'
         );
         $documents = $this->fixture->importDocuments();
 
@@ -3543,32 +3543,32 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $this->setRawDataToConvert(
             '<openimmo>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>bar</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_document_test2.pdf</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>foo</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_document_test.pdf</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test2.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
             '</openimmo>'
         );
 
-        self::assertSame(
+        self::assertCount(
             1,
-            count($this->fixture->importDocuments())
+            $this->fixture->importDocuments()
         );
     }
 
@@ -3579,26 +3579,26 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>bar</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_document_test.pdf</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
-                '<immobilie>' .
-                    '<anhaenge>' .
-                        '<anhang>' .
-                            '<anhangtitel>foo</anhangtitel>' .
-                            '<daten>' .
-                                '<pfad>tx_realty_document_test.pdf</pfad>' .
-                            '</daten>' .
-                        '</anhang>' .
-                    '</anhaenge>' .
-                '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>foo</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_document_test.pdf</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
             '</openimmo>'
         );
         $result = $this->fixture->getConvertedData($node);
@@ -3630,14 +3630,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<ausstattung>'
-                            . '<fahrstuhl PERSONEN="false"/>'
-                            . '<kueche EBK="true"/>'
-                        . '</ausstattung>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<ausstattung>'
+            . '<fahrstuhl PERSONEN="false"/>'
+            . '<kueche EBK="true"/>'
+            . '</ausstattung>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -3657,13 +3657,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<hausgeld>12345</hausgeld>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<hausgeld>12345</hausgeld>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3681,13 +3681,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<nettokaltmiete>12345</nettokaltmiete>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<nettokaltmiete>12345</nettokaltmiete>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3705,14 +3705,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<nettokaltmiete>12345</nettokaltmiete>' .
-                            '<kaltmiete>54321</kaltmiete>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<nettokaltmiete>12345</nettokaltmiete>' .
+            '<kaltmiete>54321</kaltmiete>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3730,13 +3730,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<kaltmiete>54321</kaltmiete>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<kaltmiete>54321</kaltmiete>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3754,14 +3754,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<nettokaltmiete></nettokaltmiete>' .
-                            '<kaltmiete>54321</kaltmiete>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<nettokaltmiete></nettokaltmiete>' .
+            '<kaltmiete>54321</kaltmiete>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3779,13 +3779,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<warmmiete>12345.67</warmmiete>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<warmmiete>12345.67</warmmiete>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3800,15 +3800,15 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<verwaltung_objekt>'
-                            . '<user_defined_anyfield>'
-                                . '<sprache>foo</sprache>'
-                            . '</user_defined_anyfield>'
-                        . '</verwaltung_objekt>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<verwaltung_objekt>'
+            . '<user_defined_anyfield>'
+            . '<sprache>foo</sprache>'
+            . '</user_defined_anyfield>'
+            . '</verwaltung_objekt>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -3826,13 +3826,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<geokoordinaten laengengrad="1.23" breitengrad="4.56"/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<geokoordinaten laengengrad="1.23" breitengrad="4.56"/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3860,13 +3860,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<geokoordinaten laengengrad="1.23"/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<geokoordinaten laengengrad="1.23"/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3883,13 +3883,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<geokoordinaten laengengrad="1.23" breitengrad=""/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<geokoordinaten laengengrad="1.23" breitengrad=""/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3906,13 +3906,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<land iso_land="DEU"/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<land iso_land="DEU"/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3930,18 +3930,18 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<land iso_land="DEU"/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<land iso_land="DEU"/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<land iso_land="DEU"/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<land iso_land="DEU"/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3965,13 +3965,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<land iso_land="foo"/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<land iso_land="foo"/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -3988,13 +3988,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<geo>' .
-                            '<land iso_land=""/>' .
-                        '</geo>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<geo>' .
+            '<land iso_land=""/>' .
+            '</geo>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4011,13 +4011,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<waehrung iso_waehrung="EUR"/>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<waehrung iso_waehrung="EUR"/>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4035,13 +4035,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<zustand_angaben>'
-                            . '<alter ALTER_ATTR="neubau" />'
-                        . '</zustand_angaben>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<zustand_angaben>'
+            . '<alter ALTER_ATTR="neubau" />'
+            . '</zustand_angaben>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -4059,13 +4059,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<zustand_angaben>'
-                            . '<alter ALTER_ATTR="altbau" />'
-                        . '</zustand_angaben>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<zustand_angaben>'
+            . '<alter ALTER_ATTR="altbau" />'
+            . '</zustand_angaben>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -4083,13 +4083,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>'
-                . '<anbieter>'
-                    . '<immobilie>'
-                        . '<zustand_angaben>'
-                            . '<alter ALTER_ATTR="" />'
-                        . '</zustand_angaben>'
-                    . '</immobilie>'
-                . '</anbieter>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<zustand_angaben>'
+            . '<alter ALTER_ATTR="" />'
+            . '</zustand_angaben>'
+            . '</immobilie>'
+            . '</anbieter>'
             . '</openimmo>'
         );
 
@@ -4106,13 +4106,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<verwaltung_objekt>' .
-                            '<objektadresse_freigeben>1</objektadresse_freigeben>' .
-                        '</verwaltung_objekt>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<verwaltung_objekt>' .
+            '<objektadresse_freigeben>1</objektadresse_freigeben>' .
+            '</verwaltung_objekt>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4127,13 +4127,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<verwaltung_objekt>' .
-                            '<objektadresse_freigeben>0</objektadresse_freigeben>' .
-                        '</verwaltung_objekt>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<verwaltung_objekt>' .
+            '<objektadresse_freigeben>0</objektadresse_freigeben>' .
+            '</verwaltung_objekt>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4148,13 +4148,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<mietpreis_pro_qm>12.34</mietpreis_pro_qm>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<mietpreis_pro_qm>12.34</mietpreis_pro_qm>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4172,13 +4172,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<wohnflaeche>123.45</wohnflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<wohnflaeche>123.45</wohnflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4196,13 +4196,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<nutzflaeche>123.45</nutzflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<nutzflaeche>123.45</nutzflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4220,13 +4220,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<gesamtflaeche>123.45</gesamtflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<gesamtflaeche>123.45</gesamtflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4244,13 +4244,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<ladenflaeche>123.45</ladenflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<ladenflaeche>123.45</ladenflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4268,13 +4268,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<verkaufsflaeche>123.45</verkaufsflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<verkaufsflaeche>123.45</verkaufsflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4292,13 +4292,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<lagerflaeche>123.45</lagerflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<lagerflaeche>123.45</lagerflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4316,13 +4316,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<bueroflaeche>123.45</bueroflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<bueroflaeche>123.45</bueroflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4340,13 +4340,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<sonstflaeche>123.45</sonstflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<sonstflaeche>123.45</sonstflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4364,13 +4364,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<fensterfront>12.34</fensterfront>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<fensterfront>12.34</fensterfront>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4388,13 +4388,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<grz>0.12</grz>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<grz>0.12</grz>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4412,13 +4412,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<gfz>0.12</gfz>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<gfz>0.12</gfz>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4436,13 +4436,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<grundstuecksflaeche>123.45</grundstuecksflaeche>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<grundstuecksflaeche>123.45</grundstuecksflaeche>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4460,13 +4460,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<anzahl_zimmer>3.5</anzahl_zimmer>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<anzahl_zimmer>3.5</anzahl_zimmer>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4484,13 +4484,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<anzahl_schlafzimmer>2</anzahl_schlafzimmer>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<anzahl_schlafzimmer>2</anzahl_schlafzimmer>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4508,13 +4508,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<anzahl_badezimmer>2</anzahl_badezimmer>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<anzahl_badezimmer>2</anzahl_badezimmer>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4532,13 +4532,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<anzahl_balkon_terrassen>1</anzahl_balkon_terrassen>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<anzahl_balkon_terrassen>1</anzahl_balkon_terrassen>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4554,13 +4554,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<anzahl_balkone>1</anzahl_balkone>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<anzahl_balkone>1</anzahl_balkone>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4575,14 +4575,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<anzahl_balkon_terrassen>0</anzahl_balkon_terrassen>' .
-                            '<anzahl_balkone>0</anzahl_balkone>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<anzahl_balkon_terrassen>0</anzahl_balkon_terrassen>' .
+            '<anzahl_balkone>0</anzahl_balkone>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4597,13 +4597,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<flaechen>' .
-                            '<anzahl_stellplaetze>2</anzahl_stellplaetze>' .
-                        '</flaechen>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<flaechen>' .
+            '<anzahl_stellplaetze>2</anzahl_stellplaetze>' .
+            '</flaechen>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4621,13 +4621,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<mieteinnahmen_soll>12345.67</mieteinnahmen_soll>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<mieteinnahmen_soll>12345.67</mieteinnahmen_soll>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4645,13 +4645,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<kaution>1234.56</kaution>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<kaution>1234.56</kaution>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4667,13 +4667,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<kaution>1234</kaution>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<kaution>1234</kaution>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4691,13 +4691,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<preise>' .
-                            '<kaution_text>' . $deposit . '</kaution_text>' .
-                        '</preise>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<preise>' .
+            '<kaution_text>' . $deposit . '</kaution_text>' .
+            '</preise>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4732,13 +4732,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<' . $nodeName . '>true</' . $nodeName . '>' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<' . $nodeName . '>true</' . $nodeName . '>' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 
@@ -4758,13 +4758,13 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         $node = new DOMDocument();
         $node->loadXML(
             '<openimmo>' .
-                '<anbieter>' .
-                    '<immobilie>' .
-                        '<ausstattung>' .
-                            '<' . $nodeName . '>false</' . $nodeName . '>' .
-                        '</ausstattung>' .
-                    '</immobilie>' .
-                '</anbieter>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<' . $nodeName . '>false</' . $nodeName . '>' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
             '</openimmo>'
         );
 

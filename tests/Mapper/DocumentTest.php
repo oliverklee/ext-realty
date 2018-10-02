@@ -37,8 +37,9 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function findWithUidReturnsDocumentInstance()
     {
-        self::assertTrue(
-            $this->fixture->find(1) instanceof tx_realty_Model_Document
+        self::assertInstanceOf(
+            tx_realty_Model_Document::class,
+            $this->fixture->find(1)
         );
     }
 
@@ -101,8 +102,8 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
         $model = $this->fixture->find($uid);
         $this->fixture->delete($model);
 
-        self::assertFalse(
-            file_exists($dummyFile)
+        self::assertFileNotExists(
+            $dummyFile
         );
     }
 

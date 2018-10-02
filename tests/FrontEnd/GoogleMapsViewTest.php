@@ -76,7 +76,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
 
         $this->realtyObject = $this->getMock(\tx_realty_Model_RealtyObject::class, ['writeToDatabase']);
         $this->realtyObject->setData($realtyData);
-        $this->realtyMapper->expects(self::any())->method('find')->with($this->realtyUid)
+        $this->realtyMapper->method('find')->with($this->realtyUid)
             ->will(self::returnValue($this->realtyObject));
 
         $this->fixture = new tx_realty_pi1_GoogleMapsView(
