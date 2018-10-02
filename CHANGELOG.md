@@ -74,6 +74,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Use a fixed SIM_EXEC_TIME in the tests (#86)
 - Replace deprecated code usages in 6.2 (#81)
 - Fix the number of call arguments (#79)
 - Add missing ext-json requirement to the composer.json (#78)
