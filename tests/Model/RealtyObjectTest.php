@@ -20,7 +20,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     private $testingFramework = null;
 
     /**
-     * @var Tx_Oelib_Templatehelper
+     * @var Tx_Oelib_TemplateHelper
      */
     private $templateHelper;
 

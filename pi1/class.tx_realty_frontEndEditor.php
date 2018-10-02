@@ -886,7 +886,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $email->setBody($this->getFilledEmailBody());
 
         $user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-        $email->setFrom([$user->getEMailAddress() => $user->getName()]);
+        $email->setFrom([$user->getEmailAddress() => $user->getName()]);
 
         $email->send();
     }

@@ -7,7 +7,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-abstract class tx_realty_pi1_FrontEndView extends Tx_Oelib_Templatehelper
+abstract class tx_realty_pi1_FrontEndView extends Tx_Oelib_TemplateHelper
 {
     /**
      * faking $this->scriptRelPath so the locallang.xlf file is found

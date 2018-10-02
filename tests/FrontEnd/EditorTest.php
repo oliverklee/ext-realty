@@ -1200,7 +1200,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueFor180WithoutDecimal()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '180']
             )
         );
@@ -1212,7 +1212,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueFor180WithOneDecimal()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '180.0']
             )
         );
@@ -1224,7 +1224,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueFor180WithTwoDecimals()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '180.00']
             )
         );
@@ -1236,7 +1236,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueForMinus180()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '-180.0']
             )
         );
@@ -1248,7 +1248,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsFalseForGreater180()
     {
         self::assertFalse(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '180.1']
             )
         );
@@ -1260,7 +1260,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsFalseForLowerMinus180()
     {
         self::assertFalse(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '-180.1']
             )
         );
@@ -1272,7 +1272,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueForValueInAllowedPositiveRangeWithManyDecimals()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '123.12345678901234']
             )
         );
@@ -1284,7 +1284,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueForValueInAllowedNegativeRangeWithDecimals()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '-123.12345678901234']
             )
         );
@@ -1296,7 +1296,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueForZero()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '0']
             )
         );
@@ -1308,7 +1308,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsTrueForEmptyString()
     {
         self::assertTrue(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => '']
             )
         );
@@ -1320,7 +1320,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLongitudeDegreeReturnsFalseForAlphaChars()
     {
         self::assertFalse(
-            $this->fixture->IsValidLongitudeDegree(
+            $this->fixture->isValidLongitudeDegree(
                 ['value' => 'abc']
             )
         );
@@ -1332,7 +1332,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsTrueFor90WithNoDecimal()
     {
         self::assertTrue(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '90']
             )
         );
@@ -1344,7 +1344,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsTrueFor90WithOneDecimal()
     {
         self::assertTrue(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '90.0']
             )
         );
@@ -1356,7 +1356,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsTrueForMinus90()
     {
         self::assertTrue(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '-90.0']
             )
         );
@@ -1368,7 +1368,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsFalseForGreater90()
     {
         self::assertFalse(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '90.1']
             )
         );
@@ -1380,7 +1380,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsFalseForLowerMinus90()
     {
         self::assertFalse(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '-90.1']
             )
         );
@@ -1392,7 +1392,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsTrueForValueInAllowedPositiveRangeWithDecimals()
     {
         self::assertTrue(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '83.12345678901234']
             )
         );
@@ -1404,7 +1404,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsTrueForValueInAllowedNegativeRangeWithDecimals()
     {
         self::assertTrue(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '-83.12345678901234']
             )
         );
@@ -1416,7 +1416,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsTrueForEmptyString()
     {
         self::assertTrue(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '']
             )
         );
@@ -1428,7 +1428,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsTrueForZero()
     {
         self::assertTrue(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => '0']
             )
         );
@@ -1440,7 +1440,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function isValidLatitudeDegreeReturnsFalseForAlphaChars()
     {
         self::assertFalse(
-            $this->fixture->IsValidLatitudeDegree(
+            $this->fixture->isValidLatitudeDegree(
                 ['value' => 'abc']
             )
         );

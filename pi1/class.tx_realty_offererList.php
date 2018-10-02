@@ -241,7 +241,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             'street' => $offerer->getStreet(),
             'city' => $offerer->getZipAndCity(),
             'telephone' => $offerer->getPhoneNumber(),
-            'email' => $offerer->getEMailAddress(),
+            'email' => $offerer->getEmailAddress(),
             'objects_by_owner_link' => $this->getObjectsByOwnerUrl(
                 $offerer->getUid()
             ),
