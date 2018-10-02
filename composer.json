@@ -30,6 +30,7 @@
         "ext-libxml": "*",
         "ext-zip": "*",
         "ext-posix": "*",
+        "ext-json": "*",
         "typo3/cms-core": "^6.2.0 || ^7.6.23",
         "typo3/cms-frontend": "^6.2.0 || ^7.6.23",
         "dmk/mkforms": "^3.0.21",
