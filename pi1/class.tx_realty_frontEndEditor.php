@@ -513,7 +513,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      */
     public function isAllowedValueForCity(array $formData)
     {
-        $mayBeEmpty = ($this->getFormValue('new_city') == '') ? false : true;
+        $mayBeEmpty = $this->getFormValue('new_city') !== '';
 
         return $this->checkKeyExistsInTable(
             [
@@ -1167,7 +1167,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $tableName = 'tx_realty_objects',
         $noExceptionIfEmpty = false
     ) {
-        if ((trim($fieldName) == '') && $noExceptionIfEmpty) {
+        if ($noExceptionIfEmpty && trim($fieldName) === '') {
             return false;
         }
 
