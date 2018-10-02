@@ -222,7 +222,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district',
             'config' => [
                 'type' => 'select',
-                'itemsProcFunc' => 'tx_realty_Tca->getDistrictsForCity',
+                'itemsProcFunc' => '\\OliverKlee\\Realty\\BackEnd\\Tca->getDistrictsForCity',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,

@@ -1,11 +1,13 @@
 <?php
 
+namespace OliverKlee\Realty\BackEnd;
+
 /**
  * This class provides functions for the TCA.
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Tca
+class Tca
 {
     /**
      * Gets the districts for a certain city.
@@ -18,10 +20,10 @@ class tx_realty_Tca
     {
         $items = [['', 0]];
 
-        /** @var tx_realty_Mapper_District $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class);
+        /** @var \tx_realty_Mapper_District $mapper */
+        $mapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class);
         $districts = $mapper->findAllByCityUidOrUnassigned((int)$data['row']['city']);
-        /** @var tx_realty_Model_District $district */
+        /** @var \tx_realty_Model_District $district */
         foreach ($districts as $district) {
             $items[] = [$district->getTitle(), $district->getUid()];
         }

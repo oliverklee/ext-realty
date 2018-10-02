@@ -49,6 +49,7 @@
     },
     "autoload": {
         "classmap": [
+            "Classes",
             "Ajax",
             "BackEnd",
             "cli",

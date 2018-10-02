@@ -37,6 +37,7 @@ $EM_CONF[$_EXTKEY] = [
     ],
     'autoload' => [
         'classmap' => [
+            'Classes',
             'Ajax',
             'BackEnd',
             'cli',

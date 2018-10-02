@@ -31,6 +31,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
+- Move the TCA class to Classes/ and namespace it (#85)
 - Use an HTML5 document type for the HTML templates (#75)
 - Convert the FE editor JavaScript to jQuery (#73)
 - Automatically include the mkforms static TypoScript template (#71)
