@@ -2,6 +2,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -1326,7 +1327,13 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         if ($id !== '') {
             $imageConfiguration['params'] = 'id="' . $id . '"';
         }
-        return $this->cObj->IMAGE($imageConfiguration);
+        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
+            $result = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
+        } else {
+            $result = $this->cObj->IMAGE($imageConfiguration);
+        }
+
+        return $result;
     }
 
     /**

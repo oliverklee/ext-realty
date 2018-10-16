@@ -1,5 +1,6 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -254,11 +255,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     private function createContentMock()
     {
-        $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'IMAGE']);
-        $this->contentObject->method('typoLink_URL')
-            ->will(self::returnCallback([$this, 'getTypoLinkUrl']));
-        $this->contentObject->method('IMAGE')
-            ->will(self::returnCallback([$this, 'imageCallback']));
+        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
+            $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'cObjGetSingle']);
+            $this->contentObject->method('cObjGetSingle')->will(self::returnCallback([$this, 'imageCallback']));
+        } else {
+            $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'IMAGE']);
+            $this->contentObject->method('IMAGE')->will(self::returnCallback([$this, 'oldImageCallback']));
+        }
+        $this->contentObject->method('typoLink_URL')->will(self::returnCallback([$this, 'getTypoLinkUrl']));
     }
 
     /**
@@ -283,13 +287,27 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     }
 
     /**
-     * Callback function for creating mock IMAGEs.
+     * Callback function for creating mock IMAGEs in TYPO3 6.2-7.6.
      *
      * @param string[] $imageConfiguration
      *
      * @return string faked image, will not be empty
      */
-    public function imageCallback(array $imageConfiguration)
+    public function oldImageCallback(array $imageConfiguration)
+    {
+        $this->imageConfigurations[] = $imageConfiguration;
+        return htmlspecialchars($imageConfiguration['altText']);
+    }
+
+    /**
+     * Callback function for creating mock IMAGEs in TYPO3 >= 7.6.
+     *
+     * @param string $type must be IMAGE
+     * @param string[] $imageConfiguration
+     *
+     * @return string faked image, will not be empty
+     */
+    public function imageCallback($type, array $imageConfiguration)
     {
         $this->imageConfigurations[] = $imageConfiguration;
         return htmlspecialchars($imageConfiguration['altText']);

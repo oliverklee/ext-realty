@@ -1,6 +1,7 @@
 <?php
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -469,6 +470,12 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
                 'maxH' => $this->getConfValueInteger('offererImageMaxHeight'),
             ],
         ];
-        return $this->cObj->IMAGE($imageConfiguration);
+        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
+            $result = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
+        } else {
+            $result = $this->cObj->IMAGE($imageConfiguration);
+        }
+
+        return $result;
     }
 }
