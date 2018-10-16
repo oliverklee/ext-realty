@@ -1,5 +1,7 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 /**
  * This class renders the images for one realty object as thumbnails.
  *
@@ -144,7 +146,13 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
                 'height' => $containerImageConfiguration['thumbnailSizeY'] . 'c',
             ],
         ];
-        return $this->cObj->IMAGE($imageConfiguration);
+        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
+            $result = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
+        } else {
+            $result = $this->cObj->IMAGE($imageConfiguration);
+        }
+
+        return $result;
     }
 
     /**
@@ -172,7 +180,11 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
                 'maxH' => $configuration['lightboxSizeY'],
             ],
         ];
-        $imageWithTag = $this->cObj->IMAGE($imageConfiguration);
+        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
+            $imageWithTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
+        } else {
+            $imageWithTag = $this->cObj->IMAGE($imageConfiguration);
+        }
 
         $imagePath = [];
         preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);

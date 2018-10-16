@@ -1,6 +1,7 @@
 <?php
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * This class assumes the image upload for the FE editor in the realty plugin.
@@ -219,7 +220,11 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
                     'height' => $this->getConfValueInteger('imageUploadThumbnailHeight') . 'c',
                 ],
             ];
-            $imageTag = $this->cObj->IMAGE($imageConfiguration);
+            if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
+                $imageTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
+            } else {
+                $imageTag = $this->cObj->IMAGE($imageConfiguration);
+            }
             $this->setMarker(
                 'single_image_item',
                 '<a href="' . $imageUrl . '" data-lightbox="objectGallery" ' .
