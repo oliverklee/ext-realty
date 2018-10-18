@@ -43,17 +43,11 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
     {
         $listItems = $this->getListItems();
 
-        if ($listItems != '') {
+        if ($listItems !== '') {
             $this->setSubpart('offerer_list_item', $listItems);
         } else {
-            $this->setMarker(
-                'message_noResultsFound',
-                $this->translate('message_noResultsFound_offererList')
-            );
-            $this->setSubpart(
-                'offerer_list_result',
-                $this->getSubpart('EMPTY_RESULT_VIEW')
-            );
+            $this->setMarker('message_noResultsFound', $this->translate('message_noResultsFound_offererList'));
+            $this->setSubpart('offerer_list_result', $this->getSubpart('EMPTY_RESULT_VIEW'));
         }
 
         return $this->getSubpart('OFFERER_LIST');
@@ -196,7 +190,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
         foreach ($this->getListRowContent($offerer) as $key => $value) {
             $this->setMarker(
                 'emphasized_' . $key,
-                (!$rowHasContent && ($value != '')) ? 'emphasized' : ''
+                (!$rowHasContent && $value !== '') ? 'emphasized' : ''
             );
 
             if (!in_array(
@@ -208,7 +202,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             }
 
             if ($this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper')) {
-                $rowHasContent = ($key != 'usergroup');
+                $rowHasContent = $key !== 'usergroup';
             } else {
                 $this->hideSubparts($key, 'wrapper');
             }
@@ -216,7 +210,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
 
         // Apart from in the single view, the user group is appended to the
         // company (if displayed) or to else the offerer name.
-        if ($this->getConfValueString('what_to_display') != 'single_view') {
+        if ($this->getConfValueString('what_to_display') !== 'single_view') {
             $this->hideSubparts('usergroup', 'wrapper');
         }
 
@@ -270,10 +264,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
      * @return bool TRUE if it is configured to display the information of
      *                 the provided offerer, FALSE otherwise
      */
-    private function mayDisplayInformation(
-        tx_realty_Model_FrontEndUser $offerer,
-        $keyOfInformation
-    ) {
+    private function mayDisplayInformation(tx_realty_Model_FrontEndUser $offerer, $keyOfInformation)
+    {
         $configurationKey = 'displayedContactInformation';
 
         $specialGroups = $this->getConfValueString(
@@ -281,17 +273,19 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             's_offererInformation'
         );
 
-        if (($specialGroups != '')
-            && $offerer->hasGroupMembership($specialGroups)
-        ) {
+        if ($specialGroups !== '' && $offerer->hasGroupMembership($specialGroups)) {
             $configurationKey .= 'Special';
         }
 
-        return in_array($keyOfInformation, GeneralUtility::trimExplode(
-            ',',
-            $this->getConfValueString($configurationKey, 's_offererInformation'),
+        return in_array(
+            $keyOfInformation,
+            GeneralUtility::trimExplode(
+                ',',
+                $this->getConfValueString($configurationKey, 's_offererInformation'),
+                true
+            ),
             true
-        ));
+        );
     }
 
     /**
@@ -343,7 +337,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
      * view is not single view and if the user group may be displayed and is
      * non-empty.
      *
-     * @param string &$information information to which the user group should be appended, may be empty, will be modified
+     * @param string &$information information to which the user group should be appended, may be empty, will be
+     *     modified
      * @param tx_realty_Model_FrontEndUser $offerer the offerer of which to append the user group
      *
      * @return void
@@ -375,24 +370,21 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
     {
         $result = '';
 
-        $allowedGroups = GeneralUtility::trimExplode(
+        $allowedGroups = GeneralUtility::intExplode(
             ',',
-            $this->getConfValueString(
-                'userGroupsForOffererList',
-                's_offererInformation'
-            ),
+            $this->getConfValueString('userGroupsForOffererList', 's_offererInformation'),
             true
         );
 
         /** @var Tx_Oelib_Model_FrontEndUserGroup $group */
         foreach ($userGroups as $group) {
-            if (in_array($group->getUid(), $allowedGroups)) {
+            if (in_array($group->getUid(), $allowedGroups, true)) {
                 $result = $group->getTitle();
                 break;
             }
         }
 
-        return ($result != '') ? ' (' . $result . ')' : '';
+        return ($result !== '') ? ' (' . $result . ')' : '';
     }
 
     /**
@@ -407,7 +399,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
     {
         // There might be no UID if the data to render as offerer information
         // was initially provided in an array.
-        if ($ownerUid == 0) {
+        if ($ownerUid === 0) {
             return '';
         }
 
@@ -453,11 +445,12 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             return '';
         }
 
-        $configuredUploadFolder = Tx_Oelib_ConfigurationProxy::getInstance('sr_feuser_register')->getAsString('uploadFolder');
+        $configuredUploadFolder =
+            Tx_Oelib_ConfigurationProxy::getInstance('sr_feuser_register')->getAsString('uploadFolder');
 
-        $uploadFolder = ($configuredUploadFolder == '') ? 'uploads/tx_srfeuserregister' : $configuredUploadFolder;
+        $uploadFolder = $configuredUploadFolder === '' ? 'uploads/tx_srfeuserregister' : $configuredUploadFolder;
 
-        if (substr($uploadFolder, -1) != '/') {
+        if (substr($uploadFolder, -1) !== '/') {
             $uploadFolder .= '/';
         }
 

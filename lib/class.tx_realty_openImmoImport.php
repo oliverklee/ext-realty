@@ -143,7 +143,9 @@ class tx_realty_openImmoImport
 
         $this->storeLogsAndClearTemporaryLog();
 
-        if (!empty($zipsToExtract)) {
+        if (empty($zipsToExtract)) {
+            $this->addToErrorLog($this->getTranslator()->translate('message_no_zips'));
+        } else {
             foreach ($zipsToExtract as $currentZip) {
                 $this->extractZip($currentZip);
                 $this->loadXmlFile($currentZip);
@@ -151,8 +153,6 @@ class tx_realty_openImmoImport
                 $emailData = array_merge($emailData, $recordData);
             }
             $this->sendEmails($this->prepareEmails($emailData));
-        } else {
-            $this->addToErrorLog($this->getTranslator()->translate('message_no_zips'));
         }
 
         $this->cleanUp($checkedImportDirectory);
@@ -216,7 +216,10 @@ class tx_realty_openImmoImport
 
         $recordsToInsert = $this->convertDomDocumentToArray($xml);
 
-        if (!empty($recordsToInsert)) {
+        if (empty($recordsToInsert)) {
+            // Ensures that the foreach-loop is passed at least once, so the log gets processed correctly.
+            $recordsToInsert = [[]];
+        } else {
             $this->copyImagesAndDocumentsFromExtractedZip($currentZip, $recordsToInsert);
             // Only ZIP archives that have a valid owner and therefore can be
             // imported are marked as deletable.
@@ -225,9 +228,6 @@ class tx_realty_openImmoImport
             if ($this->hasValidOwnerForImport()) {
                 $this->filesToDelete[] = $currentZip;
             }
-        } else {
-            // Ensures that the foreach-loop is passed at least once, so the log gets processed correctly.
-            $recordsToInsert = [[]];
         }
 
         foreach ($recordsToInsert as $record) {
@@ -471,10 +471,10 @@ class tx_realty_openImmoImport
             );
         } elseif (!@is_readable($importDirectory)) {
             $this->addFolderAccessErrorMessage('message_import_directory_not_readable', $importDirectory);
-        } elseif (!@is_writable($importDirectory)) {
-            $this->addFolderAccessErrorMessage('message_import_directory_not_writable', $importDirectory);
-        } else {
+        } elseif (@is_writable($importDirectory)) {
             $isAccessible = true;
+        } else {
+            $this->addFolderAccessErrorMessage('message_import_directory_not_writable', $importDirectory);
         }
 
         return $isAccessible;
@@ -497,10 +497,10 @@ class tx_realty_openImmoImport
                     $this->uploadDirectory
                 )
             );
-        } elseif (!@is_writable($this->uploadDirectory)) {
-            $this->addFolderAccessErrorMessage('message_upload_directory_not_writable', $this->uploadDirectory);
-        } else {
+        } elseif (@is_writable($this->uploadDirectory)) {
             $isAccessible = true;
+        } else {
+            $this->addFolderAccessErrorMessage('message_upload_directory_not_writable', $this->uploadDirectory);
         }
 
         return $isAccessible;
@@ -836,11 +836,9 @@ class tx_realty_openImmoImport
     protected function unifyPath($directory)
     {
         $checkedPath = trim($directory);
-        if (substr($checkedPath, -1, 1) !== '/') {
-            $checkedPath .= '/';
-        }
+        $pathWithoutTrailingSlash = rtrim($checkedPath, '/');
 
-        return $checkedPath;
+        return $pathWithoutTrailingSlash . '/';
     }
 
     /**
@@ -920,29 +918,27 @@ class tx_realty_openImmoImport
         }
 
         $folderForZipExtraction = $this->getNameForExtractionFolder($pathOfZip);
-        if (!is_dir($folderForZipExtraction)) {
-            if (GeneralUtility::mkdir($folderForZipExtraction)) {
-                $this->filesToDelete[] = $folderForZipExtraction;
-                if (!is_writable($folderForZipExtraction)) {
-                    $this->addToErrorLog(
-                        sprintf(
-                            $this->getTranslator()->translate('message_folder_not_writable'),
-                            $folderForZipExtraction
-                        )
-                    );
-                }
-            } else {
+        if (is_dir($folderForZipExtraction)) {
+            $this->addToErrorLog($folderForZipExtraction . ': ' . $this->getTranslator()
+                    ->translate('message_surplus_folder'));
+            $folderForZipExtraction = '';
+        } elseif (GeneralUtility::mkdir($folderForZipExtraction)) {
+            $this->filesToDelete[] = $folderForZipExtraction;
+            if (!is_writable($folderForZipExtraction)) {
                 $this->addToErrorLog(
                     sprintf(
-                        $this->getTranslator()->translate('message_folder_creation_failed'),
+                        $this->getTranslator()->translate('message_folder_not_writable'),
                         $folderForZipExtraction
                     )
                 );
             }
         } else {
-            $this->addToErrorLog($folderForZipExtraction . ': ' . $this->getTranslator()
-                    ->translate('message_surplus_folder'));
-            $folderForZipExtraction = '';
+            $this->addToErrorLog(
+                sprintf(
+                    $this->getTranslator()->translate('message_folder_creation_failed'),
+                    $folderForZipExtraction
+                )
+            );
         }
 
         return $folderForZipExtraction;
@@ -971,12 +967,10 @@ class tx_realty_openImmoImport
 
             if (count($pathOfXml) === 1) {
                 $result = implode('', $pathOfXml);
+            } elseif (count($pathOfXml) > 1) {
+                $errorMessage = 'message_too_many_xml';
             } else {
-                if (count($pathOfXml) > 1) {
-                    $errorMessage = 'message_too_many_xml';
-                } else {
-                    $errorMessage = 'message_no_xml';
-                }
+                $errorMessage = 'message_no_xml';
             }
         } else {
             $errorMessage = 'message_invalid_xml_path';
@@ -1118,7 +1112,7 @@ class tx_realty_openImmoImport
             $lowercaseFileExtensions[] = 'pdf';
         }
         if (in_array('ps', $lowercaseFileExtensions, true)) {
-            unset($lowercaseFileExtensions[array_search('ps', $lowercaseFileExtensions, true)]);
+            unset($lowercaseFileExtensions[(int)array_search('ps', $lowercaseFileExtensions, true)]);
         }
 
         $allCaseFileExtensions = $lowercaseFileExtensions;

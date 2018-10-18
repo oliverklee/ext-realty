@@ -47,7 +47,7 @@ class tx_realty_Model_Image extends tx_realty_Model_AbstractTitledModel implemen
      */
     public function setFileName($fileName)
     {
-        if ($fileName == '') {
+        if ($fileName === '') {
             throw new InvalidArgumentException('$fileName must not be empty.', 1333036064);
         }
 

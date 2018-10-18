@@ -88,7 +88,6 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         \tx_rnbase::load(\tx_mkforms_forms_Base::class);
         \tx_rnbase::load(\Tx_Rnbase_Database_Connection::class);
         \tx_rnbase::load(\tx_mkforms_forms_Factory::class);
-//        $this->form = \tx_mkforms_forms_Factory::createForm(null);
         $this->form = GeneralUtility::makeInstance(\tx_mkforms_forms_Base::class);
 
         /**
@@ -99,15 +98,14 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         $pluginConfiguration = \tx_rnbase::makeInstance(\Tx_Rnbase_Configuration_Processor::class);
         $pluginConfiguration->init($this->conf, $this->cObj, 'realty', 'tx_realty_pi1_form');
 
-        // mkforms would produce an error message if it is initialized with
-        // a non-existing UID.
+        // mkforms would produce an error message if it is initialized with a non-existing UID.
         // The mkforms object is never initialized for testing.
         if ($this->realtyObjectExistsInDatabase()) {
             // Initialize the form from TypoScript data and provide configuration for the plugin.
             $this->form->initFromTs(
                 $this,
                 $this->conf[$this->configurationNamespace . '.'],
-                ($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false,
+                $this->realtyObjectUid > 0 ? $this->realtyObjectUid : false,
                 $pluginConfiguration,
                 $this->configurationNamespace
             );
@@ -203,7 +201,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      */
     private function realtyObjectExistsInDatabase()
     {
-        if ($this->realtyObjectUid == 0) {
+        if ($this->realtyObjectUid === 0) {
             return true;
         }
 
@@ -229,7 +227,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     {
         $this->realtyObjectUid = $uid;
 
-        if ($this->realtyObject->getUid() != $uid) {
+        if ($this->realtyObject->getUid() !== $uid) {
             $this->realtyObject = GeneralUtility::makeInstance(\tx_realty_Model_RealtyObject::class, $this->isTestMode);
             $this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
         }

@@ -275,7 +275,7 @@ class tx_realty_domDocumentConverter
      */
     private function addUniversalData(array &$realtyDataArray)
     {
-        $realtyDataArray = array_merge($realtyDataArray, $this->universalRealtyData);
+        $realtyDataArray = array_replace($realtyDataArray, $this->universalRealtyData);
     }
 
     /**
@@ -455,7 +455,7 @@ class tx_realty_domDocumentConverter
     {
         foreach ($this->importedData as $key => &$value) {
             $intValue = (int)$value;
-            if (is_numeric($value) && $intValue == $value && ($key !== 'zip')) {
+            if (is_numeric($value) && (string)$intValue === $value && ($key !== 'zip')) {
                 $value = $intValue;
             }
         }
@@ -575,10 +575,10 @@ class tx_realty_domDocumentConverter
     {
         $imageExtensions = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], true);
         if (in_array('pdf', $imageExtensions, true)) {
-            unset($imageExtensions[array_search('pdf', $imageExtensions, true)]);
+            unset($imageExtensions[(int)array_search('pdf', $imageExtensions, true)]);
         }
         if (in_array('ps', $imageExtensions, true)) {
-            unset($imageExtensions[array_search('ps', $imageExtensions, true)]);
+            unset($imageExtensions[(int)array_search('ps', $imageExtensions, true)]);
         }
         $extensionValidator = '/^.+\\.(' . implode('|', $imageExtensions) . ')$/i';
 
@@ -686,7 +686,7 @@ class tx_realty_domDocumentConverter
                 'elevator' => $rawAttributes['fahrstuhl']['lasten'],
             ] as $key => $value
         ) {
-            if (isset($value)) {
+            if ($value !== null) {
                 $this->addImportedDataIfValueIsNonEmpty($key, $value);
             }
         }

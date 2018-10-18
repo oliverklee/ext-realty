@@ -247,7 +247,7 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
             true
         );
 
-        return in_array($viewPart, $configuredValues);
+        return in_array($viewPart, $configuredValues, true);
     }
 
     /**
@@ -568,7 +568,7 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
             ),
             true
         );
-        if (!in_array('priceRanges', $displayedWidgetFields)) {
+        if (!in_array('priceRanges', $displayedWidgetFields, true)) {
             return;
         }
 
@@ -836,7 +836,7 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
             true
         );
 
-        return in_array('terms', $visibleFormFields);
+        return in_array('terms', $visibleFormFields, true);
     }
 
     /**
@@ -1421,8 +1421,8 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
         $this->checkEnableNextPreviousButtons();
 
         if (
-            !$this->objectToCheck->getConfValueBoolean('enableNextPreviousButtons') &&
-            $this->isSingleViewPartToDisplay('nextPreviousButtons')
+            !$this->objectToCheck->getConfValueBoolean('enableNextPreviousButtons')
+            && $this->isSingleViewPartToDisplay('nextPreviousButtons')
         ) {
             $this->setErrorMessageAndRequestCorrection(
                 'enableNextPreviousButtons',

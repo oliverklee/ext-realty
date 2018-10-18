@@ -45,7 +45,6 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
         ContentObjectRenderer $contentObjectRenderer,
         $isTestMode = false
     ) {
-        $this->isTestMode = $isTestMode;
         $this->cObj = $contentObjectRenderer;
         $this->init($configuration);
 
@@ -197,7 +196,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
      */
     private function createLinkToSingleViewPage($linkText, $realtyObjectUid)
     {
-        if ($linkText == '') {
+        if ($linkText === '') {
             return '';
         }
 
@@ -205,9 +204,9 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
         $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($realtyObjectUid);
-        $separateSingleViewPage = $realtyObject->getProperty('details_page');
+        $separateSingleViewPage = (string)$realtyObject->getProperty('details_page');
 
-        if ($separateSingleViewPage != '') {
+        if ($separateSingleViewPage !== '') {
             $result = $this->cObj->typoLink(
                 $linkText,
                 ['parameter' => $separateSingleViewPage]
@@ -219,7 +218,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
                     $this->prefixId,
                     ['showUid' => $realtyObjectUid]
                 ),
-                'useCacheHash' => $this->getConfValueString('what_to_display') != 'favorites',
+                'useCacheHash' => $this->getConfValueString('what_to_display') !== 'favorites',
             ]);
         }
 

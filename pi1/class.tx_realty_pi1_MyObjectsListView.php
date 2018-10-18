@@ -59,7 +59,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
     {
         /** @var tx_realty_Model_FrontEndUser $user */
         $user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-        if ($user->getTotalNumberOfAllowedObjects() == 0) {
+        if ($user->getTotalNumberOfAllowedObjects() === 0) {
             $this->hideSubparts('limit_heading');
             return;
         }
@@ -115,8 +115,9 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
      */
     private function processDeletion()
     {
+        $uid = (int)$this->piVars['delete'];
         // no need for a front-end editor if there is nothing to delete
-        if ($this->piVars['delete'] == 0) {
+        if ($uid === 0) {
             return;
         }
 
@@ -126,7 +127,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
             \tx_realty_frontEndEditor::class,
             $this->conf,
             $this->cObj,
-            $this->piVars['delete'],
+            $uid,
             'pi1/tx_realty_frontEndEditor.xml',
             $this->isTestMode
         );
@@ -300,16 +301,13 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
      */
     private function isCurrentObjectAdvertised()
     {
-        $advertisementDate = $this->internal['currentRow']['advertised_date'];
-        if ($advertisementDate == 0) {
+        $advertisementDate = (int)$this->internal['currentRow']['advertised_date'];
+        if ($advertisementDate === 0) {
             return false;
         }
 
-        $expiryInDays = $this->getConfValueInteger(
-            'advertisementExpirationInDays',
-            's_advertisements'
-        );
-        if ($expiryInDays == 0) {
+        $expiryInDays = $this->getConfValueInteger('advertisementExpirationInDays', 's_advertisements');
+        if ($expiryInDays === 0) {
             return true;
         }
 

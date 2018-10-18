@@ -97,14 +97,14 @@ class tx_realty_fileNameMapper
         $splittedFileName = GeneralUtility::split_fileref($fileName);
 
         $matches = [];
-        preg_match('/^(.*)_([0-9]+)$/', $splittedFileName['filebody'], $matches);
+        preg_match('/^(.*)_(\\d+)$/', $splittedFileName['filebody'], $matches);
 
-        if (!empty($matches)) {
-            $fileBodyWithoutSuffix = $matches[1];
-            $suffixNumber = $matches[2];
-        } else {
+        if (empty($matches)) {
             $fileBodyWithoutSuffix = $splittedFileName['filebody'];
             $suffixNumber = -1;
+        } else {
+            $fileBodyWithoutSuffix = $matches[1];
+            $suffixNumber = $matches[2];
         }
 
         $suffixNumber++;

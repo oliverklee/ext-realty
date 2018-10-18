@@ -19,7 +19,7 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView
      */
     public function render(array $errorMessage = [])
     {
-        if ($errorMessage[0] == 'message_please_login') {
+        if ($errorMessage[0] === 'message_please_login') {
             $message = $this->getLinkedPleaseLogInMessage();
         } else {
             $message = $this->translate($errorMessage[0]);

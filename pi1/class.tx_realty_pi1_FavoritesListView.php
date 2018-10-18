@@ -74,10 +74,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
         }
 
         if ($this->getConfValueBoolean('showContactPageLink')
-            && (
-                $this->getConfValueInteger('contactPID')
-                != $this->getConfValueInteger('favoritesPID')
-            )
+            && $this->getConfValueInteger('contactPID') !== $this->getConfValueInteger('favoritesPID')
         ) {
             $piVars = $this->piVars;
             unset($piVars['DATA']);
@@ -123,9 +120,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
         $this->getFrontEndController()->set_no_cache();
         $this->processSubmittedFavorites();
 
-        $result = ($this->getFavorites() != '')
-            ? ' AND ' . 'tx_realty_objects' . '.uid ' .
-                'IN(' . $this->getFavorites() . ')'
+        $result = $this->getFavorites() !== ''
+            ? ' AND ' . 'tx_realty_objects' . '.uid IN(' . $this->getFavorites() . ')'
             : ' AND 0 = 1';
         $this->favoritesDataVerbose = [];
 
@@ -174,7 +170,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
         $favorites = $this->getFavoritesArray();
 
         foreach ($itemsToRemove as $currentItem) {
-            $key = array_search($currentItem, $favorites);
+            $key = (int)array_search((int)$currentItem, $favorites, true);
             // $key will be FALSE if the item has not been found.
             // Zero, on the other hand, is a valid key.
             if ($key !== false) {
@@ -297,13 +293,13 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
         $summaryStringOfFavorites = '';
 
         $currentFavorites = $this->getFavorites();
-        if ($currentFavorites != '') {
+        if ($currentFavorites !== '') {
             $table = 'tx_realty_objects';
             $objects = Tx_Oelib_Db::selectMultiple(
                 'object_number, title',
                 $table,
                 'uid IN (' . $currentFavorites . ')' .
-                    Tx_Oelib_Db::enableFields($table)
+                Tx_Oelib_Db::enableFields($table)
             );
 
             $summaryStringOfFavorites = $this->translate('label_on_favorites_list') . LF;
@@ -331,11 +327,12 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
 
         $uid = $this->internal['currentRow']['uid'];
         $this->favoritesDataVerbose[$uid] = [];
-        foreach (GeneralUtility::trimExplode(
-            ',',
-            $this->getConfValueString('favoriteFieldsInSession'),
-            true
-        ) as $key) {
+        foreach (
+            GeneralUtility::trimExplode(
+                ',',
+                $this->getConfValueString('favoriteFieldsInSession'),
+                true
+            ) as $key) {
             $this->favoritesDataVerbose[$uid][$key]
                 = $this->getFormatter()->getProperty($key);
         }

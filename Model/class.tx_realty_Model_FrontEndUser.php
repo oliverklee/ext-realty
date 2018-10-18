@@ -62,26 +62,21 @@ class tx_realty_Model_FrontEndUser extends Tx_Oelib_Model_FrontEndUser
     public function getObjectsLeftToEnter()
     {
         $numberOfAllowedObjects = $this->getTotalNumberOfAllowedObjects();
-        if ($numberOfAllowedObjects == 0) {
+        if ($numberOfAllowedObjects === 0) {
             return 0;
         }
 
-        return max(
-            $numberOfAllowedObjects - $this->getNumberOfObjects(),
-            0
-        );
+        return max($numberOfAllowedObjects - $this->getNumberOfObjects(), 0);
     }
 
     /**
      * Checks whether the user is allowed to enter any objects.
      *
-     * @return bool TRUE if the user is allowed to enter objects, FALSE
-     *                 otherwise
+     * @return bool
      */
     public function canAddNewObjects()
     {
-        return ($this->getTotalNumberOfAllowedObjects() == 0)
-            || ($this->getObjectsLeftToEnter() > 0);
+        return $this->getTotalNumberOfAllowedObjects() === 0 || $this->getObjectsLeftToEnter() > 0;
     }
 
     /**

@@ -77,14 +77,14 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
      */
     public function getProperty($key)
     {
-        if ($key == '') {
+        if ($key === '') {
             throw new InvalidArgumentException('$key must not be empty.', 1333036539);
         }
 
         $result = '';
         $realtyObject = $this->getRealtyObject();
         $uid = $this->getUid();
-        $rawProperty = ($key !== 'uid') ? $realtyObject->getProperty($key) : (string)$uid;
+        $rawProperty = ($key !== 'uid') ? (string)$realtyObject->getProperty($key) : (string)$uid;
 
         switch ($key) {
             case 'status':
@@ -119,7 +119,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
                 $result = htmlspecialchars($realtyObject->getForeignPropertyField($key));
                 break;
             case 'country':
-                if ($rawProperty != $this->getConfValueInteger('defaultCountryUID')) {
+                if ((int)$rawProperty !== $this->getConfValueInteger('defaultCountryUID')) {
                     $result = $realtyObject->getForeignPropertyField($key, 'cn_short_local');
                 }
                 break;
@@ -196,7 +196,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
                 // The fallthrough is intended.
             case 'construction_year':
                 $number = (int)$rawProperty;
-                $result = ($number != 0) ? ((string)$number) : '';
+                $result = $number !== 0 ? (string)$number : '';
                 break;
             case 'heating_included':
                 // The fallthrough is intended.
@@ -266,7 +266,8 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
      * The value of $key may be a comma-separated list of suffixes. In this case,
      * a comma-separated list of the localized strings is returned.
      *
-     * @param string $key key of the current record's field that contains the suffix for the label to get, must not be empty
+     * @param string $key key of the current record's field that contains the suffix for the label to get, must not be
+     *     empty
      *
      * @return string localized string for the label
      *                "label_[$key][value of $key]", will be a
@@ -292,7 +293,8 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
      * Returns the label for "label_[$key]_[$value]" or an empty string
      * if $value combined with label_[$key] is not a locallang key.
      *
-     * @param string $key key of the current record's field that contains the suffix for the label to get, must not be empty
+     * @param string $key key of the current record's field that contains the suffix for the label to get, must not be
+     *     empty
      * @param string $value the value to fetch the label for, must not be empty
      *
      * @return string
@@ -305,7 +307,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
         $locallangKey = 'label_' . $key . '_' . $value;
         $translatedLabel = $this->translate($locallangKey);
 
-        return ($translatedLabel != $locallangKey) ? $translatedLabel : '';
+        return $translatedLabel !== $locallangKey ? $translatedLabel : '';
     }
 
     /**
@@ -343,12 +345,12 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
     {
         $currency = $this->getRealtyObject()->getProperty('currency');
 
-        if ($currency == '') {
+        if ($currency === '') {
             $currency = $this->getConfValueString('currencyUnit');
         }
 
         $rawValue = $this->getRealtyObject()->getProperty($key);
-        if (($rawValue === '') || ((float)$rawValue === 0.0)) {
+        if ($rawValue === '' || (float)$rawValue === 0.0) {
             return '';
         }
 
@@ -372,7 +374,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
     private function getFormattedNumber($key, $unit)
     {
         $rawValue = $this->getRealtyObject()->getProperty($key);
-        if (($rawValue == '') || ((float)$rawValue == 0.0)) {
+        if ((string)$rawValue === '' || (float)$rawValue === 0.0) {
             return '';
         }
 
@@ -398,7 +400,8 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
      * @param int $decimals
      *        the number of decimals after the decimal point, must be >= 0
      *
-     * @return string the number in the field formatted and stripped of trailing zeros, will be empty if the value is zero
+     * @return string the number in the field formatted and stripped of trailing zeros, will be empty if the value is
+     *     zero
      */
     private function getFormattedDecimal($key, $decimals = 2)
     {
