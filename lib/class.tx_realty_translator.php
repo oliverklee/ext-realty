@@ -34,7 +34,7 @@ class tx_realty_translator
         // "default" is used as language key if the configured language key is not within the set of available language keys.
         /** @var Locales $locales */
         $locales = GeneralUtility::makeInstance(Locales::class);
-        $languageKey = in_array($cliLanguage, $locales->getLocales()) ? $cliLanguage : 'default';
+        $languageKey = in_array($cliLanguage, $locales->getLocales(), true) ? $cliLanguage : 'default';
 
         $this->languageService->init($languageKey);
         $this->languageService->includeLLFile('EXT:realty/Resources/Private/Language/locallang_import.xlf');
@@ -50,12 +50,12 @@ class tx_realty_translator
      */
     public function translate($key)
     {
-        if ($key == '') {
+        if ($key === '') {
             throw new InvalidArgumentException('$key must not be empty.', 1333035608);
         }
 
         $result = $this->languageService->getLL($key);
 
-        return ($result != '') ? $result : $key;
+        return ($result !== '') ? $result : $key;
     }
 }

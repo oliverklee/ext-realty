@@ -142,10 +142,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                     ) ? $rawValue : '';
                     break;
                 case 'priceRange':
-                    $this->filterFormData['priceRange'] = preg_match(
-                        '/^(\\d+-\\d+|-\\d+|\\d+-)$/',
-                        $rawValue
-                    ) ? $rawValue : '';
+                    $this->filterFormData['priceRange'] = preg_match('/^(\\d+-\\d+|-\\d+|\\d+-)$/', $rawValue)
+                        ? $rawValue : '';
                     break;
                 case 'numberOfRoomsFrom':
                     // The fallthrough is intended.
@@ -169,13 +167,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      *
      * @param string $priceRange price range of the format "number-number", may be empty
      *
-     * @return string[] array with one price range, consists of the two elements
+     * @return int[] array with one price range, consists of the two elements
      *               "upperLimit" and "lowerLimit", will be empty if no price
      *               range was provided in the form data
      */
     private function getFormattedPriceRange($priceRange)
     {
-        if ($priceRange == '') {
+        if ($priceRange === '') {
             return [];
         }
 
@@ -192,16 +190,14 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     /**
      * Returns the priceRange data stored in priceRange.
      *
-     * @return string[] array with one price range, consists of the two elements
+     * @return int[] array with one price range, consists of the two elements
      *               "upperLimit" and "lowerLimit", will be empty if no price
      *               range or rent data was set
      */
     private function getPriceRange()
     {
         $rentData = $this->processRentFilterFormData();
-        $priceRange = ($rentData != '')
-            ? $rentData
-            : $this->filterFormData['priceRange'];
+        $priceRange = $rentData !== '' ? $rentData : $this->filterFormData['priceRange'];
 
         return $this->getFormattedPriceRange($priceRange);
     }
@@ -281,10 +277,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         foreach ($priceRanges as $range) {
             $priceRangeString = implode('-', $range);
             $label = $this->getPriceRangeLabel($range);
-            $selectedAttribute
-                = ($this->filterFormData['priceRange'] == $priceRangeString)
-                ? ' selected="selected"'
-                : '';
+            $selectedAttribute = (string)$this->filterFormData['priceRange'] === $priceRangeString
+                ? ' selected="selected"' : '';
 
             $optionTags .= '<option value="' . $priceRangeString .
                 '" label="' . $label . '" ' . $selectedAttribute . '>' .
@@ -310,7 +304,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->setMarker(
             'searched_uid',
             (
-            ((int)$this->filterFormData['uid'] === 0) ? '' : (int)$this->filterFormData['uid']
+            ((int)$this->filterFormData['uid'] === 0)
+                ? '' : (int)$this->filterFormData['uid']
             )
         );
     }
@@ -419,11 +414,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         /** @var tx_realty_Model_AbstractTitledModel $model */
         foreach ($models as $model) {
             $numberOfMatches = $objectMapper->$countFunction($model, $additionalWhereClause);
-            if ($numberOfMatches == 0) {
+            if ($numberOfMatches === 0) {
                 continue;
             }
 
-            $selected = ($selectedUid == $model->getUid()) ? ' selected="selected"' : '';
+            $selected = $selectedUid === $model->getUid() ? ' selected="selected"' : '';
 
             $options .= '<option value="' . $model->getUid() . '"' .
                 $selected . '>' . htmlspecialchars($model->getTitle()) . ' (' .
@@ -484,10 +479,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
 
         $options = '';
         foreach ($records as $record) {
-            $options .= '<option value="' . $record['uid'] . '" ' .
-                (($this->filterFormData[$searchKey] == $record['uid'])
-                    ? 'selected="selected"' : '') .
-                '>' . htmlspecialchars($record['title']) . '</option>' . LF;
+            $options .= '<option value="' . (int)$record['uid'] . '" ' . (
+                ((int)$this->filterFormData[$searchKey] === (int)$record['uid']) ? 'selected="selected"' : ''
+                ) . '>' . htmlspecialchars($record['title']) . '</option>' . LF;
         }
         $this->setMarker('options_' . $columnName . '_search', $options);
     }
@@ -540,7 +534,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     /**
      * Returns an array of configured price ranges.
      *
-     * @return array[] Two-dimensional array of the possible price ranges. Each
+     * @return int[][] Two-dimensional array of the possible price ranges. Each
      *               inner array consists of two elements with the keys
      *               "lowerLimit" and "upperLimit". Note that the zero element
      *               will always be empty because the first option in the
@@ -549,16 +543,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getPriceRangesFromConfiguration()
     {
-        if (!$this->hasConfValueString(
-            'priceRangesForFilterForm',
-            's_searchForm'
-        )
-        ) {
+        if (!$this->hasConfValueString('priceRangesForFilterForm', 's_searchForm')) {
             return [];
         }
 
-        // The first element is empty because the first selectbox element should
-        // remain empty.
+        // The first element is empty because the first selectbox element should remain empty.
         $priceRanges = [[]];
 
         $priceRangeConfiguration = GeneralUtility::trimExplode(
@@ -598,10 +587,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $priceViewHelper = GeneralUtility::makeInstance(Tx_Oelib_ViewHelper_Price::class);
         $priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 
-        if ($range['lowerLimit'] == 0) {
+        if ((int)$range['lowerLimit'] === 0) {
             $priceViewHelper->setValue($range['upperLimit']);
             $result = $this->translate('label_less_than') . ' ' . $priceViewHelper->render();
-        } elseif ($range['upperLimit'] == 0) {
+        } elseif ((int)$range['upperLimit'] === 0) {
             $priceViewHelper->setValue($range['lowerLimit']);
             $result = $this->translate('label_greater_than') . ' ' . $priceViewHelper->render();
         } else {
@@ -633,7 +622,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
             return '';
         }
 
-        if ($priceRange['lowerLimit'] == 0) {
+        if ($priceRange['lowerLimit'] === 0) {
             // Zero as lower limit must be excluded of the range because each
             // non-set price will be identified as zero. Many objects either
             // have a buying price or a rent which would make searching for
@@ -658,11 +647,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
 
         // The upper limit will be zero if no upper limit was provided. So zero
         // means infinite here.
-        if ($priceRange['upperLimit'] != 0) {
-            $upperLimitRent = ' AND ' . 'tx_realty_objects' .
-                '.rent_excluding_bills <= ' . $priceRange['upperLimit'];
-            $upperLimitBuy = ' AND ' . 'tx_realty_objects' .
-                '.buying_price <= ' . $priceRange['upperLimit'];
+        if ($priceRange['upperLimit'] !== 0) {
+            $upperLimitRent = ' AND ' . 'tx_realty_objects' . '.rent_excluding_bills <= ' . $priceRange['upperLimit'];
+            $upperLimitBuy = ' AND ' . 'tx_realty_objects' . '.buying_price <= ' . $priceRange['upperLimit'];
         } else {
             $upperLimitRent = '';
             $upperLimitBuy = '';
@@ -681,7 +668,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getSiteWhereClausePart()
     {
-        if ($this->filterFormData['site'] == '') {
+        if ($this->filterFormData['site'] === '') {
             return '';
         }
 
@@ -716,15 +703,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getObjectNumberWhereClausePart()
     {
-        if ($this->filterFormData['objectNumber'] == '') {
+        if ($this->filterFormData['objectNumber'] === '') {
             return '';
         }
 
-        return ' AND ' . 'tx_realty_objects' . '.object_number="' .
-            Tx_Oelib_Db::getDatabaseConnection()->quoteStr(
-                $this->filterFormData['objectNumber'],
-                'tx_realty_objects'
-            ) . '"';
+        return ' AND tx_realty_objects.object_number="' .
+            Tx_Oelib_Db::getDatabaseConnection()->quoteStr($this->filterFormData['objectNumber'], 'tx_realty_objects') .
+            '"';
     }
 
     /**
@@ -735,12 +720,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getUidWhereClausePart()
     {
-        if ($this->filterFormData['uid'] == 0) {
+        if ($this->filterFormData['uid'] === 0) {
             return '';
         }
 
-        return ' AND ' . 'tx_realty_objects' . '.uid=' .
-            $this->filterFormData['uid'];
+        return ' AND ' . 'tx_realty_objects' . '.uid=' . $this->filterFormData['uid'];
     }
 
     /**
@@ -752,13 +736,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getObjectTypeWhereClausePart()
     {
-        if ($this->filterFormData['objectType'] == '') {
+        if ($this->filterFormData['objectType'] === '') {
             return '';
         }
 
-        $objectType = ($this->filterFormData['objectType'] == 'forRent')
-            ? tx_realty_Model_RealtyObject::TYPE_FOR_RENT
-            : tx_realty_Model_RealtyObject::TYPE_FOR_SALE;
+        $objectType = $this->filterFormData['objectType'] === 'forRent'
+            ? \tx_realty_Model_RealtyObject::TYPE_FOR_RENT
+            : \tx_realty_Model_RealtyObject::TYPE_FOR_SALE;
 
         return ' AND ' . 'tx_realty_objects' . '.object_type = ' . $objectType;
     }
@@ -772,12 +756,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getCityWhereClausePart()
     {
-        if ($this->filterFormData['city'] == 0) {
+        if ($this->filterFormData['city'] === 0) {
             return '';
         }
 
-        return ' AND ' . 'tx_realty_objects' . '.city = ' .
-            $this->filterFormData['city'];
+        return ' AND ' . 'tx_realty_objects' . '.city = ' . $this->filterFormData['city'];
     }
 
     /**
@@ -789,12 +772,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getDistrictWhereClausePart()
     {
-        if ($this->filterFormData['district'] == 0) {
+        if ($this->filterFormData['district'] === 0) {
             return '';
         }
 
-        return ' AND ' . 'tx_realty_objects' . '.district = ' .
-            $this->filterFormData['district'];
+        return ' AND ' . 'tx_realty_objects' . '.district = ' . $this->filterFormData['district'];
     }
 
     /**
@@ -806,12 +788,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getHouseTypeWhereClausePart()
     {
-        if ($this->filterFormData['houseType'] == 0) {
+        if ($this->filterFormData['houseType'] === 0) {
             return '';
         }
 
-        return ' AND ' . 'tx_realty_objects' . '.house_type = ' .
-            $this->filterFormData['houseType'];
+        return ' AND ' . 'tx_realty_objects' . '.house_type = ' . $this->filterFormData['houseType'];
     }
 
     /**
@@ -823,14 +804,15 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     private function getLivingAreaWhereClausePart()
     {
-        return (($this->filterFormData['livingAreaFrom'] != 0)
-                ? ' AND (' . 'tx_realty_objects' . '.living_area >= '
-                . $this->filterFormData['livingAreaFrom'] . ')'
-                : '') .
-            (($this->filterFormData['livingAreaTo'] != 0)
-                ? ' AND (' . 'tx_realty_objects' . '.living_area <= '
-                . $this->filterFormData['livingAreaTo'] . ')'
-                : '');
+        return (
+            $this->filterFormData['livingAreaFrom'] !== 0
+                ? ' AND (' . 'tx_realty_objects' . '.living_area >= ' . $this->filterFormData['livingAreaFrom'] . ')'
+                : ''
+            ) . (
+            $this->filterFormData['livingAreaTo'] !== 0
+                ? ' AND (' . 'tx_realty_objects' . '.living_area <= ' . $this->filterFormData['livingAreaTo'] . ')'
+                : ''
+            );
     }
 
     /**
@@ -856,20 +838,14 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     {
         $result = '';
 
-        $roomsFromWithDots = $this->replaceCommasWithDots(
-            $this->filterFormData['numberOfRoomsFrom']
-        );
-        if ($roomsFromWithDots != 0) {
-            $result .= ' AND (' . 'tx_realty_objects' . '.number_of_rooms >= '
-                . $roomsFromWithDots . ')';
+        $roomsFromWithDots = (float)$this->replaceCommasWithDots($this->filterFormData['numberOfRoomsFrom']);
+        if ($roomsFromWithDots > 0.0) {
+            $result .= ' AND (' . 'tx_realty_objects' . '.number_of_rooms >= ' . $roomsFromWithDots . ')';
         }
 
-        $roomsToWithDots = $this->replaceCommasWithDots(
-            $this->filterFormData['numberOfRoomsTo']
-        );
-        if ($roomsToWithDots != 0) {
-            $result .= ' AND (' . 'tx_realty_objects' . '.number_of_rooms <= '
-                . $roomsToWithDots . ')';
+        $roomsToWithDots = (float)$this->replaceCommasWithDots($this->filterFormData['numberOfRoomsTo']);
+        if ($roomsToWithDots > 0.0) {
+            $result .= ' AND (' . 'tx_realty_objects' . '.number_of_rooms <= ' . $roomsToWithDots . ')';
         }
 
         return $result;

@@ -313,7 +313,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * Callback function for creating mock IMAGEs in TYPO3 >= 7.6.
      *
-     * @param string $type must be IMAGE
+     * @param string $type must be IMAGE, unused
      * @param string[] $imageConfiguration
      *
      * @return string faked image, will not be empty

@@ -69,7 +69,7 @@ class tx_realty_cli_ImageCleanUp
     public function hideUnusedImagesInDatabase()
     {
         $nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
-        $imagesForRealtyRecords = ($nonDeletedRealtyRecordUids == '')
+        $imagesForRealtyRecords = ($nonDeletedRealtyRecordUids === '')
             ? []
             : \Tx_Oelib_Db::selectColumnForMultiple(
                 'uid',
@@ -115,7 +115,7 @@ class tx_realty_cli_ImageCleanUp
     public function deleteUnusedDocumentRecords()
     {
         $nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
-        $documentsWithRealtyRecords = ($nonDeletedRealtyRecordUids == '')
+        $documentsWithRealtyRecords = ($nonDeletedRealtyRecordUids === '')
             ? []
             : \Tx_Oelib_Db::selectColumnForMultiple(
                 'uid',

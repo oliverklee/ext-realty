@@ -1240,7 +1240,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             1,
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
-                'object_number="' . (self::$otherObjectNumber) . '"' .
+                'object_number="' . self::$otherObjectNumber . '"' .
                 Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );

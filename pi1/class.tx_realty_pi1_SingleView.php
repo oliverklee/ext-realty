@@ -76,7 +76,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         }
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $realtyObjectMapper->find($uid);
-        if ($realtyObject->getProperty('deleted') == 1) {
+        if ((bool)$realtyObject->getProperty('deleted')) {
             return false;
         }
 
@@ -84,12 +84,11 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
 
         if (!$realtyObject->isHidden()) {
             $result = true;
-        } else {
-            if (Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
-                /** @var tx_realty_Model_FrontEndUser $loggedInUser */
-                $loggedInUser = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-                $result = ($loggedInUser->getUid() == $realtyObject->getProperty('owner'));
-            }
+        } elseif (Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
+            /** @var tx_realty_Model_FrontEndUser $loggedInUser */
+            $loggedInUser =
+                Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+            $result = $loggedInUser->getUid() === (int)$realtyObject->getProperty('owner');
         }
 
         return $result;
@@ -113,18 +112,31 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
             true
         );
 
-        foreach ([
-            'nextPreviousButtons', 'heading', 'address', 'description',
-            'documents', 'price', 'overviewTable', 'offerer', 'contactButton',
-            'googleMaps', 'addToFavoritesButton', 'furtherDescription',
-            'imageThumbnails', 'backButton', 'printPageButton', 'status',
-        ] as $key) {
-            $viewContent = in_array($key, $configuredViews)
+        foreach (
+            [
+                'nextPreviousButtons',
+                'heading',
+                'address',
+                'description',
+                'documents',
+                'price',
+                'overviewTable',
+                'offerer',
+                'contactButton',
+                'googleMaps',
+                'addToFavoritesButton',
+                'furtherDescription',
+                'imageThumbnails',
+                'backButton',
+                'printPageButton',
+                'status',
+            ] as $key) {
+            $viewContent = in_array($key, $configuredViews, true)
                 ? $this->getView($uid, $key)
                 : '';
 
             $this->setSubpart($key, $viewContent, 'field_wrapper');
-            if (($viewContent != '') && ($key != 'imageThumbnails')) {
+            if ($viewContent !== '' && $key !== 'imageThumbnails') {
                 $hasTextContent = true;
             }
         }
@@ -134,7 +146,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         // is activated.
         $this->setMarker(
             'with_images',
-            in_array('imageThumbnails', $configuredViews) ? ' with-images' : ''
+            in_array('imageThumbnails', $configuredViews, true) ? ' with-images' : ''
         );
 
         if (!$hasTextContent) {
@@ -157,7 +169,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($uid);
         $title = $realtyObject->getProperty('title');
-        if ($title == '') {
+        if ($title === '') {
             return;
         }
 
@@ -172,8 +184,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
      * @param int $uid
      *        UID of the realty object for which to create the view, must be > 0
      * @param string $viewName
-     *        key of the view to get, must be a part of the class name of possible view: tx_realty_pi1_[$viewName]View, must be
-     *        case-sensitive apart from the first letter, must not be empty
+     *        key of the view to get, must be a part of the class name of possible view: tx_realty_pi1_[$viewName]View,
+     *     must be case-sensitive apart from the first letter, must not be empty
      *
      * @return string the result of tx_realty_pi1_[$viewName]View::render(),
      *                will be empty if there is no data to display for the
@@ -190,7 +202,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         );
         $view->piVars = $this->piVars;
 
-        if ($viewName == 'googleMaps') {
+        if ($viewName === 'googleMaps') {
             /** @var tx_realty_pi1_GoogleMapsView $view */
             $view->setMapMarker($uid);
         }
@@ -211,11 +223,13 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         /** @var Tx_Oelib_Visibility_Tree $visibilityTree */
         $visibilityTree = GeneralUtility::makeInstance(
             Tx_Oelib_Visibility_Tree::class,
-            ['actionButtons' => [
-                'addToFavoritesButton' => false,
-                'backButton' => false,
-                'printPageButton' => false,
-            ]]
+            [
+                'actionButtons' => [
+                    'addToFavoritesButton' => false,
+                    'backButton' => false,
+                    'printPageButton' => false,
+                ],
+            ]
         );
         $visibilityTree->makeNodesVisible($displayedViews);
         $this->hideSubpartsArray(

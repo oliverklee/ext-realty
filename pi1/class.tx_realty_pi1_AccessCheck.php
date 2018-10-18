@@ -14,9 +14,9 @@ class tx_realty_pi1_AccessCheck
      * @param string $flavor
      *        the flavor for which to check the access, must be within the allowed values for "what_to_display"
      * @param array $piVars
-     *        Form data array with the keys "showUid" and "delete" which can contain the UID of the object to check the access for.
-     *        The fe_editor and image_upload can only be checked properly if "showUid" is provided. A UID provided with "delete"
-     *        is needed for the my_objects view.
+     *        Form data array with the keys "showUid" and "delete" which can contain the UID of the object to check the
+     *     access for. The fe_editor and image_upload can only be checked properly if "showUid" is provided. A UID
+     *     provided with "delete" is needed for the my_objects view.
      *
      * @throws Tx_Oelib_Exception_AccessDenied
      *         if access is denied, with the reason of denying as a locallang key
@@ -107,8 +107,7 @@ class tx_realty_pi1_AccessCheck
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
-        if (($realtyObjectUid == 0) || $mapper->existsModel($realtyObjectUid, true)
-        ) {
+        if ($realtyObjectUid === 0 || $mapper->existsModel($realtyObjectUid, true)) {
             return;
         }
 
@@ -121,7 +120,7 @@ class tx_realty_pi1_AccessCheck
      * to access a realty record. New realty objects (with UID = 0) are
      * considered to be editable by every logged-in user.
      *
-     * @param int $realtyObjectUid UID of the realty object for which to check whether a user is authorized, must be >= 0
+     * @param int $realtyObjectUid UID of the realty object for which to the user authorization, must be >= 0
      *
      * @throws Tx_Oelib_Exception_AccessDenied if the front-end user does not own the object
      *
@@ -129,7 +128,7 @@ class tx_realty_pi1_AccessCheck
      */
     private function frontEndUserOwnsObject($realtyObjectUid)
     {
-        if ($realtyObjectUid == 0) {
+        if ($realtyObjectUid === 0) {
             return;
         }
 
@@ -139,7 +138,7 @@ class tx_realty_pi1_AccessCheck
         $object = $mapper->find($realtyObjectUid);
         /** @var tx_realty_Model_FrontEndUser $loggedInUser */
         $loggedInUser = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-        if ($object->getProperty('owner') == $loggedInUser->getUid()) {
+        if ((int)$object->getProperty('owner') === $loggedInUser->getUid()) {
             return;
         }
 

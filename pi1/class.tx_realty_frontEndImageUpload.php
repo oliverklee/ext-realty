@@ -41,13 +41,10 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
 
         $images = $this->realtyObject->getImages();
 
-        if (!$images->isEmpty()) {
-            $this->setSubpart(
-                'single_attached_image',
-                $this->getRenderedImageList($images)
-            );
-        } else {
+        if ($images->isEmpty()) {
             $this->hideSubparts('images_to_delete', 'wrapper');
+        } else {
+            $this->setSubpart('single_attached_image', $this->getRenderedImageList($images));
         }
 
         return $this->getSubpart();
@@ -131,10 +128,10 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
             true
         );
         if (in_array('pdf', $imageExtensions, true)) {
-            unset($imageExtensions[array_search('pdf', $imageExtensions, true)]);
+            unset($imageExtensions[(int)array_search('pdf', $imageExtensions, true)]);
         }
         if (in_array('ps', $imageExtensions, true)) {
-            unset($imageExtensions[array_search('ps', $imageExtensions, true)]);
+            unset($imageExtensions[(int)array_search('ps', $imageExtensions, true)]);
         }
         $extensionValidator = '/^.+\\.(' . implode('|', $imageExtensions) . ')$/i';
 

@@ -100,7 +100,7 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
      */
     public function findByNameAndCityUid($districtName, $cityUid)
     {
-        if ($districtName == '') {
+        if ($districtName === '') {
             throw new InvalidArgumentException('$districtName must not be empty.', 1333035628);
         }
         if ($cityUid < 0) {
@@ -161,16 +161,13 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
         array $data
     ) {
         $districtName = isset($data['title']) ? $data['title'] : '';
-        if ($districtName == '') {
+        if ($districtName === '') {
             return;
         }
 
         $cityUid = isset($data['city']) ? $data['city'] : 0;
 
-        $cacheKey = $this->createCacheKeyFromNameAndCityUid(
-            $districtName,
-            $cityUid
-        );
+        $cacheKey = $this->createCacheKeyFromNameAndCityUid($districtName, $cityUid);
         $this->cacheByNameAndCityUid[$cacheKey] = $model;
     }
 

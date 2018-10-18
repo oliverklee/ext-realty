@@ -250,7 +250,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     protected function getAllowedImageExtensions()
     {
-        $allowedImageExtensions = GeneralUtility::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), true);
+        $allowedImageExtensions =
+            GeneralUtility::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), true);
 
         return array_filter($allowedImageExtensions, [$this, 'isNotPdfOrPs']);
     }
@@ -506,7 +507,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         // loaded.
         if ($this->isEmpty()
             || ($this->existsKey('contact_email')
-            && (count($this->getAllProperties()) == 1))
+                && count($this->getAllProperties()) === 1)
         ) {
             return 'message_object_not_loaded';
         }
@@ -524,17 +525,15 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         $ownerCanAddObjects = $this->ownerMayAddObjects();
 
         if ($this->identifyObjectAndSetUid()) {
-            if (!$this->getAsBoolean('deleted')) {
-                $this->updateDatabaseEntry($this->getAllProperties());
-            } else {
+            if ($this->getAsBoolean('deleted')) {
                 $this->discardExistingImages();
                 $this->discardExistingDocuments();
                 Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->delete($this);
                 $errorMessage = 'message_deleted_flag_causes_deletion';
+            } else {
+                $this->updateDatabaseEntry($this->getAllProperties());
             }
-        } elseif (!$ownerCanAddObjects) {
-            $errorMessage = 'message_object_limit_reached';
-        } else {
+        } elseif ($ownerCanAddObjects) {
             $newUid = $this->createNewDatabaseEntry(
                 $this->getAllProperties(),
                 'tx_realty_objects',
@@ -549,13 +548,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
                     break;
                 default:
                     $this->setUid($newUid);
-                    break;
             }
+        } else {
+            $errorMessage = 'message_object_limit_reached';
         }
 
-        if (($errorMessage == '')
-            || ($errorMessage == 'message_deleted_flag_causes_deletion')
-        ) {
+        if ($errorMessage === '' || $errorMessage === 'message_deleted_flag_causes_deletion') {
             $this->refreshImageEntries($overridePid);
             $this->refreshDocumentEntries($overridePid);
         }
@@ -678,8 +676,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     private function isOwnerDataUsable()
     {
         return Tx_Oelib_ConfigurationProxy::getInstance('realty')
-            ->getAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords')
-                && $this->hasOwner();
+                ->getAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords')
+            && $this->hasOwner();
     }
 
     /**
@@ -701,8 +699,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     public function getOwner()
     {
         if (empty($this->ownerData)
-            || ($this->ownerData['uid'] != $this->getAsInteger('owner'))
-            || ($this->ownerData['tx_realty_openimmo_anid'] !== $this->getAnid())
+            || (int)$this->ownerData['uid'] !== $this->getAsInteger('owner')
+            || $this->ownerData['tx_realty_openimmo_anid'] !== $this->getAnid()
         ) {
             $this->loadOwnerRecord();
         }
@@ -750,10 +748,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         $result = [];
 
-        foreach (array_keys(Tx_Oelib_Db::getColumnsInTable('tx_realty_objects'))as $key) {
+        foreach (array_keys(Tx_Oelib_Db::getColumnsInTable('tx_realty_objects')) as $key) {
             if ($this->existsKey($key)) {
                 $result[$key] = $this->get($key);
-            } elseif (($key == 'uid') && $this->hasUid()) {
+            } elseif ($key === 'uid' && $this->hasUid()) {
                 $result['uid'] = $this->getUid();
             }
         }
@@ -792,28 +790,15 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function set($key, $value)
     {
-        if ($this->isVirgin()
-            || !$this->isAllowedValue($value)
-            || !$this->isAllowedKey($key)
-        ) {
+        if ($this->isVirgin() || !$this->isAllowedValue($value) || !$this->isAllowedKey($key)) {
             return;
         }
 
-        if ($key == 'uid') {
+        if ($key === 'uid') {
             throw new InvalidArgumentException('The key must not be "uid".', 1333035810);
         }
 
         parent::set($key, $value);
-    }
-
-    /**
-     * Sets the current realty object to deleted.
-     *
-     * @return void
-     */
-    public function setToDeleted()
-    {
-        parent::setToDeleted();
     }
 
     /**
@@ -1088,6 +1073,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         /** @var tx_realty_Mapper_Document $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
         foreach ($mapper->findAllByRelation($this, 'object') as $document) {
+            /** @var \tx_realty_Model_Document $document */
             $mapper->delete($document);
         }
 
@@ -1200,7 +1186,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         $thumbnailFileName = ''
     ) {
         if ($this->isVirgin()) {
-            throw new BadMethodCallException('A realty record must be loaded before images can be appended.', 1333035831);
+            throw new BadMethodCallException(
+                'A realty record must be loaded before images can be appended.',
+                1333035831
+            );
         }
 
         $this->markAsLoaded();
@@ -1210,7 +1199,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         /** @var \tx_realty_Model_Image $image */
         $image = GeneralUtility::makeInstance(\tx_realty_Model_Image::class);
         $image->setTitle($caption);
-        if ($fileName != '') {
+        if ($fileName !== '') {
             $image->setFileName($fileName);
         }
         $image->setPosition($position);
@@ -1241,7 +1230,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     public function addDocument($title, $fileName)
     {
         if ($this->isVirgin()) {
-            throw new BadMethodCallException('A realty record must be loaded before documents can be appended.', 1333035851);
+            throw new BadMethodCallException(
+                'A realty record must be loaded before documents can be appended.',
+                1333035851
+            );
         }
 
         $this->markAsLoaded();
@@ -1250,10 +1242,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         /** @var \tx_realty_Model_Document $document */
         $document = GeneralUtility::makeInstance(\tx_realty_Model_Document::class);
-        if ($title != '') {
+        if ($title !== '') {
             $document->setTitle($title);
         }
-        if ($fileName != '') {
+        if ($fileName !== '') {
             $document->setFileName($fileName);
         }
         $this->documents->add($document);
@@ -1268,7 +1260,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * record will be marked as deleted in the database when the object is
      * written to the database.
      *
-     * @param int $imageKey key of the image record to mark as deleted, must be a key of the image data array and must be >= 0
+     * @param int $imageKey key of the image record to mark as deleted, must be a key of the image data array and must
+     *     be >= 0
      *
      * @throws BadMethodCallException
      * @throws Tx_Oelib_Exception_NotFound
@@ -1286,8 +1279,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         /** @var tx_realty_Model_Image $image */
         $image = $this->images->at($imageKey);
-
-        if ($image == null) {
+        if ($image === null) {
             throw new Tx_Oelib_Exception_NotFound('The image record does not exist.', 1333035899);
         }
 
@@ -1315,13 +1307,15 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     public function deleteDocument($key)
     {
         if ($this->isVirgin()) {
-            throw new BadMethodCallException('A realty record must be loaded before documents can be deleted.', 1333035926);
+            throw new BadMethodCallException(
+                'A realty record must be loaded before documents can be deleted.',
+                1333035926
+            );
         }
 
         /** @var tx_realty_Model_Document $document */
         $document = $this->documents->at($key);
-
-        if ($document == null) {
+        if ($document === null) {
             throw new Tx_Oelib_Exception_NotFound('The document does not exist.', 1333035940);
         }
 
@@ -1368,14 +1362,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         $dataToInsert = $realtyData;
-        $pid = Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            getAsInteger('pidForAuxiliaryRecords');
-        if (($pid == 0) || ($table == 'tx_realty_objects')) {
+        $pid = Tx_Oelib_ConfigurationProxy::getInstance('realty')->getAsInteger('pidForAuxiliaryRecords');
+        if ($pid === 0 || $table === 'tx_realty_objects') {
             if ($overridePid > 0) {
                 $pid = $overridePid;
             } else {
-                $pid = Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-                    getAsInteger('pidForRealtyObjectsAndImages');
+                $pid = Tx_Oelib_ConfigurationProxy::getInstance('realty')->getAsInteger('pidForRealtyObjectsAndImages');
             }
         }
 
@@ -1480,7 +1472,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * a database entry in $table.
      *
      * @param array $dataArray
-     *        the data of an entry which already exists in database by which the existence will be proven, must not be empty
+     *        the data of an entry which already exists in database by which the existence will be proven, must not be
+     *     empty
      * @param string $table
      *        name of the table where to find out whether an entry already exists
      *
@@ -1507,7 +1500,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * should be compared with the corresponding values in $dataArray.
      *
      * @param string $whatToSelect
-     *        list of fields to select from the database table (part of the sql-query right after SELECT), must not be empty
+     *        list of fields to select from the database table (part of the sql-query right after SELECT), must not be
+     *     empty
      * @param array $dataArray
      *        data which to take for the database comparison, must not be empty
      * @param string $table
@@ -1524,7 +1518,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         $showHidden = -1;
-        if (($table == 'tx_realty_objects') && $this->canLoadHiddenObjects) {
+        if ($table === 'tx_realty_objects' && $this->canLoadHiddenObjects) {
             $showHidden = 1;
         }
 
@@ -1661,7 +1655,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * Gets a field of a related property of the object.
      *
      * @throws InvalidArgumentException
-     *         if $key is not within "city", "apartment_type", "house_type", "district", "pets", "garage_type" and "country"
+     *         if $key is not within "city", "apartment_type", "house_type", "district", "pets", "garage_type" and
+     *     "country"
      *
      * @param string $key key of this object's property, must not be empty
      * @param string $titleField key of the property's field to get, must not be empty
@@ -1672,13 +1667,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getForeignPropertyField($key, $titleField = 'title')
     {
-        $tableName = ($key == 'country')
-            ? 'static_countries' : array_search($key, self::$propertyTables);
+        $tableName = ($key === 'country') ? 'static_countries' : array_search($key, self::$propertyTables, true);
 
         if ($tableName === false) {
             throw new InvalidArgumentException(
                 '$key must be within "city", "apartment_type", "house_type", "district", "pets", ' .
-                    '"garage_type", "country", but actually is "' . $key . '".',
+                '"garage_type", "country", but actually is "' . $key . '".',
                 1333035988
             );
         }
@@ -1709,8 +1703,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Returns this object's address formatted for a geo lookup, for example "53117 Bonn, DE". Any part of this address might be
-     * missing, though.
+     * Returns this object's address formatted for a geo lookup, for example "53117 Bonn, DE". Any part of this address
+     * might be missing, though.
      *
      * @throws BadMethodCallException
      *
@@ -1811,7 +1805,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function setGeoCoordinates(array $coordinates)
     {
-        if (!isset($coordinates['latitude']) || !isset($coordinates['longitude'])) {
+        if (!isset($coordinates['latitude'], $coordinates['longitude'])) {
             throw new InvalidArgumentException(
                 'setGeoCoordinates requires both a latitude and a longitude.',
                 1340376055
@@ -1864,8 +1858,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     /**
      * Checks whether there has been a problem with this object's geo coordinates.
      *
-     * Note: This function only checks whether there has been an error with the coordinates, not whether this object actually has
-     * coordinates.
+     * Note: This function only checks whether there has been an error with the coordinates, not whether this object
+     * actually has coordinates.
      *
      * @return bool TRUE if there has been an error, FALSE otherwise
      */
@@ -1964,19 +1958,18 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         $result = [];
 
-        if ($this->getShowAddress() && ($this->getAsString('street') != '')
-        ) {
+        if ($this->getShowAddress() && $this->getAsString('street') !== '') {
             $result[] = htmlspecialchars($this->getAsString('street'));
         }
 
         $result[] = htmlspecialchars(trim(
             $this->getAsString('zip') . ' ' .
-                $this->getForeignPropertyField('city') . ' ' .
-                $this->getForeignPropertyField('district')
+            $this->getForeignPropertyField('city') . ' ' .
+            $this->getForeignPropertyField('district')
         ));
 
         $country = $this->getForeignPropertyField('country', 'cn_short_local');
-        if ($country != '') {
+        if ($country !== '') {
             $result[] = $country;
         }
 
@@ -1995,8 +1988,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Returns the name of the contact person, depending on the object configuration either from the owner front-ent user or
-     * the object.
+     * Returns the name of the contact person, depending on the object configuration either from the owner front-ent
+     * user or the object.
      *
      * @return string the name of the contact person, might be empty
      */
@@ -2158,13 +2151,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * If a front-end user should be used as owner, the owner will be stored in
      * $this->owner.
      *
-     * @return bool TRUE if the contact data should be fetched from the owner
-     *                 FE user, FALSE otherwise
+     * @return bool true if the contact data should be fetched from the owner FE user, false otherwise
      */
     private function usesContactDataOfOwner()
     {
-        $useContactDataOfOwner = $this->getAsInteger('contact_data_source') == self::CONTACT_DATA_FROM_OWNER_ACCOUNT;
-
+        $useContactDataOfOwner = $this->getAsInteger('contact_data_source') === self::CONTACT_DATA_FROM_OWNER_ACCOUNT;
         if ($useContactDataOfOwner && $this->owner === null) {
             /** @var tx_realty_Mapper_FrontEndUser $mapper */
             $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class);
@@ -2175,7 +2166,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Sets the current charset in $this->renderCharset and the charset conversion instance in $this->$charsetConversion.
+     * Sets the current charset in $this->renderCharset and the charset conversion instance in
+     * $this->$charsetConversion.
      *
      * @return void
      *
@@ -2258,13 +2250,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     /**
      * Checks whether this object is rented or sold.
      *
-     * @return bool
-     *         TRUE if this object is rented or sold, FALSE otherwise
+     * @return bool true if this object is rented or sold, false otherwise
      */
     public function isRentedOrSold()
     {
-        return ($this->getStatus() == self::STATUS_RENTED)
-            || ($this->getStatus() == self::STATUS_SOLD);
+        return $this->getStatus() === self::STATUS_RENTED || $this->getStatus() === self::STATUS_SOLD;
     }
 
     /**

@@ -14,8 +14,8 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView
      * be configured.
      *
      * @param array $piVars
-     *        PiVars array, must contain the key "showUid" with a valid realty object UID or zero as value. Note that for zero,
-     *        the linked contact form will not contain any realty object information.
+     *        PiVars array, must contain the key "showUid" with a valid realty object UID or zero as value. Note that
+     *     for zero, the linked contact form will not contain any realty object information.
      *
      * @return string HTML for the contact button or an empty string if the
      *                configured "contactPID" equals the current page or is not
@@ -24,7 +24,7 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView
     public function render(array $piVars = [])
     {
         if (!$this->hasConfValueInteger('contactPID')
-            || ($this->getConfValueInteger('contactPID') == (int)$this->getFrontEndController()->id)
+            || $this->getConfValueInteger('contactPID') === (int)$this->getFrontEndController()->id
         ) {
             return '';
         }

@@ -70,13 +70,13 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
         }
 
         $items = $this->getCheckboxItems();
-        if (!empty($items)) {
+        if (empty($items)) {
+            $result = '';
+        } else {
             $this->setSubpart('search_item', implode(LF, $items));
             $this->setMarker('self_url_without_pivars', $this->getSelfUrl(true, ['search', 'pointer']));
 
             $result = $this->getSubpart('LIST_FILTER');
-        } else {
-            $result = '';
         }
 
         return $result;
@@ -95,8 +95,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
             return false;
         }
 
-        return ($this->getConfValueString('checkboxesFilter') != 'city')
-            || !$this->isCitySelectorInUse();
+        return $this->getConfValueString('checkboxesFilter') !== 'city' || !$this->isCitySelectorInUse();
     }
 
     /**
@@ -120,15 +119,15 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
             'SELECT * ' .
             'FROM ' . 'tx_realty_objects' . ' ' .
             'WHERE ' . 'tx_realty_objects' . '.' . $filterCriterion .
-                ' = ' . $currentTable . '.uid ' .
-                parent::getWhereClausePartForPidList() .
-                Tx_Oelib_Db::enableFields('tx_realty_objects') .
+            ' = ' . $currentTable . '.uid ' .
+            parent::getWhereClausePartForPidList() .
+            Tx_Oelib_Db::enableFields('tx_realty_objects') .
             ')' . Tx_Oelib_Db::enableFields($currentTable);
 
         $checkboxItems = Tx_Oelib_Db::selectMultiple('uid, title', $currentTable, $whereClause, '', 'title ASC');
 
         foreach ($checkboxItems as $checkboxItem) {
-            if (in_array($checkboxItem['uid'], $currentSearch)) {
+            if (in_array($checkboxItem['uid'], $currentSearch, true)) {
                 $checked = ' checked="checked"';
             } else {
                 $checked = '';

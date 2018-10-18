@@ -36,7 +36,7 @@ class tx_realty_Model_Document extends tx_realty_Model_AbstractTitledModel imple
      */
     public function setFileName($fileName)
     {
-        if ($fileName == '') {
+        if ($fileName === '') {
             throw new InvalidArgumentException('$fileName must not be empty.', 1333036052);
         }
 

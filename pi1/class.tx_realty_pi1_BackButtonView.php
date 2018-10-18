@@ -90,7 +90,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView
             true
         );
 
-        if (!in_array('nextPreviousButtons', $displayedSingleViewParts)) {
+        if (!in_array('nextPreviousButtons', $displayedSingleViewParts, true)) {
             return false;
         }
 

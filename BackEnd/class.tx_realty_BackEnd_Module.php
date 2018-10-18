@@ -3,10 +3,8 @@
 use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * Backend module.
@@ -153,7 +151,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
      */
     private function hasAccess()
     {
-        if ($this->getBackEndUserAuthentication()->isAdmin()) {
+        if ($this->getBackEndUser()->isAdmin()) {
             return true;
         }
 
@@ -174,7 +172,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         $objectsPid = $configurationProxy->getAsInteger(
             'pidForRealtyObjectsAndImages'
         );
-        $canWriteObjectsPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
+        $canWriteObjectsPage = $this->getBackEndUser()->doesUserHaveAccess(
             BackendUtility::getRecord('pages', $objectsPid),
             16
         );
@@ -182,7 +180,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         $auxiliaryPid = $configurationProxy->getAsInteger(
             'pidForAuxiliaryRecords'
         );
-        $canWriteAuxiliaryPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
+        $canWriteAuxiliaryPage = $this->getBackEndUser()->doesUserHaveAccess(
             BackendUtility::getRecord('pages', $auxiliaryPid),
             16
         );
@@ -219,7 +217,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         ];
 
         foreach ($neededTables as $table) {
-            if (!$this->getBackEndUserAuthentication()->check('tables_modify', $table)) {
+            if (!$this->getBackEndUser()->check('tables_modify', $table)) {
                 $userHasAccessToTables = false;
                 $this->storeErrorMessage('table_access', $table);
                 break;
@@ -270,26 +268,6 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         $this->template->setMarker('error_list', '<li>' . $errorList . '</li>');
 
         return $this->template->getSubpart('IMPORT_ERRORS');
-    }
-
-    /**
-     * Returns $GLOBALS['BE_USER'].
-     *
-     * @return BackendUserAuthentication|null
-     */
-    protected function getBackEndUserAuthentication()
-    {
-        return isset($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER'] : null;
-    }
-
-    /**
-     * Returns $GLOBALS['LANG'].
-     *
-     * @return LanguageService
-     */
-    protected function getLanguageService()
-    {
-        return $GLOBALS['LANG'];
     }
 
     /**

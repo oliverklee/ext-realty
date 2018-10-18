@@ -24,9 +24,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView
         $contactData = $this->fetchContactDataFromSource($piVars['showUid']);
         $this->setMarker('offerer_information', $contactData);
 
-        return ($contactData != '')
-            ? $this->getSubpart('FIELD_WRAPPER_OFFERER')
-            : '';
+        return $contactData !== '' ? $this->getSubpart('FIELD_WRAPPER_OFFERER') : '';
     }
 
     /**

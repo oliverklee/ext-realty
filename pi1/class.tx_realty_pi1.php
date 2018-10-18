@@ -77,7 +77,11 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
 
         $this->internal['currentTable'] = 'tx_realty_objects';
         $this->ensureIntegerPiVars([
-            'remove', 'showUid', 'delete', 'owner', 'uid',
+            'remove',
+            'showUid',
+            'delete',
+            'owner',
+            'uid',
         ]);
 
         // Checks the configuration and displays any errors.
@@ -88,11 +92,8 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
 
         $errorViewHtml = $this->checkAccessAndGetHtmlOfErrorView();
         $result = $this->pi_wrapInBaseClass(
-            (
-                ($errorViewHtml == '')
-                ? $this->getHtmlForCurrentView()
-                : $errorViewHtml
-            ) . $this->getWrappedConfigCheckMessage()
+            ($errorViewHtml === '' ? $this->getHtmlForCurrentView() : $errorViewHtml) .
+            $this->getWrappedConfigCheckMessage()
         );
 
         return $result;
@@ -126,7 +127,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
                 );
                 $result = $singleView->render($this->piVars);
 
-                if ($result == '') {
+                if ($result === '') {
                     $this->setEmptyResultView();
                     Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()
                         ->addHeader('Status: 404 Not Found');
@@ -185,7 +186,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
             default:
                 $listViewType = 'realty_list';
         }
-        if ($listViewType != '') {
+        if ($listViewType !== '') {
             $listView = tx_realty_pi1_ListViewFactory::make(
                 $listViewType,
                 $this->conf,
@@ -207,9 +208,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
     private function checkAccessAndGetHtmlOfErrorView()
     {
         // This will be moved to the access check when Bug #1480 is fixed.
-        if (!$this->getConfValueBoolean('requireLoginForSingleViewPage')
-            && ($this->getCurrentView() == 'single_view')
-        ) {
+        if (!$this->getConfValueBoolean('requireLoginForSingleViewPage') && $this->getCurrentView() === 'single_view') {
             return '';
         }
 
@@ -280,16 +279,6 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
         }
 
         return $result;
-    }
-
-    /**
-     * Checks that we are properly initialized.
-     *
-     * @return bool TRUE if we are properly initialized, FALSE otherwise
-     */
-    public function isInitialized()
-    {
-        return $this->isInitialized;
     }
 
     /**

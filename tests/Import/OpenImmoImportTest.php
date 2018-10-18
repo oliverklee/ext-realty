@@ -430,12 +430,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'foo.jpg')
-        );
-        self::assertTrue(
-            file_exists($this->importFolder . 'bar.jpg')
-        );
+        self::assertFileExists($this->importFolder . 'foo.jpg');
+        self::assertFileExists($this->importFolder . 'bar.jpg');
     }
 
     /**
@@ -448,9 +444,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('pdf.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'foo.pdf')
-        );
+        self::assertFileExists($this->importFolder . 'foo.pdf');
     }
 
     /**
@@ -463,9 +457,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('ps.zip');
         $this->fixture->importFromZip();
 
-        self::assertFalse(
-            file_exists($this->importFolder . 'foo.ps')
-        );
+        self::assertFileNotExists($this->importFolder . 'foo.ps');
     }
 
     /**
@@ -478,9 +470,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('foo-uppercased.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'foo.JPG')
-        );
+        self::assertFileExists($this->importFolder . 'foo.JPG');
     }
 
     /**
@@ -494,12 +484,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('foo.zip', 'foo2.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'foo.jpg')
-        );
-        self::assertTrue(
-            file_exists($this->importFolder . 'foo_00.jpg')
-        );
+        self::assertFileExists($this->importFolder . 'foo.jpg');
+        self::assertFileExists($this->importFolder . 'foo_00.jpg');
     }
 
     /**
@@ -512,12 +498,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'foo.jpg')
-        );
-        self::assertTrue(
-            file_exists($this->importFolder . 'bar.jpg')
-        );
+        self::assertFileExists($this->importFolder . 'foo.jpg');
+        self::assertFileExists($this->importFolder . 'bar.jpg');
     }
 
     /**
@@ -530,12 +512,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('foo-deleted.zip');
         $this->fixture->importFromZip();
 
-        self::assertFalse(
-            file_exists($this->importFolder . 'foo.jpg')
-        );
-        self::assertFalse(
-            file_exists($this->importFolder . 'bar.jpg')
-        );
+        self::assertFileNotExists($this->importFolder . 'foo.jpg');
+        self::assertFileNotExists($this->importFolder . 'bar.jpg');
     }
 
     ////////////////////////////////
@@ -578,9 +556,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->fixture->cleanUp($this->importFolder . 'foo.zip');
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'foo.zip')
-        );
+        self::assertFileExists($this->importFolder . 'foo.zip');
     }
 
     /**
@@ -611,9 +587,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('same-name.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'same-name.zip')
-        );
+        self::assertFileExists($this->importFolder . 'same-name.zip');
     }
 
     /**
@@ -629,9 +603,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('same-name.zip');
         $this->fixture->importFromZip();
 
-        self::assertFalse(
-            file_exists($this->importFolder . 'same-name.zip')
-        );
+        self::assertFileNotExists($this->importFolder . 'same-name.zip');
     }
 
     /**
@@ -644,9 +616,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('empty.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'empty.zip')
-        );
+        self::assertFileExists($this->importFolder . 'empty.zip');
     }
 
     /**
@@ -659,9 +629,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('bar-bar.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'bar-bar.zip')
-        );
+        self::assertFileExists($this->importFolder . 'bar-bar.zip');
     }
 
     /**
@@ -685,9 +653,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         $this->fixture->importFromZip();
 
-        self::assertFalse(
-            file_exists($this->importFolder . 'changed-copy-of-same-name/same-name.zip')
-        );
+        self::assertFileNotExists($this->importFolder . 'changed-copy-of-same-name/same-name.zip');
     }
 
     /**
@@ -703,9 +669,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('same-name.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'same-name.zip')
-        );
+        self::assertFileExists($this->importFolder . 'same-name.zip');
     }
 
     /**
@@ -723,9 +687,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('same-name.zip');
         $this->fixture->importFromZip();
 
-        self::assertFalse(
-            file_exists($this->importFolder . 'same-name.zip')
-        );
+        self::assertFileNotExists($this->importFolder . 'same-name.zip');
     }
 
     /**
@@ -753,9 +715,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('two-objects.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'two-objects.zip')
-        );
+        self::assertFileExists($this->importFolder . 'two-objects.zip');
     }
 
     /**
@@ -782,9 +742,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->copyTestFileIntoImportFolder('two-objects.zip');
         $this->fixture->importFromZip();
 
-        self::assertTrue(
-            file_exists($this->importFolder . 'two-objects.zip')
-        );
+        self::assertFileExists($this->importFolder . 'two-objects.zip');
     }
 
     ////////////////////////////////////////////////////////

@@ -149,10 +149,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     private function checkMemberVariables()
     {
-        if ($this->listViewLabel == '') {
+        if ($this->listViewLabel === '') {
             throw new BadMethodCallException('The member variable $listViewLabel must not be empty.', 1333036318);
         }
-        if ($this->currentView == '') {
+        if ($this->currentView === '') {
             throw new BadMethodCallException('The member variable $currentView must not be empty.', 1333036327);
         }
     }
@@ -203,7 +203,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     private function fillListRows()
     {
         $dbResult = $this->initListView();
-        if ($this->internal['res_count'] == 0) {
+        if ((int)$this->internal['res_count'] === 0) {
             $this->setEmptyResultView();
             return;
         }
@@ -342,16 +342,13 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     private function setRedirectHeaderForSingleResult()
     {
-        if (($this->internal['res_count'] != 1)
-            || (($this->piVars['uid'] == 0) && empty($this->piVars['objectNumber']))
+        if ((int)$this->internal['res_count'] !== 1
+            || ((int)$this->piVars['uid'] === 0 && empty($this->piVars['objectNumber']))
         ) {
             return;
         }
 
-        $this->createLinkToSingleViewPageForAnyLinkText(
-            '|',
-            $this->internal['currentRow']['uid']
-        );
+        $this->createLinkToSingleViewPageForAnyLinkText('|', $this->internal['currentRow']['uid']);
         Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->addHeader(
             'Location: ' .
             GeneralUtility::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
@@ -399,7 +396,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     {
         $this->resetListViewSubparts();
 
-        $position = ($rowCounter == 0) ? 'first' : '';
+        $position = $rowCounter === 0 ? 'first' : '';
         $this->setMarker('class_position_in_list', $position);
 
         $this->setRealtyObjectFromUid($this->internal['currentRow']['uid']);
@@ -421,33 +418,35 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 break;
         }
 
-        foreach ([
-                     'uid' => $this->internal['currentRow']['uid'],
-                     'object_number' => $this->internal['currentRow']['object_number'],
-                     'teaser' => $this->internal['currentRow']['teaser'],
-                     'linked_title' => $this->getLinkedTitle(),
-                     'features' => $this->getFeatureList(),
-                     'list_image_left' => $leftImage,
-                     'list_image_right' => $rightImage,
-                 ] as $key => $value) {
+        foreach (
+            [
+                'uid' => $this->internal['currentRow']['uid'],
+                'object_number' => $this->internal['currentRow']['object_number'],
+                'teaser' => $this->internal['currentRow']['teaser'],
+                'linked_title' => $this->getLinkedTitle(),
+                'features' => $this->getFeatureList(),
+                'list_image_left' => $leftImage,
+                'list_image_right' => $rightImage,
+            ] as $key => $value) {
             $this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper');
         }
 
-        foreach ([
-                     'city',
-                     'district',
-                     'living_area',
-                     'total_area',
-                     'sales_area',
-                     'number_of_rooms',
-                     'heating_type',
-                     'buying_price',
-                     'extra_charges',
-                     'rent_excluding_bills',
-                     'rent_with_heating_costs',
-                     'status',
-                     'floor',
-                 ] as $key) {
+        foreach (
+            [
+                'city',
+                'district',
+                'living_area',
+                'total_area',
+                'sales_area',
+                'number_of_rooms',
+                'heating_type',
+                'buying_price',
+                'extra_charges',
+                'rent_excluding_bills',
+                'rent_with_heating_costs',
+                'status',
+                'floor',
+            ] as $key) {
             $this->setOrDeleteMarkerIfNotEmpty(
                 $key,
                 $this->getFormatter()->getProperty($key),
@@ -562,7 +561,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         );
         $options = [];
         foreach ($selectedSortCriteria as $selectedSortCriterion) {
-            if (in_array($selectedSortCriterion, self::$sortCriteria)) {
+            if (in_array($selectedSortCriterion, self::$sortCriteria, true)) {
                 $sortCriterion = isset($this->piVars['orderBy'])
                     ? $this->piVars['orderBy']
                     : $this->getConfValueString('orderBy');
@@ -749,14 +748,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      * @return string htmlspecialchared URL of the current page, will not
      *                be empty
      */
-    protected function getSelfUrl(
-        $keepPiVars = true,
-        array $keysToRemove = []
-    ) {
+    protected function getSelfUrl($keepPiVars = true, array $keysToRemove = [])
+    {
         $piVars = [];
         if ($keepPiVars) {
             foreach ($this->piVars as $key => $value) {
-                if (($key != 'DATA') && !in_array($key, $keysToRemove)) {
+                if (($key !== 'DATA') && !in_array($key, $keysToRemove, true)) {
                     $piVars[$key] = $value;
                 }
             }
@@ -804,11 +801,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $uid,
         $separateSingleViewPage = ''
     ) {
-        if ($linkText == '') {
+        if ($linkText === '') {
             return '';
         }
 
-        $hasSeparateSingleViewPage = ($separateSingleViewPage != '');
+        $hasSeparateSingleViewPage = (string)$separateSingleViewPage !== '';
         // disables the caching if we are in the favorites list
         $useCache = $this->useCacheForSinglePageLink();
 
@@ -911,7 +908,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         // get features described by DB relations
         foreach (['apartment_type', 'house_type', 'garage_type'] as $key) {
             $propertyTitle = $this->getFormatter()->getProperty($key);
-            if ($propertyTitle != '') {
+            if ($propertyTitle !== '') {
                 $features[] = $propertyTitle;
             }
         }
@@ -934,7 +931,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             $features[] = $this->translate('label_construction_year') . ' ' .
                 $this->internal['currentRow']['construction_year'];
         }
-        if ($this->internal['currentRow']['usable_from'] != '') {
+        if ((string)$this->internal['currentRow']['usable_from'] !== '') {
             $features[] = $this->translate('label_usable_from_short') . ' ' .
                 $this->getFormatter()->getProperty('usable_from');
         }
@@ -1050,7 +1047,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         $selectedPageNumber = (int)$this->piVars['pointer'];
         // Don't link to the current page (for usability reasons).
-        if ($pageNum == $selectedPageNumber) {
+        if ($pageNum === $selectedPageNumber) {
             if ($alsoShowNonLinks) {
                 $result = $this->getSubpart('NO_LINK_TO_CURRENT_PAGE');
             }
@@ -1242,8 +1239,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         $image = $this->getImage($offset);
         if (!empty($image)) {
-            $fileName = ($image['thumbnail'] != '')
-                ? $image['thumbnail'] : $image['image'];
+            $fileName = $image['thumbnail'] !== '' ? $image['thumbnail'] : $image['image'];
 
             $result = $this->createImageTag(
                 $fileName,
