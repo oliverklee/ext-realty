@@ -226,11 +226,11 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
     public function renderReturnsFullContactNameIfOffererDataIsEnabledAndInformationIsSetInTheRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->getLoadedTestingModel(
-                [
-                    'contact_person' => 'Green',
-                    'contact_person_first_name' => 'Laci',
-                    'contact_person_salutation' => 'Ms.',
-                ]
+            [
+                'contact_person' => 'Green',
+                'contact_person_first_name' => 'Laci',
+                'contact_person_salutation' => 'Ms.',
+            ]
         );
 
         $this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
@@ -244,8 +244,8 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function renderForDisplayContactTelephoneEnabledContactFromObjectAndDirectExtensionSetShowsDirectExtensionNumber()
-    {
+    public function renderForDisplayContactTelephoneEnabledContactFromObjectAndDirectExtensionSetShowsDirectExtensionNumber(
+    ) {
         /** @var tx_realty_Model_RealtyObject|PHPUnit_Framework_MockObject_MockObject $model */
         $model = $this->getMock(
             \tx_realty_Model_RealtyObject::class,
@@ -438,7 +438,7 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'owner' => $ownerUid,
                 'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue(
             'displayedContactInformation',
@@ -487,7 +487,7 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel([
                 'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue(
             'displayedContactInformation',

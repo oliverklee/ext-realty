@@ -101,7 +101,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
 
         $this->template
             = Tx_Oelib_TemplateRegistry::getInstance()->getByFileName(
-                'EXT:realty/BackEnd/mod_template.html'
+            'EXT:realty/BackEnd/mod_template.html'
         );
     }
 
@@ -114,10 +114,10 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
     {
         $moduleToken = FormProtectionFactory::get()->generateToken('moduleCall', self::MODULE_NAME);
         return $this->doc->getTabMenu(
-            ['M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id],
-            'tab',
-            self::IMPORT_TAB,
-            [self::IMPORT_TAB => $this->translate('import_tab')]
+                ['M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id],
+                'tab',
+                self::IMPORT_TAB,
+                [self::IMPORT_TAB => $this->translate('import_tab')]
             ) . $this->doc->spacer(5);
     }
 
@@ -263,7 +263,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         $this->template->setMarker(
             'message_no_permissions',
             $this->doc->spacer(5) .
-                $this->translate('message_no_permission')
+            $this->translate('message_no_permission')
 
         );
         $errorList = implode('</li>' . LF . '<li>', $this->errorMessages);

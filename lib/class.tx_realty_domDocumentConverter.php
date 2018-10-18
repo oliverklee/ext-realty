@@ -115,10 +115,21 @@ class tx_realty_domDocumentConverter
      * @var string[]
      */
     private static $booleanFields = [
-        'show_address', 'heating_included', 'garden', 'barrier_free', 'wheelchair_accessible', 'ramp',
-        'lifting_platform', 'suitable_for_the_elderly',
-        'elevator', 'has_air_conditioning', 'assisted_living', 'fitted_kitchen',
-        'has_pool', 'has_community_pool', 'with_hot_water',
+        'show_address',
+        'heating_included',
+        'garden',
+        'barrier_free',
+        'wheelchair_accessible',
+        'ramp',
+        'lifting_platform',
+        'suitable_for_the_elderly',
+        'elevator',
+        'has_air_conditioning',
+        'assisted_living',
+        'fitted_kitchen',
+        'has_pool',
+        'has_community_pool',
+        'with_hot_water',
     ];
 
     /**
@@ -985,7 +996,10 @@ class tx_realty_domDocumentConverter
         // The node is valid when there is a node name, it does not need to
         // have attributes.
         if ($this->getNodeName($nodeWithAttributes)) {
-            $this->addImportedData('deleted', (int)in_array('delete', $this->fetchLowercasedDomAttributes($nodeWithAttributes), true));
+            $this->addImportedData(
+                'deleted',
+                (int)in_array('delete', $this->fetchLowercasedDomAttributes($nodeWithAttributes), true)
+            );
         }
     }
 
@@ -1016,7 +1030,7 @@ class tx_realty_domDocumentConverter
 
         if (
             $this->isElementSetAndNonEmpty('laengengrad', $attributes)
-                && $this->isElementSetAndNonEmpty('breitengrad', $attributes)
+            && $this->isElementSetAndNonEmpty('breitengrad', $attributes)
         ) {
             $this->addImportedData('has_coordinates', true);
             $this->addImportedData('coordinates_problem', false);

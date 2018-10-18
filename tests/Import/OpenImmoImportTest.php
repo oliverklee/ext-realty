@@ -678,7 +678,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         // copyTestFileIntoImportFolder() cannot copy folders
         GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
         copy(
-            ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . 'changed-copy-of-same-name/same-name.zip',
+            ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/'
+            . 'changed-copy-of-same-name/same-name.zip',
             $this->importFolder . 'changed-copy-of-same-name/same-name.zip'
         );
 
@@ -2143,125 +2144,125 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>
-			<uebertragung xmlns="" art="OFFLINE" umfang="TEIL" modus="CHANGE" version="1.2.4" sendersoftware="OOF" senderversion="$Rev: 49210 $" techn_email="heidi.loehr@lob-immobilien.de" timestamp="2015-06-22T13:55:07.0+00:00"/>
-			<anbieter xmlns="">
-			<firma>Doe Immobilien</firma>
-			<openimmo_anid>123456</openimmo_anid>
+            <uebertragung xmlns="" art="OFFLINE" umfang="TEIL" modus="CHANGE" version="1.2.4" sendersoftware="OOF" senderversion="$Rev: 49210 $" techn_email="heidi.loehr@lob-immobilien.de" timestamp="2015-06-22T13:55:07.0+00:00"/>
+            <anbieter xmlns="">
+            <firma>Doe Immobilien</firma>
+            <openimmo_anid>123456</openimmo_anid>
 
-			<immobilie>
-			<objektkategorie>
-			<nutzungsart WOHNEN="1" GEWERBE="0"/>
-			<vermarktungsart KAUF="1" MIETE_PACHT="0"/>
-			<objektart>
-			<wohnung wohnungtyp="ETAGE"/>
-			</objektart>
-			</objektkategorie>
-			<geo>
-			<plz>55127</plz>
-			<ort>Mainz / Lerchenberg</ort>
-			<strasse>Rubensallee</strasse>
-			<hausnummer>1</hausnummer>
-			<land iso_land="DEU"/>
-			<etage>3</etage>
-			<anzahl_etagen>7</anzahl_etagen>
-			</geo>
-			<kontaktperson>
-			<email_zentrale>offerer@example.com</email_zentrale>
-			<email_direkt>offerer@example.com</email_direkt>
-			<name>Doe</name>
-			<vorname>Jane</vorname>
-			<anrede>Frau</anrede>
-			<anrede_brief>Sehr geehrte Frau Doe,</anrede_brief>
-			<firma>Doe Immobilien</firma>
-			<zusatzfeld/>
-			<strasse>Dessauer Straße</strasse>
-			<hausnummer>1</hausnummer>
-			<plz>55000</plz>
-			<ort>Bad Kreuznach</ort>
-			<land iso_land="DEU"/>
-			<url>www.oliverklee.de</url>
-			</kontaktperson>
-			<preise>
-			<kaufpreis>149000.00</kaufpreis>
-			<hausgeld>345.00</hausgeld>
-			<aussen_courtage mit_mwst="1">5,95 % inkl. 19% MwSt.</aussen_courtage>
-			<waehrung iso_waehrung="EUR"/>
-			<stp_carport stellplatzmiete="0.00" anzahl="0"/>
-			<stp_duplex stellplatzmiete="0.00" anzahl="0"/>
-			<stp_freiplatz stellplatzmiete="0.00" anzahl="1"/>
-			<stp_garage stellplatzmiete="0.00" anzahl="0"/>
-			<stp_parkhaus stellplatzmiete="0.00" anzahl="0"/>
-			<stp_tiefgarage stellplatzmiete="0.00" anzahl="0"/>
-			<stp_sonstige platzart="SONSTIGES" stellplatzmiete="0.00" anzahl="0"/>
-			</preise>
-			<versteigerung/>
-			<flaechen>
-			<wohnflaeche>88.00</wohnflaeche>
-			<anzahl_zimmer>3.00</anzahl_zimmer>
-			<anzahl_badezimmer>1.00</anzahl_badezimmer>
-			<anzahl_sep_wc>1.00</anzahl_sep_wc>
-			<anzahl_stellplaetze>1</anzahl_stellplaetze>
-			</flaechen>
-			<ausstattung>
-			<heizungsart FERN="1"/>
-			<fahrstuhl PERSONEN="1"/>
-			<kabel_sat_tv>1</kabel_sat_tv>
-			<unterkellert keller="JA"/>
-			</ausstattung>
-			<zustand_angaben>
-			<baujahr>1971</baujahr>
-			<zustand zustand_art="GEPFLEGT"/>
-			<verkaufstatus stand="OFFEN"/>
-			</zustand_angaben>
-			<verwaltung_objekt>
-			<objektadresse_freigeben>0</objektadresse_freigeben>
-			<verfuegbar_ab>01.08.2015</verfuegbar_ab>
-			</verwaltung_objekt>
-			<verwaltung_techn>
-			<objektnr_intern>550</objektnr_intern>
-			<objektnr_extern>OR273</objektnr_extern>
-			<aktion aktionart="CHANGE"/>
-			<openimmo_obid>123456_550_OR273</openimmo_obid>
-			<kennung_ursprung>onOffice Software</kennung_ursprung>
-			<stand_vom>2015-06-22</stand_vom>
-			<weitergabe_generell>1</weitergabe_generell>
-			</verwaltung_techn>
-			</immobilie>
+            <immobilie>
+            <objektkategorie>
+            <nutzungsart WOHNEN="1" GEWERBE="0"/>
+            <vermarktungsart KAUF="1" MIETE_PACHT="0"/>
+            <objektart>
+            <wohnung wohnungtyp="ETAGE"/>
+            </objektart>
+            </objektkategorie>
+            <geo>
+            <plz>55127</plz>
+            <ort>Mainz / Lerchenberg</ort>
+            <strasse>Rubensallee</strasse>
+            <hausnummer>1</hausnummer>
+            <land iso_land="DEU"/>
+            <etage>3</etage>
+            <anzahl_etagen>7</anzahl_etagen>
+            </geo>
+            <kontaktperson>
+            <email_zentrale>offerer@example.com</email_zentrale>
+            <email_direkt>offerer@example.com</email_direkt>
+            <name>Doe</name>
+            <vorname>Jane</vorname>
+            <anrede>Frau</anrede>
+            <anrede_brief>Sehr geehrte Frau Doe,</anrede_brief>
+            <firma>Doe Immobilien</firma>
+            <zusatzfeld/>
+            <strasse>Dessauer Straße</strasse>
+            <hausnummer>1</hausnummer>
+            <plz>55000</plz>
+            <ort>Bad Kreuznach</ort>
+            <land iso_land="DEU"/>
+            <url>www.oliverklee.de</url>
+            </kontaktperson>
+            <preise>
+            <kaufpreis>149000.00</kaufpreis>
+            <hausgeld>345.00</hausgeld>
+            <aussen_courtage mit_mwst="1">5,95 % inkl. 19% MwSt.</aussen_courtage>
+            <waehrung iso_waehrung="EUR"/>
+            <stp_carport stellplatzmiete="0.00" anzahl="0"/>
+            <stp_duplex stellplatzmiete="0.00" anzahl="0"/>
+            <stp_freiplatz stellplatzmiete="0.00" anzahl="1"/>
+            <stp_garage stellplatzmiete="0.00" anzahl="0"/>
+            <stp_parkhaus stellplatzmiete="0.00" anzahl="0"/>
+            <stp_tiefgarage stellplatzmiete="0.00" anzahl="0"/>
+            <stp_sonstige platzart="SONSTIGES" stellplatzmiete="0.00" anzahl="0"/>
+            </preise>
+            <versteigerung/>
+            <flaechen>
+            <wohnflaeche>88.00</wohnflaeche>
+            <anzahl_zimmer>3.00</anzahl_zimmer>
+            <anzahl_badezimmer>1.00</anzahl_badezimmer>
+            <anzahl_sep_wc>1.00</anzahl_sep_wc>
+            <anzahl_stellplaetze>1</anzahl_stellplaetze>
+            </flaechen>
+            <ausstattung>
+            <heizungsart FERN="1"/>
+            <fahrstuhl PERSONEN="1"/>
+            <kabel_sat_tv>1</kabel_sat_tv>
+            <unterkellert keller="JA"/>
+            </ausstattung>
+            <zustand_angaben>
+            <baujahr>1971</baujahr>
+            <zustand zustand_art="GEPFLEGT"/>
+            <verkaufstatus stand="OFFEN"/>
+            </zustand_angaben>
+            <verwaltung_objekt>
+            <objektadresse_freigeben>0</objektadresse_freigeben>
+            <verfuegbar_ab>01.08.2015</verfuegbar_ab>
+            </verwaltung_objekt>
+            <verwaltung_techn>
+            <objektnr_intern>550</objektnr_intern>
+            <objektnr_extern>OR273</objektnr_extern>
+            <aktion aktionart="CHANGE"/>
+            <openimmo_obid>123456_550_OR273</openimmo_obid>
+            <kennung_ursprung>onOffice Software</kennung_ursprung>
+            <stand_vom>2015-06-22</stand_vom>
+            <weitergabe_generell>1</weitergabe_generell>
+            </verwaltung_techn>
+            </immobilie>
 
-			<immobilie>
-			<objektkategorie>
-			<nutzungsart WOHNEN="1" GEWERBE="0"/>
-			<vermarktungsart KAUF="1" MIETE_PACHT="0"/>
-			<objektart>
-			<wohnung wohnungtyp="ETAGE"/>
-			</objektart>
-			</objektkategorie>
-			<geo>
-			<plz>55127</plz>
-			<ort>Mainz / Lerchenberg</ort>
-			<geokoordinaten breitengrad="49.96550" laengengrad="8.18754"/>
-			</geo>
-			<kontaktperson>
-			<email_zentrale>offerer@example.com</email_zentrale>
-			<email_direkt>offerer@example.com</email_direkt>
-			<name>Doe</name>
-			<vorname>Jane</vorname>
-			<anrede>Frau</anrede>
-			<name/>
-			</kontaktperson>
-			<verwaltung_techn>
-			<objektnr_intern>550</objektnr_intern>
-			<objektnr_extern>OR273</objektnr_extern>
-			<aktion aktionart="DELETE"/>
-			<openimmo_obid>123456_550_OR273</openimmo_obid>
-			<kennung_ursprung>onOffice Software</kennung_ursprung>
-			<stand_vom>2015-06-22</stand_vom>
-			<weitergabe_generell>1</weitergabe_generell>
-			</verwaltung_techn>
-			</immobilie>
+            <immobilie>
+            <objektkategorie>
+            <nutzungsart WOHNEN="1" GEWERBE="0"/>
+            <vermarktungsart KAUF="1" MIETE_PACHT="0"/>
+            <objektart>
+            <wohnung wohnungtyp="ETAGE"/>
+            </objektart>
+            </objektkategorie>
+            <geo>
+            <plz>55127</plz>
+            <ort>Mainz / Lerchenberg</ort>
+            <geokoordinaten breitengrad="49.96550" laengengrad="8.18754"/>
+            </geo>
+            <kontaktperson>
+            <email_zentrale>offerer@example.com</email_zentrale>
+            <email_direkt>offerer@example.com</email_direkt>
+            <name>Doe</name>
+            <vorname>Jane</vorname>
+            <anrede>Frau</anrede>
+            <name/>
+            </kontaktperson>
+            <verwaltung_techn>
+            <objektnr_intern>550</objektnr_intern>
+            <objektnr_extern>OR273</objektnr_extern>
+            <aktion aktionart="DELETE"/>
+            <openimmo_obid>123456_550_OR273</openimmo_obid>
+            <kennung_ursprung>onOffice Software</kennung_ursprung>
+            <stand_vom>2015-06-22</stand_vom>
+            <weitergabe_generell>1</weitergabe_generell>
+            </verwaltung_techn>
+            </immobilie>
 
-			</anbieter>
-			</openimmo>'
+            </anbieter>
+            </openimmo>'
         );
 
         $records = $this->fixture->convertDomDocumentToArray($dummyDocument);

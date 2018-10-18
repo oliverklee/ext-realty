@@ -10,7 +10,7 @@ $languageService = $GLOBALS['LANG'];
 $languageService->includeLLFile('EXT:realty/Resources/Private/Language/locallang_mod.xlf');
 
 /** @var \tx_realty_BackEnd_Module $module */
-$module = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\tx_realty_BackEnd_Module::Class);
+$module = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\tx_realty_BackEnd_Module::class);
 $module->init();
 
 echo $module->render();

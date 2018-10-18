@@ -242,10 +242,10 @@ class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
         self::assertInstanceOf(
             tx_realty_Model_RealtyObject::class,
             $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-            'FLAT0001',
-            'abc01234',
-            'de'
-        )
+                'FLAT0001',
+                'abc01234',
+                'de'
+            )
         );
     }
 

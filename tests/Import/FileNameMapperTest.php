@@ -11,6 +11,7 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
      * @var tx_realty_fileNameMapper instance to be tested
      */
     private $fixture = null;
+
     /**
      * @var Tx_Oelib_TestingFramework
      */
@@ -54,8 +55,8 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getUniqueFileNameAndMapItReturnsNameWhichBeginsWithNumbersWith00SuffixIfAFileWithTheOriginalNameIsAlreadyMapped()
-    {
+    public function getUniqueFileNameAndMapItReturnsNameWhichBeginsWithNumbersWith00SuffixIfAFileWithTheOriginalNameIsAlreadyMapped(
+    ) {
         $this->fixture->getUniqueFileNameAndMapIt('1234-test.txt');
 
         self::assertEquals(
@@ -67,8 +68,8 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getUniqueFileNameAndMapItReturnsNameWhichAlreadyHas99SuffixWith100SuffixIfAFileWithTheOriginalNameIsAlreadyMapped()
-    {
+    public function getUniqueFileNameAndMapItReturnsNameWhichAlreadyHas99SuffixWith100SuffixIfAFileWithTheOriginalNameIsAlreadyMapped(
+    ) {
         $this->fixture->getUniqueFileNameAndMapIt('test_99.txt');
 
         self::assertEquals(
@@ -91,8 +92,8 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfAFileWithTheOriginalNameIsAlreadyMapped()
-    {
+    public function getUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfAFileWithTheOriginalNameIsAlreadyMapped(
+    ) {
         $this->fixture->getUniqueFileNameAndMapIt('test,foo.txt');
 
         self::assertEquals(
@@ -104,8 +105,8 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyMapped()
-    {
+    public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyMapped(
+    ) {
         $this->fixture->getUniqueFileNameAndMapIt('test.txt');
         $this->fixture->getUniqueFileNameAndMapIt('test_00.txt');
 
@@ -131,8 +132,8 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyStored()
-    {
+    public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyStored(
+    ) {
         $this->testingFramework->createDummyFile('test.txt');
         $this->testingFramework->createDummyFile('test_00.txt');
 
@@ -145,8 +146,8 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfTheOriginalFileNameExistsAndTheNameWithA00SuffixIsAlreadyMapped()
-    {
+    public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfTheOriginalFileNameExistsAndTheNameWithA00SuffixIsAlreadyMapped(
+    ) {
         $this->testingFramework->createDummyFile('test.txt');
         $this->fixture->getUniqueFileNameAndMapIt('test_00.txt');
 
@@ -159,8 +160,8 @@ class tx_realty_Import_FileNameMapperTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function releaseMappedFileNamesReturnsTheOriginalNameAsMappedFileNameInAnArrayIfNoFileWithThisFilenameExists()
-    {
+    public function releaseMappedFileNamesReturnsTheOriginalNameAsMappedFileNameInAnArrayIfNoFileWithThisFilenameExists(
+    ) {
         $this->fixture->getUniqueFileNameAndMapIt('test.txt');
 
         self::assertEquals(

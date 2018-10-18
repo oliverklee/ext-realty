@@ -13,6 +13,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends \Tx_Phpunit_TestCase
      * @var tx_realty_pi1_ErrorView
      */
     private $fixture = null;
+
     /**
      * @var Tx_Oelib_TestingFramework
      */

@@ -137,7 +137,8 @@ class tx_realty_fileNameMapper
     /**
      * Sets the destination folder where to check whether a file already exists.
      *
-     * @param string $folder absolute path of the destination folder, must end with a trailing slash and must not be empty
+     * @param string $folder absolute path of the destination folder, must end with a trailing slash and must not be
+     *     empty
      *
      * @return void
      */

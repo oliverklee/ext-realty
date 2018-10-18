@@ -257,7 +257,9 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
         );
         $this->fixture->addToFavorites(
             [
-            $this->firstRealtyUid, $secondRealtyUid, ]
+                $this->firstRealtyUid,
+                $secondRealtyUid,
+            ]
         );
 
         $output = $this->fixture->render(

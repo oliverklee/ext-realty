@@ -1,31 +1,31 @@
 div#openImmoImportButton {
-	float: right;
-	margin-top: 2px;
-	position: absolute;
-	top: 0;
-	right: 0;
+    float: right;
+    margin-top: 2px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 div#importSpinner {
-	display: none;
-	float: right;
-	position: absolute;
-	top: 0;
-	right: 60px;
+    display: none;
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 60px;
 }
 
 div#submitButtonContainer {
-	position: relative;
+    position: relative;
 }
 
 div#importResult {
-	background-color: #fff;
-	padding: 3% 1%;
-	border: #fff 1px solid;
-	overflow: auto;
-	width: 98%;
+    background-color: #fff;
+    padding: 3% 1%;
+    border: #fff 1px solid;
+    overflow: auto;
+    width: 98%;
 }
 
 div#importErrors {
-	border: 1px solid #f00;
+    border: 1px solid #f00;
 }

@@ -36,10 +36,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      * @var int UID of the first dummy realty object
      */
     private $firstRealtyUid = 0;
+
     /**
      * @var string object number for the first dummy realty object
      */
     private static $firstObjectNumber = '1';
+
     /**
      * @var string title for the first dummy realty object
      */
@@ -49,10 +51,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      * @var int second dummy realty object
      */
     private $secondRealtyUid = 0;
+
     /**
      * @var string object number for the second dummy realty object
      */
     private static $secondObjectNumber = '2';
+
     /**
      * @var string title for the second dummy realty object
      */
@@ -62,6 +66,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      * @var int first dummy city UID
      */
     private $firstCityUid = 0;
+
     /**
      * @var string title for the first dummy city
      */
@@ -71,6 +76,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      * @var int second dummy city UID
      */
     private $secondCityUid = 0;
+
     /**
      * @var string title for the second dummy city
      */
@@ -80,22 +86,27 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      * @var int PID of the single view page
      */
     private $singlePid = 0;
+
     /**
      * @var int PID of the alternate single view page
      */
     private $otherSinglePid = 0;
+
     /**
      * @var int PID of the favorites page
      */
     private $favoritesPid = 0;
+
     /**
      * @var int login PID
      */
     private $loginPid = 0;
+
     /**
      * @var int system folder PID
      */
     private $systemFolderPid = 0;
+
     /**
      * @var int sub-system folder PID
      */

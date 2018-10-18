@@ -28,18 +28,22 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      * @var int UID of a dummy realty object
      */
     private $objectUid = 0;
+
     /**
      * @var int page UID of a dummy FE page
      */
     private $pageUid = 0;
+
     /**
      * @var int page UID of another dummy FE page
      */
     private $otherPageUid = 0;
+
     /**
      * @var string object number of a dummy realty object
      */
     private static $objectNumber = '100000';
+
     /**
      * @var string object number of a dummy realty object
      */
@@ -71,8 +75,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         $this->fixture = new tx_realty_Model_RealtyObjectChild(true);
 
         $this->fixture->setRequiredFields([]);
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsInteger('pidForRealtyObjectsAndImages', $this->pageUid);
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsInteger('pidForRealtyObjectsAndImages', $this->pageUid);
 
         $this->configurationVariablesBackup = $GLOBALS['TYPO3_CONF_VARS'];
         $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'jpg,tif,tiff,pdf,png,ps,gif';
@@ -137,7 +141,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      *
      * @param int $ownerSource
      *        the source of the owner data for the object,
-     *        must be tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT or tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
+     *        must be tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT or
+     *     tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
      * @param array $userData
      *        additional data which should be stored into the owners data, may be empty
      * @param array $additionalObjectData
@@ -368,7 +373,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number="' . self::$otherObjectNumber . '"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -1236,7 +1241,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number="' . (self::$otherObjectNumber) . '"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -1280,7 +1285,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
                 'pid',
                 'tx_realty_objects',
                 'object_number = ' . self::$otherObjectNumber .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -1302,8 +1307,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number=' . self::$otherObjectNumber .
-                    ' AND pid=' . $systemFolderPid .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                ' AND pid=' . $systemFolderPid .
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -1335,8 +1340,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     public function writeToDatabaseCreatesNewCityRecordWithAuxiliaryRecordPid()
     {
         $this->testingFramework->markTableAsDirty('tx_realty_cities');
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
 
         $this->fixture->loadRealtyObject($this->objectUid);
         $this->fixture->setProperty('city', 'foo');
@@ -1348,7 +1352,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
                 'pid',
                 'tx_realty_cities',
                 'title = "foo"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_cities')
+                Tx_Oelib_Db::enableFields('tx_realty_cities')
             )
         );
     }
@@ -1359,8 +1363,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     public function writeToDatabaseCreatesNewCityRecordWithRealtyRecordPidIfAuxiliaryRecordPidNotSet()
     {
         $this->testingFramework->markTableAsDirty('tx_realty_cities');
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsInteger('pidForAuxiliaryRecords', 0);
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsInteger('pidForAuxiliaryRecords', 0);
 
         $this->fixture->loadRealtyObject($this->objectUid);
         $this->fixture->setProperty('city', 'foo');
@@ -1372,7 +1375,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
                 'pid',
                 'tx_realty_cities',
                 'title = "foo"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_cities')
+                Tx_Oelib_Db::enableFields('tx_realty_cities')
             )
         );
     }
@@ -1607,8 +1610,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      */
     public function prepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMatchingPid()
     {
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
         $cityUid = $this->testingFramework->createRecord(
             'tx_realty_cities',
             ['title' => 'test city', 'pid' => $this->otherPageUid]
@@ -1629,8 +1631,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      */
     public function prepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMismatchingPid()
     {
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
         $cityUid = $this->testingFramework->createRecord(
             'tx_realty_cities',
             ['title' => 'test city', 'pid' => $this->otherPageUid]
@@ -1651,8 +1653,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      */
     public function prepareInsertionAndInsertDoesNotUpdateThePidOfAnAlreadyExistingPropertyForMismatchingPids()
     {
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
         $cityUid = $this->testingFramework->createRecord(
             'tx_realty_cities',
             ['title' => 'test city', 'pid' => $this->otherPageUid]
@@ -1665,7 +1667,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         self::assertEquals(
             1,
             $this->testingFramework->countRecords(
-                 'tx_realty_cities',
+                'tx_realty_cities',
                 'uid=' . $cityUid . ' AND pid=' . $this->otherPageUid
             )
         );
@@ -1886,7 +1888,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
                 'pid',
                 'tx_realty_objects',
                 'object_number = "' . self::$otherObjectNumber . '"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -1907,7 +1909,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
                 'pid',
                 'tx_realty_objects',
                 'object_number = "' . self::$otherObjectNumber . '"' .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -1945,15 +1947,15 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         $this->fixture->loadRealtyObject($this->objectUid);
         $this->fixture->setProperty('title', 'new title');
 
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsInteger('pidForRealtyObjectsAndImages', $this->otherPageUid);
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsInteger('pidForRealtyObjectsAndImages', $this->otherPageUid);
         $message = $this->fixture->writeToDatabase();
 
         $result = Tx_Oelib_Db::selectSingle(
             'pid',
             'tx_realty_objects',
             'object_number = "' . self::$objectNumber . '"' .
-                Tx_Oelib_Db::enableFields('tx_realty_objects')
+            Tx_Oelib_Db::enableFields('tx_realty_objects')
         );
 
         self::assertEquals(
@@ -1990,8 +1992,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number=' . self::$otherObjectNumber .
-                    ' AND uid <> ' . $uid .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                ' AND uid <> ' . $uid .
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -2010,7 +2012,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'uid=' . $this->objectUid .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -2032,7 +2034,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'uid=' . $this->objectUid .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects', 1)
+                Tx_Oelib_Db::enableFields('tx_realty_objects', 1)
             )
         );
     }
@@ -2059,8 +2061,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number=' . self::$objectNumber .
-                    ' AND uid <> ' . $this->objectUid .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                ' AND uid <> ' . $this->objectUid .
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -2087,8 +2089,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'object_number=' . self::$objectNumber .
-                    ' AND uid <> ' . $this->objectUid .
-                    Tx_Oelib_Db::enableFields('tx_realty_objects')
+                ' AND uid <> ' . $this->objectUid .
+                Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -2121,8 +2123,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function loadingAnExistingRecordWithAnImageByArrayAndWritingItWithAnotherImageToTheDatabaseDeletesTheExistingImage()
-    {
+    public function loadingAnExistingRecordWithAnImageByArrayAndWritingItWithAnotherImageToTheDatabaseDeletesTheExistingImage(
+    ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->objectUid,
@@ -2209,7 +2211,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_cities',
                 'title="foo" AND uid <> ' . $cityUid .
-                    Tx_Oelib_Db::enableFields('tx_realty_cities')
+                Tx_Oelib_Db::enableFields('tx_realty_cities')
             )
         );
     }
@@ -3032,11 +3034,10 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             '',
             ['tx_realty_openimmo_anid' => 'test anid']
         );
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsBoolean(
-                'useFrontEndUserDataAsContactDataForImportedRecords',
-                true
-            );
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean(
+            'useFrontEndUserDataAsContactDataForImportedRecords',
+            true
+        );
         $this->fixture->loadRealtyObject($this->objectUid);
         $this->fixture->setProperty('openimmo_anid', 'test anid');
         $this->fixture->writeToDatabase(0, true);
@@ -3056,11 +3057,10 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             '',
             ['tx_realty_openimmo_anid' => 'test anid']
         );
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsBoolean(
-                'useFrontEndUserDataAsContactDataForImportedRecords',
-                false
-            );
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean(
+            'useFrontEndUserDataAsContactDataForImportedRecords',
+            false
+        );
         $this->fixture->loadRealtyObject($this->objectUid);
         $this->fixture->setProperty('openimmo_anid', 'test anid');
         $this->fixture->writeToDatabase(0, true);
@@ -3080,11 +3080,10 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
             '',
             ['tx_realty_openimmo_anid' => 'test anid']
         );
-        Tx_Oelib_ConfigurationProxy::getInstance('realty')->
-            setAsBoolean(
-                'useFrontEndUserDataAsContactDataForImportedRecords',
-                true
-            );
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean(
+            'useFrontEndUserDataAsContactDataForImportedRecords',
+            true
+        );
         $this->fixture->loadRealtyObject($this->objectUid);
         $this->fixture->writeToDatabase(0, true);
 
@@ -3711,7 +3710,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     public function getAddressAsHtmlReturnsFormattedAddressForOnlyStreetProvidedAndShowAddressTrue()
     {
         $this->fixture->loadRealtyObject([
-            'show_address' => 1, 'street' => 'Main Street',
+            'show_address' => 1,
+            'street' => 'Main Street',
         ]);
 
         self::assertEquals(
@@ -4255,8 +4255,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getContactPhoneNumberForOwnerFromObjectWithSwitchboardAndWithoutDirectExtensionPhoneNumberReturnsSwitchboardNumber()
-    {
+    public function getContactPhoneNumberForOwnerFromObjectWithSwitchboardAndWithoutDirectExtensionPhoneNumberReturnsSwitchboardNumber(
+    ) {
         $this->loadRealtyObjectAndSetOwner(
             tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
             [],
@@ -4272,8 +4272,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getContactPhoneNumberForOwnerFromObjectWithSwitchboardAndDirectExtensionPhoneNumberReturnsDirectExtensionNumber()
-    {
+    public function getContactPhoneNumberForOwnerFromObjectWithSwitchboardAndDirectExtensionPhoneNumberReturnsDirectExtensionNumber(
+    ) {
         $this->loadRealtyObjectAndSetOwner(
             tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
             [],

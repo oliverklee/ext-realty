@@ -34,6 +34,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      * @var int first dummy city UID
      */
     private $firstCityUid = 0;
+
     /**
      * @var string title for the first dummy city
      */
@@ -43,6 +44,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      * @var int second dummy city UID
      */
     private $secondCityUid = 0;
+
     /**
      * @var string title for the second dummy city
      */
@@ -147,10 +149,12 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['district' => $this->testingFramework->createRecord(
-                'tx_realty_districts',
-                ['title' => 'test district']
-            )]
+            [
+                'district' => $this->testingFramework->createRecord(
+                    'tx_realty_districts',
+                    ['title' => 'test district']
+                ),
+            ]
         );
         $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
@@ -197,10 +201,12 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['district' => $this->testingFramework->createRecord(
-                'tx_realty_districts',
-                ['title' => 'test district']
-            )]
+            [
+                'district' => $this->testingFramework->createRecord(
+                    'tx_realty_districts',
+                    ['title' => 'test district']
+                ),
+            ]
         );
         $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
@@ -358,9 +364,12 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
     public function listIsFilteredForTwoCriteria()
     {
         $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-        $piVars = ['search' => [
-            $this->firstCityUid, $this->secondCityUid,
-        ]];
+        $piVars = [
+            'search' => [
+                $this->firstCityUid,
+                $this->secondCityUid,
+            ],
+        ];
 
         // The city's title will occur twice if it is within the list view and
         // within the list filter. It will occur once if it is only a filter

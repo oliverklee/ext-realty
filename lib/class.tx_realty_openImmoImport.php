@@ -492,8 +492,10 @@ class tx_realty_openImmoImport
 
         if (!@is_dir($this->uploadDirectory)) {
             $this->addToErrorLog(
-                sprintf($this->getTranslator()->translate('message_upload_directory_not_existing'),
-                    $this->uploadDirectory)
+                sprintf(
+                    $this->getTranslator()->translate('message_upload_directory_not_existing'),
+                    $this->uploadDirectory
+                )
             );
         } elseif (!@is_writable($this->uploadDirectory)) {
             $this->addFolderAccessErrorMessage('message_upload_directory_not_writable', $this->uploadDirectory);
@@ -609,7 +611,8 @@ class tx_realty_openImmoImport
      * messages and no information about success.
      *
      * @param array[] $emailData
-     *        Two-dimensional array of e-mail data. Each inner array has the elements 'recipient', 'objectNumber', 'logEntry' and
+     *        Two-dimensional array of e-mail data. Each inner array has the elements 'recipient', 'objectNumber',
+     *     'logEntry' and
      *        'errorLog'. May be empty.
      *
      * @return array[] Three -dimensional array with e-mail addresses as
@@ -736,8 +739,8 @@ class tx_realty_openImmoImport
      * e-mail.
      *
      * @param array[] $recordsForOneEmail
-     *        Wrapped message content for one e-mail: Each object number-message pair is wrapped by a numeric key as object
-     *        numbers are not necessarily unique. Must not be empty.
+     *        Wrapped message content for one e-mail: Each object number-message pair is wrapped by a numeric key as
+     *     object numbers are not necessarily unique. Must not be empty.
      *
      * @return string e-mail body
      */
@@ -773,9 +776,9 @@ class tx_realty_openImmoImport
      * sent at all.
      *
      * @param array[] $addressesAndMessages
-     *        Three-dimensional array with e-mail addresses as keys of the outer array. Innermost there is an array with only one
-     *        element: Object number as key and the corresponding log information as value. This array is wrapped by a numeric
-     *        array as object numbers are not necessarily unique. Must not be empty.
+     *        Three-dimensional array with e-mail addresses as keys of the outer array. Innermost there is an array
+     *     with only one element: Object number as key and the corresponding log information as value. This array is
+     *     wrapped by a numeric array as object numbers are not necessarily unique. Must not be empty.
      *
      * @return void
      */
@@ -796,8 +799,10 @@ class tx_realty_openImmoImport
 
         if (!empty($addressesAndMessages)) {
             $this->addToLogEntry(
-                $this->getTranslator()->translate('message_log_sent_to') . ': ' . implode(', ',
-                    array_keys($addressesAndMessages))
+                $this->getTranslator()->translate('message_log_sent_to') . ': ' . implode(
+                    ', ',
+                    array_keys($addressesAndMessages)
+                )
             );
         }
     }
@@ -877,7 +882,8 @@ class tx_realty_openImmoImport
             $extractionDirectory = $this->createExtractionFolder($zipToExtract);
             if ($extractionDirectory !== '') {
                 $zip->extractTo($extractionDirectory);
-                $this->addToLogEntry($zipToExtract . ': ' . $this->getTranslator()->translate('message_extracted_successfully'));
+                $this->addToLogEntry($zipToExtract . ': ' . $this->getTranslator()
+                        ->translate('message_extracted_successfully'));
             }
             $zip->close();
         } else {
@@ -919,18 +925,23 @@ class tx_realty_openImmoImport
                 $this->filesToDelete[] = $folderForZipExtraction;
                 if (!is_writable($folderForZipExtraction)) {
                     $this->addToErrorLog(
-                        sprintf($this->getTranslator()->translate('message_folder_not_writable'),
-                            $folderForZipExtraction)
+                        sprintf(
+                            $this->getTranslator()->translate('message_folder_not_writable'),
+                            $folderForZipExtraction
+                        )
                     );
                 }
             } else {
                 $this->addToErrorLog(
-                    sprintf($this->getTranslator()->translate('message_folder_creation_failed'),
-                        $folderForZipExtraction)
+                    sprintf(
+                        $this->getTranslator()->translate('message_folder_creation_failed'),
+                        $folderForZipExtraction
+                    )
                 );
             }
         } else {
-            $this->addToErrorLog($folderForZipExtraction . ': ' . $this->getTranslator()->translate('message_surplus_folder'));
+            $this->addToErrorLog($folderForZipExtraction . ': ' . $this->getTranslator()
+                    ->translate('message_surplus_folder'));
             $folderForZipExtraction = '';
         }
 
@@ -943,7 +954,8 @@ class tx_realty_openImmoImport
      * before. In case no or several XML files are found, an empty string is
      * returned and the error is logged.
      *
-     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be empty
+     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be
+     *     empty
      *
      * @return string absolute path of the XML file, empty string on error
      */
@@ -983,7 +995,8 @@ class tx_realty_openImmoImport
      * The ZIP archive must have been extracted to a folder named like the ZIP
      * without the suffix '.zip' before.
      *
-     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be empty
+     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be
+     *     empty
      *
      * @return void
      */
@@ -1048,8 +1061,8 @@ class tx_realty_openImmoImport
      *
      * @param string $validationResult
      *        result of the validation, can be either one of the locallang keys 'message_no_schema_file',
-     *        'message_invalid_schema_file_path' or 'message_validation_impossible' or an already localized error message or an
-     *        empty string if success should be logged
+     *        'message_invalid_schema_file_path' or 'message_validation_impossible' or an already localized error
+     *     message or an empty string if success should be logged
      *
      * @return void
      */
@@ -1096,8 +1109,11 @@ class tx_realty_openImmoImport
         $imagesNotToCopy = $this->findFileNamesOfDeletedRecords($realtyRecords);
 
         /** @var string[] $lowercaseFileExtensions */
-        $lowercaseFileExtensions = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-            true);
+        $lowercaseFileExtensions = GeneralUtility::trimExplode(
+            ',',
+            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            true
+        );
         if (!in_array('pdf', $lowercaseFileExtensions, true)) {
             $lowercaseFileExtensions[] = 'pdf';
         }
