@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Disable the old BE module in TYPO3 8.7 (#97)
 
 ### Fixed
+- Stop using the storage PID in the BE in TYPO3 >= 7.6 (#103)
 - Fix the calls to IMAGE in TYPO3 7.6 and 8.7 (#99)
 
 ## 1.0.0

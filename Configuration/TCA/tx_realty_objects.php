@@ -1,7 +1,9 @@
 <?php
 defined('TYPO3_MODE') or die('Access denied.');
 
-return [
+$hasStoragePid = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7004000;
+
+$result = [
     'ctrl' => [
         'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects',
         'label' => 'title',
@@ -44,12 +46,16 @@ return [
             'employer,openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
             'contact_person,contact_person_first_name,contact_person_salutation,contact_email,phone_switchboard,' .
             'phone_direct_extension,owner,language,currency,' .
-            'advertised_date, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
-            'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
-            'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
+            'advertised_date, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, '
+            .
+            'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, '
+            .
+            'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, '
+            .
             'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
             'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
-            'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, assisted_living, ' .
+            'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, assisted_living, '
+            .
             'has_coordinates,coordinates_problem,longitude,latitude',
     ],
     'columns' => [
@@ -210,7 +216,9 @@ return [
             'config' => [
                 'type' => 'select',
                 'foreign_table' => 'tx_realty_cities',
-                'foreign_table_where' => 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.title',
+                'foreign_table_where' => $hasStoragePid
+                    ? 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.title'
+                    : 'ORDER BY tx_realty_cities.title',
                 'size' => 1,
                 'minitems' => 1,
                 'maxitems' => 1,
@@ -222,7 +230,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district',
             'config' => [
                 'type' => 'select',
-                'itemsProcFunc' => '\\OliverKlee\\Realty\\BackEnd\\Tca->getDistrictsForCity',
+                'itemsProcFunc' => 'OliverKlee\\Realty\\BackEnd\\Tca->getDistrictsForCity',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -556,7 +564,9 @@ return [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_realty_apartment_types',
-                'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.title',
+                'foreign_table_where' => $hasStoragePid
+                    ? 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.title'
+                    : 'ORDER BY tx_realty_apartment_types.title',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -571,7 +581,9 @@ return [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_realty_house_types',
-                'foreign_table_where' => 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.title',
+                'foreign_table_where' => $hasStoragePid
+                    ? 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.title'
+                    : 'ORDER BY tx_realty_house_types.title',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -714,7 +726,9 @@ return [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_realty_car_places',
-                'foreign_table_where' => 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.title',
+                'foreign_table_where' => $hasStoragePid
+                    ? 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.title'
+                    : 'ORDER BY tx_realty_car_places.title',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -757,7 +771,9 @@ return [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_realty_pets',
-                'foreign_table_where' => 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.title',
+                'foreign_table_where' => $hasStoragePid
+                    ? 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.title'
+                    : 'ORDER BY tx_realty_pets.title',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -1428,7 +1444,8 @@ return [
                 'l18n_parent, l18n_diffsource, hidden;;1, ' .
                 'object_number, openimmo_anid, openimmo_obid, object_type, ' .
                 'utilization, title;;;;2-2-2, emphasized, sorting, ' .
-                'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, ' .
+                'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
+                .
                 'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
                 'storage_area, office_space, other_area, window_bank, ' .
                 'estate_size, site_occupancy_index, floor_space_index, ' .
@@ -1464,10 +1481,13 @@ return [
                 'contact_person;;2, contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
                 'advertised_date;;;;2-2-2, ' .
-                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, '
+                .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
-                'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
-                'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
+                'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, '
+                .
+                'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, '
+                .
                 'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
                 'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
@@ -1481,7 +1501,8 @@ return [
                 'l18n_parent, l18n_diffsource, hidden;;1, ' .
                 'object_number, openimmo_anid, openimmo_obid, object_type, ' .
                 'title;;;;2-2-2, emphasized, sorting, ' .
-                'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, ' .
+                'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
+                .
                 'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
                 'storage_area, office_space, other_area, window_bank, ' .
                 'estate_size, site_occupancy_index, ' .
@@ -1517,10 +1538,13 @@ return [
                 'contact_person;;2, contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
                 'advertised_date;;;;2-2-2, ' .
-                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, '
+                .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
-                'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
-                'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
+                'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, '
+                .
+                'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, '
+                .
                 'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
                 'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
@@ -1534,3 +1558,7 @@ return [
         '2' => ['showitem' => 'contact_person_salutation, contact_person_first_name'],
     ],
 ];
+
+unset($hasStoragePid);
+
+return $result;
