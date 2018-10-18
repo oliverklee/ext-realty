@@ -1204,10 +1204,6 @@
                 <source>Please enter a valid price or leave this field empty.</source>
                 <target>Per favore inserisci un prezzo valido o lascia questo campo vuoto.</target>
             </trans-unit>
-            <trans-unit id="message_enter_valid_non_empty_rent" xml:space="preserve" approved="yes">
-                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</source>
-                <target>Per favore inserisci un prezzo valido per &lt;em&gt;affitto annuale&lt;/em&gt; o &lt;em&gt;affitto escluso bollette&lt;/em&gt; perch&amp;egrave; si tratta di un immobile in affitto.</target>
-            </trans-unit>
             <trans-unit id="message_enter_valid_or_empty_rent" xml:space="preserve" approved="yes">
                 <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</source>
                 <target>Per favore inserisci un prezzo valido per &lt;em&gt;affitto annuale&lt;/em&gt; o &lt;em&gt;affitto escluso bollette&lt;/em&gt; o lascia questo campo vuoto.</target>
