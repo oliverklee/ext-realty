@@ -14,6 +14,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
      * @var tx_realty_pi1_GoogleMapsView
      */
     private $fixture = null;
+
     /**
      * @var Tx_Oelib_TestingFramework
      */
@@ -40,6 +41,11 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     protected $geoCoder = null;
 
     /**
+     * @var \Tx_Oelib_Configuration
+     */
+    private $configuration = null;
+
+    /**
      * @var float latitude
      */
     const LATITUDE = 50.7;
@@ -55,6 +61,11 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->createFakeFrontEnd();
 
         Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
+
+        $configurationRegistry = \Tx_Oelib_ConfigurationRegistry::getInstance();
+        $configurationRegistry->set('plugin', new \Tx_Oelib_Configuration());
+        $this->configuration = new \Tx_Oelib_Configuration();
+        $configurationRegistry->set('plugin.tx_oelib', $this->configuration);
 
         $realtyData = [
             'title' => 'test realty object',

@@ -16,6 +16,15 @@
 Use Google Maps
 ^^^^^^^^^^^^^^^
 
+#. You will need to obtain a Google API key for this.
+
+You can set the API key using TypoScript:
+
+::
+
+     plugin.tx_oelib.googleGeocodingApiKey = ...
+     plugin.tx_oelib.googleMapsApiKey = ...
+
 #. Set the default country for most of your objects using TS setup of the
    flexforms of the list views and single views. For all objects that are
    in a different country, you need to enter the country so the address

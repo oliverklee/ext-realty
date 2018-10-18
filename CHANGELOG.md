@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Provide an API key for Google Maps (#47, #101)
 - Auto-release to the TER (#98)
 
 ### Changed
