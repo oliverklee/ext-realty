@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Disable the old BE module in TYPO3 8.7 (#97)
 
 ### Fixed
+- Fix most deprecation warnings in TYPO3 7.6 (#108)
 - Fix code inspection warnings (#107)
 - Also accept rent with heating as valid rent in the FE editor (#106)
 - Don't HTML-encode the data from the FE editor on saving (#105)

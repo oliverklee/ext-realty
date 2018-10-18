@@ -4116,10 +4116,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getUidForRecordNumberNegativeRecordNumberThrowsException()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'The record position must be a non-negative integer.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->fixture->getUidForRecordNumber(-1);
     }

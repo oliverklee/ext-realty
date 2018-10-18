@@ -58,10 +58,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         $result = $this->doc->startPage($title) . $this->doc->header($title);
 
         if ($this->hasAccess()) {
-            $result .= $this->doc->section(
-                '',
-                $this->doc->spacer(10) . $this->createTab()
-            );
+            $result .= $this->doc->section('', $this->createTab());
 
             if (GeneralUtility::_GP('action') === 'startImport') {
                 /** @var \tx_realty_openImmoImport $importer */
@@ -93,9 +90,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
     {
         $this->doc = GeneralUtility::makeInstance(DocumentTemplate::class);
         $this->doc->backPath = $GLOBALS['BACK_PATH'];
-        $this->doc->docType = 'xhtml_strict';
-        $this->doc->styleSheetFile2
-            = '../typo3conf/ext/realty/BackEnd/BackEnd.css';
+        $this->doc->styleSheetFile2 = '../typo3conf/ext/realty/BackEnd/BackEnd.css';
 
         $this->template
             = Tx_Oelib_TemplateRegistry::getInstance()->getByFileName(
@@ -112,11 +107,11 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
     {
         $moduleToken = FormProtectionFactory::get()->generateToken('moduleCall', self::MODULE_NAME);
         return $this->doc->getTabMenu(
-                ['M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id],
-                'tab',
-                self::IMPORT_TAB,
-                [self::IMPORT_TAB => $this->translate('import_tab')]
-            ) . $this->doc->spacer(5);
+            ['M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id],
+            'tab',
+            self::IMPORT_TAB,
+            [self::IMPORT_TAB => $this->translate('import_tab')]
+        );
     }
 
     /**
@@ -146,12 +141,12 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
      * Checks if the current BE user has access to the necessary data to import
      * realty records.
      *
-     * @return bool TRUE if the BE user is an admin or if they have the
-     *                 rights to access the necessary data, FALSE otherwise
+     * @return bool true if the BE user is an admin or if they have the
+     *              rights to access the necessary data, false otherwise
      */
     private function hasAccess()
     {
-        if ($this->getBackEndUser()->isAdmin()) {
+        if ($this->getBackendUser()->isAdmin()) {
             return true;
         }
 
@@ -172,7 +167,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         $objectsPid = $configurationProxy->getAsInteger(
             'pidForRealtyObjectsAndImages'
         );
-        $canWriteObjectsPage = $this->getBackEndUser()->doesUserHaveAccess(
+        $canWriteObjectsPage = $this->getBackendUser()->doesUserHaveAccess(
             BackendUtility::getRecord('pages', $objectsPid),
             16
         );
@@ -180,7 +175,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         $auxiliaryPid = $configurationProxy->getAsInteger(
             'pidForAuxiliaryRecords'
         );
-        $canWriteAuxiliaryPage = $this->getBackEndUser()->doesUserHaveAccess(
+        $canWriteAuxiliaryPage = $this->getBackendUser()->doesUserHaveAccess(
             BackendUtility::getRecord('pages', $auxiliaryPid),
             16
         );
@@ -217,7 +212,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
         ];
 
         foreach ($neededTables as $table) {
-            if (!$this->getBackEndUser()->check('tables_modify', $table)) {
+            if (!$this->getBackendUser()->check('tables_modify', $table)) {
                 $userHasAccessToTables = false;
                 $this->storeErrorMessage('table_access', $table);
                 break;
@@ -260,9 +255,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
 
         $this->template->setMarker(
             'message_no_permissions',
-            $this->doc->spacer(5) .
             $this->translate('message_no_permission')
-
         );
         $errorList = implode('</li>' . LF . '<li>', $this->errorMessages);
         $this->template->setMarker('error_list', '<li>' . $errorList . '</li>');

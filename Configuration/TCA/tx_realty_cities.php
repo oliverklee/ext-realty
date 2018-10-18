@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') or die('Access denied.');
 
-return [
+$tca = [
     'ctrl' => [
         'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_cities',
         'label' => 'title',
@@ -25,6 +25,7 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
@@ -39,9 +40,8 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
+                'items' => [['', '0']],
                 'foreign_table' => 'tx_realty_cities',
                 'foreign_table_where' => 'AND tx_realty_cities.pid=###CURRENT_PID### AND tx_realty_cities.sys_language_uid IN (-1, 0)',
             ],
@@ -74,9 +74,8 @@ return [
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2, save_folder'],
-    ],
-    'palettes' => [
-        '1' => ['showitem' => ''],
+        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, title, save_folder'],
     ],
 ];
+
+return $tca;

@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') or die('Access denied.');
 
-return [
+$tca = [
     'ctrl' => [
         'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_documents',
         'label' => 'title',
@@ -26,6 +26,7 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
@@ -40,9 +41,8 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
+                'items' => [['', '0']],
                 'foreign_table' => 'tx_realty_documents',
                 'foreign_table_where' => 'AND tx_realty_documents.pid=###CURRENT_PID### AND tx_realty_documents.sys_language_uid IN (-1, 0)',
             ],
@@ -57,7 +57,9 @@ return [
             'label' => '',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_objects',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -81,7 +83,6 @@ return [
                 'allowed' => 'pdf',
                 'max_size' => 2000,
                 'uploadfolder' => 'uploads/tx_realty',
-                'show_thumbs' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -89,9 +90,8 @@ return [
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title, filename'],
-    ],
-    'palettes' => [
-        '1' => ['showitem' => ''],
+        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, title, filename'],
     ],
 ];
+
+return $tca;

@@ -72,10 +72,7 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
      */
     public function constructAnExceptionIfCalledWithAZeroRealtyObjectUid()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '$realtyObjectUid must be greater than zero.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->fixture = new tx_realty_pi1_Formatter(0, [], $this->getFrontEndController()->cObj);
     }
@@ -87,11 +84,7 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
     {
         $this->realtyObject->markAsDead();
 
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'There was no realty object to load with the provided UID of ' . $this->realtyObject->getUid() .
-            '. The formatter can only work for existing, non-deleted realty objects.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
 
         new tx_realty_pi1_Formatter($this->realtyObject->getUid(), [], $this->getFrontEndController()->cObj);
     }
@@ -105,10 +98,7 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
      */
     public function getPropertyThrowsExceptionForEmptyKey()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '$key must not be empty.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->fixture->getProperty('');
     }

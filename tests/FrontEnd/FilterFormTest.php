@@ -1289,10 +1289,7 @@ class tx_realty_FrontEnd_FilterFormTest extends \Tx_Phpunit_TestCase
      */
     public function createDropDownItemsWithInvalidTypeThrowsException()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '"foo" is not a valid type.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->fixture->createDropDownItems('foo');
     }
