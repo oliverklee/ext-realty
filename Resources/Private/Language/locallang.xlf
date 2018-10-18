@@ -1181,10 +1181,10 @@
                 <source>Please enter a valid price or leave this field empty.</source>
             </trans-unit>
             <trans-unit id="message_enter_valid_non_empty_rent" xml:space="preserve">
-                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</source>
+                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt;, &lt;em&gt;rent with heating costs&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; as this is an object to rent.</source>
             </trans-unit>
             <trans-unit id="message_enter_valid_or_empty_rent" xml:space="preserve">
-                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</source>
+                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt;, &lt;em&gt;rent with heating costs&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</source>
             </trans-unit>
             <trans-unit id="message_either_new_or_existing_record" xml:space="preserve">
                 <source>A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</source>

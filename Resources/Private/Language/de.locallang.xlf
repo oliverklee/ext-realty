@@ -1573,12 +1573,12 @@
                 <target>Bitte geben Sie einen gültigen Preis an oder lassen Sie dieses Feld leer.</target>
             </trans-unit>
             <trans-unit id="message_enter_valid_non_empty_rent" xml:space="preserve" approved="yes">
-                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</source>
-                <target>Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an, da Sie ein Objekt zum Mieten anlegen.</target>
+                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt;, &lt;em&gt;rent with heating costs&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; as this is an object to rent.</source>
+                <target>Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt;, &lt;em&gt;Warmmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an, da Sie ein Objekt zum Mieten anlegen.</target>
             </trans-unit>
             <trans-unit id="message_enter_valid_or_empty_rent" xml:space="preserve" approved="yes">
-                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</source>
-                <target>Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an oder lassen Sie dieses Feld leer.</target>
+                <source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt;, &lt;em&gt;rent with heating costs&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</source>
+                <target>Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt;, &lt;em&gt;Warmmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an oder lassen Sie dieses Feld leer.</target>
             </trans-unit>
             <trans-unit id="message_either_new_or_existing_record" xml:space="preserve" approved="yes">
                 <source>A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</source>

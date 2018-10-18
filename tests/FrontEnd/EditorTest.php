@@ -916,16 +916,23 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function isNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsValidAndOneEmpty()
+    public function isNonEmptyValidPriceForObjectForRentForEmptyValueAndValidYearRentIsTrue()
     {
         $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', '1234');
 
-        self::assertTrue(
-            $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                ['value' => '']
-            )
-        );
+        static::assertTrue($this->fixture->isNonEmptyValidPriceForObjectForRent(['value' => '']));
+    }
+
+    /**
+     * @test
+     */
+    public function isNonEmptyValidPriceForObjectForRentForEmptyValueAndValidRentWithHeatingCostsRentIsTrue()
+    {
+        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('rent_with_heating_costs', '1234');
+
+        static::assertTrue($this->fixture->isNonEmptyValidPriceForObjectForRent(['value' => '']));
     }
 
     /**
