@@ -48,6 +48,7 @@ plugin.tx_realty_pi1.editor {
         title {
             name = title
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.required {
@@ -92,6 +93,7 @@ plugin.tx_realty_pi1.editor {
         object_number {
             name = object_number
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number
+            sanitize = false
             readonly.userobj {
                 extension = this
                 method = isObjectNumberReadonly
@@ -127,12 +129,14 @@ plugin.tx_realty_pi1.editor {
         street {
             name = street
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.street
+            sanitize = false
         }
 
         zip = renderlet:TEXT
         zip {
             name = zip
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.zip
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.required {
@@ -158,6 +162,7 @@ plugin.tx_realty_pi1.editor {
         distance_to_the_sea {
             name = distance_to_the_sea
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.distance_to_the_sea
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -223,6 +228,7 @@ plugin.tx_realty_pi1.editor {
         new_city {
             name = new_city
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.new_city
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -385,12 +391,14 @@ plugin.tx_realty_pi1.editor {
         employer {
             name = employer
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.employer
+            sanitize = false
         }
 
         contact_person = renderlet:TEXT
         contact_person {
             name = contact_person
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -420,6 +428,7 @@ plugin.tx_realty_pi1.editor {
         contact_email {
             name = contact_email
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_email
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -466,24 +475,28 @@ plugin.tx_realty_pi1.editor {
         phone_switchboard {
             name = phone_switchboard
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_switchboard
+            sanitize = false
         }
 
         phone_direct_extension = renderlet:TEXT
         phone_direct_extension {
             name = phone_direct_extension
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_direct_extension
+            sanitize = false
         }
 
         currency = renderlet:TEXT
         currency {
             name = currency
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.currency
+            sanitize = false
         }
 
         buying_price = renderlet:TEXT
         buying_price {
             name = buying_price
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -509,6 +522,7 @@ plugin.tx_realty_pi1.editor {
         hoa_fee {
             name = hoa_fee
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.hoa_fee
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -538,6 +552,7 @@ plugin.tx_realty_pi1.editor {
         rent_excluding_bills {
             name = rent_excluding_bills
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -563,6 +578,7 @@ plugin.tx_realty_pi1.editor {
         rent_per_square_meter {
             name = rent_per_square_meter
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_per_square_meter
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -592,6 +608,7 @@ plugin.tx_realty_pi1.editor {
         rent_with_heating_costs {
             name = rent_with_heating_costs
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_with_heating_costs
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -621,12 +638,14 @@ plugin.tx_realty_pi1.editor {
         provision {
             name = provision
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.provision
+            sanitize = false
         }
 
         extra_charges = renderlet:TEXT
         extra_charges {
             name = extra_charges
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.extra_charges
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -662,18 +681,21 @@ plugin.tx_realty_pi1.editor {
         deposit {
             name = deposit
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.deposit
+            sanitize = false
         }
 
         year_rent = renderlet:TEXT
         year_rent {
             name = year_rent
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.year_rent
+            sanitize = false
         }
 
         rental_income_target = renderlet:TEXT
         rental_income_target {
             name = rental_income_target
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rental_income_target
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -841,12 +863,14 @@ plugin.tx_realty_pi1.editor {
         utilization {
             name = utilization
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.utilization
+            sanitize = false
         }
 
         construction_year = renderlet:TEXT
         construction_year {
             name = construction_year
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.construction_year
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1109,6 +1133,7 @@ plugin.tx_realty_pi1.editor {
         estate_size {
             name = estate_size
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.estate_size
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1138,6 +1163,7 @@ plugin.tx_realty_pi1.editor {
         living_area {
             name = living_area
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1167,6 +1193,7 @@ plugin.tx_realty_pi1.editor {
         total_usable_area {
             name = total_usable_area
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_usable_area
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1196,6 +1223,7 @@ plugin.tx_realty_pi1.editor {
         office_space {
             name = office_space
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.office_space
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1225,6 +1253,7 @@ plugin.tx_realty_pi1.editor {
         shop_area {
             name = shop_area
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.shop_area
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1254,6 +1283,7 @@ plugin.tx_realty_pi1.editor {
         sales_area {
             name = sales_area
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sales_area
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1283,6 +1313,7 @@ plugin.tx_realty_pi1.editor {
         storage_area {
             name = storage_area
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.storage_area
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1312,6 +1343,7 @@ plugin.tx_realty_pi1.editor {
         other_area {
             name = other_area
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.other_area
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1341,6 +1373,7 @@ plugin.tx_realty_pi1.editor {
         window_bank {
             name = window_bank
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.window_bank
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1370,6 +1403,7 @@ plugin.tx_realty_pi1.editor {
         site_occupancy_index {
             name = site_occupancy_index
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.site_occupancy_index
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1399,6 +1433,7 @@ plugin.tx_realty_pi1.editor {
         floor_space_index {
             name = floor_space_index
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor_space_index
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1428,6 +1463,7 @@ plugin.tx_realty_pi1.editor {
         total_area {
             name = total_area
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_area
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1457,6 +1493,7 @@ plugin.tx_realty_pi1.editor {
         parking_spaces {
             name = parking_spaces
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.parking_spaces
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1486,12 +1523,14 @@ plugin.tx_realty_pi1.editor {
         teaser {
             name = teaser
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.teaser
+            sanitize = false
         }
 
         description = renderlet:TEXTAREA
         description {
             name = description
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.description
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.required {
@@ -1517,12 +1556,14 @@ plugin.tx_realty_pi1.editor {
         location {
             name = location
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.location
+            sanitize = false
         }
 
         floor = renderlet:TEXT
         floor {
             name = floor
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1552,6 +1593,7 @@ plugin.tx_realty_pi1.editor {
         floors {
             name = floors
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floors
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1581,6 +1623,7 @@ plugin.tx_realty_pi1.editor {
         number_of_rooms {
             name = number_of_rooms
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1610,6 +1653,7 @@ plugin.tx_realty_pi1.editor {
         bedrooms {
             name = bedrooms
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bedrooms
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1639,6 +1683,7 @@ plugin.tx_realty_pi1.editor {
         bathrooms {
             name = bathrooms
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bathrooms
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1668,6 +1713,7 @@ plugin.tx_realty_pi1.editor {
         layout {
             name = layout
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.layout
+            sanitize = false
         }
 
         garage_type = renderlet:LISTBOX
@@ -1727,6 +1773,7 @@ plugin.tx_realty_pi1.editor {
         garage_rent {
             name = garage_rent
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_rent
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -1756,6 +1803,7 @@ plugin.tx_realty_pi1.editor {
         garage_price {
             name = garage_price
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_price
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -2038,12 +2086,14 @@ plugin.tx_realty_pi1.editor {
         equipment {
             name = equipment
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.equipment
+            sanitize = false
         }
 
         misc = renderlet:TEXTAREA
         misc {
             name = misc
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.misc
+            sanitize = false
         }
 
         elevator = renderlet:CHECKSINGLE
@@ -2104,6 +2154,7 @@ plugin.tx_realty_pi1.editor {
         longitude {
             name = longitude
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.longitude
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
@@ -2133,6 +2184,7 @@ plugin.tx_realty_pi1.editor {
         latitude {
             name = latitude
             label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.latitude
+            sanitize = false
             validators {
                 10 = validator:STANDARD
                 10.custom {
