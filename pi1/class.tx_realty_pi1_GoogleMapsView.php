@@ -95,8 +95,11 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
      */
     private function addGoogleMapToHtmlHead()
     {
+        $configuration = Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib');
+        $apiKey = $configuration->getAsString('googleMapsApiKey');
+
         $generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
-            'src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>' . LF;
+            'src="https://maps.googleapis.com/maps/api/js?key=' . $apiKey . '"></script>' . LF;
         $createMapJavaScript = '<script type="text/javascript">' . LF .
             'var TYPO3 = TYPO3 || {};' . LF .
             'TYPO3.realty = TYPO3.realty || {};' . LF .
@@ -127,7 +130,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
 
         $createMapJavaScript .= '};' . LF . '</script>';
         $frontEndController = $this->getFrontEndController();
-        $frontEndController->additionalHeaderData['tx_realty_pi1_maps'] = $generalGoogleMapsJavaScript . $createMapJavaScript;
+        $frontEndController->additionalHeaderData['tx_realty_pi1_maps'] =
+            $generalGoogleMapsJavaScript . $createMapJavaScript;
     }
 
     /**
