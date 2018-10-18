@@ -648,6 +648,7 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
      * @test
      *
      * @param string $key
+     *
      * @dataProvider decimalPricePropertyDataProvider
      */
     public function getPropertyForDecimalPriceValuesFormatsValueAsDecimalWithCurrency($key)
@@ -661,6 +662,7 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
      * @test
      *
      * @param string $key
+     *
      * @dataProvider decimalPricePropertyDataProvider
      */
     public function getPropertyForDecimalPriceValuesAddMissingDecimals($key)
@@ -813,6 +815,7 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
      * @test
      *
      * @param string $key
+     *
      * @dataProvider booleanPropertyDataProvider
      */
     public function getPropertyForBooleanPropertyYesReturnsYes($key)
@@ -826,6 +829,7 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
      * @test
      *
      * @param string $key
+     *
      * @dataProvider booleanPropertyDataProvider
      */
     public function getPropertyForBooleanPropertyNoReturnsEmptyString($key)

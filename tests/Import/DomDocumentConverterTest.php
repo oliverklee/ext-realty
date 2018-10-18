@@ -1601,6 +1601,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      *
      * @param string $name
      * @param int $id
+     *
      * @dataProvider heatingTypeDataProvider
      */
     public function getConvertedDataImportsAllHeatingTypes($name, $id)
@@ -1654,6 +1655,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      *
      * @param string $name
      * @param int $id
+     *
      * @dataProvider firingTypeDataProvider
      */
     public function getConvertedDataImportsAllFiringTypes($name, $id)
@@ -4725,6 +4727,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      *
      * @param string $nodeName
      * @param string $fieldName
+     *
      * @dataProvider booleanInfrastructureDataProvider
      */
     public function getConvertedDataFetchesBooleanInfrastructureNodeTrue($nodeName, $fieldName)
@@ -4751,6 +4754,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      *
      * @param string $nodeName
      * @param string $fieldName
+     *
      * @dataProvider booleanInfrastructureDataProvider
      */
     public function getConvertedDataFetchesBooleanInfrastructureNodeFalse($nodeName, $fieldName)

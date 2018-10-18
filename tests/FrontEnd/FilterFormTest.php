@@ -14,6 +14,7 @@ class tx_realty_FrontEnd_FilterFormTest extends \Tx_Phpunit_TestCase
      * @var tx_realty_filterForm
      */
     private $fixture = null;
+
     /**
      * @var Tx_Oelib_TestingFramework
      */

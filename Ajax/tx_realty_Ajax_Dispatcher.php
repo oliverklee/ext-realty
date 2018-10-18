@@ -5,7 +5,6 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-
 \TYPO3\CMS\Frontend\Utility\EidUtility::initTCA();
 
 $cityUid = (int)\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('city');

@@ -52,7 +52,8 @@ final class tx_realty_openImmoImportChild extends \tx_realty_openImmoImport
      * before. In case no or several XML files are found, an empty string is
      * returned and the error is logged.
      *
-     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be empty
+     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be
+     *     empty
      *
      * @return string absolute path of the XML file, empty string on error
      */
@@ -67,7 +68,8 @@ final class tx_realty_openImmoImportChild extends \tx_realty_openImmoImport
      * The ZIP archive must have been extracted to a folder named like the ZIP
      * without the suffix '.zip' before.
      *
-     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be empty
+     * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be
+     *     empty
      *
      * @return void
      */
@@ -140,7 +142,8 @@ final class tx_realty_openImmoImportChild extends \tx_realty_openImmoImport
      * messages and no information about success.
      *
      * @param array[] $emailData
-     *        Two-dimensional array of e-mail data. Each inner array has the elements 'recipient', 'objectNumber', 'logEntry' and
+     *        Two-dimensional array of e-mail data. Each inner array has the elements 'recipient', 'objectNumber',
+     *     'logEntry' and
      *        'errorLog'. May be empty.
      *
      * @return array[] Three dimensional array with e-mail addresses as

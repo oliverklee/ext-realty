@@ -55,7 +55,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-        ]);
+            ]);
 
         self::assertNotEquals(
             '',
@@ -86,7 +86,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-        ]);
+            ]);
 
         $result = $this->fixture->render(
             ['showUid' => $realtyObject->getUid()]
@@ -111,7 +111,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
-        ]);
+            ]);
 
         self::assertContains(
             '&euro; 123',
@@ -129,7 +129,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
                 'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
@@ -149,7 +149,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
                 'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
@@ -169,7 +169,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
                 'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
@@ -188,7 +188,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'buying_price' => '123',
-        ]);
+            ]);
 
         self::assertNotContains(
             '123',
@@ -205,7 +205,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-        ]);
+            ]);
 
         self::assertContains(
             '&euro; 123',
@@ -223,7 +223,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
                 'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
@@ -243,7 +243,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
                 'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
@@ -263,7 +263,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
                 'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
-        ]);
+            ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
@@ -282,7 +282,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'rent_excluding_bills' => '123',
-        ]);
+            ]);
 
         self::assertNotContains(
             '&euro; 123',
@@ -299,7 +299,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
             ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '',
-        ]);
+            ]);
 
         self::assertEquals(
             '',

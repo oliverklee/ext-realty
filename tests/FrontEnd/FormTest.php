@@ -13,6 +13,7 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
      * @var tx_realty_frontEndForm object to be tested
      */
     private $fixture = null;
+
     /**
      * @var Tx_Oelib_TestingFramework
      */
@@ -22,6 +23,7 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
      * @var int dummy FE user UID
      */
     private $feUserUid;
+
     /**
      * @var int UID of the dummy object
      */
@@ -37,7 +39,7 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
         $configuration->setData(
             [
                 'feEditorTemplateFile'
-                    => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+                => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
             ]
         );
         Tx_Oelib_ConfigurationRegistry::getInstance()->set(

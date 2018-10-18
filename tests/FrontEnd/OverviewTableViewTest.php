@@ -30,7 +30,8 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
         $this->fixture = new tx_realty_pi1_OverviewTableView(
             [
                 'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-                'fieldsInSingleViewTable', '',
+                'fieldsInSingleViewTable',
+                '',
             ],
             $frontEndController->cObj
         );
@@ -347,8 +348,8 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             $this->fixture->translate('label_heating_type_1') . ', ' .
-                $this->fixture->translate('label_heating_type_3') . ', ' .
-                $this->fixture->translate('label_heating_type_4'),
+            $this->fixture->translate('label_heating_type_3') . ', ' .
+            $this->fixture->translate('label_heating_type_4'),
             $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
@@ -383,15 +384,25 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
             'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
-                'provision,buying_price,hoa_fee,year_rent,' .
-                'rent_per_square_meter,garage_rent,garage_price,pets'
+            'provision,buying_price,hoa_fee,year_rent,' .
+            'rent_per_square_meter,garage_rent,garage_price,pets'
         );
 
         self::assertEquals(
             [
-                'heating_type', 'rent_excluding_bills', 'rent_with_heating_costs', 'extra_charges',
-                'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
-                'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets',
+                'heating_type',
+                'rent_excluding_bills',
+                'rent_with_heating_costs',
+                'extra_charges',
+                'deposit',
+                'provision',
+                'buying_price',
+                'hoa_fee',
+                'year_rent',
+                'rent_per_square_meter',
+                'garage_rent',
+                'garage_price',
+                'pets',
             ],
             $this->fixture->getFieldNames($realtyObject->getUid())
         );
@@ -409,17 +420,27 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
             'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
-                'provision,buying_price,hoa_fee,year_rent,' .
-                'rent_per_square_meter,garage_rent,garage_price,pets'
+            'provision,buying_price,hoa_fee,year_rent,' .
+            'rent_per_square_meter,garage_rent,garage_price,pets'
         );
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             [
-                'heating_type', 'rent_excluding_bills', 'rent_with_heating_costs', 'extra_charges',
-                'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
-                'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets',
+                'heating_type',
+                'rent_excluding_bills',
+                'rent_with_heating_costs',
+                'extra_charges',
+                'deposit',
+                'provision',
+                'buying_price',
+                'hoa_fee',
+                'year_rent',
+                'rent_per_square_meter',
+                'garage_rent',
+                'garage_price',
+                'pets',
             ],
             $this->fixture->getFieldNames($realtyObject->getUid())
         );
@@ -437,17 +458,27 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
             'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
-                'provision,buying_price,hoa_fee,year_rent,' .
-                'rent_per_square_meter,garage_rent,garage_price,pets'
+            'provision,buying_price,hoa_fee,year_rent,' .
+            'rent_per_square_meter,garage_rent,garage_price,pets'
         );
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             [
-                'heating_type', 'rent_excluding_bills', 'rent_with_heating_costs', 'extra_charges',
-                'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
-                'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets',
+                'heating_type',
+                'rent_excluding_bills',
+                'rent_with_heating_costs',
+                'extra_charges',
+                'deposit',
+                'provision',
+                'buying_price',
+                'hoa_fee',
+                'year_rent',
+                'rent_per_square_meter',
+                'garage_rent',
+                'garage_price',
+                'pets',
             ],
             $this->fixture->getFieldNames($realtyObject->getUid())
         );
@@ -465,15 +496,16 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
             'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
-                'provision,buying_price,hoa_fee,year_rent,' .
-                'rent_per_square_meter,garage_rent,garage_price,pets'
+            'provision,buying_price,hoa_fee,year_rent,' .
+            'rent_per_square_meter,garage_rent,garage_price,pets'
         );
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             [
-                'heating_type', 'pets',
+                'heating_type',
+                'pets',
             ],
             $this->fixture->getFieldNames($realtyObject->getUid())
         );
@@ -491,15 +523,16 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
             'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
-                'provision,buying_price,hoa_fee,year_rent,' .
-                'rent_per_square_meter,garage_rent,garage_price,pets'
+            'provision,buying_price,hoa_fee,year_rent,' .
+            'rent_per_square_meter,garage_rent,garage_price,pets'
         );
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             [
-                'heating_type', 'pets',
+                'heating_type',
+                'pets',
             ],
             $this->fixture->getFieldNames($realtyObject->getUid())
         );

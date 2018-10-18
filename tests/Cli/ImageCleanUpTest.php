@@ -63,8 +63,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
         $this->setExpectedException(
             'RuntimeException',
             'The folder ' . PATH_site . 'uploads_tx_realty_test/no_folder/ ' .
-                'with the uploaded realty files does not exist. ' .
-                'Please check your configuration and restart the clean-up.'
+            'with the uploaded realty files does not exist. ' .
+            'Please check your configuration and restart the clean-up.'
         );
         $this->fixture->setTestMode('uploads_tx_realty_test/no_folder');
         $this->fixture->checkUploadFolder();
@@ -81,10 +81,12 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
-            ['object' => $this->testingFramework->createRecord(
-                'tx_realty_objects',
-                ['images' => 1]
-            )]
+            [
+                'object' => $this->testingFramework->createRecord(
+                    'tx_realty_objects',
+                    ['images' => 1]
+                ),
+            ]
         );
 
         $this->fixture->hideUnusedImagesInDatabase();
@@ -104,10 +106,12 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
-            ['object' => $this->testingFramework->createRecord(
-                'tx_realty_objects',
-                ['images' => 1, 'hidden' => 1]
-            )]
+            [
+                'object' => $this->testingFramework->createRecord(
+                    'tx_realty_objects',
+                    ['images' => 1, 'hidden' => 1]
+                ),
+            ]
         );
 
         $this->fixture->hideUnusedImagesInDatabase();
@@ -127,10 +131,12 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
-            ['object' => $this->testingFramework->createRecord(
-                'tx_realty_objects',
-                ['images' => 1, 'deleted' => 1]
-            )]
+            [
+                'object' => $this->testingFramework->createRecord(
+                    'tx_realty_objects',
+                    ['images' => 1, 'deleted' => 1]
+                ),
+            ]
         );
 
         $this->fixture->hideUnusedImagesInDatabase();
@@ -190,10 +196,12 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord(
             'tx_realty_documents',
-            ['object' => $this->testingFramework->createRecord(
-                'tx_realty_objects',
-                ['documents' => 1]
-            )]
+            [
+                'object' => $this->testingFramework->createRecord(
+                    'tx_realty_objects',
+                    ['documents' => 1]
+                ),
+            ]
         );
 
         $this->fixture->deleteUnusedDocumentRecords();
@@ -213,10 +221,12 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord(
             'tx_realty_documents',
-            ['object' => $this->testingFramework->createRecord(
-                'tx_realty_objects',
-                ['documents' => 1, 'hidden' => 1]
-            )]
+            [
+                'object' => $this->testingFramework->createRecord(
+                    'tx_realty_objects',
+                    ['documents' => 1, 'hidden' => 1]
+                ),
+            ]
         );
 
         $this->fixture->deleteUnusedDocumentRecords();
@@ -236,10 +246,12 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord(
             'tx_realty_documents',
-            ['object' => $this->testingFramework->createRecord(
-                'tx_realty_objects',
-                ['documents' => 1, 'deleted' => 1]
-            )]
+            [
+                'object' => $this->testingFramework->createRecord(
+                    'tx_realty_objects',
+                    ['documents' => 1, 'deleted' => 1]
+                ),
+            ]
         );
 
         $this->fixture->deleteUnusedDocumentRecords();
@@ -338,7 +350,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
         );
         $this->testingFramework->createRecord(
             'tx_realty_images',
-            ['hidden' =>  1, 'image' => basename($fileName)]
+            ['hidden' => 1, 'image' => basename($fileName)]
         );
 
         $this->fixture->deleteUnusedFiles();

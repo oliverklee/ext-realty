@@ -160,7 +160,7 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
             [
                 'usergroup' => $firstGroupUid . ',' .
                     $this->feUserGroupUid . ',' . $thirdGroupUid,
-                ]
+            ]
         );
 
         self::assertContains(
@@ -182,7 +182,7 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
             [
                 'usergroup' => $firstGroupUid . ',' .
                     $secondGroupUid . ',' . $this->feUserGroupUid,
-                ]
+            ]
         );
 
         self::assertContains(
@@ -489,15 +489,15 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function offererListItemContainsTheOfferersSecondUserGroupNameForTheOfferersSecondGroupMatchingConfiguration()
-    {
+    public function offererListItemContainsTheOfferersSecondUserGroupNameForTheOfferersSecondGroupMatchingConfiguration(
+    ) {
         $otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
             ['title' => 'other group']
         );
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            ['usergroup' =>  $otherGroupUid . ',' . $this->feUserGroupUid]
+            ['usergroup' => $otherGroupUid . ',' . $this->feUserGroupUid]
         );
 
         self::assertContains(
@@ -509,8 +509,8 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function offererListItemNotContainsTheOfferersFirstUserGroupNameForTheOfferersSecondGroupMatchingConfiguration()
-    {
+    public function offererListItemNotContainsTheOfferersFirstUserGroupNameForTheOfferersSecondGroupMatchingConfiguration(
+    ) {
         $otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
             ['title' => 'other group']
         );
@@ -1166,8 +1166,8 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function offererListItemIfPageConfiguredAndConfigurationSetContainsConfiguredPageUidInTheLinkToTheObjectsByOffererList()
-    {
+    public function offererListItemIfPageConfiguredAndConfigurationSetContainsConfiguredPageUidInTheLinkToTheObjectsByOffererList(
+    ) {
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
@@ -1184,8 +1184,8 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function offererListItemIfPageConfiguredAndConfigurationSetContainsOwnerUidInTheLinkToTheObjectsByOffererList()
-    {
+    public function offererListItemIfPageConfiguredAndConfigurationSetContainsOwnerUidInTheLinkToTheObjectsByOffererList(
+    ) {
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
@@ -1220,8 +1220,8 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function offererListItemForDisabledSpecialObjectsByOwnerLinkAndOffererInSpecialGroupHidesLinkToTheOffererList()
-    {
+    public function offererListItemForDisabledSpecialObjectsByOwnerLinkAndOffererInSpecialGroupHidesLinkToTheOffererList(
+    ) {
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
