@@ -1409,7 +1409,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
                 'contact_person_salutation' => 'Mr.',
                 'contact_person_first_name' => 'Larry',
                 'contact_person' => 'Page',
-                'contact_email' => 'any-valid@email-address.org',
+                'contact_email' => 'any-valid@example.com',
             ]
         );
         $this->fixture->render(
@@ -1423,7 +1423,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            ['any-valid@email-address.org' => 'Mr. Larry Page'],
+            ['any-valid@example.com' => 'Mr. Larry Page'],
             $this->message->getTo()
         );
     }

@@ -990,11 +990,11 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            ['email' => 'offerer@company.org']
+            ['email' => 'offerer@example.com']
         );
 
         self::assertContains(
-            'offerer@company.org',
+            'offerer@example.com',
             $this->fixture->render()
         );
     }
@@ -1008,11 +1008,11 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            ['email' => 'offerer@company.org']
+            ['email' => 'offerer@example.com']
         );
 
         self::assertNotContains(
-            'offerer@company.org',
+            'offerer@example.com',
             $this->fixture->render()
         );
     }
@@ -1029,11 +1029,11 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            ['www' => 'http://www.company.org']
+            ['www' => 'http://www.example.com']
         );
 
         self::assertContains(
-            '<a href="http://www.company.org"',
+            '<a href="http://www.example.com"',
             $this->fixture->render()
         );
     }
@@ -1050,11 +1050,11 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            ['www' => 'http://www.company.org/?a=b&c=d']
+            ['www' => 'http://www.example.com/?a=b&c=d']
         );
 
         self::assertContains(
-            '<a href="http://www.company.org/?a=b&amp;c=d"',
+            '<a href="http://www.example.com/?a=b&amp;c=d"',
             $this->fixture->render()
         );
     }
@@ -1068,11 +1068,11 @@ class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            ['www' => 'http://www.company.org']
+            ['www' => 'http://www.example.com']
         );
 
         self::assertNotContains(
-            'http://www.company.org',
+            'http://www.example.com',
             $this->fixture->render()
         );
     }

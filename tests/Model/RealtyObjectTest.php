@@ -3979,11 +3979,11 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     {
         $this->loadRealtyObjectAndSetOwner(
             tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
-            ['email' => 'foo@bar.com']
+            ['email' => 'foo@example.com']
         );
 
         self::assertEquals(
-            'foo@bar.com',
+            'foo@example.com',
             $this->fixture->getContactEMailAddress()
         );
     }
@@ -3996,11 +3996,11 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         $this->loadRealtyObjectAndSetOwner(
             tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
             [],
-            ['contact_email' => 'bar@foo.com']
+            ['contact_email' => 'bar@example.com']
         );
 
         self::assertEquals(
-            'bar@foo.com',
+            'bar@example.com',
             $this->fixture->getContactEMailAddress()
         );
     }
