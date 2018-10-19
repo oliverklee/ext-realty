@@ -809,9 +809,9 @@ $tca = [
                 'size' => 4,
                 'max' => 4,
                 'eval' => 'int',
-                'checkbox' => '0',
+                'checkbox' => '',
                 'range' => [
-                    'lower' => 1400,
+                    'lower' => 0,
                     'upper' => 2100,
                 ],
                 'default' => 0,
