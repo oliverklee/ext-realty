@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Disable the old BE module in TYPO3 8.7 (#97)
 
 ### Fixed
+- Consistently use example.com for dummy URLs and emails (#115)
 - Make the "add to favorites" button in the single view work again (#113)
 - Conditionally hide/show the contact data in the TCEforms (#111)
 - Allow an empty construction year again in the TCEforms (#110)

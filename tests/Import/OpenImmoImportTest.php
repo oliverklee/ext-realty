@@ -114,7 +114,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         // TYPO3 default configuration
         $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
 
-        $this->globalConfiguration->setAsString('emailAddress', 'default-address@example.org');
+        $this->globalConfiguration->setAsString('emailAddress', 'default-address@example.com');
         $this->globalConfiguration->setAsBoolean('onlyErrors', false);
         $this->globalConfiguration->setAsString('openImmoSchema', $this->importFolder . 'schema.xsd');
         $this->globalConfiguration->setAsString('importFolder', $this->importFolder);
@@ -2102,7 +2102,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $dummyDocument = new DOMDocument();
         $dummyDocument->loadXML(
             '<openimmo>
-            <uebertragung xmlns="" art="OFFLINE" umfang="TEIL" modus="CHANGE" version="1.2.4" sendersoftware="OOF" senderversion="$Rev: 49210 $" techn_email="heidi.loehr@lob-immobilien.de" timestamp="2015-06-22T13:55:07.0+00:00"/>
+            <uebertragung xmlns="" art="OFFLINE" umfang="TEIL" modus="CHANGE" version="1.2.4" sendersoftware="OOF" senderversion="$Rev: 49210 $" techn_email="heidi.loehr@example.com" timestamp="2015-06-22T13:55:07.0+00:00"/>
             <anbieter xmlns="">
             <firma>Doe Immobilien</firma>
             <openimmo_anid>123456</openimmo_anid>
@@ -2238,12 +2238,12 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     public function ensureContactEmailNotChangesAddressIfValidAddressIsSet()
     {
         $this->fixture->loadRealtyObject(
-            ['contact_email' => 'foo-valid@email-address.org']
+            ['contact_email' => 'foo-valid@example.com']
         );
         $this->fixture->ensureContactEmail();
 
         self::assertSame(
-            'foo-valid@email-address.org',
+            'foo-valid@example.com',
             $this->fixture->getContactEmailFromRealtyObject()
         );
     }
@@ -2255,13 +2255,13 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     {
         $this->globalConfiguration->setAsString(
             'emailAddress',
-            'default_address@email-address.org'
+            'default_address@example.com'
         );
         $this->fixture->loadRealtyObject(['contact_email' => '']);
         $this->fixture->ensureContactEmail();
 
         self::assertSame(
-            'default_address@email-address.org',
+            'default_address@example.com',
             $this->fixture->getContactEmailFromRealtyObject()
         );
     }
@@ -2273,13 +2273,13 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     {
         $this->globalConfiguration->setAsString(
             'emailAddress',
-            'default_address@email-address.org'
+            'default_address@example.com'
         );
         $this->fixture->loadRealtyObject(['contact_email' => 'foo']);
         $this->fixture->ensureContactEmail();
 
         self::assertSame(
-            'default_address@email-address.org',
+            'default_address@example.com',
             $this->fixture->getContactEmailFromRealtyObject()
         );
     }
@@ -2887,7 +2887,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
      */
     public function prepareEmailsFillsEmptyEmailFieldWithDefaultAddressIfNotifyContactPersonsIsEnabled()
     {
-        $this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
+        $this->globalConfiguration->setAsString('emailAddress', 'default_address@example.com');
 
         $emailData = [
             [
@@ -2900,7 +2900,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [
-                'default_address@email-address.org' => [
+                'default_address@example.com' => [
                     ['foo' => 'bar'],
                 ],
             ],
@@ -2913,11 +2913,11 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
      */
     public function prepareEmailsReplacesNonEmptyEmailAddressIfNotifyContactPersonsIsDisabled()
     {
-        $this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
+        $this->globalConfiguration->setAsString('emailAddress', 'default_address@example.com');
         $this->globalConfiguration->setAsBoolean('notifyContactPersons', false);
         $emailData = [
             [
-                'recipient' => 'foo-valid@email-address.org',
+                'recipient' => 'foo-valid@example.com',
                 'objectNumber' => 'foo',
                 'logEntry' => 'bar',
                 'errorLog' => 'bar',
@@ -2926,7 +2926,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [
-                'default_address@email-address.org' => [
+                'default_address@example.com' => [
                     ['foo' => 'bar'],
                 ],
             ],
@@ -2939,7 +2939,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
      */
     public function prepareEmailsUsesLogEntryIfOnlyErrorsIsDisabled()
     {
-        $this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
+        $this->globalConfiguration->setAsString('emailAddress', 'default_address@example.com');
 
         $emailData = [
             [
@@ -2952,7 +2952,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [
-                'default_address@email-address.org' => [
+                'default_address@example.com' => [
                     ['foo' => 'log entry'],
                 ],
             ],
@@ -2966,7 +2966,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     public function prepareEmailsUsesLogEntryIfOnlyErrorsIsEnabled()
     {
         $this->globalConfiguration->setAsBoolean('onlyErrors', true);
-        $this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
+        $this->globalConfiguration->setAsString('emailAddress', 'default_address@example.com');
 
         $emailData = [
             [
@@ -2979,7 +2979,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [
-                'default_address@email-address.org' => [
+                'default_address@example.com' => [
                     ['foo' => 'error log'],
                 ],
             ],
@@ -3248,7 +3248,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->disableValidation();
 
         self::assertContains(
-            'default-address@example.org',
+            'default-address@example.com',
             $this->fixture->importFromZip()
         );
     }
@@ -3360,7 +3360,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'contact-email-address@valid-email.org',
+            'contact-email-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3377,7 +3377,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.org',
+            'default-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3394,7 +3394,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.org',
+            'default-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3410,7 +3410,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             '',
             [
                 'tx_realty_openimmo_anid' => 'test-anid',
-                'email' => 'owner-address@valid-email.org',
+                'email' => 'owner-address@example.com',
             ]
         );
         $this->globalConfiguration->setAsBoolean(
@@ -3422,7 +3422,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'owner-address@valid-email.org',
+            'owner-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3438,7 +3438,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             '',
             [
                 'tx_realty_openimmo_anid' => 'test-anid',
-                'email' => 'owner-address@valid-email.org',
+                'email' => 'owner-address@example.com',
             ]
         );
         $this->globalConfiguration->setAsBoolean(
@@ -3450,7 +3450,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'owner-address@valid-email.org',
+            'owner-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3466,7 +3466,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             '',
             [
                 'tx_realty_openimmo_anid' => 'another-test-anid',
-                'email' => 'owner-address@valid-email.org',
+                'email' => 'owner-address@example.com',
             ]
         );
         $this->globalConfiguration->setAsBoolean(
@@ -3478,7 +3478,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'contact-email-address@valid-email.org',
+            'contact-email-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3494,7 +3494,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             '',
             [
                 'tx_realty_openimmo_anid' => 'test-anid',
-                'email' => 'owner-address@valid-email.org',
+                'email' => 'owner-address@example.com',
             ]
         );
         $this->globalConfiguration->setAsBoolean(
@@ -3506,7 +3506,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'contact-email-address@valid-email.org',
+            'contact-email-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3522,7 +3522,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             '',
             [
                 'tx_realty_openimmo_anid' => 'another-test-anid',
-                'email' => 'owner-address@valid-email.org',
+                'email' => 'owner-address@example.com',
             ]
         );
         $this->globalConfiguration->setAsBoolean(
@@ -3534,7 +3534,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.org',
+            'default-address@example.com',
             $this->message->getTo()
         );
     }
@@ -3550,7 +3550,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             '',
             [
                 'tx_realty_openimmo_anid' => 'test-anid',
-                'email' => 'owner-address@valid-email.org',
+                'email' => 'owner-address@example.com',
             ]
         );
         $this->globalConfiguration->setAsBoolean(
@@ -3562,7 +3562,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.org',
+            'default-address@example.com',
             $this->message->getTo()
         );
     }
