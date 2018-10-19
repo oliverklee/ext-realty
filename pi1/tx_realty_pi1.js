@@ -137,7 +137,7 @@ TYPO3.realty.initializePrintButton = function () {
 TYPO3.realty.initializeFavoritesButtons = function () {
     var $favoritesButtons = jQuery('.js-realty-favorites');
     $favoritesButtons.click(function () {
-        jQuery('form#tx_realty_pi1_list_view').submit();
+        jQuery('.js-realty-favorites-form').submit();
         return false;
     });
 };

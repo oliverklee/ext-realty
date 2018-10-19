@@ -40,7 +40,7 @@
     <div id="tx_realty_map"></div>
     <!-- ###GOOGLE_MAP### -->
     <!-- ###LIST_RESULT### -->
-    <form id="tx_realty_pi1_list_view" method="post" action="<!-- ###FAVORITES_URL### --><!-- ###FAVORITES_URL### -->">
+    <form id="tx_realty_pi1_list_view" class="js-realty-favorites-form" method="post" action="<!-- ###FAVORITES_URL### --><!-- ###FAVORITES_URL### -->">
         <table class="result" summary="">
             <thead>
                 <tr>
@@ -285,7 +285,7 @@
         <!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
         <div class="buttons">
             <!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
-            <form id="addToFavorites" method="post" action="###FAVORITES_URL###">
+            <form id="addToFavorites" class="js-realty-favorites-form" method="post" action="###FAVORITES_URL###">
                 <div>
                     <input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
                     <a href="#" class="js-realty-favorites button singleViewAddToFavorites"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
