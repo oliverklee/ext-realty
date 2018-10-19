@@ -1089,6 +1089,7 @@ $tca = [
             ],
         ],
         'employer' => [
+            'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.employer',
             'config' => [
@@ -1127,6 +1128,7 @@ $tca = [
         'contact_data_source' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'radio',
                 'items' => [
@@ -1142,6 +1144,7 @@ $tca = [
             ],
         ],
         'contact_person' => [
+            'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person',
             'config' => [
@@ -1151,6 +1154,7 @@ $tca = [
             ],
         ],
         'contact_person_first_name' => [
+            'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person_first_name',
             'config' => [
@@ -1160,6 +1164,7 @@ $tca = [
             ],
         ],
         'contact_person_salutation' => [
+            'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person_salutation',
             'config' => [
@@ -1169,8 +1174,10 @@ $tca = [
             ],
         ],
         'contact_email' => [
+            'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_email',
+            'renderType' => 'selectSingle',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -1178,6 +1185,7 @@ $tca = [
             ],
         ],
         'phone_switchboard' => [
+            'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_switchboard',
             'config' => [
@@ -1187,6 +1195,7 @@ $tca = [
             ],
         ],
         'phone_direct_extension' => [
+            'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_direct_extension',
             'config' => [
@@ -1550,7 +1559,7 @@ if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
     $tca['columns']['energy_certificate_issue_date']['config']['renderType'] = 'inputDateTime';
     $tca['columns']['details_page']['config']['renderType'] = 'inputLink';
 } else {
-    $tca['ctrl']['requestUpdate'] = 'city,has_coordinates';
+    $tca['ctrl']['requestUpdate'] = 'city,has_coordinates,contact_data_source';
     $tca['columns']['teaser']['defaultExtras'] = 'richtext[]';
     $tca['columns']['description']['defaultExtras'] = 'richtext[]';
     $tca['columns']['equipment']['defaultExtras'] = 'richtext[]';

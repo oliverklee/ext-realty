@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Disable the old BE module in TYPO3 8.7 (#97)
 
 ### Fixed
+- Conditionally hide/show the contact data in the TCEforms (#111)
 - Allow an empty construction year again in the TCEforms (#110)
 - Increase the allowed image and document size to 4 MB (#109)
 - Fix most deprecation warnings in TYPO3 7.6 (#108)
