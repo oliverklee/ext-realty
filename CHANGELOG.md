@@ -6,13 +6,24 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## 1.0.1
+
+### Added
 - Provide an API key for Google Maps (#47, #101)
 - Auto-release to the TER (#98)
 
 ### Changed
+- Simplify the TCA for images and documents (#116)
 - Clean up the JavaScript (#114)
-
-### Deprecated
 
 ### Removed
 - Disable the old BE module in TYPO3 8.7 (#97)

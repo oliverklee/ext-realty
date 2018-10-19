@@ -11,14 +11,11 @@ $tca = [
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l18n_parent',
         'transOrigDiffSourceField' => 'l18n_diffsource',
-        'default_sortby' => 'ORDER BY object',
+        'default_sortby' => 'ORDER BY sorting',
         'delete' => 'deleted',
         'hideTable' => true,
         'enablecolumns' => [],
         'iconfile' => 'EXT:realty/icons/icon_tx_realty_documents.gif',
-    ],
-    'interface' => [
-        'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title,filename',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -53,16 +50,8 @@ $tca = [
             ],
         ],
         'object' => [
-            'exclude' => 0,
-            'label' => '',
             'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => 'tx_realty_objects',
-                'items' => [['', '0']],
-                'size' => 1,
-                'minitems' => 0,
-                'maxitems' => 1,
+                'type' => 'passthrough',
             ],
         ],
         'title' => [
