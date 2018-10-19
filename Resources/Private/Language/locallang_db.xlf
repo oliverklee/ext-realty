@@ -577,6 +577,9 @@
             <trans-unit id="tx_realty_objects.total_energy_efficiency_class" xml:space="preserve">
                 <source>Total energy efficiency class</source>
             </trans-unit>
+            <trans-unit id="tx_realty_objects.access" xml:space="preserve">
+                <source>Access</source>
+            </trans-unit>
             <trans-unit id="tx_realty_apartment_types" xml:space="preserve">
                 <source>Apartment type</source>
             </trans-unit>

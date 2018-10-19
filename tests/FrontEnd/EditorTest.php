@@ -301,10 +301,8 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function populateListForInvalidTableThrowsAnExeption()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '"invalid_table" is not a valid table name.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->fixture->populateList(['table' => 'invalid_table']);
     }
 
@@ -313,10 +311,8 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function populateListForInvalidTitleColumnThrowsAnExeption()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '"foo" is not a valid column name for ' . 'tx_realty_cities' . '.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->fixture->populateList(['title_column' => 'foo', 'table' => 'tx_realty_cities']);
     }
 
@@ -376,13 +372,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function getMessageForRealtyObjectThrowsAnExceptionForAnInvalidFieldName()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '"foo" is not a valid column name for ' . 'tx_realty_objects' . '.'
-        );
-        $this->fixture->getMessageForRealtyObjectField(
-            ['fieldName' => 'foo', 'label' => 'message_no_valid_number']
-        );
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->fixture->getMessageForRealtyObjectField(['fieldName' => 'foo', 'label' => 'message_no_valid_number']);
     }
 
     /**
@@ -390,10 +382,8 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function getMessageForRealtyObjectFieldThrowsAnExceptionForInvalidLocallangKey()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '"123" is not a valid locallang key.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->fixture->getMessageForRealtyObjectField(['label' => '123']);
     }
 
@@ -402,10 +392,8 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function getMessageForRealtyObjectFieldThrowsAnExceptionForEmptyLocallangKey()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '"" is not a valid locallang key.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->fixture->getMessageForRealtyObjectField(['label' => '']);
     }
 
@@ -1195,10 +1183,8 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function checkKeyExistsInTableThrowsExceptionForInvalidTable()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '"invalid_table" is not a valid table name.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->fixture->checkKeyExistsInTable([
             'value' => 1,
             'table' => 'invalid_table',

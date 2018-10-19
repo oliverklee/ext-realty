@@ -768,6 +768,10 @@
                 <source>Total energy efficiency class</source>
                 <target>Gesamtenergieeffizienz-Klasse</target>
             </trans-unit>
+            <trans-unit id="tx_realty_objects.access" xml:space="preserve">
+                <source>Access</source>
+                <target>Zugriff</target>
+            </trans-unit>
             <trans-unit id="tx_realty_apartment_types" xml:space="preserve" approved="yes">
                 <source>Apartment type</source>
                 <target>Wohnungstyp</target>

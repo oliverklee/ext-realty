@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') or die('Access denied.');
 
-return [
+$tca = [
     'ctrl' => [
         'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images',
         'label' => 'caption',
@@ -28,6 +28,7 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
@@ -42,9 +43,8 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
+                'items' => [['', '0']],
                 'foreign_table' => 'tx_realty_images',
                 'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### AND tx_realty_images.sys_language_uid IN (-1, 0)',
             ],
@@ -67,7 +67,9 @@ return [
             'label' => '',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_objects',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -91,7 +93,6 @@ return [
                 'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
                 'max_size' => 2000,
                 'uploadfolder' => 'uploads/tx_realty',
-                'show_thumbs' => 1,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -106,7 +107,6 @@ return [
                 'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
                 'max_size' => 2000,
                 'uploadfolder' => 'uploads/tx_realty',
-                'show_thumbs' => 1,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -117,6 +117,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.0', '0'],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.1', '1'],
@@ -128,9 +129,8 @@ return [
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;2, caption, image;;1, position'],
-    ],
-    'palettes' => [
-        '1' => ['showitem' => 'thumbnail'],
+        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, hidden, caption, image, thumbnail, position'],
     ],
 ];
+
+return $tca;

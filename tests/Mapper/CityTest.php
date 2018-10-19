@@ -71,10 +71,7 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
      */
     public function findByNameForEmptyValueThrowsException()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '$value must not be empty.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->fixture->findByName('');
     }
@@ -117,7 +114,7 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
      */
     public function findByNameForInexistentNameThrowsException()
     {
-        $this->setExpectedException('Tx_Oelib_Exception_NotFound');
+        $this->expectException(\Tx_Oelib_Exception_NotFound::class);
 
         $this->fixture->findByName('Hupflingen');
     }

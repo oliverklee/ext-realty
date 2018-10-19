@@ -64,10 +64,8 @@ class tx_realty_Service_TranslatorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture = new tx_realty_translator();
 
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            '$key must not be empty.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->fixture->translate('');
     }
 }

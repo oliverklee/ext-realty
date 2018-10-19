@@ -23,7 +23,7 @@ class tx_realty_openImmoImport
     /**
      * @var string stores the complete error log
      */
-    private $errorLog = '';
+    private $errors = '';
 
     /**
      * @var string Stores log information to be written to '$logEntry'. So it
@@ -34,7 +34,7 @@ class tx_realty_openImmoImport
     private $temporaryLogEntry = '';
 
     /**
-     * @var string Stores log information to be written to '$errorLog'. So it is
+     * @var string Stores log information to be written to $errors. So it is
      *             possible to use only parts of the entire log.
      */
     private $temporaryErrorLog = '';
@@ -421,7 +421,7 @@ class tx_realty_openImmoImport
      */
     private function storeLogsAndClearTemporaryLog()
     {
-        $this->errorLog .= $this->temporaryErrorLog;
+        $this->errors .= $this->temporaryErrorLog;
         $this->temporaryErrorLog = '';
 
         $this->logEntry .= $this->temporaryLogEntry;

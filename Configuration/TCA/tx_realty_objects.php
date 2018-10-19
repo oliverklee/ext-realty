@@ -3,14 +3,13 @@ defined('TYPO3_MODE') or die('Access denied.');
 
 $hasStoragePid = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7004000;
 
-$result = [
+$tca = [
     'ctrl' => [
         'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
-        'dividers2tabs' => true,
         'type' => 'object_type',
         'versioningWS' => true,
         'origUid' => 't3_origuid',
@@ -25,7 +24,6 @@ $result = [
             'endtime' => 'endtime',
         ],
         'iconfile' => 'EXT:realty/icons/icon_tx_realty_objects.gif',
-        'requestUpdate' => 'city,has_coordinates',
         'searchFields' => 'uid,title,object_number,zip,openimmo_anid,openimmo_obid',
     ],
     'interface' => [
@@ -64,6 +62,7 @@ $result = [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
@@ -78,9 +77,8 @@ $result = [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
+                'items' => [['', '0']],
                 'foreign_table' => 'tx_realty_objects',
                 'foreign_table_where' => 'AND tx_realty_objects.pid=###CURRENT_PID### AND tx_realty_objects.sys_language_uid IN (-1, 0)',
             ],
@@ -104,7 +102,6 @@ $result = [
             'config' => [
                 'type' => 'input',
                 'size' => 8,
-                'max' => 20,
                 'eval' => 'date',
                 'default' => '0',
                 'checkbox' => '0',
@@ -116,7 +113,6 @@ $result = [
             'config' => [
                 'type' => 'input',
                 'size' => 8,
-                'max' => 20,
                 'eval' => 'date',
                 'checkbox' => '0',
                 'default' => '0',
@@ -213,8 +209,10 @@ $result = [
         'city' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_cities',
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.title'
@@ -230,7 +228,9 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'itemsProcFunc' => 'OliverKlee\\Realty\\BackEnd\\Tca->getDistrictsForCity',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -241,11 +241,10 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.country',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'static_countries',
                 'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -271,6 +270,7 @@ $result = [
         'has_coordinates' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_coordinates',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'check',
             ],
@@ -283,7 +283,7 @@ $result = [
             ],
         ],
         'longitude' => [
-            'displayCond' => 'FIELD:has_coordinates:!=:0',
+            'displayCond' => 'FIELD:has_coordinates:>:0',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.longitude',
             'config' => [
@@ -294,7 +294,7 @@ $result = [
             ],
         ],
         'latitude' => [
-            'displayCond' => 'FIELD:has_coordinates:!=:0',
+            'displayCond' => 'FIELD:has_coordinates:>:0',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.latitude',
             'config' => [
@@ -547,6 +547,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.0', 0],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.1', 1],
@@ -560,13 +561,12 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.apartment_type',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_apartment_types',
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.title'
                     : 'ORDER BY tx_realty_apartment_types.title',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -577,13 +577,12 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.house_type',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_house_types',
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.title'
                     : 'ORDER BY tx_realty_house_types.title',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -658,6 +657,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectCheckBox',
                 'items' => [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.1', 1],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.2', 2],
@@ -722,13 +722,12 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_type',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_car_places',
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.title'
                     : 'ORDER BY tx_realty_car_places.title',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -767,13 +766,12 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.pets',
             'config' => [
                 'type' => 'select',
-                'items' => [
-                    ['', 0],
-                ],
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_pets',
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.title'
                     : 'ORDER BY tx_realty_pets.title',
+                'items' => [['', '0']],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -784,6 +782,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectCheckBox',
                 'items' => [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.1', 1],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.2', 2],
@@ -823,6 +822,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', '0'],
                     [
@@ -834,6 +834,9 @@ $result = [
                         '2',
                     ],
                 ],
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
             ],
         ],
         'state' => [
@@ -841,6 +844,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', '0'],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.1', 1],
@@ -865,6 +869,9 @@ $result = [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.20', 20],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.21', 21],
                 ],
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
             ],
         ],
         'furnishing_category' => [
@@ -872,6 +879,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', '0'],
                     [
@@ -887,6 +895,9 @@ $result = [
                         3,
                     ],
                 ],
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
             ],
         ],
         'balcony' => [
@@ -977,6 +988,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.teaser',
             'config' => [
                 'type' => 'text',
+                'enableRichtext' => true,
                 'cols' => 20,
                 'rows' => 3,
             ],
@@ -986,6 +998,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.description',
             'config' => [
                 'type' => 'text',
+                'enableRichtext' => true,
                 'cols' => 30,
                 'rows' => 5,
             ],
@@ -995,6 +1008,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.equipment',
             'config' => [
                 'type' => 'text',
+                'enableRichtext' => true,
                 'cols' => 30,
                 'rows' => 5,
             ],
@@ -1022,6 +1036,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.misc',
             'config' => [
                 'type' => 'text',
+                'enableRichtext' => true,
                 'cols' => 30,
                 'rows' => 5,
             ],
@@ -1035,21 +1050,6 @@ $result = [
                 'max' => 255,
                 'checkbox' => '',
                 'eval' => 'trim',
-                'wizards' => [
-                    '_PADDING' => 2,
-                    'link' => [
-                        'type' => 'popup',
-                        'title' => 'Link',
-                        'icon' => 'link_popup.gif',
-                        'module' => [
-                            'name' => 'wizard_element_browser',
-                            'urlParameters' => [
-                                'mode' => 'wizard',
-                            ],
-                        ],
-                        'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
-                    ],
-                ],
             ],
         ],
         'images' => [
@@ -1231,7 +1231,6 @@ $result = [
             'config' => [
                 'type' => 'input',
                 'size' => 10,
-                'max' => 10,
                 'eval' => 'date',
                 'checkbox' => '0',
                 'default' => '0',
@@ -1242,6 +1241,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate_type',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_UNDEFINED],
                     [
@@ -1253,6 +1253,9 @@ $result = [
                         tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
                     ],
                 ],
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
             ],
         ],
         'energy_certificate_valid_until' => [
@@ -1341,7 +1344,6 @@ $result = [
             'config' => [
                 'type' => 'input',
                 'size' => 8,
-                'max' => 20,
                 'eval' => 'date',
                 'default' => '0',
                 'checkbox' => '0',
@@ -1352,6 +1354,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate_year',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_UNDEFINED],
                     [
@@ -1371,6 +1374,9 @@ $result = [
                         tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
                     ],
                 ],
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
             ],
         ],
         'building_type' => [
@@ -1378,6 +1384,7 @@ $result = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.building_type',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', tx_realty_Model_RealtyObject::BUILDING_TYPE_UNDEFINED],
                     [
@@ -1389,6 +1396,9 @@ $result = [
                         tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
                     ],
                 ],
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
             ],
         ],
         'energy_certificate_text' => [
@@ -1440,11 +1450,11 @@ $result = [
     'types' => [
         '0' => [
             // for rent
-            'showitem' => 'sys_language_uid;;;;1-1-1, ' .
-                'l18n_parent, l18n_diffsource, hidden;;1, ' .
+            'showitem' => 'sys_language_uid, ' .
+                'l18n_parent, l18n_diffsource, ' .
                 'object_number, openimmo_anid, openimmo_obid, object_type, ' .
-                'utilization, title;;;;2-2-2, emphasized, sorting, ' .
-                'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
+                'utilization, title, emphasized, sorting, ' .
+                'show_address, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
                 .
                 'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
                 'storage_area, office_space, other_area, window_bank, ' .
@@ -1455,32 +1465,16 @@ $result = [
                 'bathrooms, heating_type, has_air_conditioning, garage_type, parking_spaces, ' .
                 'garage_rent, pets, flooring, construction_year, old_or_new_building, ' .
                 'state, furnishing_category, balcony, garden, fitted_kitchen, has_pool, has_community_pool,' .
-                'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
-                'bold|italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
-                'bold|italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'equipment;;;richtext[cut|copy|paste|formatblock|textcolor|' .
-                'bold|italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'layout, location;;;richtext[cut|copy|paste|formatblock|' .
-                'textcolor|bold|italic|underline|left|center|right|' .
-                'orderedlist|unorderedlist|outdent|indent|link|table|image|' .
-                'line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|' .
-                'italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|' .
-                'chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+                'teaser, ' .
+                'description, ' .
+                'equipment, ' .
+                'layout, location, ' .
+                'misc, ' .
                 'details_page, images, documents, contact_data_source, employer, ' .
-                'contact_person;;2, contact_email, phone_switchboard, ' .
+                'contact_person, contact_person_salutation, contact_person_first_name, ' .
+                'contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
-                'advertised_date;;;;2-2-2, ' .
+                'advertised_date, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, '
                 .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
@@ -1493,15 +1487,17 @@ $result = [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude',
+                'has_coordinates, coordinates_problem, longitude, latitude, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
+                'hidden, starttime, endtime',
         ],
         '1' => [
             // for sale
-            'showitem' => 'sys_language_uid;;;;1-1-1, ' .
-                'l18n_parent, l18n_diffsource, hidden;;1, ' .
+            'showitem' => 'sys_language_uid, ' .
+                'l18n_parent, l18n_diffsource, ' .
                 'object_number, openimmo_anid, openimmo_obid, object_type, ' .
-                'title;;;;2-2-2, emphasized, sorting, ' .
-                'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
+                'title, emphasized, sorting, ' .
+                'show_address, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
                 .
                 'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
                 'storage_area, office_space, other_area, window_bank, ' .
@@ -1512,32 +1508,16 @@ $result = [
                 'heating_type, has_air_conditioning, garage_type, parking_spaces, garage_price, ' .
                 'flooring, construction_year, old_or_new_building, state, ' .
                 'furnishing_category, balcony, garden, fitted_kitchen, has_pool, has_community_pool, ' .
-                'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
-                'bold|italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
-                'bold|italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'equipment;;;richtext[cut|copy|paste|formatblock|textcolor|' .
-                'bold|italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'layout, location;;;richtext[cut|copy|paste|formatblock|' .
-                'textcolor|bold|italic|underline|left|center|right|' .
-                'orderedlist|unorderedlist|outdent|indent|link|table|image|' .
-                'line|chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-                'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|' .
-                'italic|underline|left|center|right|orderedlist|' .
-                'unorderedlist|outdent|indent|link|table|image|line|' .
-                'chMode]' .
-                ':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+                'teaser, ' .
+                'description, ' .
+                'equipment, ' .
+                'layout, location, ' .
+                'misc, ' .
                 'details_page, images, documents, contact_data_source, employer, ' .
-                'contact_person;;2, contact_email, phone_switchboard, ' .
+                'contact_person, contact_person_salutation, contact_person_first_name, ' .
+                'contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
-                'advertised_date;;;;2-2-2, ' .
+                'advertised_date, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, '
                 .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
@@ -1550,15 +1530,51 @@ $result = [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude',
+                'has_coordinates, coordinates_problem, longitude, latitude, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
+                'hidden, starttime, endtime',
         ],
-    ],
-    'palettes' => [
-        '1' => ['showitem' => 'starttime, endtime'],
-        '2' => ['showitem' => 'contact_person_salutation, contact_person_first_name'],
     ],
 ];
 
 unset($hasStoragePid);
 
-return $result;
+if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7000000) {
+    $tca['ctrl']['dividers2tabs'] = true;
+}
+
+if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 8006000) {
+    $tca['columns']['starttime']['config']['renderType'] = 'inputDateTime';
+    $tca['columns']['endtime']['config']['renderType'] = 'inputDateTime';
+    $tca['columns']['advertised_date']['config']['renderType'] = 'inputDateTime';
+    $tca['columns']['energy_certificate_issue_date']['config']['renderType'] = 'inputDateTime';
+    $tca['columns']['details_page']['config']['renderType'] = 'inputLink';
+} else {
+    $tca['ctrl']['requestUpdate'] = 'city,has_coordinates';
+    $tca['columns']['teaser']['defaultExtras'] = 'richtext[]';
+    $tca['columns']['description']['defaultExtras'] = 'richtext[]';
+    $tca['columns']['equipment']['defaultExtras'] = 'richtext[]';
+    $tca['columns']['location']['defaultExtras'] = 'richtext[]';
+    $tca['columns']['misc']['defaultExtras'] = 'richtext[]';
+    $tca['columns']['details_page']['config']['wizards'] = [
+        'link' => [
+            'type' => 'popup',
+            'title' => 'Link',
+            'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+            'module' => [
+                'name' => 'wizard_link',
+                'urlParameters' => [
+                    'mode' => 'wizard',
+                ],
+            ],
+            'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+        ],
+    ];
+}
+
+if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7006000) {
+    $tca['columns']['details_page']['config']['wizards']['link']['icon'] = 'link_popup.gif';
+    $tca['columns']['details_page']['config']['wizards']['link']['module']['name'] = 'wizard_element_browser';
+}
+
+return $tca;

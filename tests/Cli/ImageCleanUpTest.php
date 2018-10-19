@@ -60,12 +60,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
      */
     public function checkUploadFolderForNonExistingWritableFolderThrowsException()
     {
-        $this->setExpectedException(
-            'RuntimeException',
-            'The folder ' . PATH_site . 'uploads_tx_realty_test/no_folder/ ' .
-            'with the uploaded realty files does not exist. ' .
-            'Please check your configuration and restart the clean-up.'
-        );
+        $this->expectException(\RuntimeException::class);
+
         $this->fixture->setTestMode('uploads_tx_realty_test/no_folder');
         $this->fixture->checkUploadFolder();
     }

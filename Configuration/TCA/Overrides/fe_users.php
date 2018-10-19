@@ -23,8 +23,8 @@ defined('TYPO3_MODE') or die('Access denied.');
                 'eval' => 'int',
                 'checkbox' => '0',
                 'range' => [
-                    'upper' => 9999,
                     'lower' => 0,
+                    'upper' => 9999,
                 ],
                 'default' => 0,
             ],
@@ -33,5 +33,5 @@ defined('TYPO3_MODE') or die('Access denied.');
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
-    '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:fe_users.tx_realty_tab,tx_realty_openimmo_anid,tx_realty_maximum_objects;;;;1-1-1,'
+    '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:fe_users.tx_realty_tab,tx_realty_openimmo_anid,tx_realty_maximum_objects'
 );
