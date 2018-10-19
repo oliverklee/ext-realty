@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Auto-release to the TER (#98)
 
 ### Changed
+- Clean up the JavaScript (#114)
 
 ### Deprecated
 

@@ -13,24 +13,29 @@ TYPO3.realty = TYPO3.realty || {};
  * "rent" or "sale" is selected for the edited object.
  */
 TYPO3.realty.updateHideAndShow = function () {
-    if (jQuery("#tx_realty_frontEndEditor__object_type_0").prop("checked")) {
-        jQuery(".rent").show();
-        jQuery(".sale").hide();
+    var $rentElements = jQuery('.rent');
+    var $saleElements = jQuery('.sale');
+    var $contactDataElement = jQuery('#contact-data');
+    var $coordinatesElements = jQuery('.coordinates');
+
+    if (jQuery('#tx_realty_frontEndEditor__object_type_0').prop('checked')) {
+        $rentElements.show();
+        $saleElements.hide();
     } else {
-        jQuery(".rent").hide();
-        jQuery(".sale").show();
+        $rentElements.hide();
+        $saleElements.show();
     }
 
-    if (jQuery("#tx_realty_frontEndEditor__contact_data_source_0").prop("checked")) {
-        jQuery("#contact-data").show();
+    if (jQuery('#tx_realty_frontEndEditor__contact_data_source_0').prop('checked')) {
+        $contactDataElement.show();
     } else {
-        jQuery("#contact-data").hide();
+        $contactDataElement.hide();
     }
 
-    if (jQuery("#tx_realty_frontEndEditor__has_coordinates").prop("checked")) {
-        jQuery(".coordinates").show();
+    if (jQuery('#tx_realty_frontEndEditor__has_coordinates').prop('checked')) {
+        $coordinatesElements.show();
     } else {
-        jQuery(".coordinates").hide();
+        $coordinatesElements.hide();
     }
 };
 
@@ -40,11 +45,11 @@ TYPO3.realty.updateHideAndShow = function () {
  * If no city is selected, the district selector will be hidden.
  */
 TYPO3.realty.updateDistrictsInSearchWidget = function () {
-    var $districtSelectorWidget = jQuery("#tx_realty_pi1_searchWidget_district");
-    var $loader = jQuery("#tx-realty-pi1-loading");
+    var $districtSelectorWidget = jQuery('#tx_realty_pi1_searchWidget_district');
+    var $loader = jQuery('#tx-realty-pi1-loading');
 
-    var cityUid = jQuery("#tx_realty_pi1-city").val();
-    if (cityUid === "0") {
+    var cityUid = jQuery('#tx_realty_pi1-city').val();
+    if (cityUid === '0') {
         $districtSelectorWidget.hide();
         return;
     }
@@ -52,7 +57,7 @@ TYPO3.realty.updateDistrictsInSearchWidget = function () {
     $districtSelectorWidget.hide();
     $loader.show();
 
-    var url = "/index.php?eID=realty&type=withNumber&city=" + encodeURIComponent(cityUid);
+    var url = '/index.php?eID=realty&type=withNumber&city=' + encodeURIComponent(cityUid);
     var $districtDropDown = jQuery('#tx_realty_pi1-district');
     $districtDropDown.load(url, function () {
         $districtSelectorWidget.show();
@@ -72,12 +77,12 @@ TYPO3.realty.updateDistrictsInEditor = function () {
     var $districtDropDown = jQuery('#tx_realty_frontEndEditor__district');
 
     var cityUid = $citySelector.val();
-    if (cityUid === "0") {
+    if (cityUid === '0') {
         $districtWrapper.hide();
         return;
     }
 
-    var url = "/index.php?eID=realty&city=" + encodeURIComponent(cityUid);
+    var url = '/index.php?eID=realty&city=' + encodeURIComponent(cityUid);
     $districtDropDown.prop('disabled', true);
     $districtDropDown.load(url, function () {
         $districtWrapper.show();
@@ -92,8 +97,8 @@ TYPO3.realty.initializeFrontEndEditor = function () {
     }
 
     TYPO3.realty.updateHideAndShow();
-    jQuery(".js-realty-update-editor").click(TYPO3.realty.updateHideAndShow);
-    jQuery("#tx_realty_frontEndEditor__city").change(TYPO3.realty.updateDistrictsInEditor);
+    jQuery('.js-realty-update-editor').click(TYPO3.realty.updateHideAndShow);
+    jQuery('#tx_realty_frontEndEditor__city').change(TYPO3.realty.updateDistrictsInEditor);
 };
 
 TYPO3.realty.initializeGoogleMaps = function () {
