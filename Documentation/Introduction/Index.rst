@@ -16,12 +16,6 @@
 Introduction
 ------------
 
-If you like this extension, please submit a rating for it in the TER.
-
-**This manual is about the development version of the Realty
-Manager.**
-
-
 .. toctree::
    :maxdepth: 5
    :titlesonly:

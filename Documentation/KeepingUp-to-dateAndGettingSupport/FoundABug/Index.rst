@@ -32,3 +32,10 @@ when reporting a bug:
 - what you expect to happen
 
 - what actually happens instead
+
+
+Get a service level agreement (SLA)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This extension is part of the service level agreements (SLAs) offered
+by the `coders.care project <https://coders.care/>`_.
