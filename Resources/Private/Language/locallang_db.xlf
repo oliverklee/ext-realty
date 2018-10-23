@@ -497,10 +497,10 @@
                 <source>Sea view</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate" xml:space="preserve">
-                <source>Energy certificate</source>
+                <source>Energy performance certificate</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_type" xml:space="preserve">
-                <source>Energy certificate type</source>
+                <source>Energy performance certificate type</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_type.requirement" xml:space="preserve">
                 <source>requirement</source>
@@ -509,7 +509,7 @@
                 <source>consumption</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_valid_until" xml:space="preserve">
-                <source>Energy certificate valid until</source>
+                <source>Energy performance certificate valid until</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_consumption_characteristic" xml:space="preserve">
                 <source>Energy consumption characteristic</source>
@@ -539,7 +539,7 @@
                 <source>Issue date</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_year" xml:space="preserve">
-                <source>Energy certificate year</source>
+                <source>Energy performance certificate year</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_year.2008" xml:space="preserve">
                 <source>before 2014</source>
@@ -563,7 +563,7 @@
                 <source>business</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_text" xml:space="preserve">
-                <source>Energy certificate text</source>
+                <source>Energy performance certificate text</source>
             </trans-unit>
             <trans-unit id="tx_realty_objects.heat_energy_requirement_value" xml:space="preserve">
                 <source>Heat energy requirement value</source>

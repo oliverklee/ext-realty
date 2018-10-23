@@ -1232,10 +1232,10 @@
                 <source>All objects by this offerer</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate" xml:space="preserve">
-                <source>Energy certificate</source>
+                <source>Energy performance certificate</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate_type" xml:space="preserve">
-                <source>Energy certificate type</source>
+                <source>Energy performance certificate type</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate_type_1" xml:space="preserve">
                 <source>requirement</source>
@@ -1244,7 +1244,7 @@
                 <source>consumption</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate_valid_until" xml:space="preserve">
-                <source>Energy certificate valid until</source>
+                <source>Energy performance certificate valid until</source>
             </trans-unit>
             <trans-unit id="label_energy_consumption_characteristic" xml:space="preserve">
                 <source>Energy consumption characteristic</source>
@@ -1271,10 +1271,10 @@
                 <source>Year of construction</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate_issue_date" xml:space="preserve">
-                <source>Energy certificate issue date</source>
+                <source>Energy performance certificate issue date</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate_year" xml:space="preserve">
-                <source>Energy certificate year</source>
+                <source>Energy performance certificate year</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate_year_1" xml:space="preserve">
                 <source>before 2014</source>
@@ -1298,7 +1298,7 @@
                 <source>business</source>
             </trans-unit>
             <trans-unit id="label_energy_certificate_text" xml:space="preserve">
-                <source>Energy certificate text</source>
+                <source>Energy performance certificate text</source>
             </trans-unit>
             <trans-unit id="label_heat_energy_requirement_value" xml:space="preserve">
                 <source>Heat energy requirement value</source>
