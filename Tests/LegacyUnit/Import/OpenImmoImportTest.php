@@ -139,11 +139,11 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     }
 
     /**
-     * Copies a file or a folder from the extension's tests/fixtures/ folder
+     * Copies a file or a folder from the extension's Tests/LegacyUnit/fixtures/ folder
      * into the temporary test import folder.
      *
      * @param string $fileName
-     *        File or folder to copy. Must be a relative path to existent files within the tests/fixtures/ folder.
+     *        File or folder to copy. Must be a relative path to existent files within the Tests/LegacyUnit/fixtures/ folder.
      *        Leave empty to create an empty import folder.
      * @param string $newFileName
      *        new file name in case it should be different from the original one, may be empty
@@ -160,7 +160,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         if ($fileName !== '') {
             copy(
-                ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . $fileName,
+                ExtensionManagementUtility::extPath('realty') . 'Tests/LegacyUnit/fixtures/tx_realty_fixtures/' . $fileName,
                 $this->importFolder . (($newFileName !== '') ? $newFileName : basename($fileName))
             );
         }
@@ -646,7 +646,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         // copyTestFileIntoImportFolder() cannot copy folders
         GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
         copy(
-            ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/'
+            ExtensionManagementUtility::extPath('realty') . 'Tests/LegacyUnit/fixtures/tx_realty_fixtures/'
             . 'changed-copy-of-same-name/same-name.zip',
             $this->importFolder . 'changed-copy-of-same-name/same-name.zip'
         );
@@ -864,7 +864,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         // copyTestFileIntoImportFolder() cannot copy folders
         GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
         copy(
-            ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
+            ExtensionManagementUtility::extPath('realty') . 'Tests/LegacyUnit/fixtures/tx_realty_fixtures/' .
             'changed-copy-of-same-name/same-name.zip',
             $this->importFolder . 'changed-copy-of-same-name/same-name.zip'
         );

@@ -859,7 +859,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -890,7 +890,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
             ],
             $this->contentObject,
@@ -920,7 +920,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -959,7 +959,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
             ],
             $this->contentObject,
@@ -1004,7 +1004,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1035,7 +1035,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1066,7 +1066,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1097,7 +1097,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1128,7 +1128,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
