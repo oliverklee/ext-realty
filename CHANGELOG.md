@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Correct the wording of the energy performance certificate (#122)
 - Add a conflict with a PHP-7.0-incompatible static_info_tables version (#119)
 
 ## 1.0.1

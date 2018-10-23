@@ -1641,11 +1641,11 @@
                 <target>Alle Objekte dieses Anbieters</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate" xml:space="preserve" approved="yes">
-                <source>Energy certificate</source>
+                <source>Energy performance certificate</source>
                 <target>Energieausweis</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate_type" xml:space="preserve" approved="yes">
-                <source>Energy certificate type</source>
+                <source>Energy performance certificate type</source>
                 <target>Energieausweisart</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate_type_1" xml:space="preserve" approved="yes">
@@ -1657,8 +1657,8 @@
                 <target>Verbrauch</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate_valid_until" xml:space="preserve" approved="yes">
-                <source>Energy certificate valid until</source>
-                <target>Energiepass gültig bis</target>
+                <source>Energy performance certificate valid until</source>
+                <target>Energieausweis gültig bis</target>
             </trans-unit>
             <trans-unit id="label_energy_consumption_characteristic" xml:space="preserve" approved="yes">
                 <source>Energy consumption characteristic</source>
@@ -1693,11 +1693,11 @@
                 <target>Baujahr</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate_issue_date" xml:space="preserve" approved="yes">
-                <source>Energy certificate issue date</source>
+                <source>Energy performance certificate issue date</source>
                 <target>Energieausweis-Ausstellungsdatum</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate_year" xml:space="preserve" approved="yes">
-                <source>Energy certificate year</source>
+                <source>Energy performance certificate year</source>
                 <target>Energieausweis-Jahrgang</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate_year_1" xml:space="preserve" approved="yes">
@@ -1729,8 +1729,8 @@
                 <target>Gewerbe</target>
             </trans-unit>
             <trans-unit id="label_energy_certificate_text" xml:space="preserve" approved="yes">
-                <source>Energy certificate text</source>
-                <target>Energiepasstext</target>
+                <source>Energy performance certificate text</source>
+                <target>Energieausweistext</target>
             </trans-unit>
             <trans-unit id="label_heat_energy_requirement_value" xml:space="preserve" approved="yes">
                 <source>Heat energy requirement value</source>

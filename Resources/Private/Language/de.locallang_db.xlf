@@ -661,11 +661,11 @@
                 <target>Meerblick</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate" xml:space="preserve" approved="yes">
-                <source>Energy certificate</source>
+                <source>Energy performance certificate</source>
                 <target>Energieausweis</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_type" xml:space="preserve" approved="yes">
-                <source>Energy certificate type</source>
+                <source>Energy performance certificate type</source>
                 <target>Energieausweisart</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_type.requirement" xml:space="preserve" approved="yes">
@@ -677,8 +677,8 @@
                 <target>Verbrauch</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_valid_until" xml:space="preserve" approved="yes">
-                <source>Energy certificate valid until</source>
-                <target>Energiepass gültig bis</target>
+                <source>Energy performance certificate valid until</source>
+                <target>Energieausweis gültig bis</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_consumption_characteristic" xml:space="preserve" approved="yes">
                 <source>Energy consumption characteristic</source>
@@ -717,7 +717,7 @@
                 <target>Ausstellungsdatum</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_year" xml:space="preserve" approved="yes">
-                <source>Energy certificate year</source>
+                <source>Energy performance certificate year</source>
                 <target>Jahrgang</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_year.2008" xml:space="preserve" approved="yes">
@@ -749,8 +749,8 @@
                 <target>Gewerbe</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.energy_certificate_text" xml:space="preserve" approved="yes">
-                <source>Energy certificate text</source>
-                <target>Energiepasstext</target>
+                <source>Energy performance certificate text</source>
+                <target>Energieausweistext</target>
             </trans-unit>
             <trans-unit id="tx_realty_objects.heat_energy_requirement_value" xml:space="preserve" approved="yes">
                 <source>Heat energy requirement value</source>
