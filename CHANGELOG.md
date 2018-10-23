@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- Move the old tests to Tests/LegacyUnit/ (#121)
 
 ### Deprecated
 

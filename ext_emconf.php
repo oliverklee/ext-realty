@@ -45,7 +45,7 @@ $EM_CONF[$_EXTKEY] = [
             'Mapper',
             'Model',
             'pi1',
-            'tests',
+            'Tests',
         ],
     ],
 ];
