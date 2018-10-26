@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Avoid conflict with the Bootstrap package for the Lightbox JavaScript (#128)
 - Correct the wording of the energy performance certificate (#122)
 - Add a conflict with a PHP-7.0-incompatible static_info_tables version (#119)
 

@@ -15,14 +15,18 @@ page {
     }
 
     includeJSFooterlibs {
-        lightbox = EXT:realty/Resources/Public/Lightbox/js/lightbox.js
-        async = 1
-        defer = 1
+        realtyLightbox = EXT:realty/Resources/Public/Lightbox/js/lightbox.js
+        realtyLightbox {
+            async = 1
+            defer = 1
+        }
     }
 
     includeJSFooter {
-        tx_realty_pi1 = EXT:realty/pi1/tx_realty_pi1.js
-        async = 1
-        defer = 1
+        realtyFrontEnd = EXT:realty/pi1/tx_realty_pi1.js
+        realtyFrontEnd {
+            async = 1
+            defer = 1
+        }
     }
 }
