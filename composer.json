@@ -40,6 +40,7 @@
     "require-dev": {
         "helhum/typo3-console": "^4.9",
         "helmich/typo3-typoscript-lint": "^1.4.7",
+        "nimut/testing-framework": "^2.0",
         "oliverklee/phpunit": "^5.3",
         "phpunit/phpunit": "^5.6"
     },
@@ -83,9 +84,13 @@
     "scripts": {
         "ci:php:lint": "find *.php Ajax/ BackEnd/ cli/ Configuration/ lib/ Mapper/ Model/ pi1/ tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
         "ci:ts:lint": ".Build/vendor/bin/typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
+        "ci:tests:unit": "phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/",
         "ci:tests:unit-legacy": ".Build/public/typo3/cli_dispatch.phpsh phpunit Tests/LegacyUnit/",
+        "ci:tests:functional": "phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional/",
         "ci:tests": [
-            "@ci:tests:unit-legacy"
+            "@ci:tests:unit",
+            "@ci:tests:unit-legacy",
+            "@ci:tests:functional"
         ],
         "ci:static": [
             "@ci:php:lint",
@@ -111,6 +116,7 @@
             "dev-master": "1.0.x-dev"
         },
         "typo3/cms": {
+            "extension-key": "realty",
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "web-dir": ".Build/public"
         },

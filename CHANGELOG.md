@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Starter tests with nimut/testing-framework (#130)
 
 ### Changed
 - Move the old tests to Tests/LegacyUnit/ (#121)
