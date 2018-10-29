@@ -23,6 +23,8 @@ organizations and persons:
 
 - `Acco Real <http://www.accoreal.de/>`_
 
+- `arndtteunissen GmbH <https://www.arndtteunissen.de/>`_
+
 - `ART-KON-TOR Kommunikation GmbH <https://www.art-kon-tor.de/>`_
 
 - `ASTERIOS Design e. U. <https://www.multimedia-agentur.at/>`_
