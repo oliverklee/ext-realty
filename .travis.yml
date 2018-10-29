@@ -18,11 +18,7 @@ before_install:
 
 install:
 - >
-  if [ "$TYPO§" == "^8.7" ]; then
-    composer require typo3/minimal:"$TYPO3" pagemachine/typo3-composer-legacy-cli;
-  else
-    composer require typo3/minimal:"$TYPO3";
-  fi;
+  composer require typo3/minimal:"$TYPO3";
   composer show;
 - >
   echo;
