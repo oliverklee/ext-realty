@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- New back-end module for TYPO3 >= 7.6 (#131)
 - Starter tests with nimut/testing-framework (#130)
 
 ### Changed

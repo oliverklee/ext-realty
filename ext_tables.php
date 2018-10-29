@@ -23,8 +23,25 @@ $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY)
 );
 
 if (TYPO3_MODE === 'BE'
-    && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 8000000
+    && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000
 ) {
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+        'OliverKlee.Realty',
+        'web',
+        'openImmo',
+        'bottom',
+        [
+            'OpenImmo' => 'index, import',
+        ],
+        [
+            'access' => 'group',
+            'icon' => 'EXT:realty/Resources/Public/Icons/Module.gif',
+            'labels' => 'LLL:EXT:realty/Resources/Private/Language/locallang_mod.xlf',
+            // hide the page tree
+            'navigationComponentId' => '',
+        ]
+    );
+} else {
     $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon']
         = $extPath . 'pi1/class.tx_realty_pi1_wizicon.php';
 

@@ -5,8 +5,8 @@
         <header/>
         <body>
             <trans-unit id="title" xml:space="preserve" approved="yes">
-                <source>Realty</source>
-                <target>Realty</target>
+                <source>OpenImmo</source>
+                <target>OpenImmo</target>
             </trans-unit>
             <trans-unit id="import_tab" xml:space="preserve" approved="yes">
                 <source>OpenImmo import</source>
@@ -37,12 +37,10 @@
                 <target>Non hai i permessi di creare records nella tabella &amp;quot;%s&amp;quot; necessaria per importare immobili. Per favore modifica i permessi di accesso ad uno dei gruppi utenti di BE.</target>
             </trans-unit>
             <trans-unit id="mlang_tabs_tab" xml:space="preserve" approved="yes">
-                <source>Realty</source>
-                <target>Realty</target>
+                <source>OpenImmo import</source>
             </trans-unit>
             <trans-unit id="mlang_labels_tabdescr" xml:space="preserve" approved="yes">
-                <source>This module allows you to manage and import realty objects</source>
-                <target>Questo modulo ti permette di gestire e importare immobili</target>
+                <source>This module allows you to manually trigger the OpenImmo import of realty objects.</source>
             </trans-unit>
             <trans-unit id="mlang_labels_tablabel" xml:space="preserve" approved="yes">
                 <source>Realty</source>
