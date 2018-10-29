@@ -5,8 +5,8 @@
         <header/>
         <body>
             <trans-unit id="title" xml:space="preserve" approved="yes">
-                <source>Realty</source>
-                <target>Immobiliaria</target>
+                <source>OpenImmo</source>
+                <target>OpenImmo</target>
             </trans-unit>
             <trans-unit id="import_tab" xml:space="preserve" approved="yes">
                 <source>OpenImmo import</source>
@@ -37,12 +37,10 @@
                 <target>Vd no tiene permisos para crear datos en la tabla %quot;%s&amp;quot; que es necesario para importar objetos. Por favor cambio los permisos en el BE para este usuario, para que tenga derecho a escrituro en este archivo</target>
             </trans-unit>
             <trans-unit id="mlang_tabs_tab" xml:space="preserve" approved="yes">
-                <source>Realty</source>
-                <target>Immobiliarias</target>
+                <source>OpenImmo import</source>
             </trans-unit>
             <trans-unit id="mlang_labels_tabdescr" xml:space="preserve" approved="yes">
-                <source>This module allows you to manage and import realty objects</source>
-                <target>Con este modulo Vd. podrá importar y administrar objetos immobiliarios</target>
+                <source>This module allows you to manually trigger the OpenImmo import of realty objects.</source>
             </trans-unit>
             <trans-unit id="mlang_labels_tablabel" xml:space="preserve" approved="yes">
                 <source>Realty</source>

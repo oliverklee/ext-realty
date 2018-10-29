@@ -33,6 +33,8 @@
         "ext-json": "*",
         "typo3/cms-core": "^6.2.0 || ^7.6.23",
         "typo3/cms-frontend": "^6.2.0 || ^7.6.23",
+        "typo3/cms-extbase": "^6.2.0 || ^7.6.23",
+        "typo3/cms-fluid": "^6.2.0 || ^7.6.23",
         "dmk/mkforms": "^3.0.21",
         "oliverklee/oelib": "^1.3 || ^2.0",
         "sjbr/static-info-tables": "^6.3.7"
