@@ -19,11 +19,8 @@ Import OpenImmo records from ZIP files
 On Linux and Unix servers, OpenImmo records can be imported
 automatically with the help of a CLI script via cron job.
 
-To setup a cron job the following needs to be done:
-
-#. Create a BE TYPO3 user named “\_cli\_realty” with  *User Admin* . This
-   user does not need to be configured in any special way but must not be
-   an admin user.
+General setup
+#############
 
 #. On the realty extension's configuration page in the  *Extension
    Manger* configure the following:
@@ -88,7 +85,7 @@ To setup a cron job the following needs to be done:
   person will receive no more than one e-mail during the import even if
   there are several records with the same contact e-mail address.
 
-- XML Schema file for validation:If the data should be validated,
+- XML Schema file for validation: If the data should be validated,
   configure the path of the XML Schema file. (XML Schema files have the
   suffix \*.xsd). Note: The licensing of the OpenImmo Schema doesn’t
   allow us to distribute the Schema file with this extension. So you
@@ -110,16 +107,6 @@ To setup a cron job the following needs to be done:
    created inside the import folder during runtime. These folders are
    removed when the import is done. The ZIP archives are not changed at
    all.
-
-#. Set up a cron job to run PHP with it. The command to use for the cron
-   job is:/[ *absolute path of the TYPO3 installation*
-   ]/typo3/cli\_dispatch.phpsh openImmoImport A line in your cron tab
-   that imports realty objects at three o’clock a.m. then could look like
-   this:0 3 \* \* \* /var/www/typo3/cli\_dispatch.phpsh openImmoImport
-
-No matter whether e-mails are sent and whether “onlyErrors” is active,
-the log which is directly returned at the end of the script always
-contains all information about all records.
 
 The import has been tested with records made with the following
 programs:
@@ -160,4 +147,28 @@ not exist, the record will be ignored (there will also be a log
 message that the record was not written to the database then).
 
 After a ZIP file has been successfully imported, it will automatically
-be deleted.
+be deleted if this is enabled in the extension manager.
+
+Setting up the scheduler task
+#############################
+
+Set up the Scheduler and add a task "realty: OpenImmo import".
+
+Setting up the cron job (deprecated)
+####################################
+
+The OpenImmo cron job is deprecated and will be removed in version 2.0.0.
+
+#. Create a BE TYPO3 user named “\_cli\_realty” with  *User Admin* . This
+   user does not need to be configured in any special way but must not be
+   an admin user.
+
+#. Set up a cron job to run PHP with it. The command to use for the cron
+   job is:/[ *absolute path of the TYPO3 installation*
+   ]/typo3/cli\_dispatch.phpsh openImmoImport A line in your cron tab
+   that imports realty objects at three o’clock a.m. then could look like
+   this:0 3 \* \* \* /var/www/typo3/cli\_dispatch.phpsh openImmoImport
+
+No matter whether e-mails are sent and whether “onlyErrors” is active,
+the log which is directly returned at the end of the script always
+contains all information about all records.

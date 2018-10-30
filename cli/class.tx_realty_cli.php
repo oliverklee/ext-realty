@@ -21,6 +21,8 @@ class tx_realty_cli
      */
     public function main()
     {
+        \TYPO3\CMS\Core\Utility\GeneralUtility::logDeprecatedFunction();
+
         try {
             /** @var \tx_realty_openImmoImport $importer */
             $importer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\tx_realty_openImmoImport::class);
