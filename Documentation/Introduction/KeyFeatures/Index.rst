@@ -50,7 +50,7 @@ Key features
 - list of offerers with a link to each offerer's objects
 
 - import of `OpenImmo <http://www.openimmo.de/>`_ records (version
-  1.2.2) from ZIP files via the TYPO3 command line interface (CLI) with
+  1.2.7) from ZIP files via the TYPO3 command line interface (CLI) with
   e-mail notifications, uploaded objects can be hidden first and then
   published by an administrator, the objects can automatically be
   assigned to FE users
@@ -67,16 +67,3 @@ Key features
 - the front end plug-in can be configured via TypoScript and Flexforms
   with an automatic configuration check that quickly leads to a working
   configuration
-
-- the code follows the TYPO3 coding guidelines
-
-- works with TYPO3 CMS 6.2.0 and up
-
-- works with MySQL 5.0 and up
-
-- contains unit tests which can be used with the  *phpunit* extension
-  (only in the SVN version, not in the TER version)
-
-- the extension is actively developed
-
-- is tested with Firefox, Safari and IE7 and 8
