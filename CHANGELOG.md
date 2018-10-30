@@ -6,6 +6,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## 1.1.0
+
+### Added
 - Status code for the OpenImmo import (#136)
 - Scheduler task for the image cleanup (#135)
 - Scheduler task for the OpenImmo import (#134)
@@ -14,10 +26,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - Move the old tests to Tests/LegacyUnit/ (#121)
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 - Use the current composer names of static_info_tables (#129)
