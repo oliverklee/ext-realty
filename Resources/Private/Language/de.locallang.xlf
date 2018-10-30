@@ -1756,6 +1756,14 @@
                 <source>Contact data source (for contact form and detail view)</source>
                 <target>Quelle der Kontaktdaten (für Kontaktformular und Detailansicht)</target>
             </trans-unit>
+            <trans-unit id="schedulerTask.openImmoImport.title" xml:space="preserve" approved="yes">
+                <source>OpenImmo import</source>
+                <target>OpenImmo-Import</target>
+            </trans-unit>
+            <trans-unit id="schedulerTask.openImmoImport.description" xml:space="preserve" approved="yes">
+                <source>This task runs the OpenImmo import. You can configure the import in the extension manager.</source>
+                <target>Dieser Task führt den OpenImmo-Import aus. Sie können den Import im Extension-Manager konfigurieren.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -99,7 +99,8 @@ RTE.config.tx_realty_objects.misc {
     $_EXTKEY,
     'setup',
     '
-	tt_content.shortcut.20.conf.tx_realty_objects = < plugin.' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getCN($_EXTKEY) . '_pi1
+	tt_content.shortcut.20.conf.tx_realty_objects = < plugin.'
+    . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getCN($_EXTKEY) . '_pi1
 	tt_content.shortcut.20.conf.tx_realty_objects.CMD = singleView
 ',
     43
@@ -118,3 +119,13 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY] = 'EXT:' . $_EXTKEY .
 // RealURL autoconfiguration
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['realty']
     = 'Tx_Realty_Configuration_RealUrl_Configuration->addConfiguration';
+
+$taskConfiguration = [
+    'extension' => 'realty',
+    'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang.xlf:schedulerTask.openImmoImport.title',
+    'description' => 'LLL:EXT:realty/Resources/Private/Language/locallang.xlf:schedulerTask.openImmoImport.description',
+    'additionalFields' => \OliverKlee\Realty\SchedulerTask\OpenImmoImport::class,
+];
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\OliverKlee\Realty\SchedulerTask\OpenImmoImport::class]
+    = $taskConfiguration;
+unset($taskConfiguration);

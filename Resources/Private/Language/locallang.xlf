@@ -1318,6 +1318,12 @@
             <trans-unit id="label_contact_data_source" xml:space="preserve">
                 <source>Contact data source (for contact form and detail view)</source>
             </trans-unit>
+            <trans-unit id="schedulerTask.openImmoImport.title" xml:space="preserve">
+                <source>OpenImmo import</source>
+            </trans-unit>
+            <trans-unit id="schedulerTask.openImmoImport.description" xml:space="preserve">
+                <source>This task runs the OpenImmo import. You can configure the import in the extension manager.</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
