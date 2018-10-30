@@ -23,12 +23,12 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'php' => '5.5.0-7.2.99',
-            'typo3' => '6.2.0-7.9.99',
-            'extbase' => '6.2.0-7.9.99',
-            'fluid' => '6.2.0-7.9.99',
-            'oelib' => '1.3.0-2.9.99',
+            'typo3' => '7.6.23-7.9.99',
+            'extbase' => '7.6.23-7.9.99',
+            'fluid' => '7.6.23-7.9.99',
+            'oelib' => '1.5.0-2.9.99',
             'mkforms' => '3.0.21-3.99.99',
-            'static_info_tables' => '6.3.7-',
+            'static_info_tables' => '6.4.0-',
         ],
         'conflicts' => [
             'dbal' => '',
