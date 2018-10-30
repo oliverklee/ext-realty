@@ -4202,4 +4202,42 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
+
+    /**
+     * @test
+     */
+    public function wasSuccessfulInitiallyReturnsTrue()
+    {
+        static::assertTrue($this->fixture->wasSuccessful());
+    }
+
+    /**
+     * @test
+     */
+    public function wasSuccessfulAfterSuccessfulImportReturnsTrue()
+    {
+        $this->checkForZipArchive();
+        $this->testingFramework->markTableAsDirty('tx_realty_objects');
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $this->copyTestFileIntoImportFolder('two-objects.zip');
+        $this->fixture->importFromZip();
+
+        static::assertTrue($this->fixture->wasSuccessful());
+    }
+
+    /**
+     * @test
+     */
+    public function wasSuccessfulAfterErrorReturnsTrue()
+    {
+        $this->checkForZipArchive();
+
+        $path = '/any/not/existing/import-path/';
+        $this->globalConfiguration->setAsString('importFolder', $path);
+
+        $this->fixture->importFromZip();
+
+        static::assertFalse($this->fixture->wasSuccessful());
+    }
 }

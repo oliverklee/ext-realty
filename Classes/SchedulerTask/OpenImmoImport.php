@@ -23,6 +23,6 @@ class OpenImmoImport extends AbstractTask
         $importService = $objectManager->get(\tx_realty_openImmoImport::class);
         $importService->importFromZip();
 
-        return true;
+        return $importService->wasSuccessful();
     }
 }

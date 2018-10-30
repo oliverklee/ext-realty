@@ -44,7 +44,7 @@ class OpenImmoController extends ActionController
      */
     public function importAction()
     {
-        $result = $this->importService->importFromZip();
-        $this->view->assign('importResults', $result);
+        $this->view->assign('importResults', $this->importService->importFromZip());
+        $this->view->assign('importStatus', $this->importService->wasSuccessful() ? 0 : 2);
     }
 }

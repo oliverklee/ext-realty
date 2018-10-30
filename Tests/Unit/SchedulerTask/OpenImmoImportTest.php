@@ -73,7 +73,30 @@ class OpenImmoImportTest extends UnitTestCase
     public function executeRunsOpenImmoImport()
     {
         $this->importServiceProphecy->importFromZip()->shouldBeCalled();
+        $this->importServiceProphecy->wasSuccessful()->willReturn(true);
+
+        $this->subject->execute();
+    }
+
+    /**
+     * @test
+     */
+    public function executeForSuccessReturnsTrue()
+    {
+        $this->importServiceProphecy->importFromZip()->shouldBeCalled();
+        $this->importServiceProphecy->wasSuccessful()->willReturn(true);
 
         static::assertTrue($this->subject->execute());
+    }
+
+    /**
+     * @test
+     */
+    public function executeForFailureReturnsFalse()
+    {
+        $this->importServiceProphecy->importFromZip()->shouldBeCalled();
+        $this->importServiceProphecy->wasSuccessful()->willReturn(false);
+
+        static::assertFalse($this->subject->execute());
     }
 }
