@@ -91,6 +91,11 @@ class tx_realty_openImmoImport
     private $isTestMode = false;
 
     /**
+     * @var bool
+     */
+    private $success = true;
+
+    /**
      * Constructor.
      *
      * @param bool $isTestMode
@@ -130,6 +135,8 @@ class tx_realty_openImmoImport
      */
     public function importFromZip()
     {
+        $this->success = true;
+
         $this->addToLogEntry(date('Y-m-d G:i:s') . LF);
         $checkedImportDirectory = $this->unifyPath($this->globalConfiguration->getAsString('importFolder'));
 
@@ -161,6 +168,14 @@ class tx_realty_openImmoImport
         $this->storeLogsAndClearTemporaryLog();
 
         return $this->logEntry;
+    }
+
+    /**
+     * @return bool
+     */
+    public function wasSuccessful()
+    {
+        return $this->success;
     }
 
     /**
@@ -409,6 +424,7 @@ class tx_realty_openImmoImport
      */
     private function addToErrorLog($errorMessage)
     {
+        $this->success = false;
         $this->temporaryErrorLog .= $errorMessage . LF;
         $this->addToLogEntry($errorMessage);
     }
@@ -1073,7 +1089,7 @@ class tx_realty_openImmoImport
                 );
                 break;
             case 'message_invalid_schema_file_path':
-                $this->addToErrorLog(
+                $this->addToLogEntry(
                     $this->getTranslator()->translate($validationResult) . ' ' .
                     $this->getTranslator()->translate('message_import_without_validation')
                 );

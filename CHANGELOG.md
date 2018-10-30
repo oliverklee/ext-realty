@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Status code for the OpenImmo import (#136)
 - Scheduler task for the image cleanup (#135)
 - Scheduler task for the OpenImmo import (#134)
 - New back-end module for TYPO3 >= 7.6 (#131)

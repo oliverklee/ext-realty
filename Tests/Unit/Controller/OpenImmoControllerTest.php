@@ -67,12 +67,29 @@ class OpenImmoControllerTest extends UnitTestCase
     /**
      * @test
      */
-    public function importActionAssignsImportResultToView()
+    public function importActionAssignsSuccessfulImportResultToView()
     {
         $importResult = 'Great import!';
         $this->importServiceProphecy->importFromZip()->willReturn($importResult);
+        $this->importServiceProphecy->wasSuccessful()->willReturn(true);
 
-        $this->viewProphecy->assign('importResults', $importResult);
+        $this->viewProphecy->assign('importResults', $importResult)->shouldBeCalled();
+        $this->viewProphecy->assign('importStatus', 0)->shouldBeCalled();
+
+        $this->subject->importAction();
+    }
+
+    /**
+     * @test
+     */
+    public function importActionAssignsFailedImportResultToView()
+    {
+        $importResult = 'Great import!';
+        $this->importServiceProphecy->importFromZip()->willReturn($importResult);
+        $this->importServiceProphecy->wasSuccessful()->willReturn(false);
+
+        $this->viewProphecy->assign('importResults', $importResult)->shouldBeCalled();
+        $this->viewProphecy->assign('importStatus', 2)->shouldBeCalled();
 
         $this->subject->importAction();
     }

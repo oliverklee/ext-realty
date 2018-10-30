@@ -23,14 +23,9 @@ class tx_realty_cli
     {
         \TYPO3\CMS\Core\Utility\GeneralUtility::logDeprecatedFunction();
 
-        try {
-            /** @var \tx_realty_openImmoImport $importer */
-            $importer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\tx_realty_openImmoImport::class);
-            echo $importer->importFromZip();
-        } catch (Exception $exception) {
-            echo $exception->getMessage() . LF . LF .
-                $exception->getTraceAsString() . LF . LF;
-        }
+        /** @var \tx_realty_openImmoImport $importer */
+        $importer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\tx_realty_openImmoImport::class);
+        echo $importer->importFromZip();
     }
 }
 
