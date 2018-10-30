@@ -24,6 +24,8 @@ class tx_realty_cli_ImageCleanUpStarter
      */
     public function main()
     {
+        GeneralUtility::logDeprecatedFunction();
+
         try {
             /** @var tx_realty_cli_ImageCleanUp $cleanUp */
             $cleanUp = GeneralUtility::makeInstance(\tx_realty_cli_ImageCleanUp::class);

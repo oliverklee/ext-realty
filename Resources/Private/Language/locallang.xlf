@@ -1324,6 +1324,12 @@
             <trans-unit id="schedulerTask.openImmoImport.description" xml:space="preserve">
                 <source>This task runs the OpenImmo import. You can configure the import in the extension manager.</source>
             </trans-unit>
+            <trans-unit id="schedulerTask.imageCleanup.title" xml:space="preserve">
+                <source>Image cleanup</source>
+            </trans-unit>
+            <trans-unit id="schedulerTask.imageCleanup.description" xml:space="preserve">
+                <source>This task cleans up orphaned image and document files that have been left after the OpenImmo import.</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -5,6 +5,7 @@
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('realty');
 return [
     'OliverKlee\\Realty\\BackEnd\\Tca' => $extensionPath . 'Classes/Backend/Tca.php',
+    'OliverKlee\\Realty\\SchedulerTask\\ImageCleanup' => $extensionPath . 'Classes/SchedulerTask/ImageCleanup.php',
     'OliverKlee\\Realty\\SchedulerTask\\OpenImmoImport' => $extensionPath . 'Classes/SchedulerTask/OpenImmoImport.php',
     'tx_realty_configcheck' => $extensionPath . 'Classes/configcheck.php',
     'tx_realty_ajax_districtselector' => $extensionPath . 'Ajax/class.tx_realty_Ajax_DistrictSelector.php',
