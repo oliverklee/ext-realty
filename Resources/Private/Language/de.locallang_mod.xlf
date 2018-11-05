@@ -4,39 +4,15 @@
           product-name="realty">
         <header/>
         <body>
-            <trans-unit id="title" xml:space="preserve" approved="yes">
+            <trans-unit id="mlang_tabs_tab" xml:space="preserve" approved="yes">
                 <source>OpenImmo</source>
                 <target>OpenImmo</target>
             </trans-unit>
-            <trans-unit id="import_tab" xml:space="preserve" approved="yes">
+            <trans-unit id="mlang_labels_tablabel" xml:space="preserve" approved="yes">
                 <source>OpenImmo import</source>
                 <target>OpenImmo-Import</target>
             </trans-unit>
-            <trans-unit id="start_import_button" xml:space="preserve" approved="yes">
-                <source>Start OpenImmo import</source>
-                <target>OpenImmo-Import starten</target>
-            </trans-unit>
-            <trans-unit id="label_import_in_progress" xml:space="preserve" approved="yes">
-                <source>Data is being imported &amp;#8230;</source>
-                <target>Daten werden importiert &amp;#8230;</target>
-            </trans-unit>
-            <trans-unit id="message_no_permission" xml:space="preserve" approved="yes">
-                <source>You don't have the permissions to access this module.</source>
-                <target>Sie haben keine Zugriffsrechte für dieses Modul.</target>
-            </trans-unit>
-            <trans-unit id="error_message_objects_pid" xml:space="preserve" approved="yes">
-                <source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForRealtyObjectsAndImages&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
-                <target>Sie haben keine Schreibrechte für den SysOrdner mit der PID %u welcher von der Extension Manager Variable &amp;quot;pidForRealtyObjectsAndImages&amp;quot;, der Realty-Extension vorgegeben ist. Bitte bearbeiten Sie die Zugriffsrechte des SysOrdners und geben Sie einer Benutzergruppe dieses Benutzers Schreibrechte für diesen Ordner.</target>
-            </trans-unit>
-            <trans-unit id="error_message_auxiliary_pid" xml:space="preserve" approved="yes">
-                <source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForAuxiliaryRecords&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
-                <target>Sie haben keine Schreibrechte für den SysOrdner mit der PID %u welcher von der Extension Manager Variable &amp;quot;pidForAuxiliaryRecords&amp;quot;, der Realty-Extension vorgegeben ist. Bitte bearbeiten Sie die Zugriffsrechte des SysOrdners und geben Sie einer Benutzergruppe dieses Benutzers Schreibrechte für diesen Ordner.</target>
-            </trans-unit>
-            <trans-unit id="error_message_table_access" xml:space="preserve" approved="yes">
-                <source>You are not allowed to create records in the table &amp;quot;%s&amp;quot; which is neccessary to import realty objects. Please edit one of the BE user's user groups and grant write access to this table.</source>
-                <target>Sie sind nicht berechtigt in der Tabelle &amp;quot;%s&amp;quot; Datensätze anzulegen, was notwendig ist um Realty-Objekte zu importieren. Bitte bearbeiten sie eine Benutzergruppe des Backendbenutzers, so dass dieser Schreibrechte für diese Tabelle hat.</target>
-            </trans-unit>
-            <trans-unit id="mlang_tabs_tab" xml:space="preserve" approved="yes">
+            <trans-unit id="import_tab" xml:space="preserve" approved="yes">
                 <source>OpenImmo import</source>
                 <target>OpenImmo-Import</target>
             </trans-unit>
@@ -44,9 +20,9 @@
                 <source>This module allows you to manually trigger the OpenImmo import of realty objects.</source>
                 <target>Mit diesem Modul können Sie den OpenImmo-Import von Immobilienobjekten manuell anstoßen.</target>
             </trans-unit>
-            <trans-unit id="mlang_labels_tablabel" xml:space="preserve" approved="yes">
-                <source>Realty</source>
-                <target>Immobilien</target>
+            <trans-unit id="start_import_button" xml:space="preserve" approved="yes">
+                <source>Start OpenImmo import</source>
+                <target>OpenImmo-Import starten</target>
             </trans-unit>
             <trans-unit id="importWasExecuted" xml:space="preserve" approved="yes">
                 <source>The import has been executed.</source>
