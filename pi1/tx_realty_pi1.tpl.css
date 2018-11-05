@@ -43,7 +43,7 @@
 }
 
 .tx-realty-pi1-submit {
-    background: url(images/button_bg_right.png) no-repeat top right;
+    background: url(../Resources/Public/Images/ButtonRight.png) no-repeat top right;
     height: 18px;
     cursor: pointer;
     border: none;
@@ -216,7 +216,7 @@
 /* tfoot */
 .tx-realty-pi1 .list-view .result tfoot td .favorites {
     height: 44px;
-    background: url(images/fav_arrow.png) no-repeat 26px 0;
+    background: url(../Resources/Public/Images/FavoritesArrow.png) no-repeat 26px 0;
     margin-left: 0;
 }
 
@@ -390,12 +390,12 @@
 }
 
 .tx-realty-pi1 .city-selector .inner {
-    background: url(images/cityselector_bg.png) repeat-x;
+    background: url(../Resources/Public/Images/CitySelector.png) repeat-x;
 }
 
 .tx-realty-pi1 .city-selector .title {
     height: 32px;
-    background: url(images/cityselector_head.png) no-repeat 50% 50%;
+    background: url(../Resources/Public/Images/CitySelectorHead.png) no-repeat 50% 50%;
 }
 
 .tx-realty-pi1 .city-selector h3 {
@@ -807,7 +807,7 @@ p.tx-realty-pi1-objekt-nr {
     margin-right: 50px;
     font-weight: bold;
     font-size: 11px;
-    background: transparent url(images/submit_button.png) no-repeat;
+    background: transparent url(../Resources/Public/Images/SubmitButton.png) no-repeat;
     height: 18px;
     width: 115px;
     cursor: pointer;
@@ -816,7 +816,7 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit {
-    background: transparent url(images/submit_button_fe_editor.png) no-repeat;
+    background: transparent url(../Resources/Public/Images/EditorSubmitButton.png) no-repeat;
 }
 
 /*SELECTFIELDS*/
@@ -961,7 +961,7 @@ p.tx-realty-pi1-objekt-nr {
     color: #ffffff;
     font-weight: bold;
     font-size: 11px;
-    background: transparent url(images/button_bg_right.png) no-repeat right;
+    background: transparent url(../Resources/Public/Images/ButtonRight.png) no-repeat right;
     height: 18px;
     width: 200px;
     cursor: pointer;
@@ -1010,6 +1010,6 @@ p.tx-realty-pi1-objekt-nr {
 
 #uploadfield input.deleted {
     color: #ffffff;
-    background: transparent url(images/submit_button_inactive.png) no-repeat;
+    background: transparent url(../Resources/Public/Images/SubmitButtonInactive.png) no-repeat;
     cursor: default;
 }
