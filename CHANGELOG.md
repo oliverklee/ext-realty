@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- Clean up localconf.php (#150)
 
 ### Deprecated
 
