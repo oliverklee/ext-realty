@@ -22,9 +22,7 @@ $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY)
     'Realty Manager'
 );
 
-if (TYPO3_MODE === 'BE'
-    && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000
-) {
+if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'OliverKlee.Realty',
         'web',
@@ -41,18 +39,6 @@ if (TYPO3_MODE === 'BE'
             'navigationComponentId' => '',
         ]
     );
-} else {
     $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon']
         = $extPath . 'pi1/class.tx_realty_pi1_wizicon.php';
-
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModulePath(
-        'web_txrealtyM1',
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'BackEnd/'
-    );
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
-        'web',
-        'txrealtyM1',
-        '',
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'BackEnd/'
-    );
 }
