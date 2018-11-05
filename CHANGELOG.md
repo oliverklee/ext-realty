@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add support for TYPO3 8.7 (#152)
 
 ### Changed
+- Streamline ext_emconf.php (#159)
 - Move the templates to Resources/ (#157)
 - Move the FE images to Resources/ (#156)
 - Move the record icon files to Resources/ (#154)
