@@ -1160,10 +1160,6 @@
                 <source>Save</source>
                 <target>Opslaan</target>
             </trans-unit>
-            <trans-unit id="label_save_and_close" xml:space="preserve" approved="yes">
-                <source>Save and close</source>
-                <target>Opslaan en sluiten</target>
-            </trans-unit>
             <trans-unit id="label_no_contact_person" xml:space="preserve" approved="yes">
                 <source>The request cannot be sent because no contact person was entered for this object.</source>
                 <target>Uw aanvraag kon helaas niet verstuurd worden daar de aanbieder geen e-mail adres heeft achtergelaten, neemt U aub telefonisch contact met de aanbieder op.</target>

@@ -802,7 +802,6 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit,
-#uploadfield #tx_realty_frontEndImageUpload_button_submit_and_stay,
 #uploadfield dt input {
     color: #ffffff;
     margin-right: 50px;
@@ -942,20 +941,9 @@ p.tx-realty-pi1-objekt-nr {
     line-height: 20px;
 }
 
-#uploadfield .savebuttonposition {
-    display: block;
-    text-align: right;
-}
-
 #uploadfield .chooser {
     font-size: 0.8em;
     line-height: normal;
-}
-
-#uploadfield #tx_realty_frontEndImageUpload_button_submit_and_stay {
-    position: absolute;
-    left: 73px;
-    margin: 15px 10px 0 10px;
 }
 
 #uploadfield span.button {

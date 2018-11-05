@@ -51,22 +51,6 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
     }
 
     /**
-     * Gets the URL of the page that should be displayed when an image has been
-     * uploaded.
-     * An URL of the image upload page is returned if "submit_and_stay" was
-     * clicked.
-     *
-     * @return string complete URL of the FE page where to redirect to or of the
-     *                current page, if "submit_and_stay" was clicked
-     */
-    public function getRedirectUrl()
-    {
-        return $this->getFormValue('proceed_image_upload')
-            ? $this->getUrlOfCurrentPage()
-            : parent::getRedirectUrl();
-    }
-
-    /**
      * Inserts the image record into the database if one has been provided in
      * $formData.
      * Deletes image records of the current record if images were checked to be
