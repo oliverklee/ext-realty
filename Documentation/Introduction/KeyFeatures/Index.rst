@@ -50,7 +50,7 @@ Key features
 - list of offerers with a link to each offerer's objects
 
 - import of `OpenImmo <http://www.openimmo.de/>`_ records (version
-  1.2.7) from ZIP files via the TYPO3 command line interface (CLI) with
+  1.2.7) from ZIP files via Scheduler tasks with
   e-mail notifications, uploaded objects can be hidden first and then
   published by an administrator, the objects can automatically be
   assigned to FE users
@@ -58,7 +58,7 @@ Key features
 - the possibility to limit the number of objects which can be created by
   a user, for manually created and imported records
 
-- completely templatized valid XHTML front-end output
+- completely templatized valid HTML front-end output
 
 - English, German, Dutch, Danish, Russian, Turkish, Italian and Spanish
   localizations, including a switch between formal and informal language
