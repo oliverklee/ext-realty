@@ -23,7 +23,7 @@ page {
     }
 
     includeJSFooter {
-        realtyFrontEnd = EXT:realty/pi1/tx_realty_pi1.js
+        realtyFrontEnd = EXT:realty/Resources/Public/JavaScript/FrontEnd.js
         realtyFrontEnd {
             async = 1
             defer = 1
