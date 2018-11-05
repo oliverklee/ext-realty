@@ -1,7 +1,5 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-
 /**
  * This class renders the images for one realty object as thumbnails.
  *

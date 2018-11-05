@@ -1,7 +1,6 @@
 <?php
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * This class assumes the image upload for the FE editor in the realty plugin.
