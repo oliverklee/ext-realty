@@ -5,7 +5,7 @@ $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY)
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
     $_EXTKEY . '_pi1',
-    'FILE:EXT:realty/pi1/flexform_pi1_ds.xml'
+    'FILE:EXT:realty/Configuration/FlexForms/Plugin.xml'
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
