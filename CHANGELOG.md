@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Remove usages of the GRSP (#145)
 - Remove the old BE module (#143)
 - Remove the CLI scripts (#144)
 - Remove obsolete "checkbox" options from the TCA (#141)
