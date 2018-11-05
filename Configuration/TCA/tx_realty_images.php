@@ -17,7 +17,7 @@ $tca = [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'iconfile' => 'EXT:realty/icons/icon_tx_realty_images.gif',
+        'iconfile' => 'EXT:realty/Resources/Public/Icons/Image.gif',
     ],
     'columns' => [
         'sys_language_uid' => [

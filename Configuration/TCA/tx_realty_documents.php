@@ -15,7 +15,7 @@ $tca = [
         'delete' => 'deleted',
         'hideTable' => true,
         'enablecolumns' => [],
-        'iconfile' => 'EXT:realty/icons/icon_tx_realty_documents.gif',
+        'iconfile' => 'EXT:realty/Resources/Public/Icons/Document.gif',
     ],
     'columns' => [
         'sys_language_uid' => [
