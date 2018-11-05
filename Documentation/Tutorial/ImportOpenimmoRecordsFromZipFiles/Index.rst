@@ -16,9 +16,6 @@
 Import OpenImmo records from ZIP files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-On Linux and Unix servers, OpenImmo records can be imported
-automatically with the help of a CLI script via cron job.
-
 General setup
 #############
 
@@ -153,22 +150,3 @@ Setting up the scheduler task
 #############################
 
 Set up the Scheduler and add a task "realty: OpenImmo import".
-
-Setting up the cron job (deprecated)
-####################################
-
-The OpenImmo cron job is deprecated and will be removed in version 2.0.0.
-
-#. Create a BE TYPO3 user named “\_cli\_realty” with  *User Admin* . This
-   user does not need to be configured in any special way but must not be
-   an admin user.
-
-#. Set up a cron job to run PHP with it. The command to use for the cron
-   job is:/[ *absolute path of the TYPO3 installation*
-   ]/typo3/cli\_dispatch.phpsh openImmoImport A line in your cron tab
-   that imports realty objects at three o’clock a.m. then could look like
-   this:0 3 \* \* \* /var/www/typo3/cli\_dispatch.phpsh openImmoImport
-
-No matter whether e-mails are sent and whether “onlyErrors” is active,
-the log which is directly returned at the end of the script always
-contains all information about all records.

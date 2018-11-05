@@ -106,13 +106,6 @@ RTE.config.tx_realty_objects.misc {
     43
 );
 
-// registers the key for class.tx_realty_cli.php
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['openImmoImport']
-    = ['EXT:realty/cli/class.tx_realty_cli.php', '_CLI_realty'];
-// registers the key for class.tx_realty_cli_ImageCleanUpStarter.php
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['cleanUpRealtyImages']
-    = ['EXT:realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php', '_CLI_realty'];
-
 // registers the eID functions for AJAX
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY] = 'EXT:' . $_EXTKEY . '/Ajax/tx_realty_Ajax_Dispatcher.php';
 
