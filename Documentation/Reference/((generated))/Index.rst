@@ -77,7 +77,7 @@ override the corresponding value from TS Setup.**
          File name of the HTML template
 
    Default
-         EXT:realty/pi1/tx\_realty\_pi1.tpl.htm
+         EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html
 
 
 .. container:: table-row
@@ -801,7 +801,7 @@ override the corresponding value from TS Setup.**
          location of the HTML template file for the FE editor and image upload
 
    Default
-         EXT:realty/pi1/tx\_realty\_frontEndEditor.html
+         EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html
 
 
 .. container:: table-row

@@ -40,7 +40,7 @@ class tx_realty_FrontEnd_SingleViewTest extends \Tx_Phpunit_TestCase
         $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
 
         $this->fixture = new tx_realty_pi1_SingleView(
-            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $this->getFrontEndController()->cObj,
             true
         );

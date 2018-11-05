@@ -74,7 +74,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
         $this->createDummyRecords();
 
         $this->fixture = new tx_realty_frontEndImageUpload(
-            ['feEditorTemplateFile' => 'EXT:realty/pi1/tx_realty_frontEndEditor.html'],
+            ['feEditorTemplateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html'],
             $this->getFrontEndController()->cObj,
             0,
             '',

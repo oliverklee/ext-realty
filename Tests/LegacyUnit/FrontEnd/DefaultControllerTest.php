@@ -114,7 +114,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         // As we are in BE mode, "pidList" needs to be set directly.
         // The template file also needs to be included explicitly.
         $this->fixture->init([
-            'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+            'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
             'pages' => $this->systemFolderPid,
             'showGoogleMaps' => 0,
             'defaultCountryUID' => self::DE,
@@ -190,7 +190,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', true);
         $fixture = new tx_realty_pi1();
         $fixture->init([
-            'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+            'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
             'pages' => $this->systemFolderPid,
         ]);
         // ensures there is at least one configuration error to report
@@ -212,7 +212,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', false);
         $fixture = new tx_realty_pi1();
         $fixture->init([
-            'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+            'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
             'pages' => $this->systemFolderPid,
         ]);
         // ensures there is at least one configuration error to report

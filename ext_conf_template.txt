@@ -27,4 +27,4 @@ openImmoSchema =
 # cat=basic; type=string; label=Language of the import messages:This will determine the language that will be used in status output and e-mails during the import. Use the ISO 639-1 code, for example "en" or "de".
 cliLanguage = en
 # cat=basic; type=string; label=E-mail text template:Path of the text template file for the e-mail layout. Needs to start with EXT:.
-emailTemplate = EXT:realty/lib/tx_realty_emailNotification.tmpl
+emailTemplate = EXT:realty/Resources/Private/Templates/Email/Notification.txt

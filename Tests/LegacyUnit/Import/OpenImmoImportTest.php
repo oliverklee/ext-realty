@@ -125,7 +125,10 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', false);
         $this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', false);
         $this->globalConfiguration->setAsString('allowedFrontEndUserGroups', '');
-        $this->globalConfiguration->setAsString('emailTemplate', 'EXT:realty/lib/tx_realty_emailNotification.tmpl');
+        $this->globalConfiguration->setAsString(
+            'emailTemplate',
+            'EXT:realty/Resources/Private/Templates/Email/Notification.txt'
+        );
     }
 
     /**

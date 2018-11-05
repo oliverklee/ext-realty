@@ -39,7 +39,7 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
         $configuration->setData(
             [
                 'feEditorTemplateFile'
-                => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+                => 'EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html',
             ]
         );
         Tx_Oelib_ConfigurationRegistry::getInstance()->set(
@@ -144,9 +144,9 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
      */
     public function getTemplatePathReturnsAbsolutePathFromTheConfiguration()
     {
-        self::assertRegExp(
-            '/\\/typo3conf\\/ext\\/realty\\/pi1\\/tx_realty_frontEndEditor\\.html$/',
-            tx_realty_frontEndForm::getTemplatePath()
+        self::assertContains(
+            'Resources/Private/Templates/FrontEnd/Editor.html',
+            \tx_realty_frontEndForm::getTemplatePath()
         );
     }
 }
