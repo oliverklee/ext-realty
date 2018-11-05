@@ -191,33 +191,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg');
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -232,33 +217,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg');
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -273,33 +243,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg');
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'maxW' => 1024,
-                        'maxH' => 768,
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'maxW' => 1024,
-                        'maxH' => 768,
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'maxW' => 1024,
+                    'maxH' => 768,
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -316,33 +271,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -357,33 +297,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '40c',
-                        'height' => '30c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '40c',
-                        'height' => '30c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'width' => '40c',
+                    'height' => '30c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -399,33 +324,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 2);
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -440,33 +350,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 4);
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '40c',
-                        'height' => '30c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'width' => '40c',
-                        'height' => '30c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'width' => '40c',
+                    'height' => '30c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -481,33 +376,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'maxW' => 1024,
-                        'maxH' => 768,
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'maxW' => 1024,
-                        'maxH' => 768,
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'maxW' => 1024,
+                    'maxH' => 768,
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -523,33 +403,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'maxW' => 400,
-                        'maxH' => 300,
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                    'file.' => [
-                        'maxW' => 400,
-                        'maxH' => 300,
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file.' => [
+                    'maxW' => 400,
+                    'maxH' => 300,
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -632,78 +497,42 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('1', '1.jpg', 1);
         $realtyObject->addImageRecord('0', '0.jpg', 0);
 
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => '0',
-                    'titleText' => '0',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '0.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-            $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => '1',
-                    'titleText' => '1',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '1.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-            $this->contentObject->expects(self::at(2))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => '2',
-                    'titleText' => '2',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '2.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-                [
-                    'altText' => '0',
-                    'titleText' => '0',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '0.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-            $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-                [
-                    'altText' => '1',
-                    'titleText' => '1',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '1.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-            $this->contentObject->expects(self::at(2))->method('IMAGE')->with(
-                [
-                    'altText' => '2',
-                    'titleText' => '2',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '2.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => '0',
+                'titleText' => '0',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '0.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
+        $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => '1',
+                'titleText' => '1',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '1.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
+        $this->contentObject->expects(self::at(2))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => '2',
+                'titleText' => '2',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '2.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
@@ -797,33 +626,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 0, 'thumbnail.jpg');
-
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-                'IMAGE',
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        } else {
-            $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-                [
-                    'altText' => 'fooBar',
-                    'titleText' => 'fooBar',
-                    'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
-                    'file.' => [
-                        'width' => '102c',
-                        'height' => '77c',
-                    ],
-                ]
-            );
-        }
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'fooBar',
+                'titleText' => 'fooBar',
+                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
 
         $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
