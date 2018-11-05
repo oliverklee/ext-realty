@@ -33,7 +33,7 @@ if (TYPO3_MODE === 'BE') {
         ],
         [
             'access' => 'group',
-            'icon' => 'EXT:realty/Resources/Public/Icons/Module.gif',
+            'icon' => 'EXT:realty/Resources/Public/Icons/BackEndModule.gif',
             'labels' => 'LLL:EXT:realty/Resources/Private/Language/locallang_mod.xlf',
             // hide the page tree
             'navigationComponentId' => '',

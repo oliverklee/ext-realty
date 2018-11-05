@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add support for TYPO3 8.7 (#152)
 
 ### Changed
+- Move the record icon files to Resources/ (#154)
 - Move the JavaScript file to Resources/ (#155)
 - Move the flexforms configuration file to Configuration/ (#153)
 - Clean up localconf.php (#150)

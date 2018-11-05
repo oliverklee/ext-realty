@@ -21,7 +21,7 @@ $tca = [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'iconfile' => 'EXT:realty/icons/icon_tx_realty_objects.gif',
+        'iconfile' => 'EXT:realty/Resources/Public/Icons/RealtyObject.gif',
         'searchFields' => 'uid,title,object_number,zip,openimmo_anid,openimmo_obid',
     ],
     'interface' => [

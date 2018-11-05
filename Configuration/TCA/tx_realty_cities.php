@@ -13,7 +13,7 @@ $tca = [
         'transOrigDiffSourceField' => 'l18n_diffsource',
         'default_sortby' => 'ORDER BY title',
         'delete' => 'deleted',
-        'iconfile' => 'EXT:realty/icons/icon_tx_realty_cities.gif',
+        'iconfile' => 'EXT:realty/Resources/Public/Icons/City.gif',
         'searchFields' => 'uid,title',
     ],
     'interface' => [
