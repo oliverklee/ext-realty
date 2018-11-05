@@ -78,7 +78,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_FavoritesListView(
             [
-                'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'favoritesPID' => $this->favoritesPid,
                 'pages' => $this->systemFolderPid,
                 'showGoogleMaps' => 0,

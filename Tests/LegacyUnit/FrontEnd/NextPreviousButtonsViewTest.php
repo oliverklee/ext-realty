@@ -43,7 +43,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $this->dummyCityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
         $this->fixture = new tx_realty_pi1_NextPreviousButtonsView(
-            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
 

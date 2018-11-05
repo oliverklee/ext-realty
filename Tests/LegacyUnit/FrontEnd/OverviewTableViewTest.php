@@ -29,7 +29,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends \Tx_Phpunit_TestCase
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_OverviewTableView(
             [
-                'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'fieldsInSingleViewTable',
                 '',
             ],

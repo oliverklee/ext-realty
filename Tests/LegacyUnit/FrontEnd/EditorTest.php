@@ -53,8 +53,8 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
 
         $this->fixture = new tx_realty_frontEndEditor(
             [
-                'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-                'feEditorTemplateFile' => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
+                'feEditorTemplateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html',
             ],
             $this->getFrontEndController()->cObj,
             0,

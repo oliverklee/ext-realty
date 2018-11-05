@@ -133,7 +133,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         $this->fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'singlePID' => $this->singlePid,
                 'favoritesPID' => $this->favoritesPid,
                 'pages' => $this->systemFolderPid,
@@ -702,7 +702,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'pages' => $this->systemFolderPid,
                 'listImageMaxX' => 98,
                 'listImageMaxY' => 100,
@@ -748,7 +748,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $fixture = new tx_realty_tests_fixtures_TestingListView(
             [
-                'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'pages' => $this->systemFolderPid,
                 'listImageMaxX' => 98,
                 'listImageMaxY' => 100,

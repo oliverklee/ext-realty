@@ -27,7 +27,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends \Tx_Phpunit_TestCase
         );
 
         $this->fixture = new tx_realty_pi1_ErrorView(
-            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $this->getFrontEndController()->cObj
         );
     }

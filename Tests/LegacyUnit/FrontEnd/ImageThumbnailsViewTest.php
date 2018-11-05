@@ -50,7 +50,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends \Tx_Phpunit_TestCase
 
         $this->contentObject = $this->getMock(ContentObjectRenderer::class);
         $this->fixture = new tx_realty_pi1_ImageThumbnailsView(
-            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $this->contentObject
         );
 
