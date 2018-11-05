@@ -1,8 +1,6 @@
 <?php
 defined('TYPO3_MODE') or die('Access denied.');
 
-$hasStoragePid = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7004000;
-
 $tca = [
     'ctrl' => [
         'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects',
@@ -214,9 +212,7 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_cities',
-                'foreign_table_where' => $hasStoragePid
-                    ? 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.title'
-                    : 'ORDER BY tx_realty_cities.title',
+                'foreign_table_where' => 'ORDER BY tx_realty_cities.title',
                 'default' => 0,
                 'size' => 1,
                 'minitems' => 1,
@@ -557,9 +553,7 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_apartment_types',
-                'foreign_table_where' => $hasStoragePid
-                    ? 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.title'
-                    : 'ORDER BY tx_realty_apartment_types.title',
+                'foreign_table_where' => 'ORDER BY tx_realty_apartment_types.title',
                 'items' => [['', 0]],
                 'default' => 0,
                 'size' => 1,
@@ -574,9 +568,7 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_house_types',
-                'foreign_table_where' => $hasStoragePid
-                    ? 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.title'
-                    : 'ORDER BY tx_realty_house_types.title',
+                'foreign_table_where' => 'ORDER BY tx_realty_house_types.title',
                 'items' => [['', 0]],
                 'default' => 0,
                 'size' => 1,
@@ -716,9 +708,7 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_car_places',
-                'foreign_table_where' => $hasStoragePid
-                    ? 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.title'
-                    : 'ORDER BY tx_realty_car_places.title',
+                'foreign_table_where' => 'ORDER BY tx_realty_car_places.title',
                 'items' => [['', 0]],
                 'default' => 0,
                 'size' => 1,
@@ -761,9 +751,7 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tx_realty_pets',
-                'foreign_table_where' => $hasStoragePid
-                    ? 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.title'
-                    : 'ORDER BY tx_realty_pets.title',
+                'foreign_table_where' => 'ORDER BY tx_realty_pets.title',
                 'items' => [['', 0]],
                 'default' => 0,
                 'size' => 1,
@@ -1541,8 +1529,6 @@ $tca = [
         ],
     ],
 ];
-
-unset($hasStoragePid);
 
 if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7000000) {
     $tca['ctrl']['dividers2tabs'] = true;
