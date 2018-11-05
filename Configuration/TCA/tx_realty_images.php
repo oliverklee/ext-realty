@@ -32,6 +32,7 @@ $tca = [
                     ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
                     ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0],
                 ],
+                'default' => 0,
             ],
         ],
         'l18n_parent' => [
@@ -41,9 +42,10 @@ $tca = [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
                 'foreign_table' => 'tx_realty_images',
                 'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### AND tx_realty_images.sys_language_uid IN (-1, 0)',
+                'default' => 0,
             ],
         ],
         'l18n_diffsource' => [
@@ -56,7 +58,7 @@ $tca = [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
-                'default' => '0',
+                'default' => 0,
             ],
         ],
         'object' => [
@@ -108,12 +110,13 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.0', '0'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.1', '1'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.2', '2'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.3', '3'],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.4', '4'],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.0', 0],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.1', 1],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.2', 2],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.3', 3],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.4', 4],
                 ],
+                'default' => 0,
             ],
         ],
     ],
