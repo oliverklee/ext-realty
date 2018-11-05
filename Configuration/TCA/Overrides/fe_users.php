@@ -21,7 +21,6 @@ defined('TYPO3_MODE') or die('Access denied.');
                 'size' => 4,
                 'max' => 4,
                 'eval' => 'int',
-                'checkbox' => '0',
                 'range' => [
                     'lower' => 0,
                     'upper' => 9999,

@@ -104,7 +104,6 @@ $tca = [
                 'size' => 8,
                 'eval' => 'date',
                 'default' => '0',
-                'checkbox' => '0',
             ],
         ],
         'endtime' => [
@@ -114,7 +113,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'date',
-                'checkbox' => '0',
                 'default' => '0',
                 'range' => [
                     'upper' => mktime(0, 0, 0, 12, 31, 2020),
@@ -172,7 +170,6 @@ $tca = [
                 'size' => 4,
                 'max' => 4,
                 'default' => '0',
-                'checkbox' => '0',
                 'range' => [
                     'lower' => 0,
                     'upper' => 9999,
@@ -257,7 +254,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 5,
                 'eval' => 'num',
-                'checkbox' => '0',
             ],
         ],
         'sea_view' => [
@@ -343,7 +339,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'sales_area' => [
@@ -353,7 +348,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'total_usable_area' => [
@@ -363,7 +357,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'storage_area' => [
@@ -373,7 +366,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'office_space' => [
@@ -383,7 +375,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'other_area' => [
@@ -393,7 +384,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'window_bank' => [
@@ -403,7 +393,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'estate_size' => [
@@ -422,7 +411,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 5,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'floor_space_index' => [
@@ -432,7 +420,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 5,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'rent_excluding_bills' => [
@@ -460,7 +447,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'double2',
-                'checkbox' => '0.00',
             ],
         ],
         'extra_charges' => [
@@ -596,7 +582,6 @@ $tca = [
                 'size' => 2,
                 'max' => 2,
                 'eval' => 'int',
-                'checkbox' => '0',
                 'range' => [
                     'lower' => -99,
                     'upper' => 99,
@@ -612,7 +597,6 @@ $tca = [
                 'size' => 2,
                 'max' => 2,
                 'eval' => 'int',
-                'checkbox' => '0',
                 'range' => [
                     'lower' => 0,
                     'upper' => 99,
@@ -628,7 +612,6 @@ $tca = [
                 'size' => 2,
                 'max' => 2,
                 'eval' => 'double2',
-                'checkbox' => '0',
                 'range' => [
                     'lower' => 0,
                     'upper' => 99,
@@ -644,7 +627,6 @@ $tca = [
                 'size' => 2,
                 'max' => 5,
                 'eval' => 'double2',
-                'checkbox' => '0',
                 'range' => [
                     'lower' => 0,
                     'upper' => 99,
@@ -740,7 +722,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 3,
                 'eval' => 'num',
-                'checkbox' => '0',
             ],
         ],
         'garage_rent' => [
@@ -809,7 +790,6 @@ $tca = [
                 'size' => 4,
                 'max' => 4,
                 'eval' => 'int',
-                'checkbox' => '',
                 'range' => [
                     'lower' => 0,
                     'upper' => 2100,
@@ -1048,7 +1028,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 15,
                 'max' => 255,
-                'checkbox' => '',
                 'eval' => 'trim',
             ],
         ],
@@ -1241,7 +1220,6 @@ $tca = [
                 'type' => 'input',
                 'size' => 10,
                 'eval' => 'date',
-                'checkbox' => '0',
                 'default' => '0',
             ],
         ],
@@ -1355,7 +1333,6 @@ $tca = [
                 'size' => 8,
                 'eval' => 'date',
                 'default' => '0',
-                'checkbox' => '0',
             ],
         ],
         'energy_certificate_year' => [
