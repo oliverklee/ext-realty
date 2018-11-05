@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Remove code for TYPO3 < 7.6 (#146)
 - Remove usages of the GRSP (#145)
 - Remove the old BE module (#143)
 - Remove the CLI scripts (#144)

@@ -1530,10 +1530,6 @@ $tca = [
     ],
 ];
 
-if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7000000) {
-    $tca['ctrl']['dividers2tabs'] = true;
-}
-
 if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 8006000) {
     $tca['columns']['starttime']['config']['renderType'] = 'inputDateTime';
     $tca['columns']['endtime']['config']['renderType'] = 'inputDateTime';
@@ -1561,11 +1557,6 @@ if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
             'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
         ],
     ];
-}
-
-if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 7006000) {
-    $tca['columns']['details_page']['config']['wizards']['link']['icon'] = 'link_popup.gif';
-    $tca['columns']['details_page']['config']['wizards']['link']['module']['name'] = 'wizard_element_browser';
 }
 
 return $tca;

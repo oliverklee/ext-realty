@@ -1323,13 +1323,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         if ($id !== '') {
             $imageConfiguration['params'] = 'id="' . $id . '"';
         }
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $result = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
-        } else {
-            $result = $this->cObj->IMAGE($imageConfiguration);
-        }
 
-        return $result;
+        return $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
     }
 
     /**

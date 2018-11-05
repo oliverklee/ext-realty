@@ -217,11 +217,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
                     'height' => $this->getConfValueInteger('imageUploadThumbnailHeight') . 'c',
                 ],
             ];
-            if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-                $imageTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
-            } else {
-                $imageTag = $this->cObj->IMAGE($imageConfiguration);
-            }
+            $imageTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
             $this->setMarker(
                 'single_image_item',
                 '<a href="' . $imageUrl . '" data-lightbox="objectGallery" ' .

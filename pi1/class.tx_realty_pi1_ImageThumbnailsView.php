@@ -146,13 +146,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
                 'height' => $containerImageConfiguration['thumbnailSizeY'] . 'c',
             ],
         ];
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $result = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
-        } else {
-            $result = $this->cObj->IMAGE($imageConfiguration);
-        }
 
-        return $result;
+        return $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
     }
 
     /**
@@ -180,11 +175,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
                 'maxH' => $configuration['lightboxSizeY'],
             ],
         ];
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $imageWithTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
-        } else {
-            $imageWithTag = $this->cObj->IMAGE($imageConfiguration);
-        }
+        $imageWithTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
 
         $imagePath = [];
         preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);

@@ -266,13 +266,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     private function createContentMock()
     {
-        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7006000) {
-            $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'cObjGetSingle']);
-            $this->contentObject->method('cObjGetSingle')->will(self::returnCallback([$this, 'imageCallback']));
-        } else {
-            $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'IMAGE']);
-            $this->contentObject->method('IMAGE')->will(self::returnCallback([$this, 'oldImageCallback']));
-        }
+        $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'cObjGetSingle']);
+        $this->contentObject->method('cObjGetSingle')->will(self::returnCallback([$this, 'imageCallback']));
         $this->contentObject->method('typoLink_URL')->will(self::returnCallback([$this, 'getTypoLinkUrl']));
     }
 
