@@ -12,11 +12,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
-- Remove obsolete "checkbox" options from the TCA (#140)
+- Remove obsolete "checkbox" options from the TCA (#141)
 - Remove the ext_autoload.php file (#139)
 - Drop support for TYPO3 6.2 and require TYPO3 >= 7.6 (#138)
 
 ### Fixed
+- Fix SQL errors in MySQL strict mode (#142)
 
 ## 1.1.0
 

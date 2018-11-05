@@ -32,6 +32,7 @@ $tca = [
                     ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
                     ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0],
                 ],
+                'default' => 0,
             ],
         ],
         'l18n_parent' => [
@@ -41,9 +42,10 @@ $tca = [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
                 'foreign_table' => 'tx_realty_cities',
                 'foreign_table_where' => 'AND tx_realty_cities.pid=###CURRENT_PID### AND tx_realty_cities.sys_language_uid IN (-1, 0)',
+                'default' => 0,
             ],
         ],
         'l18n_diffsource' => [
@@ -67,6 +69,7 @@ $tca = [
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'pages',
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,

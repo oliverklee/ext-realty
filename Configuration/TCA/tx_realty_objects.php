@@ -69,6 +69,7 @@ $tca = [
                     ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
                     ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0],
                 ],
+                'default' => 0,
             ],
         ],
         'l18n_parent' => [
@@ -78,9 +79,10 @@ $tca = [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
                 'foreign_table' => 'tx_realty_objects',
                 'foreign_table_where' => 'AND tx_realty_objects.pid=###CURRENT_PID### AND tx_realty_objects.sys_language_uid IN (-1, 0)',
+                'default' => 0,
             ],
         ],
         'l18n_diffsource' => [
@@ -93,7 +95,7 @@ $tca = [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
-                'default' => '0',
+                'default' => 0,
             ],
         ],
         'starttime' => [
@@ -103,7 +105,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'date',
-                'default' => '0',
+                'default' => 0,
             ],
         ],
         'endtime' => [
@@ -113,7 +115,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'date',
-                'default' => '0',
+                'default' => 0,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 12, 31, 2020),
                     'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y')),
@@ -137,11 +139,11 @@ $tca = [
                 'items' => [
                     [
                         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.0',
-                        '0',
+                        0,
                     ],
                     [
                         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.1',
-                        '1',
+                        1,
                     ],
                 ],
             ],
@@ -169,7 +171,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 4,
                 'max' => 4,
-                'default' => '0',
+                'default' => 0,
                 'range' => [
                     'lower' => 0,
                     'upper' => 9999,
@@ -201,6 +203,7 @@ $tca = [
                 'size' => 5,
                 'max' => 5,
                 'eval' => 'num',
+                'default' => 0,
             ],
         ],
         'city' => [
@@ -214,6 +217,7 @@ $tca = [
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.title'
                     : 'ORDER BY tx_realty_cities.title',
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 1,
                 'maxitems' => 1,
@@ -227,7 +231,8 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'itemsProcFunc' => 'OliverKlee\\Realty\\BackEnd\\Tca->getDistrictsForCity',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -241,7 +246,8 @@ $tca = [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'static_countries',
                 'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -254,6 +260,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 5,
                 'eval' => 'num',
+                'default' => 0,
             ],
         ],
         'sea_view' => [
@@ -540,6 +547,7 @@ $tca = [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.2', 2],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.3', 3],
                 ],
+                'default' => 0,
             ],
         ],
         'apartment_type' => [
@@ -552,7 +560,8 @@ $tca = [
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.title'
                     : 'ORDER BY tx_realty_apartment_types.title',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -568,7 +577,8 @@ $tca = [
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.title'
                     : 'ORDER BY tx_realty_house_types.title',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -709,7 +719,8 @@ $tca = [
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.title'
                     : 'ORDER BY tx_realty_car_places.title',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -722,6 +733,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 3,
                 'eval' => 'num',
+                'default' => 0,
             ],
         ],
         'garage_rent' => [
@@ -752,7 +764,8 @@ $tca = [
                 'foreign_table_where' => $hasStoragePid
                     ? 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.title'
                     : 'ORDER BY tx_realty_pets.title',
-                'items' => [['', '0']],
+                'items' => [['', 0]],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -804,16 +817,17 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', '0'],
+                    ['', 0],
                     [
                         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.1',
-                        '1',
+                        1,
                     ],
                     [
                         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.2',
-                        '2',
+                        2,
                     ],
                 ],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -826,7 +840,7 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', '0'],
+                    ['', 0],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.1', 1],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.2', 2],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.3', 3],
@@ -849,6 +863,7 @@ $tca = [
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.20', 20],
                     ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.21', 21],
                 ],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -861,7 +876,7 @@ $tca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', '0'],
+                    ['', 0],
                     [
                         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.1',
                         1,
@@ -875,6 +890,7 @@ $tca = [
                         3,
                     ],
                 ],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -1113,11 +1129,11 @@ $tca = [
                 'items' => [
                     [
                         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.0',
-                        '0',
+                        0,
                     ],
                     [
                         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.1',
-                        '1',
+                        1,
                     ],
                 ],
             ],
@@ -1156,7 +1172,6 @@ $tca = [
             'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_email',
-            'renderType' => 'selectSingle',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -1190,6 +1205,7 @@ $tca = [
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'fe_users',
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -1220,7 +1236,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 10,
                 'eval' => 'date',
-                'default' => '0',
+                'default' => 0,
             ],
         ],
         'energy_certificate_type' => [
@@ -1240,6 +1256,7 @@ $tca = [
                         tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
                     ],
                 ],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -1268,7 +1285,7 @@ $tca = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.with_hot_water',
             'config' => [
                 'type' => 'check',
-                'default' => '0',
+                'default' => 0,
             ],
         ],
         'ultimate_energy_demand' => [
@@ -1332,7 +1349,7 @@ $tca = [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'date',
-                'default' => '0',
+                'default' => 0,
             ],
         ],
         'energy_certificate_year' => [
@@ -1360,6 +1377,7 @@ $tca = [
                         tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
                     ],
                 ],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -1382,6 +1400,7 @@ $tca = [
                         tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
                     ],
                 ],
+                'default' => 0,
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
