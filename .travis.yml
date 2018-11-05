@@ -21,14 +21,14 @@ install:
   composer require typo3/minimal:"$TYPO3";
   composer show;
 - >
-  echo;
-  echo "Restoring the composer.json";
-  git checkout .;
-- >
   .Build/vendor/bin/typo3cms install:setup --non-interactive --site-setup-type="site"
   --database-user-name="${DATABASE_USER}" --database-host-name="${DATABASE_HOST}"
   --database-port="${DATABASE_PORT}" --database-name="${DATABASE_NAME}"
   --admin-user-name="admin" --admin-password="password" --site-name="Test installation";
+- >
+  echo;
+  echo "Restoring the composer.json";
+  git checkout .;
 
 before_script:
 - mysql -u ${DATABASE_USER} ${DATABASE_NAME} -e "INSERT INTO be_users (username, password) VALUES ('_cli_phpunit', 'password')"
@@ -57,6 +57,12 @@ script:
 
 jobs:
   include:
+  - stage: test
+    php: 7.1
+    env: TYPO3=^8.7 RUN_TESTS_COMMAND=".Build/vendor/bin/typo3 phpunit:run"
+  - stage: test
+    php: 7.0
+    env: TYPO3=^8.7 RUN_TESTS_COMMAND=".Build/vendor/bin/typo3 phpunit:run"
   - stage: test
     php: 7.1
     env: TYPO3=^7.6 RUN_TESTS_COMMAND=".Build/public/typo3/cli_dispatch.phpsh phpunit"

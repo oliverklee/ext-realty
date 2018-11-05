@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add support for TYPO3 8.7 (#152)
 
 ### Changed
 - Clean up localconf.php (#150)
