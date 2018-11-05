@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Drop the empty summaries from HTML tables (#149)
 - Remove the "submit and stay" button (#147)
 - Remove code for TYPO3 < 7.6 (#146)
 - Remove usages of the GRSP (#145)
