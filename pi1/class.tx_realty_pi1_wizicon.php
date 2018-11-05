@@ -26,7 +26,8 @@ class tx_realty_pi1_wizicon
         /** @var LanguageService $languageService */
         $languageService = $GLOBALS['LANG'];
         $wizardItems['plugins_tx_realty_pi1'] = [
-            'icon' => ExtensionManagementUtility::extRelPath('realty') . 'pi1/ce_wiz.gif',
+            'icon' => ExtensionManagementUtility::extRelPath('realty') .
+            'Resources/Public/Images/ContentElementWizard.gif',
             'title' => $languageService->getLLL('pi1_title', $languageData),
             'description' => $languageService->getLLL('pi1_description', $languageData),
             'params' => '&defVals[tt_content][CType]=list&' .
