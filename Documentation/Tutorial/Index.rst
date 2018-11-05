@@ -23,7 +23,7 @@ Tutorial
    :glob:
 
    Installation/Index
-   UpgradingFromVersion06xTo10x/Index
+   UpgradingFromVersion1To2/Index
    CreateATsTemplateForThisExtension/Index
    CreateSystemFoldersForRecords/Index
    CreateTheListView/Index
