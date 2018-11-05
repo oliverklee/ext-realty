@@ -1072,9 +1072,6 @@
             <trans-unit id="label_save" xml:space="preserve">
                 <source>Save</source>
             </trans-unit>
-            <trans-unit id="label_save_and_close" xml:space="preserve">
-                <source>Save and close</source>
-            </trans-unit>
             <trans-unit id="label_no_contact_person" xml:space="preserve">
                 <source>The request cannot be sent because no contact person was entered for this object.</source>
             </trans-unit>

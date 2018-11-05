@@ -1364,10 +1364,6 @@
                 <source>Save</source>
                 <target>Grabar</target>
             </trans-unit>
-            <trans-unit id="label_save_and_close" xml:space="preserve" approved="yes">
-                <source>Save and close</source>
-                <target>Grabar y cerrar</target>
-            </trans-unit>
             <trans-unit id="label_no_contact_person" xml:space="preserve" approved="yes">
                 <source>The request cannot be sent because no contact person was entered for this object.</source>
                 <target>Esta petición no puede ser enviada por faltar la persona de contacto de este objeto.</target>

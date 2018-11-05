@@ -1064,10 +1064,6 @@
                 <source>Save</source>
                 <target>Salva</target>
             </trans-unit>
-            <trans-unit id="label_save_and_close" xml:space="preserve" approved="yes">
-                <source>Save and close</source>
-                <target>Salva e chiudi</target>
-            </trans-unit>
             <trans-unit id="label_no_contact_person" xml:space="preserve" approved="yes">
                 <source>The request cannot be sent because no contact person was entered for this object.</source>
                 <target>La richiesta non puo' essere inviata perch&amp;egrave; non sono stati inseriti contatti per questo immobile.</target>

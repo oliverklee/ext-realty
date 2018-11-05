@@ -68,21 +68,10 @@ plugin.tx_realty_pi1.imageUpload {
             data.defaultvalue =
         }
 
-        button_submit_and_stay = renderlet:SUBMIT
-        button_submit_and_stay {
-            name = button_submit_and_stay
-            label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save
-            onclick (
-                document.getElementById("tx_realty_frontEndImageUpload_proceed_image_upload").value = 1
-            )
-        }
-
         button_submit = renderlet:SUBMIT
         button_submit {
             name = button_submit
-            label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save_and_close
+            label = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save
         }
-
-        proceed_image_upload = renderlet:HIDDEN
     }
 }
