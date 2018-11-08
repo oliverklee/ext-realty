@@ -12,14 +12,14 @@
     color: white;
     text-decoration: none;
     border: none;
-    background: url(../Resources/Public/Images/ButtonLeft.png) no-repeat top left #FF6600;
+    background: url(../Images/ButtonLeft.png) no-repeat top left #FF6600;
     padding-left: .5em;
 }
 
 .tx-realty-pi1 a.button span,
 .tx-realty-pi1 span.button span {
     display: block;
-    background: url(../Resources/Public/Images/ButtonRight.png) no-repeat top right #FF6600;
+    background: url(../Images/ButtonRight.png) no-repeat top right #FF6600;
     padding-right: .5em;
 }
 
@@ -33,12 +33,12 @@
 
 .tx-realty-pi1 span.act,
 .tx-realty-pi1 a.act {
-    background: url(../Resources/Public/Images/ButtonLeftDisabled.png) no-repeat top left #B3C5D3;
+    background: url(../Images/ButtonLeftDisabled.png) no-repeat top left #B3C5D3;
 }
 
 .tx-realty-pi1 span.act span,
 .tx-realty-pi1 a.act span {
-    background: url(../Resources/Public/Images/ButtonRightDisabled.png) no-repeat top right #B3C5D3;
+    background: url(../Images/ButtonRightDisabled.png) no-repeat top right #B3C5D3;
 }
 
 /* Images in result list and single view */
@@ -58,7 +58,7 @@
     position: absolute;
     top: -3px;
     right: -12px;
-    background: url(../Resources/Public/Images/Spinner.gif) no-repeat center #fff;
+    background: url(../Images/Spinner.gif) no-repeat center #fff;
 }
 
 /***** SINGLE VIEW *****/
