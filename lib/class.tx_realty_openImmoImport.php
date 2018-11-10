@@ -2,6 +2,7 @@
 
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * This class imports ZIPs containing OpenImmo records.
@@ -96,6 +97,11 @@ class tx_realty_openImmoImport
     private $success = true;
 
     /**
+     * @var LanguageService
+     */
+    private $languageServiceBackup = null;
+
+    /**
      * Constructor.
      *
      * @param bool $isTestMode
@@ -135,6 +141,9 @@ class tx_realty_openImmoImport
      */
     public function importFromZip()
     {
+        $this->languageServiceBackup = $this->getLanguageService();
+        $GLOBALS['LANG'] = new LanguageService();
+
         $this->success = true;
 
         $this->addToLogEntry(date('Y-m-d G:i:s') . LF);
@@ -167,7 +176,17 @@ class tx_realty_openImmoImport
 
         $this->storeLogsAndClearTemporaryLog();
 
+        $GLOBALS['LANG'] = $this->languageServiceBackup;
+
         return $this->logEntry;
+    }
+
+    /**
+     * @return LanguageService
+     */
+    private function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
     }
 
     /**
