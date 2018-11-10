@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * Test case.
@@ -62,9 +63,17 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
      */
     private $message = null;
 
+    /**
+     * @var LanguageService|null
+     */
+    private $languageServiceBackup = null;
+
     protected function setUp()
     {
         $this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
+
+        $this->languageServiceBackup = $this->getLanguageService();
+        $GLOBALS['LANG'] = new LanguageService();
 
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
         $this->systemFolderPid = $this->testingFramework->createSystemFolder();
@@ -93,6 +102,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->deleteTestImportFolder();
 
         tx_realty_cacheManager::purgeCacheManager();
+        $GLOBALS['LANG'] = $this->languageServiceBackup;
         $GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
     }
 
@@ -146,8 +156,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
      * into the temporary test import folder.
      *
      * @param string $fileName
-     *        File or folder to copy. Must be a relative path to existent files within the Tests/LegacyUnit/fixtures/ folder.
-     *        Leave empty to create an empty import folder.
+     *        File or folder to copy. Must be a relative path to existent files within the Tests/LegacyUnit/fixtures/
+     *     folder. Leave empty to create an empty import folder.
      * @param string $newFileName
      *        new file name in case it should be different from the original one, may be empty
      *
@@ -163,7 +173,8 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         if ($fileName !== '') {
             copy(
-                ExtensionManagementUtility::extPath('realty') . 'Tests/LegacyUnit/fixtures/tx_realty_fixtures/' . $fileName,
+                ExtensionManagementUtility::extPath('realty') . 'Tests/LegacyUnit/fixtures/tx_realty_fixtures/'
+                . $fileName,
                 $this->importFolder . (($newFileName !== '') ? $newFileName : basename($fileName))
             );
         }
@@ -209,6 +220,14 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $zip->open($this->importFolder . 'import.zip', \ZipArchive::CREATE);
         $zip->addFromString('import.xml', $xml);
         $zip->close();
+    }
+
+    /**
+     * @return LanguageService
+     */
+    private function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
     }
 
     /*
@@ -798,6 +817,28 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->loadXmlFile($this->importFolder . 'bar.zip');
 
         self::assertInstanceOf(\DOMDocument::class, $this->fixture->getImportedXml());
+    }
+
+    /**
+     * @test
+     */
+    public function importFromZipKeepsCurrentBackendLanguage()
+    {
+        $this->checkForZipArchive();
+        $this->testingFramework->markTableAsDirty('tx_realty_objects');
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $currentBackEndLanguage = 'fr';
+        $this->getLanguageService()->lang = $currentBackEndLanguage;
+
+        $importLanguage = 'de';
+        $this->globalConfiguration->setAsString('cliLanguage', $importLanguage);
+
+        $this->copyTestFileIntoImportFolder('same-name.zip');
+        $this->disableValidation();
+        $this->fixture->importFromZip();
+
+        static::assertSame($currentBackEndLanguage, $this->getLanguageService()->lang);
     }
 
     /**

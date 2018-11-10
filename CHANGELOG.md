@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop support for TYPO3 6.2 and require TYPO3 >= 7.6 (#138)
 
 ### Fixed
+- Keep the BE language when using the BE module button (#164)
 - Fix SQL errors in MySQL strict mode (#142)
 
 ## 1.1.0
