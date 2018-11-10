@@ -1,0 +1,13 @@
+mod.wizards.newContentElement.wizardItems.plugins {
+    elements {
+        realty {
+            iconIdentifier = ext-realty-wizard-icon
+            title = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:pi1_title
+            description = LLL:EXT:realty/Resources/Private/Language/locallang.xlf:pi1_description
+            tt_content_defValues {
+                CType = list
+                list_type = realty_pi1
+            }
+        }
+    }
+}
