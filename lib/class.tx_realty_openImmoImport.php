@@ -160,7 +160,7 @@ class tx_realty_openImmoImport
         $this->storeLogsAndClearTemporaryLog();
 
         if (empty($zipsToExtract)) {
-            $this->addToErrorLog($this->getTranslator()->translate('message_no_zips'));
+            $this->addToLogEntry($this->getTranslator()->translate('message_no_zips'));
         } else {
             foreach ($zipsToExtract as $currentZip) {
                 $this->extractZip($currentZip);
