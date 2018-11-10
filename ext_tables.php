@@ -12,7 +12,7 @@ $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('realty')
     [
         'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tt_content.list_type_pi1',
         'realty_pi1',
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('realty') . 'ext_icon.gif',
+        'EXT:realty/Resources/Public/Images/ContentElement.gif',
     ]
 );
 
@@ -22,23 +22,23 @@ $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('realty')
     'Realty Manager'
 );
 
-if (TYPO3_MODE === 'BE') {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'OliverKlee.Realty',
-        'web',
-        'openImmo',
-        'bottom',
-        [
-            'OpenImmo' => 'index, import',
-        ],
-        [
-            'access' => 'group',
-            'icon' => 'EXT:realty/Resources/Public/Icons/BackEndModule.gif',
-            'labels' => 'LLL:EXT:realty/Resources/Private/Language/locallang_mod.xlf',
-            // hide the page tree
-            'navigationComponentId' => '',
-        ]
-    );
-    $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon']
-        = $extPath . 'pi1/class.tx_realty_pi1_wizicon.php';
-}
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+    'OliverKlee.Realty',
+    'web',
+    'openImmo',
+    'bottom',
+    [
+        'OpenImmo' => 'index, import',
+    ],
+    [
+        'access' => 'group',
+        'icon' => 'EXT:realty/Resources/Public/Icons/BackEndModule.gif',
+        'labels' => 'LLL:EXT:realty/Resources/Private/Language/locallang_mod.xlf',
+        // hide the page tree
+        'navigationComponentId' => '',
+    ]
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    "\n" .  '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:realty/Configuration/TSconfig/ContentElementWizard.txt">' . "\n"
+);

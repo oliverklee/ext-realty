@@ -33,7 +33,6 @@ $openImmoTaskConfiguration = [
 ];
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\OliverKlee\Realty\SchedulerTask\OpenImmoImport::class]
     = $openImmoTaskConfiguration;
-unset($openImmoTaskConfiguration);
 
 $imageCleanupTaskConfiguration = [
     'extension' => 'realty',
@@ -43,4 +42,13 @@ $imageCleanupTaskConfiguration = [
 ];
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\OliverKlee\Realty\SchedulerTask\ImageCleanup::class]
     = $imageCleanupTaskConfiguration;
-unset($imageCleanupTaskConfiguration);
+
+/** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+$iconProviderClass = \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class;
+$iconRegistry->registerIcon(
+    'ext-realty-wizard-icon',
+    $iconProviderClass,
+    ['source' => 'EXT:realty/Resources/Public/Images/ContentElement.gif']
+);
+unset($openImmoTaskConfiguration, $imageCleanupTaskConfiguration, $iconRegistry, $iconRegistry);
