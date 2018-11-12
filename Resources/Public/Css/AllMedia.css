@@ -647,7 +647,7 @@ p.tx-realty-pi1-objekt-nr {
     padding: 0;
 }
 
-#tx_realty_frontEndEditor_title {
+#tx_realty_frontEndEditor__title {
     width: 97%;
     margin: 0;
     padding: 0;
@@ -801,35 +801,23 @@ p.tx-realty-pi1-objekt-nr {
     margin: 0 0 10px 0;
 }
 
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__button_submit,
 #uploadfield dt input {
-    color: #ffffff;
     margin-right: 50px;
-    font-weight: bold;
-    font-size: 11px;
-    background: transparent url(../Images/SubmitButton.png) no-repeat;
-    height: 18px;
-    width: 115px;
-    cursor: pointer;
-    border: 0;
     float: right;
 }
 
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit {
-    background: transparent url(../Images/EditorSubmitButton.png) no-repeat;
-}
-
 /*SELECTFIELDS*/
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_country,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_district,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_city,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_old_or_new_building,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_house_type,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_apartment_type,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_state,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_garage_type,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_pets {
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__country,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__district,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__city,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__old_or_new_building,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__house_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__apartment_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__state,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__garage_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__pets {
     width: 93%;
 }
 
@@ -839,18 +827,18 @@ p.tx-realty-pi1-objekt-nr {
     line-height: 30px;
 }
 
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-1,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-2,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-3,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-4,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-5,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-6,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-7,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-8,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-9,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-10,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-11 {
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-1,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-2,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-3,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-4,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-5,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-6,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-7,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-8,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-9,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-10,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_type_item-11 {
     position: relative;
     top: 5px;
     width: 15px;
@@ -865,19 +853,19 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 /*CHECKBOXES*/
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_emphasized,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_included {
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__emphasized,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__heating_included {
     width: 15px;
     margin: 5px 5px 0 0;
     padding: 0;
 }
 
 /*RADIOBUTTONS*/
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_object_type_item,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_object_type_item-1,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item-1,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item-1 {
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__object_type_item,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__object_type_item-1,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__contact_data_source_item,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__contact_data_source_item-1,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor__contact_data_source_item-1 {
     width: 15px;
     margin: 0 5px 0 0;
     padding: 0 0 2px 0;
@@ -946,29 +934,6 @@ p.tx-realty-pi1-objekt-nr {
     line-height: normal;
 }
 
-#uploadfield span.button {
-    position: absolute;
-    left: 273px;
-    margin: 15px 0 0 -20px;
-    height: 18px;
-    width: 200px;
-    cursor: pointer;
-    border: 0;
-    float: left;
-}
-
-#uploadfield #tx_realty_frontEndImageUpload_button_submit {
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 11px;
-    background: transparent url(../Images/ButtonRight.png) no-repeat right;
-    height: 18px;
-    width: 200px;
-    cursor: pointer;
-    border: 0;
-    float: left;
-}
-
 #uploadfield .column2 dl dl {
     width: 550px;
 }
@@ -983,7 +948,7 @@ p.tx-realty-pi1-objekt-nr {
 
 #uploadfield .column2 .label {
     position: absolute;
-    left: 115px;
+    left: 125px;
     right: 120px;
 }
 
@@ -1006,10 +971,4 @@ p.tx-realty-pi1-objekt-nr {
 #uploadfield span.deleted {
     text-decoration: line-through;
     color: lightgrey;
-}
-
-#uploadfield input.deleted {
-    color: #ffffff;
-    background: transparent url(../Images/SubmitButtonInactive.png) no-repeat;
-    cursor: default;
 }

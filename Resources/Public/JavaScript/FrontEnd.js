@@ -174,7 +174,6 @@ TYPO3.realty.initializeDeleteImageButtons = function () {
         if (confirm(confirmMessage)) {
             $deletedImageCollector.val($deletedImageCollector.val() + ',' + imageId);
             $button.parent().find('span').addClass('deleted');
-            $button.addClass('deleted');
             $button.prop('disabled', true);
         }
 
