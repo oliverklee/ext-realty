@@ -237,6 +237,8 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_TemplateHelper
                 // The fallthrough is intended.
             case 'equipment':
                 // The fallthrough is intended.
+            case 'layout':
+                // The fallthrough is intended.
             case 'location':
                 // The fallthrough is intended.
             case 'misc':
