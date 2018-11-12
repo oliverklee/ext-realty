@@ -1002,6 +1002,7 @@ $tca = [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.layout',
             'config' => [
                 'type' => 'text',
+                'enableRichtext' => true,
                 'cols' => 30,
                 'rows' => 3,
             ],
@@ -1541,6 +1542,7 @@ if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
     $tca['columns']['teaser']['defaultExtras'] = 'richtext[]';
     $tca['columns']['description']['defaultExtras'] = 'richtext[]';
     $tca['columns']['equipment']['defaultExtras'] = 'richtext[]';
+    $tca['columns']['layout']['defaultExtras'] = 'richtext[]';
     $tca['columns']['location']['defaultExtras'] = 'richtext[]';
     $tca['columns']['misc']['defaultExtras'] = 'richtext[]';
     $tca['columns']['details_page']['config']['wizards'] = [

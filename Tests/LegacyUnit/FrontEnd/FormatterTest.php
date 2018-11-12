@@ -844,25 +844,32 @@ class tx_realty_FrontEnd_FormatterTest extends \Tx_Phpunit_TestCase
     }
 
     /**
-     * @test
+     * @return string[][]
      */
-    public function getPropertyFormatsDescriptionAsRichText()
+    public function richTextFieldDataProvider()
     {
-        $text = '<strong>Hello</strong>';
-        $this->realtyObject->setProperty('description', $text);
-
-        self::assertSame($text, $this->fixture->getProperty('description'));
+        return [
+            'description' => ['description'],
+            'teaser' => ['teaser'],
+            'equipment' => ['equipment'],
+            'layout' => ['layout'],
+            'location' => ['location'],
+            'misc' => ['misc'],
+        ];
     }
 
     /**
      * @test
+     *
+     * @param string $fieldName
+     * @dataProvider richTextFieldDataProvider
      */
-    public function getPropertyFormatsTeaserAsRichText()
+    public function getPropertyFormatsAsRichText($fieldName)
     {
         $text = '<strong>Hello</strong>';
-        $this->realtyObject->setProperty('teaser', $text);
+        $this->realtyObject->setProperty($fieldName, $text);
 
-        self::assertSame($text, $this->fixture->getProperty('teaser'));
+        self::assertSame($text, $this->fixture->getProperty($fieldName));
     }
 
     /////////////////////////////////////////
