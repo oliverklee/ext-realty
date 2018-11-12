@@ -33,6 +33,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop support for TYPO3 6.2 and require TYPO3 >= 7.6 (#138)
 
 ### Fixed
+- Fix the CSS of the FE editor (#167)
 - Make the content wizard icon visible in TYPO3 8.7 (#166)
 - Don't log "no zips" as an import error (#165)
 - Keep the BE language when using the BE module button (#164)
