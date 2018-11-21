@@ -1,5 +1,8 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Functional;
+
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -10,15 +13,20 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
+class ContactFormTest extends FunctionalTestCase
 {
     /**
-     * @var tx_realty_contactForm
+     * @var string[]
+     */
+    protected $testExtensionsToLoad = ['typo3conf/ext/oelib', 'typo3conf/ext/realty'];
+
+    /**
+     * @var \tx_realty_contactForm
      */
     private $fixture = null;
 
     /**
-     * @var Tx_Oelib_TestingFramework
+     * @var \Tx_Oelib_TestingFramework
      */
     private $testingFramework = null;
 
@@ -38,14 +46,16 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
     const REALTY_OBJECT_NUMBER = '1234567';
 
     /**
-     * @var MailMessage|PHPUnit_Framework_MockObject_MockObject
+     * @var MailMessage|\PHPUnit_Framework_MockObject_MockObject
      */
     private $message = null;
 
     protected function setUp()
     {
-        $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->testingFramework->createFakeFrontEnd();
+        parent::setUp();
+
+        $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
         $this->realtyUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
@@ -54,7 +64,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture = new tx_realty_contactForm(
+        $this->fixture = new \tx_realty_contactForm(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $this->createContentMock()
         );
@@ -83,6 +93,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
         GeneralUtility::makeInstance(MailMessage::class);
 
         $this->testingFramework->cleanUp();
+        parent::tearDown();
     }
 
     /*
@@ -224,9 +235,9 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function specializedContactFormHasDisabledNameFieldIfLoggedIn()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(['name' => 'test user']);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
             'value="test user" disabled="disabled"',
@@ -239,9 +250,9 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function contactFormHasNoNameFieldIfLoggedInButNameIsDisabledByConfiguration()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(['name' => 'test user']);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
@@ -256,9 +267,9 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function specializedContactFormHasDisabledEmailFieldIfLoggedIn()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(['email' => 'frontend-user@example.com']);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
             'value="frontend-user@example.com" disabled="disabled"',
@@ -271,9 +282,9 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function generalContactFormHasDisabledNameFieldIfLoggedIn()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(['name' => 'test user']);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
             'value="test user" disabled="disabled"',
@@ -286,9 +297,9 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function generalContactFormHasDisabledEmailFieldIfLoggedIn()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(['email' => 'frontend-user@example.com']);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
             'value="frontend-user@example.com" disabled="disabled"',
@@ -323,9 +334,9 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function specializedContactFormHasDisabledInfomationIfLoggedIn()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(['name' => 'test user']);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
             $this->fixture->translate('label_requester_data_is_uneditable'),
@@ -338,9 +349,9 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function generalContactFormHasDisabledInfomationIfLoggedIn()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(['name' => 'test user']);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
             $this->fixture->translate('label_requester_data_is_uneditable'),
@@ -1405,7 +1416,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
             'tx_realty_objects',
             $this->realtyUid,
             [
-                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
+                'contact_data_source' => \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
                 'contact_person_salutation' => 'Mr.',
                 'contact_person_first_name' => 'Larry',
                 'contact_person' => 'Page',
@@ -1441,7 +1452,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
             'tx_realty_objects',
             $this->realtyUid,
             [
-                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
+                'contact_data_source' => \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
                 'owner' => $ownerUid,
             ]
         );
@@ -1499,7 +1510,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
             'tx_realty_objects',
             $this->realtyUid,
             [
-                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
+                'contact_data_source' => \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
                 'owner' => $this->testingFramework->createFrontEndUser(
                     '',
                     ['name' => 'Trinity', 'email' => 'frontend-user@example.com']
@@ -1541,7 +1552,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
             'tx_realty_objects',
             $this->realtyUid,
             [
-                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
+                'contact_data_source' => \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
                 'owner' => $deletedUserUid,
             ]
         );
@@ -1570,7 +1581,7 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
             'tx_realty_objects',
             $this->realtyUid,
             [
-                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
+                'contact_data_source' => \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
                 'owner' => $this->testingFramework->createFrontEndUser(
                     '',
                     ['email' => 'invalid-email']
@@ -1655,14 +1666,14 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function nameAndEmailAddressAreFetchedAutomaticallyAsSenderIfAFeUserIsLoggedIn()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(
             [
                 'name' => 'test user',
                 'email' => 'frontend-user@example.com',
             ]
         );
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->render(
             [
@@ -1683,14 +1694,14 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function emailAddressIsFetchedAutomaticallyAsSenderIfAFeUserIsLoggedInAndNoUserNameSet()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(
             [
                 'name' => '',
                 'email' => 'frontend-user@example.com',
             ]
         );
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->render(
             [
@@ -1711,14 +1722,14 @@ class tx_realty_FrontEnd_ContactFormTest extends \Tx_Phpunit_TestCase
      */
     public function senderDoesNotContainTheNameIfAFeUserIsLoggedAndUserNameVisibilityDisabled()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(
             [
                 'name' => 'test user',
                 'email' => 'frontend-user@example.com',
             ]
         );
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
