@@ -36,7 +36,7 @@
         "typo3/cms-extbase": "^7.6.23 || ^8.7.9",
         "typo3/cms-fluid": "^7.6.23 || ^8.7.9",
         "dmk/mkforms": "^3.0.21",
-        "oliverklee/oelib": "^2.0 || ^3.0",
+        "oliverklee/oelib": "^2.2 || ^3.0",
         "sjbr/static-info-tables": "^6.4"
     },
     "require-dev": {

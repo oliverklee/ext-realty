@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\Oelib\Email\SystemEmailFromBuilder;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
@@ -819,13 +820,17 @@ class tx_realty_openImmoImport
      */
     private function sendEmails(array $addressesAndMessages)
     {
-        if ($this->getDefaultEmailAddress() === '') {
+        /** @var SystemEmailFromBuilder $emailRoleBuilder */
+        $emailRoleBuilder = GeneralUtility::makeInstance(SystemEmailFromBuilder::class);
+        if ($this->getDefaultEmailAddress() === '' || !$emailRoleBuilder->canBuild()) {
             return;
         }
 
+        $fromRole = $emailRoleBuilder->build();
         foreach ($addressesAndMessages as $address => $content) {
             /** @var MailMessage $email */
             $email = GeneralUtility::makeInstance(MailMessage::class);
+            $email->setFrom([$fromRole->getEmailAddress() => $fromRole->getName()]);
             $email->setTo([$address => '']);
             $email->setSubject($this->getTranslator()->translate('label_subject_openImmo_import'));
             $email->setBody($this->fillEmailTemplate($content));

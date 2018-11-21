@@ -54,6 +54,9 @@ class ContactFormTest extends FunctionalTestCase
     {
         parent::setUp();
 
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = 'Alex Doe';
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'alex@example.com';
+
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
         $this->realtyUid = $this->testingFramework->createRecord(
@@ -1644,7 +1647,7 @@ class ContactFormTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function headerContainsNameAndEmailAddress()
+    public function usesDefaultFromEmailFromInstallTool()
     {
         $this->fixture->render(
             [
@@ -1655,16 +1658,13 @@ class ContactFormTest extends FunctionalTestCase
             ]
         );
 
-        self::assertSame(
-            ['requester@example.com' => 'any name'],
-            $this->message->getFrom()
-        );
+        static::assertSame(['alex@example.com' => 'Alex Doe'], $this->message->getFrom());
     }
 
     /**
      * @test
      */
-    public function nameAndEmailAddressAreFetchedAutomaticallyAsSenderIfAFeUserIsLoggedIn()
+    public function nameAndEmailAddressAreFetchedAutomaticallyAsReplyToIfAFeUserIsLoggedIn()
     {
         $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(
@@ -1685,14 +1685,14 @@ class ContactFormTest extends FunctionalTestCase
 
         self::assertSame(
             ['frontend-user@example.com' => 'test user'],
-            $this->message->getFrom()
+            $this->message->getReplyTo()
         );
     }
 
     /**
      * @test
      */
-    public function emailAddressIsFetchedAutomaticallyAsSenderIfAFeUserIsLoggedInAndNoUserNameSet()
+    public function emailAddressIsFetchedAutomaticallyAsReplyToIfAFeUserIsLoggedInAndNoUserNameSet()
     {
         $user = new \tx_realty_Model_FrontEndUser();
         $user->setData(
@@ -1713,7 +1713,7 @@ class ContactFormTest extends FunctionalTestCase
 
         self::assertArrayHasKey(
             'frontend-user@example.com',
-            $this->message->getFrom()
+            $this->message->getReplyTo()
         );
     }
 
@@ -1743,7 +1743,7 @@ class ContactFormTest extends FunctionalTestCase
 
         self::assertArrayNotHasKey(
             'test user',
-            $this->message->getFrom()
+            $this->message->getReplyTo()
         );
     }
 

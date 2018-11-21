@@ -21,6 +21,9 @@ Installation
 
 #. In the install tool, disable  **FE > pageNotFoundOnCHashError** .
 
+#. In the install tool, set **MAIL > defaultMailFromAddress** and
+   **MAIL > defaultMailFromName**.
+
 #. Make sure that you use UTF-8 in the BE and FE. Otherwise, the OpenImmo
    import won’t work properly, and the FE output might be broken.
    **Don’t set config.renderCharset or config.metaCharset** (leaving

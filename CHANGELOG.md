@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- !!! Use the default From: email address from the install tool (#173)
 - Make the layout field an RTE field (#168)
 - Add support for TYPO3 8.7 (#152)
 

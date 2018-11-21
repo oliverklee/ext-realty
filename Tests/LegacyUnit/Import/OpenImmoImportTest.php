@@ -59,6 +59,13 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     private $graphicsConfigurationBackup = [];
 
     /**
+     * backup of $GLOBALS['TYPO3_CONF_VARS']['MAIL']
+     *
+     * @var array
+     */
+    private $emailConfigurationBackup = [];
+
+    /**
      * @var MailMessage
      */
     private $message = null;
@@ -71,6 +78,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
     protected function setUp()
     {
         $this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
+        $this->emailConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['MAIL'];
 
         $this->languageServiceBackup = $this->getLanguageService();
         $GLOBALS['LANG'] = new LanguageService();
@@ -104,6 +112,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         tx_realty_cacheManager::purgeCacheManager();
         $GLOBALS['LANG'] = $this->languageServiceBackup;
         $GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL'] = $this->emailConfigurationBackup;
     }
 
     /*
@@ -123,8 +132,10 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
 
         // TYPO3 default configuration
         $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'sender@example.com';
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = 'import sender';
 
-        $this->globalConfiguration->setAsString('emailAddress', 'default-address@example.com');
+        $this->globalConfiguration->setAsString('emailAddress', 'default-recipient@example.com');
         $this->globalConfiguration->setAsBoolean('onlyErrors', false);
         $this->globalConfiguration->setAsString('openImmoSchema', $this->importFolder . 'schema.xsd');
         $this->globalConfiguration->setAsString('importFolder', $this->importFolder);
@@ -3292,7 +3303,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->disableValidation();
 
         self::assertContains(
-            'default-address@example.com',
+            'default-recipient@example.com',
             $this->fixture->importFromZip()
         );
     }
@@ -3388,6 +3399,30 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         );
     }
 
+    /*
+     * Tests concerning the sender
+     */
+
+    /**
+     * @test
+     */
+    public function usesEmailFromSetInInstallTool()
+    {
+        $this->checkForZipArchive();
+        $this->testingFramework->markTableAsDirty('tx_realty_objects');
+
+        $this->copyTestFileIntoImportFolder('email.zip');
+        $this->fixture->importFromZip();
+
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'sender@example.com';
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = 'import sender';
+
+        self::assertSame(
+            ['sender@example.com' => 'import sender'],
+            $this->message->getFrom()
+        );
+    }
+
     //////////////////////////////////////
     // * Tests concerning the recipient.
     //////////////////////////////////////
@@ -3421,7 +3456,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.com',
+            'default-recipient@example.com',
             $this->message->getTo()
         );
     }
@@ -3438,7 +3473,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.com',
+            'default-recipient@example.com',
             $this->message->getTo()
         );
     }
@@ -3578,7 +3613,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.com',
+            'default-recipient@example.com',
             $this->message->getTo()
         );
     }
@@ -3606,7 +3641,7 @@ class tx_realty_Import_OpenImmoImportTest extends \Tx_Phpunit_TestCase
         $this->fixture->importFromZip();
 
         self::assertArrayHasKey(
-            'default-address@example.com',
+            'default-recipient@example.com',
             $this->message->getTo()
         );
     }
