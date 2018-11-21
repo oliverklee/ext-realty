@@ -1,5 +1,8 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Functional;
+
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend;
@@ -13,15 +16,24 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
+class EditorTest extends FunctionalTestCase
 {
     /**
-     * @var tx_realty_frontEndEditor object to be tested
+     * @var string[]
+     */
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/oelib',
+        'typo3conf/ext/static_info_tables',
+        'typo3conf/ext/realty',
+    ];
+
+    /**
+     * @var \tx_realty_frontEndEditor
      */
     private $fixture = null;
 
     /**
-     * @var Tx_Oelib_TestingFramework
+     * @var \Tx_Oelib_TestingFramework
      */
     private $testingFramework = null;
 
@@ -36,22 +48,24 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     private static $dummyStringValue = 'test value';
 
     /**
-     * @var MailMessage|PHPUnit_Framework_MockObject_MockObject
+     * @var MailMessage|\PHPUnit_Framework_MockObject_MockObject
      */
     private $message = null;
 
     protected function setUp()
     {
-        Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
-        $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->testingFramework->createFakeFrontEnd();
+        parent::setUp();
 
-        Tx_Oelib_ConfigurationRegistry::getInstance()
-            ->set('plugin.tx_realty_pi1', new Tx_Oelib_Configuration());
+        \Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
+        $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
+
+        \Tx_Oelib_ConfigurationRegistry::getInstance()
+            ->set('plugin.tx_realty_pi1', new \Tx_Oelib_Configuration());
 
         $this->createDummyRecords();
 
-        $this->fixture = new tx_realty_frontEndEditor(
+        $this->fixture = new \tx_realty_frontEndEditor(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'feEditorTemplateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html',
@@ -71,9 +85,11 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         // Get any surplus instances added via GeneralUtility::addInstance.
         GeneralUtility::makeInstance(MailMessage::class);
 
-        tx_realty_cacheManager::purgeCacheManager();
+        \tx_realty_cacheManager::purgeCacheManager();
 
         $this->testingFramework->cleanUp();
+
+        parent::tearDown();
     }
 
     /*
@@ -109,8 +125,8 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     private function createDummyRecords()
     {
-        /** @var tx_realty_Model_FrontEndUser $user */
-        $user = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)->getLoadedTestingModel(
+        /** @var \tx_realty_Model_FrontEndUser $user */
+        $user = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)->getLoadedTestingModel(
             [
                 'username' => 'test_user',
                 'name' => 'Mr. Test',
@@ -118,7 +134,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
                 'tx_realty_openimmo_anid' => 'test-user-anid',
             ]
         );
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->dummyObjectUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
@@ -137,7 +153,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     private function createAuxiliaryRecords()
     {
-        $realtyObject = new tx_realty_Model_RealtyObject(true);
+        $realtyObject = new \tx_realty_Model_RealtyObject(true);
         $realtyObject->loadRealtyObject($this->dummyObjectUid);
 
         foreach (
@@ -174,7 +190,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
             $this->testingFramework->countRecords(
                 'tx_realty_objects',
                 'uid=' . $this->dummyObjectUid .
-                Tx_Oelib_Db::enableFields('tx_realty_objects')
+                \Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
     }
@@ -319,8 +335,10 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function populateListOfCountriesContainsDeutschland()
+    public function populateListOfCountriesContainsGermany()
     {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Countries.xml');
+
         self::assertContains(
             [
                 'value' => '54',
@@ -402,7 +420,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function getNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToBuy()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price')
@@ -417,7 +435,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function getNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToRent()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price')
@@ -432,7 +450,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function getNoValidPriceOrEmptyMessageForRentFieldsIfObjectToRent()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills')
@@ -447,7 +465,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function getNoValidPriceOrEmptyMessageForRentFieldsIfObjectToBuy()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills')
@@ -852,7 +870,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsValid()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertTrue(
             $this->fixture->isNonEmptyValidPriceForObjectForSale(
                 ['value' => '1234']
@@ -865,7 +883,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsInvalid()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForSale(
                 ['value' => 'foo']
@@ -878,7 +896,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsEmpty()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForSale(
                 ['value' => '']
@@ -891,7 +909,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfOnePriceIsValidAndOneEmpty()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', '');
 
         self::assertTrue(
@@ -906,7 +924,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentForEmptyValueAndValidYearRentIsTrue()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', '1234');
 
         static::assertTrue($this->fixture->isNonEmptyValidPriceForObjectForRent(['value' => '']));
@@ -917,7 +935,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentForEmptyValueAndValidRentWithHeatingCostsRentIsTrue()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('rent_with_heating_costs', '1234');
 
         static::assertTrue($this->fixture->isNonEmptyValidPriceForObjectForRent(['value' => '']));
@@ -928,7 +946,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreValid()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', '1234');
 
         self::assertTrue(
@@ -943,7 +961,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreInvalid()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', 'foo');
 
         self::assertFalse(
@@ -958,7 +976,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreEmpty()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', '');
 
         self::assertFalse(
@@ -973,7 +991,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfOnePriceIsInvalidAndOneValid()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', '1234');
 
         self::assertFalse(
@@ -988,7 +1006,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsInvalidAndOneValid()
     {
-        $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->fixture->setFakedFormValue('year_rent', 'foo');
 
         self::assertFalse(
@@ -1480,7 +1498,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue(
             'contact_data_source',
-            tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
+            \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
         );
 
         self::assertTrue(
@@ -1495,7 +1513,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue(
             'contact_data_source',
-            tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
+            \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
         );
 
         self::assertTrue(
@@ -1510,7 +1528,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue(
             'contact_data_source',
-            tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
+            \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
         );
 
         self::assertFalse(
@@ -1723,7 +1741,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertEquals(
-            Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser()
+            \Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser()
                 ->getUid(),
             $result['owner']
         );
@@ -1761,9 +1779,9 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
      */
     public function addAdministrativeDataAddsEmptyOpenImmoAnidForNewObjectIfUserHasNoAnid()
     {
-        $user = new tx_realty_Model_FrontEndUser();
+        $user = new \tx_realty_Model_FrontEndUser();
         $user->setData([]);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setRealtyObjectUid(0);
         $result = $this->fixture->modifyDataToInsert([]);
@@ -1965,11 +1983,11 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
     public function storeNewAuxiliaryRecordsCreatesANewRecordWithCorrectPid()
     {
         $pid = $this->testingFramework->createSystemFolder(1);
-        $configuration = new Tx_Oelib_Configuration();
+        $configuration = new \Tx_Oelib_Configuration();
         $configuration->setData([
             'sysFolderForFeCreatedAuxiliaryRecords' => $pid,
         ]);
-        Tx_Oelib_ConfigurationRegistry::getInstance()->set(
+        \Tx_Oelib_ConfigurationRegistry::getInstance()->set(
             'plugin.tx_realty_pi1',
             $configuration
         );
@@ -2216,7 +2234,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-        $expectedResult = Tx_Oelib_Db::selectSingle(
+        $expectedResult = \Tx_Oelib_Db::selectSingle(
             'uid',
             'tx_realty_objects',
             'object_number="1234" AND language="XY"'
@@ -2262,7 +2280,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->testingFramework->createContentElement($pageUid, ['list_type' => 'realty_pi1']);
 
-        /** @var AbstractFrontend|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
+        /** @var AbstractFrontend|\PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
         $cacheFrontEnd = $this->getMock(
             AbstractFrontend::class,
             ['getIdentifier', 'set', 'get', 'getByTag', 'getBackend'],
@@ -2271,14 +2289,14 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
             false
         );
         $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
-        /** @var TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
+        /** @var TaggableBackendInterface|\PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
         $cacheBackEnd = $this->getMock(TaggableBackendInterface::class);
         $cacheFrontEnd->method('getBackend')->will(self::returnValue($cacheBackEnd));
         $cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 
         $cacheManager = new CacheManager();
         $cacheManager->registerCache($cacheFrontEnd);
-        tx_realty_cacheManager::injectCacheManager($cacheManager);
+        \tx_realty_cacheManager::injectCacheManager($cacheManager);
 
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
     }
@@ -2299,7 +2317,7 @@ class tx_realty_FrontEnd_EditorTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             ['value' => $cityUid, 'caption' => 'Bonn'],
-            tx_realty_frontEndEditor::populateCityList()
+            \tx_realty_frontEndEditor::populateCityList()
         );
     }
 }

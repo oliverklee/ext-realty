@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add support for TYPO3 8.7 (#152)
 
 ### Changed
+- Move the tests to the nimut testing framework (#170, #171)
 - Run the functional tests in parallel to each other (#172)
 - Use spaces for indenting the SQL file (#169)
 - Require oelib >= 2.0 (#163)
