@@ -6,6 +6,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## 2.0.0
+
+### Added
 - !!! Use the default From: email address from the install tool (#173)
 - Make the layout field an RTE field (#168)
 - Add support for TYPO3 8.7 (#152)
@@ -23,8 +35,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Move the JavaScript file to Resources/ (#155)
 - Move the flexforms configuration file to Configuration/ (#153)
 - Clean up localconf.php (#150)
-
-### Deprecated
 
 ### Removed
 - Drop the empty summaries from HTML tables (#149)
