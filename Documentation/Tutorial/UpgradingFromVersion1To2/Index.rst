@@ -19,6 +19,9 @@ Upgrading
 Upgrading from version 1.x.y to 2.x.y
 #####################################
 
+#. In the install tool, set **MAIL > defaultMailFromAddress** and
+   **MAIL > defaultMailFromName**.
+
 #. Install the latest versions of the  *oelib* and  *static\_info\_tables*
    extensions.
 

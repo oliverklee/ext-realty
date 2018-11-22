@@ -120,6 +120,7 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
     public function check_tx_realty_pi1_contact_form()
     {
         $this->checkCommonFrontEndSettings();
+        $this->checkIsValidDefaultFromEmailAddress();
         $this->checkDefaultContactEmail();
         $this->checkBlindCarbonCopyAddress();
         $this->checkVisibleContactFormFields();
@@ -188,6 +189,7 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
         // templates than the default template.
         // @see https://bugs.oliverklee.com/show_bug.cgi?id=2061
         $this->checkCommonFrontEndSettings();
+        $this->checkIsValidDefaultFromEmailAddress();
         $this->checkSysFolderForFeCreatedRecords();
         $this->checkSysFolderForFeCreatedAuxiliaryRecords();
         $this->checkFeEditorRedirectPid();

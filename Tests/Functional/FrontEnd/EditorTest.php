@@ -56,6 +56,9 @@ class EditorTest extends FunctionalTestCase
     {
         parent::setUp();
 
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = 'Alex Doe';
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'alex@example.com';
+
         \Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
@@ -2126,7 +2129,7 @@ class EditorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function sentEmailHasTheCurrentFeUserAsFrom()
+    public function sentEmailHasDefaultSenderAsFrom()
     {
         // This will create an empty dummy record.
         $this->fixture->writeFakedFormDataToDatabase();
@@ -2136,10 +2139,23 @@ class EditorTest extends FunctionalTestCase
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-        self::assertArrayHasKey(
-            'mr-test@example.com',
-            $this->message->getFrom()
+        self::assertArrayHasKey('alex@example.com', $this->message->getFrom());
+    }
+
+    /**
+     * @test
+     */
+    public function sentEmailHasTheCurrentFeUserAsReplyTo()
+    {
+        // This will create an empty dummy record.
+        $this->fixture->writeFakedFormDataToDatabase();
+        $this->fixture->setConfigurationValue(
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
+        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+        self::assertArrayHasKey('mr-test@example.com', $this->message->getReplyTo());
     }
 
     /**

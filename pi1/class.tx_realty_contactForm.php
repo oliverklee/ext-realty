@@ -236,7 +236,11 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
         $email->setTo([$contactData['email'] => $contactName]);
         $email->setSubject($this->getEmailSubject());
         $email->setBody($this->getFilledEmailBody($contactName));
-        $email->setFrom([$this->contactFormData['requesterEmail'] => $this->contactFormData['requesterName']]);
+        $email->setReplyTo([$this->contactFormData['requesterEmail'] => $this->contactFormData['requesterName']]);
+
+        /** @var array $emailConfiguration */
+        $emailConfiguration = $GLOBALS['TYPO3_CONF_VARS']['MAIL'];
+        $email->setFrom([$emailConfiguration['defaultMailFromAddress'] => $emailConfiguration['defaultMailFromName']]);
 
         if ($this->hasConfValueString('blindCarbonCopyAddress', 's_contactForm')) {
             $bccAddress = $this->getConfValueString('blindCarbonCopyAddress', 's_contactForm');
