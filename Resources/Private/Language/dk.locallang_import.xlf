@@ -4,10 +4,6 @@
           product-name="realty">
         <header/>
         <body>
-            <trans-unit id="message_zip_archive_not_installed" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</source>
-                <target>Importen blev afbrudt fordi din PHP-installation mangler ZIP-fil funktion. Kompiler venligst PHP med ZIP-support ved at benytte &quot;--enable-zip&quot; konfigurationsoptionen. På et SUSE system skal pakkerne &quot;php-zip&quot; og &quot;php5-zip&quot; installeres</target>
-            </trans-unit>
             <trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
                 <source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
                 <target>Ingen ZIP-filer at hente. Den konfigurerede importmappe indeholder ikke nogen ZIP-filer. Kontroller venligst den konfigurerede &quot;extension manager&quot; og indholdet af mappen.</target>
