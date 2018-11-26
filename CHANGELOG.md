@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Drop the checks for the zip_archive PHP extension (#175)
 
 ### Fixed
 

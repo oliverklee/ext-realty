@@ -465,24 +465,16 @@ class tx_realty_openImmoImport
     }
 
     /**
-     * Checks whether the import may start. Will return TRUE if the class for
-     * ZIP extraction is available and if the import directory is writable.
-     * Otherwise, the result will be FALSE and the reason will be logged.
+     * Checks whether the import may start. Will return true if he import directory is writable.
+     * Otherwise, the result will be false and the reason will be logged.
      *
      * @param string $importDirectory unified path of the import directory, must not be empty
      *
-     * @return bool TRUE if the requirements to start the import are fulfilled, FALSE otherwise
+     * @return bool
      */
     private function canStartImport($importDirectory)
     {
-        $result = true;
-
-        if (!in_array('zip', get_loaded_extensions(), true)) {
-            $this->addToErrorLog($this->getTranslator()->translate('message_zip_archive_not_installed'));
-            $result = false;
-        }
-
-        return $result && $this->isImportDirectoryAccessible($importDirectory) && $this->isUploadDirectoryAccessible();
+        return $this->isImportDirectoryAccessible($importDirectory) && $this->isUploadDirectoryAccessible();
     }
 
     /**

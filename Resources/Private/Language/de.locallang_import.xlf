@@ -4,10 +4,6 @@
           product-name="realty">
         <header/>
         <body>
-            <trans-unit id="message_zip_archive_not_installed" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</source>
-                <target>Der Import kann nicht durchgeführt werden, weil Ihre PHP Installation keine ZIP-Funktionen bereitstellt. Bitte kompilieren Sie PHP mit ZIP-Unterstützung, indem Sie die &quot;--enable-zip&quot;-Option bei der Kompilierung verwenden. Bei einem SUSE-System müssen die Pakete &quot;php-zip&quot; oder &quot;php5_zip&quot; dafür installiert sein.</target>
-            </trans-unit>
             <trans-unit id="message_import_directory_not_existing" xml:space="preserve" approved="yes">
                 <source>Importing is impossible because the configured import directory &quot;%s&quot; does not exist. It is also possible that the current user &quot;%s&quot; has no read permissions on one of the parent folders. Please check your configuration and restart the import.</source>
                 <target>Der Import kann nicht durchgeführt werden, weil der konfigurierte Import-Ordner &quot;%s&quot; nicht existiert. Es besteht auch die Möglichkeit, dass der aktuelle Benutzer &quot;%s&quot; keine Leserechte auf einen der übergeordneten Ordner besitzt. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</target>
