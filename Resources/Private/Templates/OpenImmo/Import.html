@@ -3,15 +3,13 @@
 <f:layout name="Default"/>
 
 <f:section name="Content">
-    <div id="typo3-mod-help-about-index-php-outer">
-        <f:render partial="OpenImmo/StartImportForm"/>
+    <f:render partial="OpenImmo/StartImportForm"/>
 
-        <f:be.infobox state="{importStatus}"
-                      title="{f:translate(key: 'LLL:EXT:realty/Resources/Private/Language/locallang_mod.xlf:importWasExecuted')}"
-        >
-            {importResults -> f:format.nl2br()}
-        </f:be.infobox>
-    </div>
+    <f:be.infobox state="{importStatus}"
+                  title="{f:translate(key: 'LLL:EXT:realty/Resources/Private/Language/locallang_mod.xlf:importWasExecuted')}"
+    >
+        {importResults -> f:format.nl2br()}
+    </f:be.infobox>
 </f:section>
 
 </html>
