@@ -1,6 +1,6 @@
 <?php
 
-namespace OliverKlee\Realty\Tests\Functional;
+namespace OliverKlee\Realty\Tests\Functional\FrontEnd;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface;

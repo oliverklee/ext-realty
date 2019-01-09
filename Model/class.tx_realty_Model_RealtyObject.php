@@ -225,11 +225,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     /**
      * Constructor.
      *
-     * @param bool $createDummyRecords whether the database records to create are for testing purposes only
+     * @param bool $testingMode whether the database records to create are for testing purposes only
      */
-    public function __construct($createDummyRecords = false)
+    public function __construct($testingMode = false)
     {
-        $this->isDummyRecord = $createDummyRecords;
+        $this->isDummyRecord = $testingMode;
 
         $this->initializeCharsetConversion();
 

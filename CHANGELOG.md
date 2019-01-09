@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed
 - Stop using the charset conversion from the BE or FE (#178)
