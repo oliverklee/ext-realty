@@ -4,4 +4,8 @@
         <uid>1</uid>
         <title>A music house for house music</title>
     </tx_realty_objects>
+    <tx_realty_objects>
+        <uid>2</uid>
+        <attachments>1</attachments>
+    </tx_realty_objects>
 </dataset>

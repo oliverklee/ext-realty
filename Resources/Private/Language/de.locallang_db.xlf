@@ -568,6 +568,10 @@
                 <source>Separate page for the details view for this object</source>
                 <target>Separate Seite für die Detailansicht dieses Objektes</target>
             </trans-unit>
+            <trans-unit id="tx_realty_objects.attachments" xml:space="preserve" approved="yes">
+                <source>Attachments</source>
+                <target>Anhänge</target>
+            </trans-unit>
             <trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
                 <source>Images</source>
                 <target>Bilder</target>

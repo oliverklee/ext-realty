@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add a general "attachments" field (#180)
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed

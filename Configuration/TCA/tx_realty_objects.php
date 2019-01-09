@@ -52,7 +52,8 @@ $tca = [
             'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
             'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, assisted_living, '
             .
-            'has_coordinates,coordinates_problem,longitude,latitude',
+            'has_coordinates,coordinates_problem,longitude,latitude, ' .
+            'attachments',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -1036,6 +1037,26 @@ $tca = [
                 'eval' => 'trim',
             ],
         ],
+        'attachments' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'attachments',
+                [
+                    'maxitems' => 150,
+                    'appearance' => [
+                        'collapseAll' => true,
+                        'expandSingle' => true,
+                        'useSortable' => true,
+                        'enabledControls' => [
+                            'sort' => true,
+                            'hide' => false,
+                        ],
+                        'fileUploadAllowed' => true,
+                    ],
+                ]
+            ),
+        ],
         'images' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.images',
@@ -1482,6 +1503,8 @@ $tca = [
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
                 'has_coordinates, coordinates_problem, longitude, latitude, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
+                'attachments, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
                 'hidden, starttime, endtime',
         ],
@@ -1525,6 +1548,8 @@ $tca = [
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
                 'has_coordinates, coordinates_problem, longitude, latitude, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
+                'attachments, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
                 'hidden, starttime, endtime',
         ],

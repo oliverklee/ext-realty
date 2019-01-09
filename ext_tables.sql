@@ -91,6 +91,7 @@ CREATE TABLE tx_realty_objects (
     location varchar(4095) DEFAULT '' NOT NULL,
     misc varchar(1023) DEFAULT '' NOT NULL,
     details_page tinytext,
+    attachments int(11) unsigned DEFAULT '0' NOT NULL,
     images int(11) DEFAULT '0' NOT NULL,
     documents int(11) DEFAULT '0' NOT NULL,
     employer varchar(255) DEFAULT '' NOT NULL,
