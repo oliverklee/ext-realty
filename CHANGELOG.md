@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- Stop using the charset conversion from the BE or FE (#178)
 
 ### Deprecated
 

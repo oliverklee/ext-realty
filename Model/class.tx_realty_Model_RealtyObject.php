@@ -3,7 +3,6 @@
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Database\ReferenceIndex;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Lang\LanguageService;
 
 /**
@@ -116,14 +115,9 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     protected $allowEmptyTitle = true;
 
     /**
-     * @var string the charset that is used for the output
-     */
-    private $renderCharset = 'utf-8';
-
-    /**
      * @var CharsetConverter helper for charset conversion
      */
-    private $charsetConversion = null;
+    private $charsetConverter = null;
 
     /**
      * @var int the length of cropped titles
@@ -1898,20 +1892,14 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *
      * @param int $cropSize the number of characters after which the title should be cropped, must be >= 0
      *
-     * @return string this object's cropped title, will be empty if this
-     *                object does not have a title
+     * @return string this object's cropped title, will be empty if this object does not have a title
      */
     public function getCroppedTitle($cropSize = 0)
     {
         $fullTitle = $this->getTitle();
         $interceptPoint = ($cropSize > 0) ? $cropSize : self::CROP_SIZE;
 
-        return $this->charsetConversion->crop(
-            $this->renderCharset,
-            $fullTitle,
-            $interceptPoint,
-            '…'
-        );
+        return $this->charsetConverter->crop('utf-8', $fullTitle, $interceptPoint, '…');
     }
 
     /**
@@ -2170,34 +2158,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * $this->$charsetConversion.
      *
      * @return void
-     *
-     * @throws RuntimeException
      */
     private function initializeCharsetConversion()
     {
-        if ($this->getFrontEndController() !== null) {
-            $this->renderCharset = $this->getFrontEndController()->renderCharset;
-            $this->charsetConversion = $this->getFrontEndController()->csConvObj;
-        } elseif ($this->getLanguageService() !== null) {
-            $this->renderCharset = $this->getLanguageService()->charSet;
-            $this->charsetConversion = $this->getLanguageService()->csConvObj;
-        } else {
-            throw new RuntimeException('There was neither a front end nor a back end detected.', 1333036016);
-        }
-
-        if ($this->renderCharset === null || $this->renderCharset === '') {
-            $this->renderCharset = 'UTF-8';
-        }
-    }
-
-    /**
-     * Returns the current front-end instance.
-     *
-     * @return TypoScriptFrontendController|null
-     */
-    protected function getFrontEndController()
-    {
-        return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : null;
+        $this->charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
     }
 
     /**
