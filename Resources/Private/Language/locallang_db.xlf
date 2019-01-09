@@ -427,6 +427,9 @@
             <trans-unit id="tx_realty_objects.details_page" xml:space="preserve">
                 <source>Separate page for the details view for this object</source>
             </trans-unit>
+            <trans-unit id="tx_realty_objects.attachments" xml:space="preserve">
+                <source>Attachments</source>
+            </trans-unit>
             <trans-unit id="tx_realty_objects.images" xml:space="preserve">
                 <source>Images</source>
             </trans-unit>

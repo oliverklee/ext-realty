@@ -7,7 +7,6 @@ use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 /**
  * Test case.
  *
- * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class RealtyObjectMapperTest extends FunctionalTestCase

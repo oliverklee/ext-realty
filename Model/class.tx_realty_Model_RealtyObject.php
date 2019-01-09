@@ -2,6 +2,8 @@
 
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Database\ReferenceIndex;
+use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
 
@@ -941,6 +943,17 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         return $uidOfProperty;
+    }
+
+    /**
+     * @return FileReference[]
+     */
+    public function getAttachments()
+    {
+        /** @var FileRepository $fileRepository */
+        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+
+        return $fileRepository->findByRelation('tx_realty_objects', 'attachments', $this->getUid());
     }
 
     /**

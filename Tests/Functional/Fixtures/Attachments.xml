@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <sys_file>
+        <uid>99</uid>
+        <pid>1</pid>
+        <name>test.jpg</name>
+    </sys_file>
+    <sys_file_reference>
+        <uid>1</uid>
+        <pid>1</pid>
+        <uid_local>99</uid_local>
+        <uid_foreign>2</uid_foreign>
+        <tablenames>tx_realty_objects</tablenames>
+        <fieldname>attachments</fieldname>
+        <l10n_diffsource/>
+    </sys_file_reference>
+</dataset>
