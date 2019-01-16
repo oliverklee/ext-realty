@@ -5,6 +5,7 @@ namespace OliverKlee\Realty\Tests\Functional\Model;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Resource\FileReference;
 
 /**
  * Test case.
@@ -63,8 +64,27 @@ class RealtyObjectTest extends FunctionalTestCase
         $model = $this->realtyObjectMapper->find(2);
         $attachments = $model->getAttachments();
 
+        self::assertCount(3, $attachments);
+        $firstAttachment = $attachments[0];
+        self::assertInstanceOf(FileReference::class, $firstAttachment);
+        self::assertSame('test.jpg', $firstAttachment->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function getPdfAttachmentsReturnsExistingPdfAttachmentsAndIgnoresNonPdfAttachments()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $model */
+        $model = $this->realtyObjectMapper->find(2);
+        $attachments = $model->getPdfAttachments();
+
         self::assertCount(1, $attachments);
         $firstAttachment = $attachments[0];
-        self::assertSame('test.jpg', $firstAttachment->getName());
+        self::assertInstanceOf(FileReference::class, $firstAttachment);
+        self::assertSame('test.pdf', $firstAttachment->getName());
     }
 }

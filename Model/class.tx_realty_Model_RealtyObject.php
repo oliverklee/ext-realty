@@ -957,6 +957,23 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
+     * @return FileReference[]
+     */
+    public function getPdfAttachments()
+    {
+        $attachments = $this->getAttachments();
+        $pdfAttachments = \array_filter(
+            $attachments,
+            function (FileReference $attachment) {
+                return $attachment->getMimeType() === 'application/pdf';
+            }
+        );
+
+        // get the arrays keys to always start at 0 again
+        return \array_values($pdfAttachments);
+    }
+
+    /**
      * Inserts entries for images of the current realty object to the database
      * table 'tx_realty_images' and deletes all former image entries.
      *
