@@ -1,5 +1,10 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Functional\FrontEnd\SingleView;
+
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use Prophecy\Prophecy\ObjectProphecy;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -7,33 +12,44 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
+class DocumentsViewTest extends FunctionalTestCase
 {
     /**
-     * @var tx_realty_pi1_DocumentsView
+     * @var string[]
      */
-    private $fixture = null;
+    protected $testExtensionsToLoad = ['typo3conf/ext/oelib', 'typo3conf/ext/realty'];
 
     /**
-     * @var Tx_Oelib_TestingFramework
+     * @var \tx_realty_pi1_DocumentsView
+     */
+    private $subject = null;
+
+    /**
+     * @var \Tx_Oelib_TestingFramework
      */
     private $testingFramework = null;
 
     /**
-     * @var tx_realty_Mapper_RealtyObject
+     * @var \tx_realty_Mapper_RealtyObject
      */
     private $realtyObjectMapper = null;
 
     protected function setUp()
     {
-        $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->testingFramework->createFakeFrontEnd();
+        parent::setUp();
+        $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
 
-        $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
+        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
+        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
+        $backEndUserProphecy->isAdmin()->willReturn(true);
+        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
+
+        $this->realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_DocumentsView(
+        $this->subject = new \tx_realty_pi1_DocumentsView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
@@ -42,6 +58,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
     protected function tearDown()
     {
         $this->testingFramework->cleanUp();
+        parent::tearDown();
     }
 
     //////////////////////////////////
@@ -53,11 +70,11 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderReturnsNoUnreplacedMarkers()
     {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
+        /** @var \tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $realtyObject->addDocument('new document', 'readme.pdf');
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
@@ -78,9 +95,9 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
     {
         $uid = $this->realtyObjectMapper->getLoadedTestingModel([])->getUid();
 
-        self::assertEquals(
+        self::assertSame(
             '',
-            $this->fixture->render(['showUid' => $uid])
+            $this->subject->render(['showUid' => $uid])
         );
     }
 
@@ -89,13 +106,13 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForObjectWithDocumentContainsDocumentTitle()
     {
-        /** @var tx_realty_Model_RealtyObject $object */
+        /** @var \tx_realty_Model_RealtyObject $object */
         $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $object->addDocument('object layout', 'foo.pdf');
 
         self::assertContains(
             'object layout',
-            $this->fixture->render(['showUid' => $object->getUid()])
+            $this->subject->render(['showUid' => $object->getUid()])
         );
     }
 
@@ -104,13 +121,13 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderHtmlspecialcharsDocumentTitle()
     {
-        /** @var tx_realty_Model_RealtyObject $object */
+        /** @var \tx_realty_Model_RealtyObject $object */
         $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $object->addDocument('rise & shine', 'foo.pdf');
 
         self::assertContains(
             'rise &amp; shine',
-            $this->fixture->render(['showUid' => $object->getUid()])
+            $this->subject->render(['showUid' => $object->getUid()])
         );
     }
 
@@ -119,12 +136,12 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForObjectWithTwoDocumentsContainsBothDocumentTitles()
     {
-        /** @var tx_realty_Model_RealtyObject $object */
+        /** @var \tx_realty_Model_RealtyObject $object */
         $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $object->addDocument('object layout', 'foo.pdf');
         $object->addDocument('object overview', 'bar.pdf');
 
-        $result = $this->fixture->render(['showUid' => $object->getUid()]);
+        $result = $this->subject->render(['showUid' => $object->getUid()]);
 
         self::assertContains(
             'object layout',
@@ -143,13 +160,13 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderContainsLinkToDocumentFile()
     {
-        /** @var tx_realty_Model_RealtyObject $object */
+        /** @var \tx_realty_Model_RealtyObject $object */
         $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $object->addDocument('object layout', 'foo.pdf');
 
         self::assertContains(
             'foo.pdf"',
-            $this->fixture->render(['showUid' => $object->getUid()])
+            $this->subject->render(['showUid' => $object->getUid()])
         );
     }
 
@@ -158,12 +175,12 @@ class tx_realty_FrontEnd_DocumentsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForObjectWithTwoDocumentsContainsBothDocumentLinks()
     {
-        /** @var tx_realty_Model_RealtyObject $object */
+        /** @var \tx_realty_Model_RealtyObject $object */
         $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $object->addDocument('object layout', 'foo.pdf');
         $object->addDocument('object overview', 'bar.pdf');
 
-        $result = $this->fixture->render(['showUid' => $object->getUid()]);
+        $result = $this->subject->render(['showUid' => $object->getUid()]);
 
         self::assertContains(
             'foo.pdf',
