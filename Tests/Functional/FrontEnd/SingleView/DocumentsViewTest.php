@@ -127,4 +127,17 @@ class DocumentsViewTest extends FunctionalTestCase
 
         self::assertContains('some nice &amp; fine PDF document', $result);
     }
+
+    /**
+     * @test
+     */
+    public function renderForObjectWithPdfAttachmentContainsLinkToDocumentFile()
+    {
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->render(['showUid' => 102]);
+
+        self::assertContains('test.pdf"', $result);
+    }
 }
