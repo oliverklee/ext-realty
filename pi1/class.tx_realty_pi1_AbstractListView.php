@@ -400,21 +400,29 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         $this->setRealtyObjectFromUid($this->internal['currentRow']['uid']);
 
-        $images = $this->getRealtyObject()->getImages();
-        $numberOfImages = $images->count();
-        switch ($numberOfImages) {
+        $realtyObject = $this->getRealtyObject();
+        $jpegAttachments = $realtyObject->getJpegAttachments();
+        $leftImage = '';
+        $rightImage = '';
+        switch (\count($jpegAttachments)) {
             case 0:
-                $leftImage = '';
-                $rightImage = '';
+                switch ($realtyObject->getImages()->count()) {
+                    case 0:
+                        break;
+                    case 1:
+                        $rightImage = $this->getImageLinkedToSingleView('listImageMax');
+                        break;
+                    default:
+                        $leftImage = $this->getImageLinkedToSingleView('listImageMax');
+                        $rightImage = $this->getImageLinkedToSingleView('listImageMax', 1);
+                }
                 break;
             case 1:
-                $leftImage = '';
-                $rightImage = $this->getImageLinkedToSingleView('listImageMax');
+                $rightImage = $this->getJpegAttachmentLinkedToSingleView('listImageMax');
                 break;
             default:
-                $leftImage = $this->getImageLinkedToSingleView('listImageMax');
-                $rightImage = $this->getImageLinkedToSingleView('listImageMax', 1);
-                break;
+                $leftImage = $this->getJpegAttachmentLinkedToSingleView('listImageMax');
+                $rightImage = $this->getJpegAttachmentLinkedToSingleView('listImageMax', 1);
         }
 
         foreach (
@@ -460,10 +468,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             tx_realty_Model_RealtyObject::STATUS_SOLD => 'sold',
             tx_realty_Model_RealtyObject::STATUS_RENTED => 'rented',
         ];
-        $this->setMarker(
-            'statusclass',
-            $statusClasses[$this->getRealtyObject()->getStatus()]
-        );
+        $this->setMarker('statusclass', $statusClasses[$realtyObject->getStatus()]);
 
         switch ($this->internal['currentRow']['object_type']) {
             case tx_realty_Model_RealtyObject::TYPE_FOR_SALE:
@@ -476,16 +481,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 $this->hideSubparts('buying_price', 'wrapper');
                 break;
             default:
-                break;
         }
 
-        if ($this->getConfValueBoolean('priceOnlyIfAvailable')
-            && $this->getRealtyObject()->isRentedOrSold()
-        ) {
-            $this->hideSubparts(
-                'rent_excluding_bills,extra_charges,buying_price',
-                'wrapper'
-            );
+        if ($this->getConfValueBoolean('priceOnlyIfAvailable') && $realtyObject->isRentedOrSold()) {
+            $this->hideSubparts('rent_excluding_bills,extra_charges,buying_price', 'wrapper');
         }
 
         $this->setViewSpecificListRowContents();
@@ -971,6 +970,35 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     }
 
     /**
+     * Gets an image from the current record's image list as a complete IMG tag
+     * with alternative text and title text, wrapped in a link pointing to the
+     * single view page of the current record.
+     *
+     * The image's size can be limited by two TS setup variables. Their names
+     * need to begin with the string defined as $maxSizeVariable. The variable
+     * for the maximum width will then have the name set in $maxSizVariable with
+     * a "X" appended, the variable for the maximum height with a "Y" appended.
+     *
+     * @param string $maxSizeVariable
+     *        prefix to the TS setup variables that define the max size, will be
+     *        prepended to "X" and "Y", must not be empty
+     * @param int $offset
+     *        the number of the image to retrieve, zero-based, may be zero
+     *
+     * @return string IMG tag wrapped in a link, will be empty if no image
+     *                is found
+     */
+    private function getJpegAttachmentLinkedToSingleView($maxSizeVariable, $offset = 0)
+    {
+        $imageTag = $this->getImageTagForAttachment($maxSizeVariable, $offset);
+        return $this->createLinkToSingleViewPageForAnyLinkText(
+            $imageTag,
+            (int)$this->internal['currentRow']['uid'],
+            $this->internal['currentRow']['details_page']
+        );
+    }
+
+    /**
      * Creates a formatter instance for $this->internal['currentRow']['uid'].
      *
      * @throws BadMethodCallException if $this->internal['currentRow'] is not set or empty
@@ -1201,7 +1229,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $separateSingleViewPage = ''
     ) {
         return $this->createLinkToSingleViewPageForAnyLinkText(
-            htmlspecialchars($linkText),
+            \htmlspecialchars($linkText, ENT_COMPAT | ENT_HTML5),
             $uid,
             $separateSingleViewPage
         );
@@ -1247,6 +1275,43 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 $id
             );
         }
+
+        return $result;
+    }
+
+    /**
+     * Gets an image from the current record's image list as a complete IMG tag
+     * with alt text and title text (the image caption as defined in the DB).
+     * The image's size can be limited by two TS setup variables.
+     * They names need to begin with the string defined as $maxSizeVariable.
+     * The variable for the maximum width will then have the name set in
+     * $maxSizVariable with a "X" appended. The variable for the maximum height
+     * works the same, just with a "Y" appended.
+     *
+     * Example: If $maxSizeVariable is set to "listImageMax", the maximum width
+     * and height should be stored in the TS setup variables "listImageMaxX" and
+     * "listImageMaxY".
+     *
+     * If no image is found, an empty string is returned.
+     *
+     * @param string $maxSizeVariable
+     *        prefix to the TS setup variables that define the max size, will be
+     *        prepended to "X" and "Y"
+     * @param int $offset
+     *        the number of the image to retrieve, zero-based, must be >= 0
+     *
+     * @return string IMG tag, will be empty if there is no current realty
+     *                object or if the current object does not have images
+     */
+    private function getImageTagForAttachment($maxSizeVariable, $offset = 0)
+    {
+        $attachments = $this->getRealtyObject()->getJpegAttachments();
+        if (!isset($attachments[$offset])) {
+            return '';
+        }
+
+        $attachment = $attachments[$offset];
+        $result = $this->createImageTagForAttachment($attachment->getPublicUrl(), $maxSizeVariable);
 
         return $result;
     }
@@ -1322,6 +1387,34 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         if ($id !== '') {
             $imageConfiguration['params'] = 'id="' . $id . '"';
         }
+
+        return $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
+    }
+
+    /**
+     * Creates an IMG tag for a resized image version of $filename in
+     * this extension's upload directory.
+     *
+     * @param string $filename filename of the original image relative to the site root, must not be empty
+     * @param string $maxSizeVariable
+     *        prefix to the TS setup variables that define the max size, will be
+     *        prepended to "X" and "Y"
+     *
+     * @return string IMG tag
+     */
+    private function createImageTagForAttachment($filename, $maxSizeVariable)
+    {
+        $maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
+        $maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
+
+        $imageConfiguration = [
+            'altText' => '',
+            'file' => $filename,
+            'file.' => [
+                'width' => $maxWidth . 'c',
+                'height' => $maxHeight . 'c',
+            ],
+        ];
 
         return $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
     }

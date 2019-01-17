@@ -146,20 +146,7 @@ class AbstractListViewTest extends FunctionalTestCase
         $this->createDummyPages();
         $this->createDummyObjects();
 
-        $this->subject = new TestingListView(
-            [
-                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
-                'singlePID' => $this->singlePid,
-                'favoritesPID' => $this->favoritesPid,
-                'pages' => $this->systemFolderPid,
-                'showGoogleMaps' => 0,
-                'defaultCountryUID' => self::DE,
-                'currencyUnit' => 'EUR',
-                'priceOnlyIfAvailable' => false,
-            ],
-            $this->contentObject,
-            true
-        );
+        $this->subject = $this->buildSubject($this->systemFolderPid);
     }
 
     protected function tearDown()
@@ -172,6 +159,29 @@ class AbstractListViewTest extends FunctionalTestCase
     /*
      * Utility functions.
      */
+
+    /**
+     * @param int $dataSourceUid
+     *
+     * @return TestingListView
+     */
+    private function buildSubject($dataSourceUid = 0)
+    {
+        return new TestingListView(
+            [
+                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
+                'singlePID' => $this->singlePid,
+                'favoritesPID' => $this->favoritesPid,
+                'pages' => $dataSourceUid,
+                'showGoogleMaps' => 0,
+                'defaultCountryUID' => self::DE,
+                'currencyUnit' => 'EUR',
+                'priceOnlyIfAvailable' => false,
+            ],
+            $this->contentObject,
+            true
+        );
+    }
 
     /**
      * Imports static currencies - but only if they aren't already available as static data.
@@ -513,7 +523,7 @@ class AbstractListViewTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function containsRelatedImage()
+    public function containsTitleOfRelatedImage()
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
