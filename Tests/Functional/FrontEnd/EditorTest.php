@@ -22,8 +22,8 @@ class EditorTest extends FunctionalTestCase
      * @var string[]
      */
     protected $testExtensionsToLoad = [
-        'typo3conf/ext/oelib',
         'typo3conf/ext/static_info_tables',
+        'typo3conf/ext/oelib',
         'typo3conf/ext/realty',
     ];
 
@@ -328,7 +328,7 @@ class EditorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function populateListForInvalidTitleColumnThrowsAnExeption()
+    public function populateListForInvalidTitleColumnThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
 
