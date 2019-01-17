@@ -61,7 +61,7 @@ class RealtyObjectTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
 
         /** @var \tx_realty_Model_RealtyObject $model */
-        $model = $this->realtyObjectMapper->find(2);
+        $model = $this->realtyObjectMapper->find(102);
         $attachments = $model->getAttachments();
 
         self::assertGreaterThanOrEqual(1, $attachments);
@@ -79,7 +79,7 @@ class RealtyObjectTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
 
         /** @var \tx_realty_Model_RealtyObject $model */
-        $model = $this->realtyObjectMapper->find(2);
+        $model = $this->realtyObjectMapper->find(102);
         $attachments = $model->getPdfAttachments();
 
         self::assertCount(1, $attachments);
@@ -97,7 +97,7 @@ class RealtyObjectTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
 
         /** @var \tx_realty_Model_RealtyObject $model */
-        $model = $this->realtyObjectMapper->find(2);
+        $model = $this->realtyObjectMapper->find(102);
         $attachments = $model->getJpegAttachments();
 
         self::assertCount(1, $attachments);

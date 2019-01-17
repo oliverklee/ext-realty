@@ -123,7 +123,7 @@ class DocumentsViewTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
         $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
 
-        $result = $this->subject->render(['showUid' => 2]);
+        $result = $this->subject->render(['showUid' => 102]);
 
         self::assertContains('some nice &amp; fine PDF document', $result);
     }
