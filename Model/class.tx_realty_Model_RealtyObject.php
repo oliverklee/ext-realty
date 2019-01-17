@@ -961,11 +961,28 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getPdfAttachments()
     {
-        $attachments = $this->getAttachments();
+        return $this->getAttachmentsByMimeType('application/pdf');
+    }
+
+    /**
+     * @return FileReference[]
+     */
+    public function getJpegAttachments()
+    {
+        return $this->getAttachmentsByMimeType('image/jpeg');
+    }
+
+    /**
+     * @param string $mimeType
+     *
+     * @return FileReference[]
+     */
+    protected function getAttachmentsByMimeType($mimeType)
+    {
         $pdfAttachments = \array_filter(
-            $attachments,
-            function (FileReference $attachment) {
-                return $attachment->getMimeType() === 'application/pdf';
+            $this->getAttachments(),
+            function (FileReference $attachment) use ($mimeType) {
+                return $attachment->getMimeType() === $mimeType;
             }
         );
 

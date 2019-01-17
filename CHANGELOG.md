@@ -6,10 +6,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add RealtyObject.getJpegAttachments() (#183)
+- Add RealtyObject.getPdfAttachments() (#182)
 - Add a general "attachments" field (#180)
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed
+- Convert the documents view test to the nimut testing framework (#181)
 - Stop using the charset conversion from the BE or FE (#178)
 
 ### Deprecated

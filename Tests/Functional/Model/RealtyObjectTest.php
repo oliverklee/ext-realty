@@ -64,7 +64,7 @@ class RealtyObjectTest extends FunctionalTestCase
         $model = $this->realtyObjectMapper->find(2);
         $attachments = $model->getAttachments();
 
-        self::assertCount(3, $attachments);
+        self::assertGreaterThanOrEqual(1, $attachments);
         $firstAttachment = $attachments[0];
         self::assertInstanceOf(FileReference::class, $firstAttachment);
         self::assertSame('test.jpg', $firstAttachment->getName());
@@ -86,5 +86,23 @@ class RealtyObjectTest extends FunctionalTestCase
         $firstAttachment = $attachments[0];
         self::assertInstanceOf(FileReference::class, $firstAttachment);
         self::assertSame('test.pdf', $firstAttachment->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function getPdfJpegAttachmentsReturnsExistingJpegAttachmentsAndIgnoresNonPdfAttachments()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $model */
+        $model = $this->realtyObjectMapper->find(2);
+        $attachments = $model->getJpegAttachments();
+
+        self::assertCount(1, $attachments);
+        $firstAttachment = $attachments[0];
+        self::assertInstanceOf(FileReference::class, $firstAttachment);
+        self::assertSame('test.jpg', $firstAttachment->getName());
     }
 }
