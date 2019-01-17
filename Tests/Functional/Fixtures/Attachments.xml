@@ -3,6 +3,7 @@
     <sys_file>
         <uid>10</uid>
         <pid>1</pid>
+        <identifier>fileadmin/test.jpg</identifier>
         <name>test.jpg</name>
         <extension>jpg</extension>
         <mime_type>image/jpeg</mime_type>
@@ -10,6 +11,7 @@
     <sys_file>
         <uid>11</uid>
         <pid>1</pid>
+        <identifier>fileadmin/test.pdf</identifier>
         <name>test.pdf</name>
         <extension>txt</extension>
         <mime_type>application/pdf</mime_type>
@@ -17,10 +19,12 @@
     <sys_file>
         <uid>12</uid>
         <pid>1</pid>
+        <identifier>fileadmin/test.txt</identifier>
         <name>test.txt</name>
         <extension>jpg</extension>
         <mime_type>text/plain</mime_type>
     </sys_file>
+
     <sys_file_reference>
         <uid>1</uid>
         <pid>1</pid>
@@ -48,6 +52,13 @@
         <fieldname>attachments</fieldname>
         <l10n_diffsource/>
     </sys_file_reference>
+
+    <sys_file_metadata>
+        <uid>1</uid>
+        <file>12</file>
+        <title>JPEG image &amp; file</title>
+        <l10n_diffsource/>
+    </sys_file_metadata>
     <sys_file_metadata>
         <uid>2</uid>
         <file>11</file>
