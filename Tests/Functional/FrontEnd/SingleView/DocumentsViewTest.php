@@ -61,10 +61,6 @@ class DocumentsViewTest extends FunctionalTestCase
         parent::tearDown();
     }
 
-    //////////////////////////////////
-    // Tests for the basic functions
-    //////////////////////////////////
-
     /**
      * @test
      */
@@ -74,85 +70,35 @@ class DocumentsViewTest extends FunctionalTestCase
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $realtyObject->addDocument('new document', 'readme.pdf');
 
-        $result = $this->subject->render(
-            ['showUid' => $realtyObject->getUid()]
-        );
+        $result = $this->subject->render(['showUid' => $realtyObject->getUid()]);
 
-        self::assertNotContains(
-            '###',
-            $result
-        );
+        self::assertNotContains('###', $result);
     }
-
-    ////////////////////////////////
-    // Tests for the render result
-    ////////////////////////////////
 
     /**
      * @test
      */
-    public function renderForObjectWithoutDocumentsReturnsEmptyString()
+    public function renderForObjectWithoutAttachmentsReturnsEmptyString()
     {
-        $uid = $this->realtyObjectMapper->getLoadedTestingModel([])->getUid();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
 
-        self::assertSame(
-            '',
-            $this->subject->render(['showUid' => $uid])
-        );
+        $result = $this->subject->render(['showUid' => 1]);
+
+        self::assertSame('', $result);
     }
 
     /**
      * @test
      */
-    public function renderForObjectWithDocumentContainsDocumentTitle()
-    {
-        /** @var \tx_realty_Model_RealtyObject $object */
-        $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $object->addDocument('object layout', 'foo.pdf');
-
-        self::assertContains(
-            'object layout',
-            $this->subject->render(['showUid' => $object->getUid()])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderHtmlspecialcharsDocumentTitle()
+    public function renderForObjectWithDocumentContainsEncodedDocumentTitle()
     {
         /** @var \tx_realty_Model_RealtyObject $object */
         $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $object->addDocument('rise & shine', 'foo.pdf');
 
-        self::assertContains(
-            'rise &amp; shine',
-            $this->subject->render(['showUid' => $object->getUid()])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function renderForObjectWithTwoDocumentsContainsBothDocumentTitles()
-    {
-        /** @var \tx_realty_Model_RealtyObject $object */
-        $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $object->addDocument('object layout', 'foo.pdf');
-        $object->addDocument('object overview', 'bar.pdf');
-
         $result = $this->subject->render(['showUid' => $object->getUid()]);
 
-        self::assertContains(
-            'object layout',
-            $result,
-            'The first title is missing.'
-        );
-        self::assertContains(
-            'object overview',
-            $result,
-            'The second title is missing.'
-        );
+        self::assertContains('rise &amp; shine', $result);
     }
 
     /**
@@ -164,33 +110,21 @@ class DocumentsViewTest extends FunctionalTestCase
         $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $object->addDocument('object layout', 'foo.pdf');
 
-        self::assertContains(
-            'foo.pdf"',
-            $this->subject->render(['showUid' => $object->getUid()])
-        );
+        $result = $this->subject->render(['showUid' => $object->getUid()]);
+
+        self::assertContains('foo.pdf"', $result);
     }
 
     /**
      * @test
      */
-    public function renderForObjectWithTwoDocumentsContainsBothDocumentLinks()
+    public function renderForObjectWithPdfAttachmentContainsEncodedTitle()
     {
-        /** @var \tx_realty_Model_RealtyObject $object */
-        $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $object->addDocument('object layout', 'foo.pdf');
-        $object->addDocument('object overview', 'bar.pdf');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
 
-        $result = $this->subject->render(['showUid' => $object->getUid()]);
+        $result = $this->subject->render(['showUid' => 2]);
 
-        self::assertContains(
-            'foo.pdf',
-            $result,
-            'The first title is missing.'
-        );
-        self::assertContains(
-            'bar.pdf',
-            $result,
-            'The second title is missing.'
-        );
+        self::assertContains('some nice &amp; fine PDF document', $result);
     }
 }

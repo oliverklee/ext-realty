@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Show the PDF attachments in the single view (#184)
 - Add RealtyObject.getJpegAttachments() (#183)
 - Add RealtyObject.getPdfAttachments() (#182)
 - Add a general "attachments" field (#180)

@@ -5,43 +5,55 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_pi1_DocumentsView extends tx_realty_pi1_FrontEndView
+class tx_realty_pi1_DocumentsView extends \tx_realty_pi1_FrontEndView
 {
     /**
      * Returns the rendered view.
      *
-     * @param array $piVars
-     *        piVars, must contain the key "showUid" with a valid realty object
-     *        UID as value
+     * @param array $piVars piVars, must contain the key "showUid" with a valid realty object UID as value
      *
      * @return string HTML for this view or an empty string if the realty object
-     *                with the provided UID has no documents
+     *                with the provided UID has no attachment
      */
     public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-        $realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
+        $realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $realtyObjectMapper->find($piVars['showUid']);
+        $realtyObject = $realtyObjectMapper->find((int)$piVars['showUid']);
+        $attachments = $realtyObject->getPdfAttachments();
         $documents = $realtyObject->getDocuments();
-        if ($documents->isEmpty()) {
+        if (empty($attachments) && $documents->isEmpty()) {
             return '';
         }
 
-        $result = '';
+        $renderedDocuments = [];
+
         /** @var tx_realty_Model_Document $document */
         foreach ($documents as $document) {
-            $link = $this->cObj->typoLink(
-                htmlspecialchars($document->getTitle()),
-                ['parameter' => tx_realty_Model_Document::UPLOAD_FOLDER . $document->getFileName()]
-            );
-
-            $this->setMarker('document_file', $link);
-            $result .= $this->getSubpart('DOCUMENT_ITEM');
+            $url = \tx_realty_Model_Document::UPLOAD_FOLDER . $document->getFileName();
+            $renderedDocuments[] = $this->renderSingleDocument($url, $document->getTitle());
+        }
+        foreach ($attachments as $attachment) {
+            $renderedDocuments[] = $this->renderSingleDocument($attachment->getPublicUrl(), $attachment->getTitle());
         }
 
-        $this->setSubpart('DOCUMENT_ITEM', $result);
+        $this->setSubpart('DOCUMENT_ITEM', implode(LF, $renderedDocuments));
 
         return $this->getSubpart('FIELD_WRAPPER_DOCUMENTS');
+    }
+
+    /**
+     * @param string $relativeUrl
+     * @param string $title
+     *
+     * @return string
+     */
+    protected function renderSingleDocument($relativeUrl, $title)
+    {
+        $link = $this->cObj->typoLink(\htmlspecialchars($title, ENT_COMPAT | ENT_HTML5), ['parameter' => $relativeUrl]);
+        $this->setMarker('document_file', $link);
+
+        return $this->getSubpart('DOCUMENT_ITEM');
     }
 }
