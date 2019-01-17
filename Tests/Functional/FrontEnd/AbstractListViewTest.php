@@ -1,5 +1,9 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Functional\FrontEnd;
+
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use OliverKlee\Realty\Tests\Functional\FrontEnd\Fixtures\TestingListView;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -9,7 +13,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
+class AbstractListViewTest extends FunctionalTestCase
 {
     /**
      * @var int static_info_tables UID of Germany
@@ -22,12 +26,21 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     const TX_REALTY_EXTERNAL_SINGLE_PAGE = 'www.oliverklee.de/';
 
     /**
-     * @var tx_realty_tests_fixtures_TestingListView
+     * @var string[]
      */
-    private $fixture = null;
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/static_info_tables',
+        'typo3conf/ext/oelib',
+        'typo3conf/ext/realty',
+    ];
 
     /**
-     * @var Tx_Oelib_TestingFramework
+     * @var TestingListView
+     */
+    private $subject = null;
+
+    /**
+     * @var \Tx_Oelib_TestingFramework
      */
     private $testingFramework = null;
 
@@ -112,7 +125,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     private $subSystemFolderPid = 0;
 
     /**
-     * @var ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject
+     * @var ContentObjectRenderer|\PHPUnit_Framework_MockObject_MockObject
      */
     private $contentObject = null;
 
@@ -123,15 +136,17 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
     protected function setUp()
     {
-        Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
-        $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->testingFramework->createFakeFrontEnd();
+        parent::setUp();
+
+        \Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
+        $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
         $this->createContentMock();
 
         $this->createDummyPages();
         $this->createDummyObjects();
 
-        $this->fixture = new tx_realty_tests_fixtures_TestingListView(
+        $this->subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'singlePID' => $this->singlePid,
@@ -150,11 +165,25 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     protected function tearDown()
     {
         $this->testingFramework->cleanUp();
+
+        parent::tearDown();
     }
 
     /*
      * Utility functions.
      */
+
+    /**
+     * Imports static currencies - but only if they aren't already available as static data.
+     *
+     * @return void
+     */
+    private function importCurrencies()
+    {
+        if (!\Tx_Oelib_Db::existsRecord('static_currencies')) {
+            $this->importDataSet(__DIR__ . '/../Fixtures/Currencies.xml');
+        }
+    }
 
     /**
      * Returns the current front-end instance.
@@ -185,7 +214,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
                 'has_air_conditioning' => '0',
                 'has_pool' => '0',
                 'has_community_pool' => '0',
-                'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
+                'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
             ]
         );
         $this->secondRealtyUid = $this->testingFramework->createRecord(
@@ -195,7 +224,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
                 'object_number' => self::$secondObjectNumber,
                 'pid' => $this->systemFolderPid,
                 'city' => $this->secondCityUid,
-                'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+                'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
             ]
         );
     }
@@ -240,8 +269,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     private function denyAccess()
     {
-        $this->fixture->setConfigurationValue('requireLoginForSingleViewPage', true);
-        Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(null);
+        $this->subject->setConfigurationValue('requireLoginForSingleViewPage', true);
+        \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(null);
     }
 
     /**
@@ -251,7 +280,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     private function allowAccess()
     {
-        $this->fixture->setConfigurationValue('requireLoginForSingleViewPage', false);
+        $this->subject->setConfigurationValue('requireLoginForSingleViewPage', false);
     }
 
     /**
@@ -292,19 +321,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     }
 
     /**
-     * Callback function for creating mock IMAGEs in TYPO3 6.2-7.6.
-     *
-     * @param string[] $imageConfiguration
-     *
-     * @return string faked image, will not be empty
-     */
-    public function oldImageCallback(array $imageConfiguration)
-    {
-        $this->imageConfigurations[] = $imageConfiguration;
-        return htmlspecialchars($imageConfiguration['altText']);
-    }
-
-    /**
      * Callback function for creating mock IMAGEs in TYPO3 >= 7.6.
      *
      * @param string $type must be IMAGE, unused
@@ -315,7 +331,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function imageCallback($type, array $imageConfiguration)
     {
         $this->imageConfigurations[] = $imageConfiguration;
-        return htmlspecialchars($imageConfiguration['altText']);
+        return \htmlspecialchars($imageConfiguration['altText']);
     }
 
     /*
@@ -359,11 +375,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function internalResultCounterForListOfTwoIsTwo()
     {
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertEquals(
             2,
-            $this->fixture->internal['res_count']
+            $this->subject->internal['res_count']
         );
     }
 
@@ -372,15 +388,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function paginationIsNotEmptyForMoreObjectsThanFitOnOnePage()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 1]
         );
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertNotEquals(
             '',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
     }
 
@@ -389,15 +405,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function paginationIsEmptyIfObjectsJustFitOnOnePage()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 2]
         );
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertEquals(
             '',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
     }
 
@@ -406,15 +422,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function paginationIsEmptyIfObjectsNotFillOnePage()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 3]
         );
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertEquals(
             '',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
     }
 
@@ -423,15 +439,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function paginationForMoreThanOnePageContainsNumberOfTotalResults()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 1]
         );
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertContains(
             '(2 ',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
     }
 
@@ -440,15 +456,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function paginationForTwoPagesLinksFromFirstPageToSecondPage()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 1]
         );
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertContains(
             'tx_realty_pi1[pointer]=1',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
     }
 
@@ -457,36 +473,36 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function paginationForTwoPagesNotLinksFromFirstPageToFirstPage()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 1]
         );
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertNotContains(
             'tx_realty_pi1[pointer]=0',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
     }
 
     /**
      * @test
      */
-    public function paginationHtmlspecialcharsUrl()
+    public function paginationEncodesUrl()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 1]
         );
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertContains(
             '&amp;tx_realty_pi1',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
         self::assertNotContains(
             '&tx_realty_pi1',
-            $this->fixture->getSubpart('PAGINATION')
+            $this->subject->getSubpart('PAGINATION')
         );
     }
 
@@ -497,7 +513,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewContainsRelatedImage()
+    public function containsRelatedImage()
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
@@ -515,14 +531,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             'test image',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewNotContainsRelatedDeletedImage()
+    public function notContainsRelatedDeletedImage()
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
@@ -540,14 +556,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'test image',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewNotContainsRelatedHiddenImage()
+    public function notContainsRelatedHiddenImage()
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
@@ -565,7 +581,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'test image',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -594,7 +610,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
                 'object' => $this->firstRealtyUid,
             ]
         );
-        $output = $this->fixture->render();
+        $output = $this->subject->render();
 
         self::assertContains('=' . $this->firstRealtyUid, $output);
         self::assertContains('?id=' . $this->singlePid, $output);
@@ -603,7 +619,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForOneImagePutsImageInRightPosition()
+    public function forOneImagePutsImageInRightPosition()
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
@@ -621,14 +637,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertRegExp(
             '/<td class="image imageRight"><a [^>]+>single test image<\\/a><\\/td>/',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForTwoImagesPutsFirstImageInLeftPosition()
+    public function forTwoImagesPutsFirstImageInLeftPosition()
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
@@ -656,14 +672,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertRegExp(
             '/<td class="image imageLeft"><a [^>]+>first image<\\/a><\\/td>/',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForTwoImagesPutsSecondImageInRightPosition()
+    public function forTwoImagesPutsSecondImageInRightPosition()
     {
         $this->testingFramework->createRecord(
             'tx_realty_images',
@@ -691,16 +707,16 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertRegExp(
             '/<td class="image imageRight"><a [^>]+>second image<\\/a><\\/td>/',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForRelatedImageWithoutThumbnailFileUsesImageFile()
+    public function forRelatedImageWithoutThumbnailFileUsesImageFile()
     {
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'pages' => $this->systemFolderPid,
@@ -731,7 +747,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             [
                 'altText' => 'test image',
                 'titleText' => 'test image',
-                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+                'file' => \tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
                 'file.' => [
                     'width' => '98c',
                     'height' => '100c',
@@ -744,9 +760,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForRelatedImageWithThumbnailFileUsesThumbnailFile()
+    public function forRelatedImageWithThumbnailFileUsesThumbnailFile()
     {
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'pages' => $this->systemFolderPid,
@@ -777,7 +793,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             [
                 'altText' => 'test image',
                 'titleText' => 'test image',
-                'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
+                'file' => \tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
                 'file.' => [
                     'width' => '98c',
                     'height' => '100c',
@@ -794,7 +810,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewDisplaysNoMarkersForEmptyRenderedObject()
+    public function displaysNoMarkersForEmptyRenderedObject()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -805,18 +821,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->setConfigurationValue('pages', $systemFolder);
+        $this->subject->setConfigurationValue('pages', $systemFolder);
 
         self::assertNotContains(
             '###',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewHtmlSpecialCharsObjectTitles()
+    public function encodesObjectTitles()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -828,18 +844,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->setConfigurationValue('pages', $systemFolder);
+        $this->subject->setConfigurationValue('pages', $systemFolder);
 
         self::assertContains(
             'a &amp; &quot; &gt;',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewFillsFloorMarkerWithFloor()
+    public function fillsFloorMarkerWithFloor()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -851,7 +867,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
@@ -870,7 +886,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForNegativeFloorShowsFloor()
+    public function forNegativeFloorShowsFloor()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -882,7 +898,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
@@ -900,7 +916,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForZeroFloorNotContainsFloorLabel()
+    public function forZeroFloorNotContainsFloorLabel()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -912,7 +928,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
@@ -931,7 +947,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewWithTwoObjectsOneWithOneWithoutFloorShowsFloorOfSecondObject()
+    public function withTwoObjectsOneWithOneWithoutFloorShowsFloorOfSecondObject()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -951,7 +967,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
@@ -969,22 +985,22 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFillsMarkerForObjectNumber()
+    public function fillsMarkerForObjectNumber()
     {
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
-        $this->fixture->render();
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->render();
 
         self::assertEquals(
             self::$secondObjectNumber,
-            $this->fixture->getMarker('object_number')
+            $this->subject->getMarker('object_number')
         );
     }
 
     /**
      * @test
      */
-    public function listViewFillsStatusMarkerWithStatusLabel()
+    public function fillsStatusMarkerWithStatusLabel()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -992,11 +1008,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             [
                 'city' => $this->firstCityUid,
                 'pid' => $systemFolder,
-                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_RENTED,
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1015,7 +1031,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForVacantStatusSetsVacantStatusClass()
+    public function forVacantStatusSetsVacantStatusClass()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -1023,11 +1039,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             [
                 'city' => $this->firstCityUid,
                 'pid' => $systemFolder,
-                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_VACANT,
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1046,7 +1062,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForReservedStatusSetsReservedStatusClass()
+    public function forReservedStatusSetsReservedStatusClass()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -1054,11 +1070,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             [
                 'city' => $this->firstCityUid,
                 'pid' => $systemFolder,
-                'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_RESERVED,
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1077,7 +1093,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForSoldStatusSetsSoldStatusClass()
+    public function forSoldStatusSetsSoldStatusClass()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -1085,11 +1101,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             [
                 'city' => $this->firstCityUid,
                 'pid' => $systemFolder,
-                'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_SOLD,
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1108,7 +1124,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForRentedStatusSetsRentedStatusClass()
+    public function forRentedStatusSetsRentedStatusClass()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -1116,11 +1132,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             [
                 'city' => $this->firstCityUid,
                 'pid' => $systemFolder,
-                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_RENTED,
             ]
         );
 
-        $fixture = new tx_realty_tests_fixtures_TestingListView(
+        $fixture = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1139,195 +1155,213 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForRentedObjectWithRentShowsRentByDefault()
+    public function forRentedObjectWithRentShowsRentByDefault()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_RENTED,
                 'rent_excluding_bills' => '123',
             ]
         );
 
         self::assertContains(
             '&euro; 123,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithPriceOnlyIfAvailableForVacantObjectWithRentShowsRent()
+    public function withPriceOnlyIfAvailableForVacantObjectWithRentShowsRent()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_VACANT,
                 'rent_excluding_bills' => '123',
             ]
         );
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 123,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithPriceOnlyIfAvailableForRentedObjectWithRentNotShowsRent()
+    public function withPriceOnlyIfAvailableForRentedObjectWithRentNotShowsRent()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_RENTED,
                 'rent_excluding_bills' => '134',
             ]
         );
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertNotContains(
             '&euro; 134,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForRentedObjectWithExtraChargesShowsExtraChargesByDefault()
+    public function forRentedObjectWithExtraChargesShowsExtraChargesByDefault()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_RENTED,
                 'extra_charges' => '281',
             ]
         );
 
         self::assertContains(
             '&euro; 281,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithPriceOnlyIfAvailableForVacantObjectWithExtraChargesShowsExtraCharges()
+    public function withPriceOnlyIfAvailableForVacantObjectWithExtraChargesShowsExtraCharges()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_VACANT,
                 'extra_charges' => '281',
             ]
         );
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 281,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithPriceOnlyIfAvailableForRentedObjectWithExtraChargesNotShowsExtraCharges()
+    public function withPriceOnlyIfAvailableForRentedObjectWithExtraChargesNotShowsExtraCharges()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_RENTED,
                 'extra_charges' => '281',
             ]
         );
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertNotContains(
             '&euro; 281,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForSoldObjectWithBuyingPriceShowsBuyingPriceByDefault()
+    public function forSoldObjectWithBuyingPriceShowsBuyingPriceByDefault()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
-                'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
+                'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_SOLD,
                 'buying_price' => '504',
             ]
         );
 
         self::assertContains(
             '&euro; 504,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithPriceOnlyIfAvailableForVacantObjectWithBuyingPriceShowsBuyingPrice()
+    public function withPriceOnlyIfAvailableForVacantObjectWithBuyingPriceShowsBuyingPrice()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
-                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+                'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_VACANT,
                 'buying_price' => '504',
             ]
         );
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 504,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithPriceOnlyIfAvailableForSoldObjectWithBuyingPriceNotShowsBuyingPrice()
+    public function withPriceOnlyIfAvailableForSoldObjectWithBuyingPriceNotShowsBuyingPrice()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             [
-                'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
-                'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
+                'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+                'status' => \tx_realty_Model_RealtyObject::STATUS_SOLD,
                 'buying_price' => '504',
             ]
         );
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertNotContains(
             '&euro; 504,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1336,16 +1370,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createListViewReturnsPricesWithTheCurrencyProvidedByTheObjectIfNoCurrencyIsSetInTsSetup()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['buying_price' => '9', 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE, 'currency' => 'EUR']
+            ['buying_price' => '9', 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE, 'currency' => 'EUR']
         );
-        $this->fixture->setConfigurationValue('currencyUnit', '');
+        $this->subject->setConfigurationValue('currencyUnit', '');
 
         self::assertContains(
             '&euro;',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1354,16 +1390,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createListViewReturnsPricesWithTheCurrencyProvidedByTheObjectAlthoughCurrencyIsSetInTsSetup()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['buying_price' => '9', 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE, 'currency' => 'EUR']
+            ['buying_price' => '9', 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE, 'currency' => 'EUR']
         );
-        $this->fixture->setConfigurationValue('currencyUnit', 'foo');
+        $this->subject->setConfigurationValue('currencyUnit', 'foo');
 
         self::assertContains(
             '&euro;',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1372,33 +1410,37 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createListViewReturnsPricesWithTheCurrencyFromTsSetupIfTheObjectDoesNotProvideACurrency()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['buying_price' => '9', 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
+            ['buying_price' => '9', 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
         );
-        $this->fixture->setConfigurationValue('currencyUnit', 'EUR');
+        $this->subject->setConfigurationValue('currencyUnit', 'EUR');
 
         self::assertContains(
             '&euro;',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewFormatsPriceUsingThousandsSeparator()
+    public function formatsPriceUsingThousandsSeparator()
     {
+        $this->importCurrencies();
+
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['buying_price' => 1234567.00, 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
+            ['buying_price' => 1234567.00, 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
         );
 
         self::assertContains(
             '1.234.567,00',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1407,7 +1449,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createListViewReturnsListOfRecords()
     {
-        $output = $this->fixture->render();
+        $output = $this->subject->render();
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -1424,7 +1466,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createListViewReturnsMainSysFolderRecordsAndSubFolderRecordsIfRecursionIsEnabled()
     {
-        $this->fixture->setConfigurationValue('recursive', '1');
+        $this->subject->setConfigurationValue('recursive', '1');
 
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -1432,7 +1474,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['pid' => $this->subSystemFolderPid]
         );
 
-        $output = $this->fixture->render();
+        $output = $this->subject->render();
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -1449,7 +1491,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createListViewNotReturnsSubFolderRecordsIfRecursionIsDisabled()
     {
-        $this->fixture->setConfigurationValue('recursive', '0');
+        $this->subject->setConfigurationValue('recursive', '0');
 
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -1457,7 +1499,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['pid' => $this->subSystemFolderPid]
         );
 
-        $output = $this->fixture->render();
+        $output = $this->subject->render();
 
         self::assertNotContains(
             self::$firstObjectTitle,
@@ -1472,7 +1514,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForNonEmptyTeaserShowsTeaserText()
+    public function forNonEmptyTeaserShowsTeaserText()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -1482,25 +1524,25 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             'teaser text',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForEmptyTeaserHidesTeaserSubpart()
+    public function forEmptyTeaserHidesTeaserSubpart()
     {
         self::assertNotContains(
             '###TEASER###',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewDisplaysTheSecondObjectsTeaserIfTheFirstOneDoesNotHaveATeaser()
+    public function displaysTheSecondObjectsTeaserIfTheFirstOneDoesNotHaveATeaser()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -1510,26 +1552,26 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             'test teaser',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewDisplaysFeatureParagraphForListItemWithFeatures()
+    public function displaysFeatureParagraphForListItemWithFeatures()
     {
         // Among other things, the object number is rendered within this paragraph.
         self::assertContains(
             '<p class="details">',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewDoesNotDisplayFeatureParagraphForListItemWithoutFeatures()
+    public function notDisplaysFeatureParagraphForListItemWithoutFeatures()
     {
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
@@ -1540,132 +1582,132 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->setConfigurationValue('pages', $systemFolder);
+        $this->subject->setConfigurationValue('pages', $systemFolder);
 
         self::assertNotContains(
             '<p class="details">',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithOneRecordDueToTheAppliedUidFilterRedirectsToSingleView()
+    public function withOneRecordDueToTheAppliedUidFilterRedirectsToSingleView()
     {
-        $this->fixture->render(['uid' => $this->firstRealtyUid]);
+        $this->subject->render(['uid' => $this->firstRealtyUid]);
 
         self::assertContains(
             'Location:',
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNumericObjectNumber()
+    public function withOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNumericObjectNumber()
     {
-        $this->fixture->render(['objectNumber' => self::$firstObjectNumber]);
+        $this->subject->render(['objectNumber' => self::$firstObjectNumber]);
 
         self::assertContains(
             'Location:',
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNonNumericObjectNumber(
-    ) {
+    public function withOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNonNumericObjectNumber()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['object_number' => 'object number']
         );
-        $this->fixture->render(['objectNumber' => 'object number']);
+        $this->subject->render(['objectNumber' => 'object number']);
 
         self::assertContains(
             'Location:',
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectPid()
+    public function withOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectPid()
     {
-        $this->fixture->render(['objectNumber' => self::$firstObjectNumber]);
+        $this->subject->render(['objectNumber' => self::$firstObjectNumber]);
 
         self::assertContains(
             '?id=' . $this->singlePid,
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectShowUid()
+    public function withOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectShowUid()
     {
-        $this->fixture->render(['objectNumber' => self::$firstObjectNumber]);
+        $this->subject->render(['objectNumber' => self::$firstObjectNumber]);
 
         self::assertContains(
             '=' . $this->firstRealtyUid,
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewAnProvidesAChash()
+    public function withOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewAnProvidesAChash()
     {
-        $this->fixture->render(['objectNumber' => self::$firstObjectNumber]);
+        $this->subject->render(['objectNumber' => self::$firstObjectNumber]);
 
         self::assertContains(
             'cHash=',
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithOneRecordNotCausedByTheIdFilterNotRedirectsToSingleView()
+    public function withOneRecordNotCausedByTheIdFilterNotRedirectsToSingleView()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_cities',
             $this->firstCityUid,
             ['title' => 'foo-bar']
         );
-        $this->fixture->render(['site' => 'foo']);
+        $this->subject->render(['site' => 'foo']);
 
         self::assertEquals(
             '',
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewWithTwoRecordsNotRedirectsToSingleView()
+    public function withTwoRecordsNotRedirectsToSingleView()
     {
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertEquals(
             '',
-            Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
         );
     }
 
     /**
      * @test
      */
-    public function listViewCropsObjectTitleLongerThan75Characters()
+    public function cropsObjectTitleLongerThan75Characters()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -1679,7 +1721,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         self::assertContains(
             'This title is longer than 75 Characters, so the rest should be' .
             ' cropped and…',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1695,18 +1737,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('label_old_or_new_building_1'),
-            $this->fixture->render()
+            $this->subject->translate('label_old_or_new_building_1'),
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForDisabledEnableNextPreviousButtonsDoesNotAddListUidToSingleViewLink()
+    public function forDisabledEnableNextPreviousButtonsDoesNotAddListUidToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 0);
-        $output = $this->fixture->render();
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 0);
+        $output = $this->subject->render();
 
         self::assertNotContains(
             'listUid',
@@ -1717,10 +1759,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForEnabledEnableNextPreviousButtonsAddsListUidToSingleViewLink()
+    public function forEnabledEnableNextPreviousButtonsAddsListUidToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $output = $this->fixture->render();
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
+        $output = $this->subject->render();
 
         self::assertContains(
             'listUid',
@@ -1731,10 +1773,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForDisabledEnableNextPreviousButtonsDoesNotAddListTypeToSingleViewLink()
+    public function forDisabledEnableNextPreviousButtonsDoesNotAddListTypeToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 0);
-        $output = $this->fixture->render();
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 0);
+        $output = $this->subject->render();
 
         self::assertNotContains(
             'listViewType',
@@ -1745,10 +1787,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForEnabledEnableNextPreviousButtonsAddsListTypeToSingleViewLink()
+    public function forEnabledEnableNextPreviousButtonsAddsListTypeToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $output = $this->fixture->render();
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
+        $output = $this->subject->render();
 
         self::assertContains(
             'listViewType',
@@ -1759,10 +1801,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForEnabledEnableNextPreviousButtonsAndListTypeRealtyListAddsCorrectListViewTypeToLink()
+    public function forEnabledEnableNextPreviousButtonsAndListTypeRealtyListAddsCorrectListViewTypeToLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $output = $this->fixture->render();
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
+        $output = $this->subject->render();
 
         self::assertContains('=realty_list', $output);
     }
@@ -1770,112 +1812,112 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForDisabledEnableNextPreviousButtonsDoesNotAddRecordPositionToSingleViewLink()
+    public function forDisabledEnableNextPreviousButtonsDoesNotAddRecordPositionToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 0);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 0);
 
         self::assertNotContains(
             'recordPosition',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForEnabledEnableNextPreviousButtonsAddsRecordPositionToSingleViewLink()
+    public function forEnabledEnableNextPreviousButtonsAddsRecordPositionToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
         self::assertContains(
             'recordPosition',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewRecordPositionSingleViewLinkParameterTakesSortingIntoAccount()
+    public function recordPositionSingleViewLinkParameterTakesSortingIntoAccount()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
         self::assertContains(
             '=0',
-            $this->fixture->render(['orderBy' => 'title', 'descFlag' => 1])
+            $this->subject->render(['orderBy' => 'title', 'descFlag' => 1])
         );
     }
 
     /**
      * @test
      */
-    public function listViewForTwoRecordsAddsRecordPositionZeroToSingleViewLinkOfFirstRecord()
+    public function forTwoRecordsAddsRecordPositionZeroToSingleViewLinkOfFirstRecord()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        self::assertContains('=0', $this->fixture->render());
+        self::assertContains('=0', $this->subject->render());
     }
 
     /**
      * @test
      */
-    public function listViewForTwoRecordsOnOnePageAddsRecordPositionOneToSingleViewLinkOfSecondRecord()
+    public function forTwoRecordsOnOnePageAddsRecordPositionOneToSingleViewLinkOfSecondRecord()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        self::assertContains('=1', $this->fixture->render());
+        self::assertContains('=1', $this->subject->render());
     }
 
     /**
      * @test
      */
-    public function listViewForTwoRecordsOnTwoPagesAddsRecordPositionOneToSingleViewLinkOfRecordOnSecondPage()
+    public function forTwoRecordsOnTwoPagesAddsRecordPositionOneToSingleViewLinkOfRecordOnSecondPage()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue(
             'listView.',
             ['results_at_a_time' => 1]
         );
 
-        self::assertContains('=1', $this->fixture->render(['pointer' => 1]));
+        self::assertContains('=1', $this->subject->render(['pointer' => 1]));
     }
 
     /**
      * @test
      */
-    public function listViewForEnabledNextPreviousButtonsAddsListViewLimitationToSingleViewLink()
+    public function forEnabledNextPreviousButtonsAddsListViewLimitationToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
         self::assertContains(
             'listViewLimitation',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForDisabledNextPreviousButtonsNotAddsListViewLimitationToSingleViewLink()
+    public function forDisabledNextPreviousButtonsNotAddsListViewLimitationToSingleViewLink()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
         self::assertContains(
             'listViewLimitation',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForEnabledNextPreviousButtonsBase64EncodesListViewLimitationValue()
+    public function forEnabledNextPreviousButtonsBase64EncodesListViewLimitationValue()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
         $listViewLimitation = [];
-        preg_match(
+        \preg_match(
             '/listViewLimitation]=([^&]*)/',
-            $this->fixture->render(),
+            $this->subject->render(),
             $listViewLimitation
         );
 
@@ -1888,30 +1930,30 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForEnabledNextPreviousButtonsSerializesListViewLimitationValue()
+    public function forEnabledNextPreviousButtonsSerializesListViewLimitationValue()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
         $listViewLimitation = [];
-        preg_match(
+        \preg_match(
             '/listViewLimitation]=([^&]*)/',
-            $this->fixture->render(['orderBy' => 'foo']),
+            $this->subject->render(['orderBy' => 'foo']),
             $listViewLimitation
         );
 
         self::assertNotSame(
             [],
-            json_decode(urldecode($listViewLimitation[1]), true)
+            \json_decode(\urldecode($listViewLimitation[1]), true)
         );
     }
 
     /**
      * @test
      */
-    public function listViewForEnabledNextPreviousButtonsForSetOrderByContainsOrderByValue()
+    public function forEnabledNextPreviousButtonsForSetOrderByContainsOrderByValue()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        $result = $this->fixture->render(['orderBy' => 'foo']);
+        $result = $this->subject->render(['orderBy' => 'foo']);
 
         self::assertContains('foo', $result);
     }
@@ -1919,11 +1961,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForEnabledNextPreviousButtonsForSetDescFlagContainsDescFlagValue()
+    public function forEnabledNextPreviousButtonsForSetDescFlagContainsDescFlagValue()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        $result = $this->fixture->render(['orderBy' => 'foo', 'descFlag' => 1]);
+        $result = $this->subject->render(['orderBy' => 'foo', 'descFlag' => 1]);
 
         self::assertContains('descFlag', $result);
     }
@@ -1931,21 +1973,21 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewForEnabledNextPreviousButtonsForSetSearchContainsSearchValue()
+    public function forEnabledNextPreviousButtonsForSetSearchContainsSearchValue()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        self::assertContains('42', $this->fixture->render(['search' => ['0' => '42']]));
+        self::assertContains('42', $this->subject->render(['search' => ['0' => '42']]));
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySiteForEnabledNextPreviousButtonsContainsFilteredSite()
+    public function filteredBySiteForEnabledNextPreviousButtonsContainsFilteredSite()
     {
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', 1);
 
-        self::assertContains(self::$firstCityTitle, $this->fixture->render(['site' => self::$firstCityTitle]));
+        self::assertContains(self::$firstCityTitle, $this->subject->render(['site' => self::$firstCityTitle]));
     }
 
     /*
@@ -1957,10 +1999,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createListViewForNoPostDataSentDoesNotAddCacheControlHeader()
     {
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertNotEquals(
-            Tx_Oelib_HeaderProxyFactory::getInstance()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()
                 ->getHeaderProxy()->getLastAddedHeader(),
             'Cache-Control: max-age=86400, must-revalidate'
         );
@@ -1972,11 +2014,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function createListViewForPostDataSentAddsCacheControlHeader()
     {
         $_POST['tx_realty_pi1'] = 'foo';
-        $this->fixture->render();
+        $this->subject->render();
         unset($_POST['tx_realty_pi1']);
 
         self::assertEquals(
-            Tx_Oelib_HeaderProxyFactory::getInstance()
+            \Tx_Oelib_HeaderProxyFactory::getInstance()
                 ->getHeaderProxy()->getLastAddedHeader(),
             'Cache-Control: max-age=86400, must-revalidate'
         );
@@ -1989,7 +2031,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByPriceDisplaysRealtyObjectWithBuyingPriceGreaterThanTheLowerLimit()
+    public function filteredByPriceDisplaysRealtyObjectWithBuyingPriceGreaterThanTheLowerLimit()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -1999,14 +2041,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['priceRange' => '10-'])
+            $this->subject->render(['priceRange' => '10-'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceDisplaysRealtyObjectWithBuyingPriceLowerThanTheGreaterLimit()
+    public function filteredByPriceDisplaysRealtyObjectWithBuyingPriceLowerThanTheGreaterLimit()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2016,14 +2058,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['priceRange' => '-10'])
+            $this->subject->render(['priceRange' => '-10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceDisplaysRealtyObjectWithZeroBuyingPriceAndZeroRentForNoLowerLimitSet()
+    public function filteredByPriceDisplaysRealtyObjectWithZeroBuyingPriceAndZeroRentForNoLowerLimitSet()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2033,15 +2075,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['priceRange' => '-10'])
+            $this->subject->render(['priceRange' => '-10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceNotDisplaysRealtyObjectWithZeroBuyingPriceAndRentOutOfRangeForNoLowerLimitSet(
-    ) {
+    public function filteredByPriceNotDisplaysRealtyObjectWithZeroBuyingPriceAndRentOutOfRangeForNoLowerLimitSet()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2050,14 +2092,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['priceRange' => '-10'])
+            $this->subject->render(['priceRange' => '-10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceDoesNotDisplayRealtyObjectBelowRangeLimit()
+    public function filteredByPriceDoesNotDisplayRealtyObjectBelowRangeLimit()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2067,14 +2109,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(['priceRange' => '10-100'])
+            $this->subject->render(['priceRange' => '10-100'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceDoesNotDisplayRealtyObjectSuperiorToRangeLimit()
+    public function filteredByPriceDoesNotDisplayRealtyObjectSuperiorToRangeLimit()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2084,14 +2126,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(['priceRange' => '10-100'])
+            $this->subject->render(['priceRange' => '10-100'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceDisplaysRealtyObjectWithPriceOfLowerRangeLimit()
+    public function filteredByPriceDisplaysRealtyObjectWithPriceOfLowerRangeLimit()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2101,14 +2143,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['priceRange' => '10-20'])
+            $this->subject->render(['priceRange' => '10-20'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceDisplaysRealtyObjectWithPriceOfUpperRangeLimit()
+    public function filteredByPriceDisplaysRealtyObjectWithPriceOfUpperRangeLimit()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2118,14 +2160,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['priceRange' => '10-20'])
+            $this->subject->render(['priceRange' => '10-20'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByPriceCanDisplayTwoRealtyObjectsWithABuyingPriceInRange()
+    public function filteredByPriceCanDisplayTwoRealtyObjectsWithABuyingPriceInRange()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2137,7 +2179,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             $this->secondRealtyUid,
             ['buying_price' => 1]
         );
-        $output = $this->fixture->render(['priceRange' => '-10']);
+        $output = $this->subject->render(['priceRange' => '-10']);
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -2152,7 +2194,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByPriceCanDisplayTwoRealtyObjectsWithARentInRange()
+    public function filteredByPriceCanDisplayTwoRealtyObjectsWithARentInRange()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2164,7 +2206,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             $this->secondRealtyUid,
             ['rent_excluding_bills' => 1]
         );
-        $output = $this->fixture->render(['priceRange' => '-10']);
+        $output = $this->subject->render(['priceRange' => '-10']);
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -2179,109 +2221,109 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredBySiteDisplaysObjectWithMatchingZip()
+    public function filteredBySiteDisplaysObjectWithMatchingZip()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['zip' => '12345']
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['site' => '12345'])
+            $this->subject->render(['site' => '12345'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySiteDisplaysObjectWithMatchingCity()
+    public function filteredBySiteDisplaysObjectWithMatchingCity()
     {
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['site' => self::$firstCityTitle])
+            $this->subject->render(['site' => self::$firstCityTitle])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySiteDisplaysObjectWithPartlyMatchingZip()
+    public function filteredBySiteDisplaysObjectWithPartlyMatchingZip()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['zip' => '12345']
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['site' => '12000'])
+            $this->subject->render(['site' => '12000'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySiteDisplaysObjectWithPartlyMatchingCity()
+    public function filteredBySiteDisplaysObjectWithPartlyMatchingCity()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_cities',
             $this->firstCityUid,
             ['title' => 'foo-bar']
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['site' => 'foo'])
+            $this->subject->render(['site' => 'foo'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySiteNotDisplaysObjectWithNonMatchingZip()
+    public function filteredBySiteNotDisplaysObjectWithNonMatchingZip()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['zip' => '12345']
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['site' => '34'])
+            $this->subject->render(['site' => '34'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySiteNotDisplaysObjectWithNonMatchingCity()
+    public function filteredBySiteNotDisplaysObjectWithNonMatchingCity()
     {
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['site' => self::$firstCityTitle . '-foo'])
+            $this->subject->render(['site' => self::$firstCityTitle . '-foo'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySiteDisplaysAllObjectsForAnEmptyString()
+    public function filteredBySiteDisplaysAllObjectsForAnEmptyString()
     {
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
-        $output = $this->fixture->render(['site' => '']);
+        $output = $this->subject->render(['site' => '']);
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -2296,18 +2338,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredBySiteAndPriceDisplaysObjectInPriceRangeWithMatchingCity()
+    public function filteredBySiteAndPriceDisplaysObjectInPriceRangeWithMatchingCity()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['buying_price' => 50]
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render([
+            $this->subject->render([
                 'priceRange' => '10-100',
                 'site' => self::$firstCityTitle,
             ])
@@ -2317,18 +2359,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredBySiteAndPriceDisplaysObjectInPriceRangeWithMatchingZip()
+    public function filteredBySiteAndPriceDisplaysObjectInPriceRangeWithMatchingZip()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['buying_price' => 50, 'zip' => '12345']
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['priceRange' => '10-100', 'site' => '12345']
             )
         );
@@ -2337,18 +2379,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredBySiteAndPriceNotDisplaysObjectInPriceRangeWithNonMatchingCity()
+    public function filteredBySiteAndPriceNotDisplaysObjectInPriceRangeWithNonMatchingCity()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['buying_price' => 50]
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render([
+            $this->subject->render([
                 'priceRange' => '10-100',
                 'site' => self::$firstCityTitle . '-foo',
             ])
@@ -2358,18 +2400,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredBySiteAndPriceNotDisplaysObjectInPriceRangeWithNonMatchingZip()
+    public function filteredBySiteAndPriceNotDisplaysObjectInPriceRangeWithNonMatchingZip()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['buying_price' => 50, 'zip' => '12345']
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['priceRange' => '10-100', 'site' => '34']
             )
         );
@@ -2378,18 +2420,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredBySiteAndPriceNotDisplaysObjectOutOfPriceRangeWithMatchingCity()
+    public function filteredBySiteAndPriceNotDisplaysObjectOutOfPriceRangeWithMatchingCity()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['buying_price' => 150]
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['priceRange' => '10-100', 'site' => self::$firstCityTitle]
             )
         );
@@ -2398,18 +2440,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredBySiteAndPriceNotDisplaysObjectOutOfPriceRangeWithMatchingZip()
+    public function filteredBySiteAndPriceNotDisplaysObjectOutOfPriceRangeWithMatchingZip()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
             ['buying_price' => 150, 'zip' => '12345']
         );
-        $this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+        $this->subject->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['priceRange' => '10-100', 'site' => '12345']
             )
         );
@@ -2418,11 +2460,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewContainsMatchingRecordWhenFilteredByObjectNumber()
+    public function containsMatchingRecordWhenFilteredByObjectNumber()
     {
         self::assertContains(
             self::$firstObjectNumber,
-            $this->fixture->render(
+            $this->subject->render(
                 ['objectNumber' => self::$firstObjectNumber]
             )
         );
@@ -2431,11 +2473,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewNotContainsMismatchingRecordWhenFilteredByObjectNumber()
+    public function notContainsMismatchingRecordWhenFilteredByObjectNumber()
     {
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['objectNumber' => self::$firstObjectNumber]
             )
         );
@@ -2444,74 +2486,74 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewContainsMatchingRecordWhenFilteredByUid()
+    public function containsMatchingRecordWhenFilteredByUid()
     {
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['uid' => $this->firstRealtyUid])
+            $this->subject->render(['uid' => $this->firstRealtyUid])
         );
     }
 
     /**
      * @test
      */
-    public function listViewNotContainsMismatchingRecordWhenFilteredByUid()
+    public function notContainsMismatchingRecordWhenFilteredByUid()
     {
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(['uid' => $this->firstRealtyUid])
+            $this->subject->render(['uid' => $this->firstRealtyUid])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByRentStatusDisplaysObjectsForRenting()
+    public function filteredByRentStatusDisplaysObjectsForRenting()
     {
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['objectType' => 'forRent'])
+            $this->subject->render(['objectType' => 'forRent'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByRentStatusDoesNotDisplaysObjectsForSale()
+    public function filteredByRentStatusDoesNotDisplaysObjectsForSale()
     {
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(['objectType' => 'forRent'])
+            $this->subject->render(['objectType' => 'forRent'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySaleStatusDisplaysObjectsForSale()
+    public function filteredBySaleStatusDisplaysObjectsForSale()
     {
         self::assertContains(
             self::$secondObjectTitle,
-            $this->fixture->render(['objectType' => 'forSale'])
+            $this->subject->render(['objectType' => 'forSale'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredBySaleStatusDoesNotDisplaysObjectsForRenting()
+    public function filteredBySaleStatusDoesNotDisplaysObjectsForRenting()
     {
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['objectType' => 'forSale'])
+            $this->subject->render(['objectType' => 'forSale'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaAndSetLowerLimitDisplaysRealtyObjectWithLivingAreaGreaterThanTheLowerLimit(
-    ) {
+    public function filteredByLivingAreaAndSetLowerLimitDisplaysRealtyObjectWithLivingAreaGreaterThanTheLowerLimit()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2520,15 +2562,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['livingAreaFrom' => '10'])
+            $this->subject->render(['livingAreaFrom' => '10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaAndSetUpperLimitDisplaysRealtyObjectWithLivingAreaLowerThanTheGreaterLimit(
-    ) {
+    public function filteredByLivingAreaAndSetUpperLimitDisplaysRealtyObjectWithLivingAreaLowerThanTheGreaterLimit()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2537,15 +2579,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['livingAreaTo' => '10'])
+            $this->subject->render(['livingAreaTo' => '10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithLivingAreaZero(
-    ) {
+    public function filteredByLivingAreaForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithLivingAreaZero()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2554,14 +2596,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['livingAreaTo' => '10'])
+            $this->subject->render(['livingAreaTo' => '10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowLivingAreaLimit()
+    public function filteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowLivingAreaLimit()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2571,7 +2613,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['livingAreaFrom' => '10', 'livingAreaTo' => '100']
             )
         );
@@ -2580,7 +2622,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithLivingAreaGreaterThanLimit(
+    public function filteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithLivingAreaGreaterThanLimit(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2590,7 +2632,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['livingAreaFrom' => '10', 'livingAreaTo' => '100']
             )
         );
@@ -2599,8 +2641,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToLowerLimit(
-    ) {
+    public function filteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToLowerLimit()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2609,7 +2651,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['livingAreaFrom' => '10', 'livingAreaTo' => '20']
             )
         );
@@ -2618,8 +2660,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToUpperLimit(
-    ) {
+    public function filteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToUpperLimit()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2628,7 +2670,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['livingAreaFrom' => '10', 'livingAreaTo' => '20']
             )
         );
@@ -2637,7 +2679,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByLivingAreaForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheLivingAreaInRange()
+    public function filteredByLivingAreaForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheLivingAreaInRange()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2649,7 +2691,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             $this->secondRealtyUid,
             ['living_area' => 1]
         );
-        $output = $this->fixture->render(['livingAreaTo' => '10']);
+        $output = $this->subject->render(['livingAreaTo' => '10']);
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -2668,7 +2710,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsAndSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsGreaterThanTheLowerLimit(
+    public function filteredByNumberOfRoomsAndSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsGreaterThanTheLowerLimit(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2678,14 +2720,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['numberOfRoomsFrom' => '10'])
+            $this->subject->render(['numberOfRoomsFrom' => '10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsAndSetUpperLimitDisplaysRealtyObjectWithNumberOfRoomsLowerThanTheGreaterLimit(
+    public function filteredByNumberOfRoomsAndSetUpperLimitDisplaysRealtyObjectWithNumberOfRoomsLowerThanTheGreaterLimit(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2695,14 +2737,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['numberOfRoomsTo' => '2'])
+            $this->subject->render(['numberOfRoomsTo' => '2'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsZero(
+    public function filteredByNumberOfRoomsForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsZero(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2712,15 +2754,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(['numberOfRoomsTo' => '10'])
+            $this->subject->render(['numberOfRoomsTo' => '10'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowNumberOfRoomsLimit(
-    ) {
+    public function filteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowNumberOfRoomsLimit()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->secondRealtyUid,
@@ -2729,7 +2771,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '100']
             )
         );
@@ -2738,7 +2780,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithNumberOfRoomsGreaterThanLimit(
+    public function filteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithNumberOfRoomsGreaterThanLimit(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2748,7 +2790,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$secondObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '100']
             )
         );
@@ -2757,7 +2799,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToLowerLimit(
+    public function filteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToLowerLimit(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2767,7 +2809,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '20']
             )
         );
@@ -2776,7 +2818,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToUpperLimit(
+    public function filteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToUpperLimit(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2786,7 +2828,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '20']
             )
         );
@@ -2795,8 +2837,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheNumberOfRoomsInRange(
-    ) {
+    public function filteredByNumberOfRoomsForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheNumberOfRoomsInRange()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2807,7 +2849,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             $this->secondRealtyUid,
             ['number_of_rooms' => 1]
         );
-        $output = $this->fixture->render(['numberOfRoomsTo' => '10']);
+        $output = $this->subject->render(['numberOfRoomsTo' => '10']);
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -2822,8 +2864,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualHidesRealtyObjectWithNumberOfRoomsHigherThanLimit(
-    ) {
+    public function filteredByNumberOfRoomsForUpperAndLowerLimitEqualHidesRealtyObjectWithNumberOfRoomsHigherThanLimit()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2832,7 +2874,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['numberOfRoomsFrom' => '4.5', 'numberOfRoomsTo' => '4.5']
             )
         );
@@ -2841,7 +2883,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualAndCommaAsDecimalSeparatorHidesRealtyObjectWithNumberOfRoomsLowerThanLimit(
+    public function filteredByNumberOfRoomsForUpperAndLowerLimitEqualAndCommaAsDecimalSeparatorHidesRealtyObjectWithNumberOfRoomsLowerThanLimit(
     ) {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2851,7 +2893,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['numberOfRoomsFrom' => '4,5', 'numberOfRoomsTo' => '4,5']
             )
         );
@@ -2860,8 +2902,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitFourPointFiveDisplaysObjectWithFourPointFiveRooms(
-    ) {
+    public function filteredByNumberOfRoomsForUpperAndLowerLimitFourPointFiveDisplaysObjectWithFourPointFiveRooms()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2870,7 +2912,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 ['numberOfRoomsFrom' => '4.5', 'numberOfRoomsTo' => '4.5']
             )
         );
@@ -2883,44 +2925,44 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByObjectNumberWhenNumbersToSortAreIntegers()
+    public function isSortedInAscendingOrderByObjectNumberWhenNumbersToSortAreIntegers()
     {
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$firstObjectNumber),
-            strpos($result, self::$secondObjectNumber)
+            \strpos($result, self::$firstObjectNumber),
+            \strpos($result, self::$secondObjectNumber)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInDescendingOrderByObjectNumberWhenNumbersToSortAreIntegers()
+    public function isSortedInDescendingOrderByObjectNumberWhenNumbersToSortAreIntegers()
     {
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$secondObjectNumber),
-            strpos($result, self::$firstObjectNumber)
+            \strpos($result, self::$secondObjectNumber),
+            \strpos($result, self::$firstObjectNumber)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber(
-    ) {
+    public function isSortedInAscendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2932,24 +2974,24 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '11']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '9'),
-            strpos($result, '11')
+            \strpos($result, '9'),
+            \strpos($result, '11')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInDescendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber(
-    ) {
+    public function isSortedInDescendingOrderByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber()
+    {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -2961,23 +3003,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '11']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '11'),
-            strpos($result, '9')
+            \strpos($result, '11'),
+            \strpos($result, '9')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByObjectNumberWhenNumbersToSortHaveDots()
+    public function isSortedInAscendingOrderByObjectNumberWhenNumbersToSortHaveDots()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -2990,23 +3032,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '4.10']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '4.10'),
-            strpos($result, '12.34')
+            \strpos($result, '4.10'),
+            \strpos($result, '12.34')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInDescendingOrderByObjectNumberWhenNumbersToSortHaveDots()
+    public function isSortedInDescendingOrderByObjectNumberWhenNumbersToSortHaveDots()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3019,23 +3061,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '4.10']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '12.34'),
-            strpos($result, '4.10')
+            \strpos($result, '12.34'),
+            \strpos($result, '4.10')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals()
+    public function isSortedInAscendingOrderByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3048,23 +3090,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '12.00']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '12.00'),
-            strpos($result, '12.34')
+            \strpos($result, '12.00'),
+            \strpos($result, '12.34')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInDescendingOrderByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals()
+    public function isSortedInDescendingOrderByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3077,23 +3119,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '12.00']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '12.34'),
-            strpos($result, '12.00')
+            \strpos($result, '12.34'),
+            \strpos($result, '12.00')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma()
+    public function isSortedInAscendingOrderByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3106,23 +3148,24 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '4,10']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '4,10'),
-            strpos($result, '12,34')
+            \strpos($result, '4,10'),
+            \
+                strpos($result, '12,34')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInDescendingOrderByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma()
+    public function isSortedInDescendingOrderByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3135,81 +3178,81 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['object_number' => '4,10']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '12,34'),
-            strpos($result, '4,10')
+            \strpos($result, '12,34'),
+            \strpos($result, '4,10')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByBuyingPrice()
+    public function isSortedInAscendingOrderByBuyingPrice()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['buying_price' => '9', 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
+            ['buying_price' => '9', 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
         );
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->secondRealtyUid,
-            ['buying_price' => '11', 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
+            ['buying_price' => '11', 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_SALE]
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'buying_price');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'buying_price');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '9'),
-            strpos($result, '11')
+            \strpos($result, '9'),
+            \strpos($result, '11')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByRent()
+    public function isSortedInAscendingOrderByRent()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            ['rent_excluding_bills' => '9', 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT]
+            ['rent_excluding_bills' => '9', 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_RENT]
         );
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->secondRealtyUid,
-            ['rent_excluding_bills' => '11', 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT]
+            ['rent_excluding_bills' => '11', 'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_RENT]
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'rent_excluding_bills');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'rent_excluding_bills');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '9'),
-            strpos($result, '11')
+            \strpos($result, '9'),
+            \strpos($result, '11')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByNumberOfRooms()
+    public function isSortedInAscendingOrderByNumberOfRooms()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3222,23 +3265,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['number_of_rooms' => 11]
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'number_of_rooms');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'number_of_rooms');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '9'),
-            strpos($result, '11')
+            \strpos($result, '9'),
+            \strpos($result, '11')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByLivingArea()
+    public function isSortedInAscendingOrderByLivingArea()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3251,59 +3294,59 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['living_area' => '11']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'living_area');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'living_area');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, '9'),
-            strpos($result, '11')
+            \strpos($result, '9'),
+            \strpos($result, '11')
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderByTheCitiesTitles()
+    public function isSortedInAscendingOrderByTheCitiesTitles()
     {
-        $this->fixture->setConfigurationValue('orderBy', 'city');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'city');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$secondCityTitle),
-            strpos($result, self::$firstCityTitle)
+            \strpos($result, self::$secondCityTitle),
+            \strpos($result, self::$firstCityTitle)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInDescendingOrderByTheCitiesTitles()
+    public function isSortedInDescendingOrderByTheCitiesTitles()
     {
-        $this->fixture->setConfigurationValue('orderBy', 'city');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('orderBy', 'city');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$firstCityTitle),
-            strpos($result, self::$secondCityTitle)
+            \strpos($result, self::$firstCityTitle),
+            \strpos($result, self::$secondCityTitle)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedByUidIfAnInvalidSortCriterionWasSet()
+    public function isSortedByUidIfAnInvalidSortCriterionWasSet()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3316,23 +3359,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['street' => '9']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'street');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('orderBy', 'street');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$firstCityTitle),
-            strpos($result, self::$secondCityTitle)
+            \strpos($result, self::$firstCityTitle),
+            \strpos($result, self::$secondCityTitle)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderBySortingFieldForNonZeroSortingFields()
+    public function isSortedInAscendingOrderBySortingFieldForNonZeroSortingFields()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3345,22 +3388,22 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['sorting' => '9']
         );
 
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$secondCityTitle),
-            strpos($result, self::$firstCityTitle)
+            \strpos($result, self::$secondCityTitle),
+            \strpos($result, self::$firstCityTitle)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderBySortingFieldWithTheZeroEntryBeingAfterTheNonZeroEntry()
+    public function isSortedInAscendingOrderBySortingFieldWithTheZeroEntryBeingAfterTheNonZeroEntry()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3373,22 +3416,22 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['sorting' => '9']
         );
 
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$secondCityTitle),
-            strpos($result, self::$firstCityTitle)
+            \strpos($result, self::$secondCityTitle),
+            \strpos($result, self::$firstCityTitle)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderBySortingFieldAlthoughAnotherOrderByOptionWasSet()
+    public function isSortedInAscendingOrderBySortingFieldAlthoughAnotherOrderByOptionWasSet()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3401,23 +3444,23 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['sorting' => '9', 'living_area' => '11']
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'living_area');
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 0]);
+        $this->subject->setConfigurationValue('orderBy', 'living_area');
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$secondCityTitle),
-            strpos($result, self::$firstCityTitle)
+            \strpos($result, self::$secondCityTitle),
+            \strpos($result, self::$firstCityTitle)
         );
     }
 
     /**
      * @test
      */
-    public function listViewIsSortedInAscendingOrderBySortingFieldAlthoughTheDescendingFlagWasSet()
+    public function isSortedInAscendingOrderBySortingFieldAlthoughTheDescendingFlagWasSet()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
@@ -3430,82 +3473,82 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ['sorting' => '9']
         );
 
-        $this->fixture->setConfigurationValue('listView.', ['descFlag' => 1]);
+        $this->subject->setConfigurationValue('listView.', ['descFlag' => 1]);
 
         // Links inside the tags might contain numbers which could influence the
         // result. Therefore the tags are stripped.
-        $result = strip_tags($this->fixture->render());
+        $result = strip_tags($this->subject->render());
 
         self::assertGreaterThan(
-            strpos($result, self::$secondCityTitle),
-            strpos($result, self::$firstCityTitle)
+            \strpos($result, self::$secondCityTitle),
+            \strpos($result, self::$firstCityTitle)
         );
     }
 
     /**
      * @test
      */
-    public function listViewSortedAscendingPreselectsAscendingRadioButton()
+    public function sortedAscendingPreselectsAscendingRadioButton()
     {
-        $this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+        $this->subject->setConfigurationValue('sortCriteria', 'object_number,city');
 
         self::assertRegExp(
             '/sortOrderAsc[^>]+checked="checked"/',
-            $this->fixture->render(['descFlag' => '0'])
+            $this->subject->render(['descFlag' => '0'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewSortedDescendingPreselectsDescendingRadioButton()
+    public function sortedDescendingPreselectsDescendingRadioButton()
     {
-        $this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+        $this->subject->setConfigurationValue('sortCriteria', 'object_number,city');
 
         self::assertRegExp(
             '/sortOrderDesc[^>]+checked="checked"/',
-            $this->fixture->render(['descFlag' => '1'])
+            $this->subject->render(['descFlag' => '1'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewSortedByCityPreselectsCityOptionInSelectionBox()
+    public function sortedByCityPreselectsCityOptionInSelectionBox()
     {
-        $this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+        $this->subject->setConfigurationValue('sortCriteria', 'object_number,city');
 
         self::assertRegExp(
             '/value="city"[^>]+selected="selected"/',
-            $this->fixture->render(['orderBy' => 'city'])
+            $this->subject->render(['orderBy' => 'city'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewSortedByCityPreselectsCityOptionInSelectionBoxOverwritingConfiguration()
+    public function sortedByCityPreselectsCityOptionInSelectionBoxOverwritingConfiguration()
     {
-        $this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue('sortCriteria', 'object_number,city');
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
 
         self::assertRegExp(
             '/value="city"[^>]+selected="selected"/',
-            $this->fixture->render(['orderBy' => 'city'])
+            $this->subject->render(['orderBy' => 'city'])
         );
     }
 
     /**
      * @test
      */
-    public function listViewSortedByCityPreselectsFromConfiguration()
+    public function sortedByCityPreselectsFromConfiguration()
     {
-        $this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
-        $this->fixture->setConfigurationValue('orderBy', 'city');
+        $this->subject->setConfigurationValue('sortCriteria', 'object_number,city');
+        $this->subject->setConfigurationValue('orderBy', 'city');
 
         self::assertRegExp(
             '/value="city"[^>]+selected="selected"/',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -3516,9 +3559,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function listViewContainsMapForGoogleMapsEnabled()
+    public function containsMapForGoogleMapsEnabled()
     {
-        $this->fixture->setConfigurationValue('showGoogleMaps', true);
+        $this->subject->setConfigurationValue('showGoogleMaps', true);
         $coordinates = [
             'has_coordinates' => true,
             'latitude' => 50.734343,
@@ -3538,16 +3581,16 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewDoesNotContainMapForGoogleMapsDisabled()
+    public function notContainsMapForGoogleMapsDisabled()
     {
-        $this->fixture->setConfigurationValue('showGoogleMaps', false);
+        $this->subject->setConfigurationValue('showGoogleMaps', false);
         $coordinates = [
             'has_coordinates' => true,
             'latitude' => 50.734343,
@@ -3567,16 +3610,16 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewDoesNotContainMapIfAllObjectsHaveGeoError()
+    public function notContainsMapIfAllObjectsHaveGeoError()
     {
-        $this->fixture->setConfigurationValue('showGoogleMaps', 1);
+        $this->subject->setConfigurationValue('showGoogleMaps', 1);
         $coordinates = [
             'coordinates_problem' => true,
             'show_address' => true,
@@ -3594,16 +3637,16 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewForObjectOnCurrentPageHasGeoErrorAndObjectWithCoordinatesIsOnNextPageNotContainsMap()
+    public function forObjectOnCurrentPageHasGeoErrorAndObjectWithCoordinatesIsOnNextPageNotContainsMap()
     {
-        $this->fixture->setConfigurationValue('showGoogleMaps', 1);
+        $this->subject->setConfigurationValue('showGoogleMaps', 1);
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
@@ -3623,24 +3666,24 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->setConfigurationValue('orderBy', 'object_number');
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue('orderBy', 'object_number');
+        $this->subject->setConfigurationValue(
             'listView.',
             ['descFlag' => 0, 'results_at_a_time' => 1]
         );
 
         self::assertNotContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
     /**
      * @test
      */
-    public function listViewContainsLinkToSingleViewPageInHtmlHeader()
+    public function containsLinkToSingleViewPageInHtmlHeader()
     {
-        $this->fixture->setConfigurationValue('showGoogleMaps', 1);
+        $this->subject->setConfigurationValue('showGoogleMaps', 1);
         $coordinates = [
             'has_coordinates' => true,
             'latitude' => 50.734343,
@@ -3658,7 +3701,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
             $coordinates
         );
 
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertRegExp(
             '/href="\\?id=' . $this->singlePid . '/',
@@ -3679,7 +3722,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             'http://' . self::TX_REALTY_EXTERNAL_SINGLE_PAGE,
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 self::TX_REALTY_EXTERNAL_SINGLE_PAGE
@@ -3693,11 +3736,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToExternalSingleViewPageContainsExternalUrlIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
-            urlencode('http://' . self::TX_REALTY_EXTERNAL_SINGLE_PAGE),
-            $this->fixture->createLinkToSingleViewPage(
+            \urlencode('http://' . self::TX_REALTY_EXTERNAL_SINGLE_PAGE),
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 self::TX_REALTY_EXTERNAL_SINGLE_PAGE
@@ -3711,11 +3754,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToExternalSingleViewPageContainsATagIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             '<a href=',
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 '&',
                 0,
                 self::TX_REALTY_EXTERNAL_SINGLE_PAGE
@@ -3729,11 +3772,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToExternalSingleViewPageLinksToLoginPageIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             '?id=' . $this->loginPid,
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 self::TX_REALTY_EXTERNAL_SINGLE_PAGE
@@ -3747,11 +3790,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToExternalSingleViewPageContainsRedirectUrlIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             'redirect_url',
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 self::TX_REALTY_EXTERNAL_SINGLE_PAGE
@@ -3765,11 +3808,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToExternalSingleViewPageNotLinksToLoginPageIfAccessAllowed()
     {
         $this->allowAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertNotContains(
             '?id=' . $this->loginPid,
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 self::TX_REALTY_EXTERNAL_SINGLE_PAGE
@@ -3783,11 +3826,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToExternalSingleViewPageNotContainsRedirectUrlIfAccessAllowed()
     {
         $this->allowAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertNotContains(
             'redirect_url',
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 self::TX_REALTY_EXTERNAL_SINGLE_PAGE
@@ -3808,7 +3851,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '?id=' . $this->otherSinglePid,
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 $this->otherSinglePid
@@ -3823,11 +3866,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createFakeFrontEnd($this->otherSinglePid);
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
-            urlencode('?id=' . $this->otherSinglePid),
-            $this->fixture->createLinkToSingleViewPage(
+            \urlencode('?id=' . $this->otherSinglePid),
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 $this->otherSinglePid
@@ -3841,11 +3884,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSeparateSingleViewPageContainsATagIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             '<a href=',
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 '&',
                 0,
                 $this->otherSinglePid
@@ -3859,11 +3902,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSeparateSingleViewPageLinksToLoginPageIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             '?id=' . $this->loginPid,
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 $this->otherSinglePid
@@ -3877,11 +3920,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSeparateSingleViewPageContainsRedirectUrlIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             'redirect_url',
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 $this->otherSinglePid
@@ -3895,11 +3938,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSeparateSingleViewPageNotLinksToLoginPageIfAccessAllowed()
     {
         $this->allowAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertNotContains(
             '?id=' . $this->loginPid,
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 $this->otherSinglePid
@@ -3913,11 +3956,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSeparateSingleViewPageNotContainsRedirectUrlIfAccesAllowed()
     {
         $this->allowAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertNotContains(
             'redirect_url',
-            $this->fixture->createLinkToSingleViewPage(
+            $this->subject->createLinkToSingleViewPage(
                 'foo',
                 0,
                 $this->otherSinglePid
@@ -3932,13 +3975,13 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertEquals(
             '',
-            $this->fixture->createLinkToSingleViewPage('', 0)
+            $this->subject->createLinkToSingleViewPage('', 0)
         );
         $this->allowAccess();
 
         self::assertEquals(
             '',
-            $this->fixture->createLinkToSingleViewPage('', 0)
+            $this->subject->createLinkToSingleViewPage('', 0)
         );
     }
 
@@ -3949,7 +3992,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertContains(
             'foo',
-            $this->fixture->createLinkToSingleViewPage('foo', 0)
+            $this->subject->createLinkToSingleViewPage('foo', 0)
         );
     }
 
@@ -3960,7 +4003,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertContains(
             'a &amp; &quot; &gt;',
-            $this->fixture->createLinkToSingleViewPage('a & " >', 0)
+            $this->subject->createLinkToSingleViewPage('a & " >', 0)
         );
     }
 
@@ -3973,7 +4016,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '?id=' . $this->singlePid,
-            $this->fixture->createLinkToSingleViewPage('foo', 0)
+            $this->subject->createLinkToSingleViewPage('foo', 0)
         );
     }
 
@@ -3984,11 +4027,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createFakeFrontEnd($this->singlePid);
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
-            urlencode('?id=' . $this->singlePid),
-            $this->fixture->createLinkToSingleViewPage('foo', 0)
+            \urlencode('?id=' . $this->singlePid),
+            $this->subject->createLinkToSingleViewPage('foo', 0)
         );
     }
 
@@ -4001,7 +4044,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '&amp;',
-            $this->fixture->createLinkToSingleViewPage('&', 0)
+            $this->subject->createLinkToSingleViewPage('&', 0)
         );
     }
 
@@ -4014,7 +4057,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '&amp;',
-            $this->fixture->createLinkToSingleViewPage('&', 0)
+            $this->subject->createLinkToSingleViewPage('&', 0)
         );
     }
 
@@ -4027,7 +4070,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '<a href=',
-            $this->fixture->createLinkToSingleViewPage('&', 0)
+            $this->subject->createLinkToSingleViewPage('&', 0)
         );
     }
 
@@ -4037,11 +4080,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSingleViewPageContainsATagIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             '<a href=',
-            $this->fixture->createLinkToSingleViewPage('&', 0)
+            $this->subject->createLinkToSingleViewPage('&', 0)
         );
     }
 
@@ -4051,11 +4094,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSingleViewPageLinksToLoginPageIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             '?id=' . $this->loginPid,
-            $this->fixture->createLinkToSingleViewPage('foo', 0)
+            $this->subject->createLinkToSingleViewPage('foo', 0)
         );
     }
 
@@ -4065,11 +4108,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSingleViewPageContainsRedirectUrlIfAccessDenied()
     {
         $this->denyAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
             'redirect_url',
-            $this->fixture->createLinkToSingleViewPage('foo', 0)
+            $this->subject->createLinkToSingleViewPage('foo', 0)
         );
     }
 
@@ -4079,11 +4122,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSingleViewPageNotLinksToLoginPageIfAccessAllowed()
     {
         $this->allowAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertNotContains(
             '?id=' . $this->loginPid,
-            $this->fixture->createLinkToSingleViewPage('foo', 0)
+            $this->subject->createLinkToSingleViewPage('foo', 0)
         );
     }
 
@@ -4093,11 +4136,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     public function linkToSingleViewPageNotContainsRedirectUrlIfAccesAllowed()
     {
         $this->allowAccess();
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertNotContains(
             'redirect_url',
-            $this->fixture->createLinkToSingleViewPage('foo', 0)
+            $this->subject->createLinkToSingleViewPage('foo', 0)
         );
     }
 
@@ -4112,7 +4155,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->getUidForRecordNumber(-1);
+        $this->subject->getUidForRecordNumber(-1);
     }
 
     /**
@@ -4122,7 +4165,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertEquals(
             $this->firstRealtyUid,
-            $this->fixture->getUidForRecordNumber(0)
+            $this->subject->getUidForRecordNumber(0)
         );
     }
 
@@ -4133,7 +4176,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertEquals(
             $this->secondRealtyUid,
-            $this->fixture->getUidForRecordNumber(1)
+            $this->subject->getUidForRecordNumber(1)
         );
     }
 
@@ -4142,11 +4185,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getUidForRecordNumberForNoObjectForGivenRecordNumberReturnsZero()
     {
-        $this->fixture->setPiVars(['numberOfRoomsFrom' => 41]);
+        $this->subject->setPiVars(['numberOfRoomsFrom' => 41]);
 
         self::assertEquals(
             0,
-            $this->fixture->getUidForRecordNumber(0)
+            $this->subject->getUidForRecordNumber(0)
         );
     }
 
@@ -4155,7 +4198,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getUidForRecordNumberForFilteringSetInPiVarsConsidersFilterOptions()
     {
-        $this->fixture->setPiVars(['numberOfRoomsFrom' => 41]);
+        $this->subject->setPiVars(['numberOfRoomsFrom' => 41]);
         $fittingRecordUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
@@ -4163,14 +4206,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
                 'object_number' => self::$firstObjectNumber,
                 'pid' => $this->systemFolderPid,
                 'city' => $this->firstCityUid,
-                'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
+                'object_type' => \tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'number_of_rooms' => 42,
             ]
         );
 
         self::assertEquals(
             $fittingRecordUid,
-            $this->fixture->getUidForRecordNumber(0)
+            $this->subject->getUidForRecordNumber(0)
         );
     }
 
@@ -4187,7 +4230,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '?id=' . $pageId,
-            $this->fixture->getSelfUrl()
+            $this->subject->getSelfUrl()
         );
     }
 
@@ -4196,11 +4239,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getSelfUrlKeepsExistingPiVar()
     {
-        $this->fixture->piVars['pointer'] = 2;
+        $this->subject->piVars['pointer'] = 2;
 
         self::assertContains(
             'tx_realty_pi1%5Bpointer%5D=2',
-            $this->fixture->getSelfUrl()
+            $this->subject->getSelfUrl()
         );
     }
 
@@ -4209,11 +4252,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getSelfUrlNotKeepsExistingDataPiVar()
     {
-        $this->fixture->piVars['DATA'] = 'stuff';
+        $this->subject->piVars['DATA'] = 'stuff';
 
         self::assertNotContains(
             'tx_realty_pi1%5BDATA%5D',
-            $this->fixture->getSelfUrl()
+            $this->subject->getSelfUrl()
         );
     }
 
@@ -4222,11 +4265,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getSelfUrlWithKeepPiVarsFalseNotKeepsExistingPiVar()
     {
-        $this->fixture->piVars['pointer'] = 2;
+        $this->subject->piVars['pointer'] = 2;
 
         self::assertNotContains(
             'tx_realty_pi1%5Bpointer%5D',
-            $this->fixture->getSelfUrl(false)
+            $this->subject->getSelfUrl(false)
         );
     }
 
@@ -4235,11 +4278,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getSelfUrlWithPiVarInKeysToRemoveDropsExistingPiVar()
     {
-        $this->fixture->piVars['pointer'] = 2;
+        $this->subject->piVars['pointer'] = 2;
 
         self::assertNotContains(
             'tx_realty_pi1%5Bpointer%5D',
-            $this->fixture->getSelfUrl(true, ['pointer'])
+            $this->subject->getSelfUrl(true, ['pointer'])
         );
     }
 
@@ -4248,12 +4291,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends \Tx_Phpunit_TestCase
      */
     public function getSelfUrlWithPiVarInKeysToRemoveKeepsOtherExistingPiVar()
     {
-        $this->fixture->piVars['uid'] = 42;
-        $this->fixture->piVars['pointer'] = 2;
+        $this->subject->piVars['uid'] = 42;
+        $this->subject->piVars['pointer'] = 2;
 
         self::assertContains(
             'tx_realty_pi1%5Buid%5D=42',
-            $this->fixture->getSelfUrl(true, ['pointer'])
+            $this->subject->getSelfUrl(true, ['pointer'])
         );
     }
 }

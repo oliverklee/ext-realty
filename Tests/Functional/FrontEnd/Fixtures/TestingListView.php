@@ -1,11 +1,13 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Functional\FrontEnd\Fixtures;
+
 /**
  * This class represents a list view for testing purposes.
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_tests_fixtures_TestingListView extends \tx_realty_pi1_AbstractListView
+class TestingListView extends \tx_realty_pi1_AbstractListView
 {
     /**
      * @var string the list view type to display

@@ -1,11 +1,13 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Functional\FrontEnd\Fixtures;
+
 /**
  * This class represents a view for testing purposes.
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_tests_fixtures_testingFrontEndView extends \tx_realty_pi1_FrontEndView
+class TestingFrontEndView extends \tx_realty_pi1_FrontEndView
 {
     /**
      * Renders the view and returns its content.
