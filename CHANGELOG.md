@@ -6,10 +6,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
-- Show the PDF attachments in the single view (#184)
+- Show the JPEG FAL attachments as thumbnails in the list view (#188)
+- Show the PDF FAL attachments in the single view (#184)
 - Add RealtyObject.getJpegAttachments() (#183)
 - Add RealtyObject.getPdfAttachments() (#182)
-- Add a general "attachments" field (#180)
+- Add a general "attachments" FAL field (#180)
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed

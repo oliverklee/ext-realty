@@ -6,6 +6,12 @@
     </tx_realty_objects>
     <tx_realty_objects>
         <uid>102</uid>
+        <city>100</city>
         <attachments>3</attachments>
     </tx_realty_objects>
+
+    <tx_realty_cities>
+        <uid>100</uid>
+        <title>Bonn</title>
+    </tx_realty_cities>
 </dataset>
