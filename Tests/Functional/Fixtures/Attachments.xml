@@ -48,4 +48,10 @@
         <fieldname>attachments</fieldname>
         <l10n_diffsource/>
     </sys_file_reference>
+    <sys_file_metadata>
+        <uid>2</uid>
+        <file>11</file>
+        <title>some nice &amp; fine PDF document</title>
+        <l10n_diffsource/>
+    </sys_file_metadata>
 </dataset>
