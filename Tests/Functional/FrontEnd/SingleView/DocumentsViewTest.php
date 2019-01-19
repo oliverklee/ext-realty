@@ -38,6 +38,7 @@ class DocumentsViewTest extends FunctionalTestCase
     {
         parent::setUp();
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
 
         /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
