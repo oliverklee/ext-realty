@@ -1230,7 +1230,7 @@ class tx_realty_domDocumentConverter
      * @param string $nameOfChild name of child, must not be empty
      * @param string $nameOfGrandchild name of grandchild, must not be empty
      *
-     * @return DOMNode first grandchild with this name, null if it does not exist
+     * @return \DOMNode|null first grandchild with this name
      */
     protected function findFirstGrandchild($nameOfChild, $nameOfGrandchild)
     {

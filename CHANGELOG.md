@@ -15,7 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - Speed up the new functional by omitting the auto increment reset (#189)
-- Convert some tests to nimut/testing framework (#181, #185)
+- Convert more tests to nimut/testing framework (#181, #185, #190)
 - Stop using the charset conversion from the BE or FE (#178)
 
 ### Deprecated
@@ -35,8 +35,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add support for TYPO3 8.7 (#152)
 
 ### Changed
-- Move the tests to the nimut testing framework (#170, #171)
 - Run the functional tests in parallel to each other (#172)
+- Convert some tests to nimut/testing framework (#170, #171)
 - Use spaces for indenting the SQL file (#169)
 - Require oelib >= 2.0 (#163)
 - Move the CSS files to Resources/ (#160)

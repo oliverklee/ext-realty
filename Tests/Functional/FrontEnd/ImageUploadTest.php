@@ -1,5 +1,8 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Functional\FrontEnd;
+
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -7,15 +10,20 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
+class ImageUploadTest extends FunctionalTestCase
 {
     /**
-     * @var tx_realty_frontEndImageUpload
+     * @var string[]
      */
-    private $fixture = null;
+    protected $testExtensionsToLoad = ['typo3conf/ext/oelib', 'typo3conf/ext/realty'];
 
     /**
-     * @var Tx_Oelib_TestingFramework
+     * @var \tx_realty_frontEndImageUpload
+     */
+    private $subject = null;
+
+    /**
+     * @var \Tx_Oelib_TestingFramework
      */
     private $testingFramework = null;
 
@@ -63,31 +71,33 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
 
     protected function setUp()
     {
+        parent::setUp();
         $this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
         $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
 
-        $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->testingFramework->createFakeFrontEnd();
+        $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->setResetAutoIncrementThreshold(99999999);
+        $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
 
-        Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
+        \Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
         $this->createDummyRecords();
 
-        $this->fixture = new tx_realty_frontEndImageUpload(
+        $this->subject = new \tx_realty_frontEndImageUpload(
             ['feEditorTemplateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html'],
             $this->getFrontEndController()->cObj,
             0,
             '',
             true
         );
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
     }
 
     protected function tearDown()
     {
         $this->testingFramework->cleanUp();
-
         $GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
+        parent::tearDown();
     }
 
     /**
@@ -127,7 +137,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     private function createImageRecords()
     {
-        $realtyObject = new tx_realty_Model_RealtyObject(true);
+        $realtyObject = new \tx_realty_Model_RealtyObject(true);
         $realtyObject->loadRealtyObject($this->dummyObjectUid);
 
         $realtyObject->addImageRecord(self::$firstImageTitle, self::$firstImageFileName);
@@ -146,7 +156,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function processImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase()
     {
-        $this->fixture->processImageUpload(
+        $this->subject->processImageUpload(
             [
                 'caption' => 'test image',
                 'image' => 'image.jpg',
@@ -167,7 +177,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function processImageUploadStoresCurrentObjectUidAsParentForTheImage()
     {
-        $this->fixture->processImageUpload(
+        $this->subject->processImageUpload(
             [
                 'caption' => 'test image',
                 'image' => 'image.jpg',
@@ -188,7 +198,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function processImageUploadDoesNotInsertAnImageIfOnlyACaptionProvided()
     {
-        $this->fixture->processImageUpload(
+        $this->subject->processImageUpload(
             [
                 'caption' => 'test image',
                 'image' => '',
@@ -209,7 +219,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function processImageUploadDeletesImageRecordForCurrentObjectFromTheDatabase()
     {
-        $this->fixture->processImageUpload(
+        $this->subject->processImageUpload(
             ['imagesToDelete' => 'attached_image_0,']
         );
 
@@ -217,7 +227,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
             1,
             $this->testingFramework->countRecords(
                 'tx_realty_images',
-                '1=1' . Tx_Oelib_Db::enableFields('tx_realty_images')
+                '1=1' . \Tx_Oelib_Db::enableFields('tx_realty_images')
             )
         );
     }
@@ -227,7 +237,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function processImageUploadDeletesImageTwoRecordsForCurrentObjectFromTheDatabase()
     {
-        $this->fixture->processImageUpload(
+        $this->subject->processImageUpload(
             ['imagesToDelete' => 'attached_image_0,attached_image_1,']
         );
 
@@ -235,7 +245,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
             0,
             $this->testingFramework->countRecords(
                 'tx_realty_images',
-                '1=1' . Tx_Oelib_Db::enableFields('tx_realty_images')
+                '1=1' . \Tx_Oelib_Db::enableFields('tx_realty_images')
             )
         );
     }
@@ -249,7 +259,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForNoImageReturnsTrue()
     {
-        self::assertTrue($this->fixture->checkFile(['value' => '']));
+        self::assertTrue($this->subject->checkFile(['value' => '']));
     }
 
     /**
@@ -257,9 +267,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForGifFileReturnsTrue()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
+        $this->subject->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue($this->fixture->checkFile(['value' => 'foo.gif']));
+        self::assertTrue($this->subject->checkFile(['value' => 'foo.gif']));
     }
 
     /**
@@ -267,9 +277,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForPngFileReturnsTrue()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
+        $this->subject->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue($this->fixture->checkFile(['value' => 'foo.png']));
+        self::assertTrue($this->subject->checkFile(['value' => 'foo.png']));
     }
 
     /**
@@ -277,9 +287,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForJpgFileReturnsTrue()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
+        $this->subject->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue($this->fixture->checkFile(['value' => 'foo.jpg']));
+        self::assertTrue($this->subject->checkFile(['value' => 'foo.jpg']));
     }
 
     /**
@@ -287,9 +297,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForJpegFileReturnsTrue()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
+        $this->subject->setFakedFormValue('caption', 'foo');
 
-        self::assertTrue($this->fixture->checkFile(['value' => 'foo.jpeg']));
+        self::assertTrue($this->subject->checkFile(['value' => 'foo.jpeg']));
     }
 
     /**
@@ -297,9 +307,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForPdfFileReturnsFalse()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
+        $this->subject->setFakedFormValue('caption', 'foo');
 
-        self::assertFalse($this->fixture->checkFile(['value' => 'foo.pdf']));
+        self::assertFalse($this->subject->checkFile(['value' => 'foo.pdf']));
     }
 
     /**
@@ -307,9 +317,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForPsFileReturnsFalse()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
+        $this->subject->setFakedFormValue('caption', 'foo');
 
-        self::assertFalse($this->fixture->checkFile(['value' => 'foo.ps']));
+        self::assertFalse($this->subject->checkFile(['value' => 'foo.ps']));
     }
 
     /**
@@ -317,7 +327,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileWithoutCaptionReturnsFalse()
     {
-        self::assertFalse($this->fixture->checkFile(['value' => 'foo.jpg']));
+        self::assertFalse($this->subject->checkFile(['value' => 'foo.jpg']));
     }
 
     /**
@@ -325,9 +335,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function checkFileForInvalidFooExtensionReturnsFalse()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
+        $this->subject->setFakedFormValue('caption', 'foo');
 
-        self::assertFalse($this->fixture->checkFile(['value' => 'foo.foo']));
+        self::assertFalse($this->subject->checkFile(['value' => 'foo.foo']));
     }
 
     /**
@@ -335,11 +345,11 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function getImageUploadErrorMessageForEmptyCaption()
     {
-        $this->fixture->checkFile(['value' => 'foo.jpg']);
+        $this->subject->checkFile(['value' => 'foo.jpg']);
 
         self::assertSame(
-            $this->fixture->translate('message_empty_caption'),
-            $this->fixture->getImageUploadErrorMessage()
+            $this->subject->translate('message_empty_caption'),
+            $this->subject->getImageUploadErrorMessage()
         );
     }
 
@@ -348,12 +358,12 @@ class tx_realty_FrontEnd_ImageUploadTest extends \Tx_Phpunit_TestCase
      */
     public function getImageUploadErrorMessageForInvalidExtension()
     {
-        $this->fixture->setFakedFormValue('caption', 'foo');
-        $this->fixture->checkFile(['value' => 'foo.foo']);
+        $this->subject->setFakedFormValue('caption', 'foo');
+        $this->subject->checkFile(['value' => 'foo.foo']);
 
         self::assertSame(
-            $this->fixture->translate('message_invalid_type'),
-            $this->fixture->getImageUploadErrorMessage()
+            $this->subject->translate('message_invalid_type'),
+            $this->subject->getImageUploadErrorMessage()
         );
     }
 }

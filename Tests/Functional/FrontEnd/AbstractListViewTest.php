@@ -188,6 +188,8 @@ class AbstractListViewTest extends FunctionalTestCase
      * Imports static currencies - but only if they aren't already available as static data.
      *
      * @return void
+     *
+     * @throws \Nimut\TestingFramework\Exception\Exception
      */
     private function importCurrencies()
     {
@@ -880,7 +882,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -911,7 +913,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
             ],
             $this->contentObject,
@@ -941,7 +943,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -980,7 +982,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithFloor.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
             ],
             $this->contentObject,
@@ -1025,7 +1027,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1056,7 +1058,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1087,7 +1089,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1118,7 +1120,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
@@ -1149,7 +1151,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         $fixture = new TestingListView(
             [
-                'templateFile' => 'EXT:realty/Tests/LegacyUnit/fixtures/listViewWithStatus.html',
+                'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
                 'pages' => $systemFolder,
             ],
