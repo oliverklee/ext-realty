@@ -14,8 +14,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed
-- Convert the abstract view tests to nimut/testing framework (#185)
-- Convert the documents view test to nimut/testing framework (#181)
+- Speed up the new functional by omitting the auto increment reset (#189)
+- Convert some tests to nimut/testing framework (#181, #185)
 - Stop using the charset conversion from the BE or FE (#178)
 
 ### Deprecated

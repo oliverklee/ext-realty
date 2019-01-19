@@ -138,10 +138,11 @@ class AbstractListViewTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        \Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
         $this->createContentMock();
+        \Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
 
         $this->createDummyPages();
         $this->createDummyObjects();
