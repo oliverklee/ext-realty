@@ -59,9 +59,10 @@ class EditorTest extends FunctionalTestCase
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = 'Alex Doe';
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'alex@example.com';
 
-        \Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
+        \Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
 
         \Tx_Oelib_ConfigurationRegistry::getInstance()
             ->set('plugin.tx_realty_pi1', new \Tx_Oelib_Configuration());

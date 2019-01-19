@@ -58,6 +58,7 @@ class ContactFormTest extends FunctionalTestCase
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'alex@example.com';
 
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
         $this->realtyUid = $this->testingFramework->createRecord(
             'tx_realty_objects',

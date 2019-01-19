@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- Speed up the new functional by omitting the auto increment reset (#189)
 - Stop using the charset conversion from the BE or FE (#178)
 
 ### Deprecated
