@@ -1259,11 +1259,11 @@ class tx_realty_openImmoImport
     /**
      * Converts a DOMDocument to an array.
      *
-     * @param DOMDocument|null $realtyRecords which contains realty records, can be NULL
+     * @param \DOMDocument|null $realtyRecords which contains realty records
      *
      * @return array[] $realtyRecords realty records in an array, will be empty if the data was not convertible
      */
-    protected function convertDomDocumentToArray(DOMDocument $realtyRecords = null)
+    protected function convertDomDocumentToArray(\DOMDocument $realtyRecords = null)
     {
         if ($realtyRecords === null) {
             return [];

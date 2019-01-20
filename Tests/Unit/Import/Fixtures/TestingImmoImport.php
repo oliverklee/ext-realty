@@ -1,11 +1,13 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Unit\Import\Fixtures;
+
 /**
  * This is merely a class used for unit tests. Don't use it for any other purpose.
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-final class tx_realty_openImmoImportChild extends \tx_realty_openImmoImport
+class TestingImmoImport extends \tx_realty_openImmoImport
 {
     /**
      * Checks the correct punctuation of a path to a directory. Adds a slash if
@@ -100,7 +102,7 @@ final class tx_realty_openImmoImportChild extends \tx_realty_openImmoImport
      * Returns the current content of the currently loaded XML file as a
      * DOMDocument.
      *
-     * @return DOMDocument loaded XML file, may be NULL if no document was
+     * @return \DOMDocument loaded XML file, may be NULL if no document was
      *                     loaded e.g. due to validation errors
      */
     public function getImportedXml()
@@ -199,11 +201,11 @@ final class tx_realty_openImmoImportChild extends \tx_realty_openImmoImport
     /**
      * Converts a DOMDocument to an array.
      *
-     * @param DOMDocument|null $realtyRecords which contains realty records, can be NULL
+     * @param \DOMDocument|null $realtyRecords which contains realty records
      *
      * @return array[] $realtyRecords realty records in an array, will be empty if the data was not convertible
      */
-    public function convertDomDocumentToArray(DOMDocument $realtyRecords = null)
+    public function convertDomDocumentToArray(\DOMDocument $realtyRecords = null)
     {
         return parent::convertDomDocumentToArray($realtyRecords);
     }

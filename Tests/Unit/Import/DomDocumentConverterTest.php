@@ -1,5 +1,10 @@
 <?php
 
+namespace OliverKlee\Realty\Tests\Unit\Import;
+
+use Nimut\TestingFramework\TestCase\UnitTestCase;
+use OliverKlee\Realty\Tests\Unit\Import\Fixtures\TestingDomDocumentConverter;
+
 /**
  * Test case.
  *
@@ -7,38 +12,16 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Benjamin Schulte <benj@minschulte.de>
  */
-class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
+class DomDocumentConverterTest extends UnitTestCase
 {
     /**
-     * @var tx_realty_domDocumentConverterChild
+     * @var TestingDomDocumentConverter
      */
-    private $fixture = null;
-
-    /**
-     * static_info_tables UID of Germany
-     *
-     * @var int
-     */
-    const DE = 54;
-
-    /**
-     * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
-     *
-     * @var array
-     */
-    private $graphicsConfigurationBackup = [];
+    private $subject = null;
 
     protected function setUp()
     {
-        $this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
-
-        $this->fixture = new tx_realty_domDocumentConverterChild(new tx_realty_fileNameMapper());
-    }
-
-    protected function tearDown()
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
+        $this->subject = new TestingDomDocumentConverter(new \tx_realty_fileNameMapper());
     }
 
     /*
@@ -49,15 +32,15 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      * Loads an XML string, sets the raw realty data and returns a DOMDocument
      * of the provided string.
      *
-     * @param string $xmlString XML string to set for converting, must contain wellformed XML, must not be empty
+     * @param string $xmlString XML string to set for converting, must contain well-formed XML, must not be empty
      *
-     * @return DOMDocument DOMDocument of the provided XML string
+     * @return \DOMDocument \DOMDocument of the provided XML string
      */
     private function setRawDataToConvert($xmlString)
     {
-        $loadedXml = new DOMDocument();
+        $loadedXml = new \DOMDocument();
         $loadedXml->loadXML($xmlString);
-        $this->fixture->setRawRealtyData($loadedXml);
+        $this->subject->setRawRealtyData($loadedXml);
 
         return $loadedXml;
     }
@@ -81,7 +64,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             'foo',
-            $this->fixture->findFirstGrandchild('child', 'grandchild')->nodeValue
+            $this->subject->findFirstGrandchild('child', 'grandchild')->nodeValue
         );
     }
 
@@ -97,21 +80,21 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
         );
 
         self::assertNull(
-            $this->fixture->findFirstGrandchild('child', 'grandchild')
+            $this->subject->findFirstGrandchild('child', 'grandchild')
         );
     }
 
     /**
      * @test
      */
-    public function findFirstGrandchildReturnsNullIfTheGivenDomnodeIsEmpty()
+    public function findFirstGrandchildReturnsNullIfTheGivenDomNodeIsEmpty()
     {
         $this->setRawDataToConvert(
             '<immobilie/>'
         );
 
         self::assertNull(
-            $this->fixture->findFirstGrandchild('child', 'grandchild')
+            $this->subject->findFirstGrandchild('child', 'grandchild')
         );
     }
 
@@ -133,7 +116,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             'foo',
-            $this->fixture->findFirstGrandchild('child', 'grandchild')->nodeValue
+            $this->subject->findFirstGrandchild('child', 'grandchild')->nodeValue
         );
     }
 
@@ -153,7 +136,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             'foo',
-            $this->fixture->findFirstGrandchild('child', 'grandchild')->nodeValue
+            $this->subject->findFirstGrandchild('child', 'grandchild')->nodeValue
         );
     }
 
@@ -162,12 +145,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getNodeNameDoesNotChangeNodeNameWithoutXmlNamespace()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $child = $node->appendChild($node->createElement('foo'));
 
         self::assertSame(
             'foo',
-            $this->fixture->getNodeName($child)
+            $this->subject->getNodeName($child)
         );
     }
 
@@ -176,12 +159,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getNodeNameReturnsNameWithoutXmlNamespaceWhenNameWithXmlNamespaceGiven()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $child = $node->appendChild($node->createElement('prefix:foo'));
 
         self::assertSame(
             'foo',
-            $this->fixture->getNodeName($child)
+            $this->subject->getNodeName($child)
         );
     }
 
@@ -191,7 +174,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     public function addOneElementToTheRealtyDataArray()
     {
         $data = [];
-        $this->fixture->addElementToArray($data, 'foo', 'bar');
+        $this->subject->addElementToArray($data, 'foo', 'bar');
 
         self::assertSame(
             ['foo' => 'bar'],
@@ -205,8 +188,8 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     public function addTwoElementsToTheRealtyDataArray()
     {
         $data = [];
-        $this->fixture->addElementToArray($data, 'foo', 'foo');
-        $this->fixture->addElementToArray($data, 'bar', 'bar');
+        $this->subject->addElementToArray($data, 'foo', 'foo');
+        $this->subject->addElementToArray($data, 'bar', 'bar');
 
         self::assertSame(
             ['foo' => 'foo', 'bar' => 'bar'],
@@ -220,8 +203,8 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     public function addOneElementTwiceToTheRealtyDataArray()
     {
         $data = [];
-        $this->fixture->addElementToArray($data, 'foo', 'foo');
-        $this->fixture->addElementToArray($data, 'foo', 'bar');
+        $this->subject->addElementToArray($data, 'foo', 'foo');
+        $this->subject->addElementToArray($data, 'foo', 'bar');
 
         self::assertSame(
             ['foo' => 'bar'],
@@ -246,7 +229,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->getConvertedData($node)
+            $this->subject->getConvertedData($node)
         );
     }
 
@@ -274,7 +257,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'rent_with_heating_costs' => 0.0,
                 ],
             ],
-            $this->fixture->getConvertedData($node)
+            $this->subject->getConvertedData($node)
         );
     }
 
@@ -311,7 +294,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'rent_with_heating_costs' => 0.0,
                 ],
             ],
-            $this->fixture->getConvertedData($node)
+            $this->subject->getConvertedData($node)
         );
     }
 
@@ -337,7 +320,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo',
             $importedData[0]['title'],
@@ -367,7 +350,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'klein und teuer',
             $importedData[0]['title']
@@ -391,7 +374,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo bar',
             $importedData[0]['title']
@@ -415,7 +398,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo bar',
             $importedData[0]['title']
@@ -439,7 +422,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo bar',
             $importedData[0]['title']
@@ -463,7 +446,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo bar',
             $importedData[0]['title']
@@ -487,7 +470,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo bar',
             $importedData[0]['title']
@@ -530,7 +513,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
 
         self::assertSame(
             'foo' . LF . 'bar 123',
@@ -559,7 +542,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
 
         self::assertSame(
             'foo' . LF . 'bar 123',
@@ -588,7 +571,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
 
         self::assertSame(
             'foo' . LF . 'bar 123',
@@ -613,7 +596,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo bar',
             $importedData[0]['title']
@@ -637,7 +620,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo bar',
             $importedData[0]['title']
@@ -661,9 +644,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+            \tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
             $importedData[0]['object_type']
         );
     }
@@ -685,9 +668,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
+            \tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
             $importedData[0]['object_type']
         );
     }
@@ -709,9 +692,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+            \tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
             $importedData[0]['object_type']
         );
     }
@@ -733,9 +716,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
+            \tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
             $importedData[0]['object_type']
         );
     }
@@ -766,7 +749,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             'energy_certificate_issue_date' => 0,
             'rent_with_heating_costs' => 0.0,
         ];
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
 
         self::assertEquals(
             $universalDataAndDefaultValues,
@@ -801,7 +784,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             'foobar',
             $importedData[0]['street'],
@@ -822,58 +805,6 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getConvertedDataSetsLocalizedPetsTitleIfValueIsStringTrue()
-    {
-        $node = $this->setRawDataToConvert(
-            '<openimmo>'
-            . '<anbieter>'
-            . '<immobilie>'
-            . '<verwaltung_objekt>'
-            . '<haustiere>TRUE</haustiere>'
-            . '</verwaltung_objekt>'
-            . '</immobilie>'
-            . '</anbieter>'
-            . '</openimmo>'
-        );
-
-        $result = $this->fixture->getConvertedData($node);
-        $translator = new tx_realty_translator();
-
-        self::assertSame(
-            $translator->translate('label_allowed'),
-            $result[0]['pets']
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getConvertedDataSetsLocalizedPetsTitleIfValueIsOne()
-    {
-        $node = $this->setRawDataToConvert(
-            '<openimmo>'
-            . '<anbieter>'
-            . '<immobilie>'
-            . '<verwaltung_objekt>'
-            . '<haustiere>1</haustiere>'
-            . '</verwaltung_objekt>'
-            . '</immobilie>'
-            . '</anbieter>'
-            . '</openimmo>'
-        );
-
-        $result = $this->fixture->getConvertedData($node);
-        $translator = new tx_realty_translator();
-
-        self::assertSame(
-            $translator->translate('label_allowed'),
-            $result[0]['pets']
-        );
-    }
-
-    /**
-     * @test
-     */
     public function getConvertedDataSubstitutesSurplusDecimalsWhenAPositiveNumberIsGiven()
     {
         $node = $this->setRawDataToConvert(
@@ -888,7 +819,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '1',
             $result[0]['street']
@@ -912,7 +843,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '-1',
             $result[0]['street']
@@ -936,7 +867,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '0',
             $result[0]['street']
@@ -960,7 +891,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '0',
             $result[0]['street']
@@ -984,7 +915,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '1.11',
             $result[0]['street']
@@ -1008,7 +939,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '-1.11',
             $result[0]['street']
@@ -1032,7 +963,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '1.1',
             $result[0]['street']
@@ -1057,7 +988,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $name,
             $result[0]['contact_person']
@@ -1082,7 +1013,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $name,
             $result[0]['contact_person_first_name']
@@ -1107,7 +1038,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $salutation,
             $result[0]['contact_person_salutation']
@@ -1132,7 +1063,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $emailAddress,
             $result[0]['contact_email']
@@ -1144,7 +1075,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataGetsStateIfValidStateProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1156,9 +1087,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             8,
             $result[0]['state']
@@ -1170,7 +1101,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataDoesNotGetStateIfInvalidStateProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1182,9 +1113,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['state'])
         );
@@ -1195,7 +1126,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanGetOneValidHeatingTypeSetToTrue()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1207,9 +1138,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(2, $result[0]['heating_type']);
     }
 
@@ -1218,7 +1149,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanGetOneValidHeatingTypeSetToOne()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1230,9 +1161,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             2,
             $result[0]['heating_type']
@@ -1244,7 +1175,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanGetMultipleValidHeatingTypesFromHeatingTypeNode()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1256,9 +1187,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '2,9,11',
             $result[0]['heating_type']
@@ -1270,7 +1201,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataReadsHeatingSetToFalseAsFalse()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1282,9 +1213,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEmpty(
             $result[0]['heating_type']
         );
@@ -1295,7 +1226,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataReadsHeatingSetToZeroAsFalse()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1307,9 +1238,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEmpty(
             $result[0]['heating_type']
         );
@@ -1320,7 +1251,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataRecognizesHeatingTypesMixedTrueAndFalse()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1332,9 +1263,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(2, $result[0]['heating_type']);
     }
 
@@ -1343,7 +1274,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanGetMultipleValidHeatingTypesFromFiringNode()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1355,9 +1286,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '5,8,12',
             $result[0]['heating_type']
@@ -1369,7 +1300,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanGetHeatingTypesFromFiringNodeAndHeatingTypeNode()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1382,9 +1313,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '11,12',
             $result[0]['heating_type']
@@ -1396,7 +1327,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataRecognizesFiringNodeWithTrue()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1408,9 +1339,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(12, $result[0]['heating_type']);
     }
 
@@ -1419,7 +1350,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataRecognizesFiringNodeWithOne()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1431,9 +1362,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(12, $result[0]['heating_type']);
     }
 
@@ -1442,7 +1373,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataRecognizesFiringNodeWithFalseAsNotSet()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1454,9 +1385,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEmpty($result[0]['heating_type']);
     }
 
@@ -1465,7 +1396,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataRecognizesFiringNodeWithZeroAsNotSet()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1477,9 +1408,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEmpty($result[0]['heating_type']);
     }
 
@@ -1488,7 +1419,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataRecognizesFiringNodeWithTrueAndFalseMixed()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1500,9 +1431,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(8, $result[0]['heating_type']);
     }
 
@@ -1511,7 +1442,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataDoesNotGetInvalidHeatingTypeFromHeatingTypeNode()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1523,9 +1454,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['heating_type'])
         );
@@ -1536,7 +1467,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataDoesNotGetInvalidHeatingTypeFromFiringNode()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1548,9 +1479,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['heating_type'])
         );
@@ -1561,7 +1492,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataOnlyGetsValidHeatingTypesIfValidAndInvalidTypesProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1573,9 +1504,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '2,4',
             $result[0]['heating_type']
@@ -1606,7 +1537,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataImportsAllHeatingTypes($name, $id)
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>
                 <anbieter>
@@ -1618,9 +1549,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                 </anbieter>
              </openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $id,
             $result[0]['heating_type']
@@ -1660,7 +1591,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataImportsAllFiringTypes($name, $id)
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>
                 <anbieter>
@@ -1672,9 +1603,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                 </anbieter>
              </openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $id,
             $result[0]['heating_type']
@@ -1686,7 +1617,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataFetchesSwitchboardPhoneNumber()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>'
             . '<anbieter>'
@@ -1698,9 +1629,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</anbieter>'
             . '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '1234567',
             $result[0]['phone_switchboard']
@@ -1712,7 +1643,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataFetchesDirectExtensionPhoneNumber()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>'
             . '<anbieter>'
@@ -1724,9 +1655,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</anbieter>'
             . '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '1234567',
             $result[0]['phone_direct_extension']
@@ -1741,7 +1672,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanImportLivingUsageUsingTrueFalseAttributeValues()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1753,9 +1684,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             'Wohnen',
             $result[0]['utilization']
@@ -1770,7 +1701,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanImportLivingUsageUsingOneZeroAttributeValues()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1782,9 +1713,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             'Wohnen',
             $result[0]['utilization']
@@ -1798,7 +1729,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanImportCommercialUsage()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1810,9 +1741,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             'Gewerbe',
             $result[0]['utilization']
@@ -1826,7 +1757,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanImportLivingAndCommercialUsage()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1838,9 +1769,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             'Wohnen, Gewerbe',
             $result[0]['utilization']
@@ -1854,7 +1785,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanImportEmptyUsage()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1866,9 +1797,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['utilization'])
         );
@@ -1879,7 +1810,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataGetsFurnishingCategoryForStandardCategoryProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1891,9 +1822,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             1,
             $result[0]['furnishing_category']
@@ -1905,7 +1836,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataGetsFurnishingCategoryForUpmarketCategoryProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1917,9 +1848,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             2,
             $result[0]['furnishing_category']
@@ -1931,7 +1862,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataGetsFurnishingCategoryForLuxuryCategoryProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1943,9 +1874,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             3,
             $result[0]['furnishing_category']
@@ -1957,7 +1888,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataNotGetsFurnishingCategoryIfInvalidCategoryProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1969,9 +1900,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['furnishing_category'])
         );
@@ -1982,7 +1913,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanGetOneValidFlooringType()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -1994,9 +1925,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '1',
             $result[0]['flooring']
@@ -2008,7 +1939,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataCanGetMultipleValidFlooringTypesFromFlooringNode()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2020,9 +1951,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '2,3,4',
             $result[0]['flooring']
@@ -2034,7 +1965,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataNotGetsInvalidFlooringFromFlooringNode()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2046,9 +1977,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['flooring'])
         );
@@ -2059,7 +1990,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataOnlyGetsValidFlooringsIfValidAndInvalidFlooringsProvided()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2071,9 +2002,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             '5,6',
             $result[0]['flooring']
@@ -2085,7 +2016,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataForValidButFalseFlooringDoesNotImportThisFlooring()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2097,9 +2028,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anbieter>' .
             '</openimmo>'
         );
-        $this->fixture->setRawRealtyData($node);
+        $this->subject->setRawRealtyData($node);
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             '11',
             $result[0]['flooring']
@@ -2123,9 +2054,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::STATUS_RENTED,
+            \tx_realty_Model_RealtyObject::STATUS_RENTED,
             $result[0]['status']
         );
     }
@@ -2147,9 +2078,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::STATUS_VACANT,
+            \tx_realty_Model_RealtyObject::STATUS_VACANT,
             $result[0]['status']
         );
     }
@@ -2170,7 +2101,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['status'])
         );
@@ -2181,7 +2112,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataFetchesHotWaterTrue()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2194,7 +2125,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(1, $result[0]['with_hot_water']);
     }
 
@@ -2203,7 +2134,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataFetchesHotWaterFalse()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2216,7 +2147,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(0, $result[0]['with_hot_water']);
     }
 
@@ -2225,7 +2156,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataFetchesHotWaterMissing()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2237,7 +2168,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['with_hot_water'])
         );
@@ -2250,7 +2181,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '11/2027';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2263,7 +2194,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['energy_certificate_valid_until']
@@ -2277,7 +2208,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'ABC';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2290,7 +2221,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['energy_consumption_characteristic']
@@ -2304,7 +2235,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '24,2154 kwH';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2317,7 +2248,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['ultimate_energy_demand']
@@ -2331,7 +2262,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'GAS';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2344,7 +2275,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['primary_energy_carrier']
@@ -2358,7 +2289,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'C42-abc';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2371,7 +2302,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['electric_power_consumption_characteristic']
@@ -2385,7 +2316,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'X42-abc';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2398,7 +2329,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['heat_energy_consumption_characteristic']
@@ -2412,7 +2343,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'C 44 C12';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2425,7 +2356,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['value_category']
@@ -2439,7 +2370,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '1963';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2452,7 +2383,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             (int)$value,
             $result[0]['year_of_construction']
@@ -2466,7 +2397,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'My, this is a nice certificate!';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2479,7 +2410,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['energy_certificate_text']
@@ -2493,7 +2424,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '123 a 45';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2506,7 +2437,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['heat_energy_requirement_value']
@@ -2520,7 +2451,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '123 a 45';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2533,7 +2464,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['heat_energy_requirement_class']
@@ -2547,7 +2478,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '123 a 45';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2560,7 +2491,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['total_energy_efficiency_value']
@@ -2574,7 +2505,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '123 a 45';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2587,7 +2518,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             $value,
             $result[0]['total_energy_efficiency_class']
@@ -2601,7 +2532,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '2014-02-20';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2614,7 +2545,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             mktime(0, 0, 0, 2, 20, 2014),
             $result[0]['energy_certificate_issue_date']
@@ -2626,7 +2557,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataSetsMissingEnergyCertificateIssueDateToZero()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2638,7 +2569,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             0,
             $result[0]['energy_certificate_issue_date']
@@ -2652,7 +2583,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'BEDARF';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2665,9 +2596,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_REQUIREMENT,
+            \tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_REQUIREMENT,
             $result[0]['energy_certificate_type']
         );
     }
@@ -2679,7 +2610,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'VERBRAUCH';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2692,9 +2623,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
+            \tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
             $result[0]['energy_certificate_type']
         );
     }
@@ -2706,7 +2637,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'Kürbisbrot';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2719,7 +2650,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['energy_certificate_type'])
         );
@@ -2732,7 +2663,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '2008';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2745,9 +2676,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2008,
+            \tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2008,
             $result[0]['energy_certificate_year']
         );
     }
@@ -2759,7 +2690,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = '2014';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2772,9 +2703,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2014,
+            \tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2014,
             $result[0]['energy_certificate_year']
         );
     }
@@ -2786,7 +2717,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'ohne';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2799,9 +2730,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE,
+            \tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE,
             $result[0]['energy_certificate_year']
         );
     }
@@ -2813,7 +2744,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'nicht_noetig';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2826,9 +2757,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
+            \tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
             $result[0]['energy_certificate_year']
         );
     }
@@ -2840,7 +2771,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'Kürbisbrot';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2853,7 +2784,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['energy_certificate_year'])
         );
@@ -2866,7 +2797,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'wohn';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2879,9 +2810,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::BUILDING_TYPE_RESIDENTIAL,
+            \tx_realty_Model_RealtyObject::BUILDING_TYPE_RESIDENTIAL,
             $result[0]['building_type']
         );
     }
@@ -2893,7 +2824,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'nichtwohn';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2906,9 +2837,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
-            tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
+            \tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
             $result[0]['building_type']
         );
     }
@@ -2920,7 +2851,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
     {
         $value = 'Kürbisbrot';
 
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -2933,7 +2864,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['building_type'])
         );
@@ -2960,7 +2891,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -2989,7 +2920,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'image' => 'tx_realty_image_test.jpg',
                 ],
             ],
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -3018,7 +2949,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'image' => 'tx_realty_image_test.JPG',
                 ],
             ],
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -3042,7 +2973,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -3066,7 +2997,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -3090,7 +3021,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -3119,7 +3050,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'image' => 'tx_realty_image_test.jpg',
                 ],
             ],
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -3146,7 +3077,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anhaenge>' .
             '</immobilie>'
         );
-        $images = $this->fixture->createRecordsForImages();
+        $images = $this->subject->createRecordsForImages();
 
         self::assertSame(
             [
@@ -3187,7 +3118,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anhaenge>' .
             '</immobilie>'
         );
-        $images = $this->fixture->createRecordsForImages();
+        $images = $this->subject->createRecordsForImages();
 
         self::assertSame(
             [
@@ -3237,7 +3168,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertCount(
             1,
-            $this->fixture->createRecordsForImages()
+            $this->subject->createRecordsForImages()
         );
     }
 
@@ -3270,7 +3201,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</immobilie>' .
             '</openimmo>'
         );
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
 
         self::assertSame(
             [
@@ -3309,7 +3240,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3338,7 +3269,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'filename' => 'tx_realty_document_test.pdf',
                 ],
             ],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3367,7 +3298,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'filename' => 'tx_realty_document_test.PDF',
                 ],
             ],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3397,7 +3328,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
                     'filename' => 'tx_realty_document_test.pdf',
                 ],
             ],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3421,7 +3352,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3445,7 +3376,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3469,7 +3400,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3493,7 +3424,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertSame(
             [],
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3520,7 +3451,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</anhaenge>' .
             '</immobilie>'
         );
-        $documents = $this->fixture->importDocuments();
+        $documents = $this->subject->importDocuments();
 
         self::assertSame(
             [
@@ -3570,7 +3501,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
 
         self::assertCount(
             1,
-            $this->fixture->importDocuments()
+            $this->subject->importDocuments()
         );
     }
 
@@ -3603,7 +3534,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</immobilie>' .
             '</openimmo>'
         );
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
 
         self::assertSame(
             [
@@ -3643,7 +3574,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEmpty($result[0]['elevator'], 'The value for "elevator" is incorrect.');
         self::assertSame(
             1,
@@ -3669,7 +3600,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             12345.00,
             $result[0]['hoa_fee']
@@ -3693,7 +3624,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             12345.00,
             $result[0]['rent_excluding_bills']
@@ -3718,7 +3649,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             12345.00,
             $result[0]['rent_excluding_bills']
@@ -3742,7 +3673,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             54321.00,
             $result[0]['rent_excluding_bills']
@@ -3767,7 +3698,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             54321.00,
             $result[0]['rent_excluding_bills']
@@ -3791,7 +3722,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(12345.67, $result[0]['rent_with_heating_costs']);
     }
 
@@ -3814,7 +3745,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             'foo',
             $result[0]['language']
@@ -3838,7 +3769,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertTrue(
             $result[0]['has_coordinates']
         );
@@ -3872,7 +3803,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['has_coordinates'])
         );
@@ -3895,114 +3826,9 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['has_coordinates'])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCode()
-    {
-        $node = $this->setRawDataToConvert(
-            '<openimmo>' .
-            '<anbieter>' .
-            '<immobilie>' .
-            '<geo>' .
-            '<land iso_land="DEU"/>' .
-            '</geo>' .
-            '</immobilie>' .
-            '</anbieter>' .
-            '</openimmo>'
-        );
-
-        $result = $this->fixture->getConvertedData($node);
-        self::assertSame(
-            self::DE,
-            $result[0]['country']
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCodeTwice()
-    {
-        $node = $this->setRawDataToConvert(
-            '<openimmo>' .
-            '<anbieter>' .
-            '<immobilie>' .
-            '<geo>' .
-            '<land iso_land="DEU"/>' .
-            '</geo>' .
-            '</immobilie>' .
-            '<immobilie>' .
-            '<geo>' .
-            '<land iso_land="DEU"/>' .
-            '</geo>' .
-            '</immobilie>' .
-            '</anbieter>' .
-            '</openimmo>'
-        );
-
-        $result = $this->fixture->getConvertedData($node);
-        self::assertSame(
-            self::DE,
-            $result[0]['country'],
-            'The first country is incorrect.'
-        );
-        self::assertSame(
-            self::DE,
-            $result[1]['country'],
-            'The second country is incorrect.'
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getConvertedDataNotImportsTheCountryForInvalidCode()
-    {
-        $node = $this->setRawDataToConvert(
-            '<openimmo>' .
-            '<anbieter>' .
-            '<immobilie>' .
-            '<geo>' .
-            '<land iso_land="foo"/>' .
-            '</geo>' .
-            '</immobilie>' .
-            '</anbieter>' .
-            '</openimmo>'
-        );
-
-        $result = $this->fixture->getConvertedData($node);
-        self::assertFalse(
-            isset($result[0]['country'])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getConvertedDataNotImportsTheCountryForEmptyCode()
-    {
-        $node = $this->setRawDataToConvert(
-            '<openimmo>' .
-            '<anbieter>' .
-            '<immobilie>' .
-            '<geo>' .
-            '<land iso_land=""/>' .
-            '</geo>' .
-            '</immobilie>' .
-            '</anbieter>' .
-            '</openimmo>'
-        );
-
-        $result = $this->fixture->getConvertedData($node);
-        self::assertFalse(
-            isset($result[0]['country'])
         );
     }
 
@@ -4023,7 +3849,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             'EUR',
             $result[0]['currency']
@@ -4047,7 +3873,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             1,
             $result[0]['old_or_new_building']
@@ -4071,7 +3897,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             2,
             $result[0]['old_or_new_building']
@@ -4095,7 +3921,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertFalse(
             isset($result[0]['old_or_new_building'])
         );
@@ -4118,7 +3944,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(1, $result[0]['show_address']);
     }
 
@@ -4139,7 +3965,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(0, $result[0]['show_address']);
     }
 
@@ -4160,7 +3986,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             12.34,
             $result[0]['rent_per_square_meter']
@@ -4184,7 +4010,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             123.45,
             $result[0]['living_area']
@@ -4208,7 +4034,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             123.45,
             $result[0]['total_usable_area']
@@ -4232,7 +4058,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             123.45,
             $result[0]['total_area']
@@ -4256,7 +4082,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             123.45,
             $result[0]['shop_area']
@@ -4280,7 +4106,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             123.45,
             $result[0]['sales_area']
@@ -4304,7 +4130,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             123.45,
             $result[0]['storage_area']
@@ -4328,7 +4154,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             123.45,
             $result[0]['office_space']
@@ -4352,7 +4178,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             123.45,
             $result[0]['other_area']
@@ -4376,7 +4202,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             12.34,
             $result[0]['window_bank']
@@ -4400,7 +4226,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             0.12,
             $result[0]['floor_space_index']
@@ -4424,7 +4250,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             0.12,
             $result[0]['site_occupancy_index']
@@ -4448,7 +4274,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertEquals(
             123.45,
             $result[0]['estate_size']
@@ -4472,7 +4298,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertEquals(
             3.5,
             $importedData[0]['number_of_rooms']
@@ -4496,7 +4322,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             2,
             $importedData[0]['bedrooms']
@@ -4520,7 +4346,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             2,
             $importedData[0]['bathrooms']
@@ -4544,7 +4370,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
 
         self::assertSame(1, $importedData[0]['balcony']);
     }
@@ -4566,7 +4392,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(1, $importedData[0]['balcony']);
     }
 
@@ -4588,7 +4414,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertNull($importedData[0]['balcony']);
     }
 
@@ -4609,7 +4435,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $importedData = $this->fixture->getConvertedData($node);
+        $importedData = $this->subject->getConvertedData($node);
         self::assertSame(
             2,
             $importedData[0]['parking_spaces']
@@ -4633,7 +4459,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(
             12345.67,
             $result[0]['rental_income_target']
@@ -4657,7 +4483,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
 
         self::assertSame('1234.56', $result[0]['deposit']);
     }
@@ -4679,7 +4505,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
 
         self::assertSame(1234, $result[0]['deposit']);
     }
@@ -4703,7 +4529,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
 
         self::assertSame($deposit, $result[0]['deposit']);
     }
@@ -4732,7 +4558,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataFetchesBooleanInfrastructureNodeTrue($nodeName, $fieldName)
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -4745,7 +4571,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(1, $result[0][$fieldName]);
     }
 
@@ -4759,7 +4585,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function getConvertedDataFetchesBooleanInfrastructureNodeFalse($nodeName, $fieldName)
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $node->loadXML(
             '<openimmo>' .
             '<anbieter>' .
@@ -4772,7 +4598,7 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
             '</openimmo>'
         );
 
-        $result = $this->fixture->getConvertedData($node);
+        $result = $this->subject->getConvertedData($node);
         self::assertSame(0, $result[0][$fieldName]);
     }
 
@@ -4785,14 +4611,14 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function fetchDomAttributesIfValidNodeGiven()
     {
-        $node = new DOMDocument();
-        /** @var DOMElement $element */
+        $node = new \DOMDocument();
+        /** @var \DOMElement $element */
         $element = $node->appendChild($node->createElement('foo'));
-        $element->setAttributeNode(new DOMAttr('foo', 'bar'));
+        $element->setAttributeNode(new \DOMAttr('foo', 'bar'));
 
         self::assertSame(
             ['foo' => 'bar'],
-            $this->fixture->fetchDomAttributes($element)
+            $this->subject->fetchDomAttributes($element)
         );
     }
 
@@ -4801,12 +4627,12 @@ class tx_realty_Import_DomDocumentConverterTest extends \Tx_Phpunit_TestCase
      */
     public function fetchDomAttributesIfNodeWithoutAttributesGiven()
     {
-        $node = new DOMDocument();
+        $node = new \DOMDocument();
         $element = $node->appendChild($node->createElement('foo'));
 
         self::assertSame(
             [],
-            $this->fixture->fetchDomAttributes($element)
+            $this->subject->fetchDomAttributes($element)
         );
     }
 }
