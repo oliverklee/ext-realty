@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the checks for the zip_archive PHP extension (#175)
 
 ### Fixed
+- Use the correct path name when PHP-linting the tests (#192)
 - Drop unneeded, copy'n'pasted DIV wrapper from the BE module (#177)
 - Also provide the extension icon in `Resources/` (#176)
 
