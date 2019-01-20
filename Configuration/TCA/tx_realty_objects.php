@@ -22,18 +22,19 @@ $tca = [
             'endtime' => 'endtime',
         ],
         'iconfile' => 'EXT:realty/Resources/Public/Icons/RealtyObject.gif',
-        'searchFields' => 'uid,title,object_number,zip,openimmo_anid,openimmo_obid',
+        'searchFields' => 'uid, title, object_number, openimmo_anid, openimmo_obid, ' .
+            'street, zip',
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .
             'hidden,starttime,endtime,object_number,object_type,title,sorting,' .
-            'emphasized,show_address,street,zip,city,district,country,distance_to_the_sea,sea_view' .
+            'emphasized,distance_to_the_sea,sea_view' .
             'number_of_rooms,living_area,total_area,shop_area,sales_area,' .
             'total_usable_area,storage_area,office_space,other_area,window_bank' .
             'estate_size,site_occupancy_index,floor_space_index,' .
             'rent_excluding_bills, rent_with_heating_costs, rent_per_square_meter, extra_charges,' .
             'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
-            'year_rent,rental_income_target,status,apartment_type,house_type,floor,floors,bedrooms,' .
+            'year_rent,rental_income_target,status,apartment_type,house_type,bedrooms,' .
             'bathrooms,heating_type,has_air_conditioning,garage_type,parking_spaces,garage_rent,' .
             'garage_price,pets,flooring,construction_year,old_or_new_building,' .
             'state,furnishing_category,balcony,garden,' .
@@ -44,16 +45,17 @@ $tca = [
             'phone_direct_extension,owner,language,currency,' .
             'advertised_date, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, '
             .
+            'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, assisted_living, '
+            .
+            'street, zip, city, district, country, show_address, floor, floors, ' .
+            'has_coordinates, coordinates_problem, longitude, latitude, ' .
             'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, '
             .
             'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, '
             .
             'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
             'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
-            'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, assisted_living, '
-            .
-            'has_coordinates,coordinates_problem,longitude,latitude, ' .
-            'attachments',
+            'attachments, images, documents',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -1469,14 +1471,14 @@ $tca = [
                 'l18n_parent, l18n_diffsource, ' .
                 'object_number, openimmo_anid, openimmo_obid, object_type, ' .
                 'utilization, title, emphasized, sorting, ' .
-                'show_address, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
+                'distance_to_the_sea, sea_view, number_of_rooms, '
                 .
                 'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
                 'storage_area, office_space, other_area, window_bank, ' .
                 'estate_size, site_occupancy_index, floor_space_index, ' .
                 'rent_excluding_bills, rent_with_heating_costs, rent_per_square_meter,' .
                 'extra_charges, heating_included, deposit, provision, usable_from, status, ' .
-                'apartment_type, house_type, floor, floors, bedrooms, ' .
+                'apartment_type, house_type, bedrooms, ' .
                 'bathrooms, heating_type, has_air_conditioning, garage_type, parking_spaces, ' .
                 'garage_rent, pets, flooring, construction_year, old_or_new_building, ' .
                 'state, furnishing_category, balcony, garden, fitted_kitchen, has_pool, has_community_pool,' .
@@ -1490,6 +1492,9 @@ $tca = [
                 'contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
                 'advertised_date, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
+                'street, zip, city, district, country, show_address, floor, floors, ' .
+                'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, '
                 .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
@@ -1501,8 +1506,6 @@ $tca = [
                 'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
-                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
                 'attachments, images, documents, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
@@ -1514,14 +1517,14 @@ $tca = [
                 'l18n_parent, l18n_diffsource, ' .
                 'object_number, openimmo_anid, openimmo_obid, object_type, ' .
                 'title, emphasized, sorting, ' .
-                'show_address, street, zip, city, district, country, distance_to_the_sea, sea_view, number_of_rooms, '
+                'distance_to_the_sea, sea_view, number_of_rooms, '
                 .
                 'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
                 'storage_area, office_space, other_area, window_bank, ' .
                 'estate_size, site_occupancy_index, ' .
                 'floor_space_index, provision, usable_from, ' .
                 'buying_price, hoa_fee, extra_charges, year_rent, rental_income_target, status, ' .
-                'apartment_type, house_type, floor, floors, bedrooms, bathrooms, ' .
+                'apartment_type, house_type, bedrooms, bathrooms, ' .
                 'heating_type, has_air_conditioning, garage_type, parking_spaces, garage_price, ' .
                 'flooring, construction_year, old_or_new_building, state, ' .
                 'furnishing_category, balcony, garden, fitted_kitchen, has_pool, has_community_pool, ' .
@@ -1535,6 +1538,9 @@ $tca = [
                 'contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
                 'advertised_date, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
+                'street, zip, city, district, country, show_address, floor, floors, ' .
+                'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, '
                 .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
@@ -1546,8 +1552,6 @@ $tca = [
                 'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
-                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
                 'attachments, images, documents, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
