@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed
+- Move the images and documents to the "attachments" TCEforms tab (#191)
 - Speed up the new functional by omitting the auto increment reset (#189)
 - Convert more tests to nimut/testing framework (#181, #185, #190)
 - Stop using the charset conversion from the BE or FE (#178)

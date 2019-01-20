@@ -38,7 +38,7 @@ $tca = [
             'garage_price,pets,flooring,construction_year,old_or_new_building,' .
             'state,furnishing_category,balcony,garden,' .
             'fitted_kitchen, has_pool,has_community_pool,teaser,' .
-            'description,equipment,layout,location,misc,details_page,images,' .
+            'description,equipment,layout,location,misc,details_page, ' .
             'employer,openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
             'contact_person,contact_person_first_name,contact_person_salutation,contact_email,phone_switchboard,' .
             'phone_direct_extension,owner,language,currency,' .
@@ -1485,7 +1485,7 @@ $tca = [
                 'equipment, ' .
                 'layout, location, ' .
                 'misc, ' .
-                'details_page, images, documents, contact_data_source, employer, ' .
+                'details_page, contact_data_source, employer, ' .
                 'contact_person, contact_person_salutation, contact_person_first_name, ' .
                 'contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
@@ -1504,7 +1504,7 @@ $tca = [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
                 'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
-                'attachments, ' .
+                'attachments, images, documents, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
                 'hidden, starttime, endtime',
         ],
@@ -1530,7 +1530,7 @@ $tca = [
                 'equipment, ' .
                 'layout, location, ' .
                 'misc, ' .
-                'details_page, images, documents, contact_data_source, employer, ' .
+                'details_page, contact_data_source, employer, ' .
                 'contact_person, contact_person_salutation, contact_person_first_name, ' .
                 'contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
@@ -1549,7 +1549,7 @@ $tca = [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
                 'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
-                'attachments, ' .
+                'attachments, images, documents, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
                 'hidden, starttime, endtime',
         ],
