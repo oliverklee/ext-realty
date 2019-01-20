@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Show the JPEG FAL attachments in the single view gallery (#198)
 - Show the JPEG FAL attachments as thumbnails in the list view (#188)
 - Show the PDF FAL attachments in the single view (#184)
 - Add RealtyObject.getJpegAttachments() (#183)
