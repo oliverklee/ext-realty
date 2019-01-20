@@ -820,30 +820,6 @@
                 <source>Image</source>
                 <target>Bild</target>
             </trans-unit>
-            <trans-unit id="tx_realty_images.position" xml:space="preserve" approved="yes">
-                <source>Position</source>
-                <target>Position</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.0" xml:space="preserve" approved="yes">
-                <source>Standard</source>
-                <target>Standard</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.1" xml:space="preserve" approved="yes">
-                <source>Position 1</source>
-                <target>Position 1</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.2" xml:space="preserve" approved="yes">
-                <source>Position 2</source>
-                <target>Position 2</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.3" xml:space="preserve" approved="yes">
-                <source>Position 3</source>
-                <target>Position 3</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.4" xml:space="preserve" approved="yes">
-                <source>Position 4</source>
-                <target>Position 4</target>
-            </trans-unit>
             <trans-unit id="tx_realty_documents" xml:space="preserve" approved="yes">
                 <source>Document</source>
                 <target>Dokument</target>

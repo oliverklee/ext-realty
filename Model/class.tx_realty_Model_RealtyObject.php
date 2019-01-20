@@ -432,8 +432,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             $image->setFileName($imageData['image']);
             $image->setPageUid((int)$imageData['pid']);
             $image->setSorting((int)$imageData['sorting']);
-            $image->setPosition((int)$imageData['position']);
-
             $this->images->add($image);
         }
 
@@ -1237,7 +1235,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         if ($fileName !== '') {
             $image->setFileName($fileName);
         }
-        $image->setPosition($position);
         $this->images->add($image);
 
         $this->imagesNeedToGetSaved = true;

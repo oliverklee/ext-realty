@@ -33,27 +33,3 @@ configured with the following TS setup variables:
            # maximum height of the images shown in the lightbox gallery
            lightboxImageHeightMax = 768
    }
-
-When editing image records in the back end, you can move the records
-to different image positions 1 to 4 using the drop-down in the record.
-These image positions then will be displayed below the regular
-Lightbox gallery in the front-end single view. You then can overwrite
-the default settings mentioned above for single image positions:
-
-::
-
-   plugin.tx_realty_pi1.images {
-                   1 {
-                           enableLightbox = 0
-                           singleImageMaxX = 200
-                           singleImageMaxY = 200
-                   }
-                   2 {
-                           lightboxImageWidthMax = 800
-                           lightboxImageHeightMax = 600
-                   }
-           } {
-   }
-
-If you do not specify any values for an image position, the global
-values will be used.

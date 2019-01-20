@@ -89,25 +89,9 @@ $tca = [
                 'maxitems' => 1,
             ],
         ],
-        'position' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'items' => [
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.0', 0],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.1', 1],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.2', 2],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.3', 3],
-                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.4', 4],
-                ],
-                'default' => 0,
-            ],
-        ],
     ],
     'types' => [
-        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, hidden, caption, image, position'],
+        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, hidden, caption, image'],
     ],
 ];
 
