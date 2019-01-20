@@ -89,20 +89,6 @@ $tca = [
                 'maxitems' => 1,
             ],
         ],
-        'thumbnail' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.thumbnail',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-                'max_size' => 2000,
-                'uploadfolder' => 'uploads/tx_realty',
-                'size' => 1,
-                'minitems' => 0,
-                'maxitems' => 1,
-            ],
-        ],
         'position' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position',
@@ -121,7 +107,7 @@ $tca = [
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, hidden, caption, image, thumbnail, position'],
+        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, hidden, caption, image, position'],
     ],
 ];
 

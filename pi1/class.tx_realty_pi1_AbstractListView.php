@@ -1266,10 +1266,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         $image = $this->getImage($offset);
         if (!empty($image)) {
-            $fileName = $image['thumbnail'] !== '' ? $image['thumbnail'] : $image['image'];
-
             $result = $this->createImageTag(
-                $fileName,
+                $image['image'],
                 $maxSizeVariable,
                 $image['caption'],
                 $id
@@ -1325,9 +1323,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *        the number of the image to retrieve (zero-based, may be zero)
      *
      * @return string[]
-     *         the image's caption, file name and thumbnail file name in an
-     *         associative array, will be empty if no current row was set or if
-     *         the queried image does not exist
+     *         the image's caption and file name in an associative array,
+     *         will be empty if no current row was set or if the queried image does not exist
      */
     private function getImage($offset = 0)
     {
@@ -1338,7 +1335,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         try {
             $image = Tx_Oelib_Db::selectSingle(
-                'image, caption, thumbnail',
+                'image, caption',
                 'tx_realty_images',
                 'object = ' . $this->internal['currentRow']['uid'] .
                 Tx_Oelib_Db::enableFields('tx_realty_images'),

@@ -616,9 +616,6 @@
             <trans-unit id="tx_realty_images.image" xml:space="preserve">
                 <source>Image</source>
             </trans-unit>
-            <trans-unit id="tx_realty_images.thumbnail" xml:space="preserve">
-                <source>Thumbnail</source>
-            </trans-unit>
             <trans-unit id="tx_realty_images.position" xml:space="preserve">
                 <source>Position</source>
             </trans-unit>

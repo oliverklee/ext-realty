@@ -820,10 +820,6 @@
                 <source>Image</source>
                 <target>Bild</target>
             </trans-unit>
-            <trans-unit id="tx_realty_images.thumbnail" xml:space="preserve" approved="yes">
-                <source>Thumbnail</source>
-                <target>Thumbnail</target>
-            </trans-unit>
             <trans-unit id="tx_realty_images.position" xml:space="preserve" approved="yes">
                 <source>Position</source>
                 <target>Position</target>

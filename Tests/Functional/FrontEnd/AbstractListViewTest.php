@@ -727,7 +727,7 @@ class AbstractListViewTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function forRelatedImageWithoutThumbnailFileUsesImageFile()
+    public function forRelatedImageUsesImageFile()
     {
         $fixture = new TestingListView(
             [
@@ -746,7 +746,6 @@ class AbstractListViewTest extends FunctionalTestCase
                 'caption' => 'test image',
                 'object' => $this->firstRealtyUid,
                 'image' => 'foo.jpg',
-                'thumbnail' => '',
             ]
         );
         $this->testingFramework->changeRecord(
@@ -761,52 +760,6 @@ class AbstractListViewTest extends FunctionalTestCase
                 'altText' => 'test image',
                 'titleText' => 'test image',
                 'file' => \tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => [
-                    'width' => '98c',
-                    'height' => '100c',
-                ],
-            ],
-            $this->imageConfigurations[0]
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function forRelatedImageWithThumbnailFileUsesThumbnailFile()
-    {
-        $fixture = new TestingListView(
-            [
-                'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
-                'pages' => $this->systemFolderPid,
-                'listImageMaxX' => 98,
-                'listImageMaxY' => 100,
-            ],
-            $this->contentObject,
-            true
-        );
-
-        $this->testingFramework->createRecord(
-            'tx_realty_images',
-            [
-                'caption' => 'test image',
-                'object' => $this->firstRealtyUid,
-                'image' => 'foo.jpg',
-                'thumbnail' => 'thumbnail.jpg',
-            ]
-        );
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->firstRealtyUid,
-            ['images' => 1]
-        );
-
-        $fixture->render();
-        self::assertSame(
-            [
-                'altText' => 'test image',
-                'titleText' => 'test image',
-                'file' => \tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
                 'file.' => [
                     'width' => '98c',
                     'height' => '100c',

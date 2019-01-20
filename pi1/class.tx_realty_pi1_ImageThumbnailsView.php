@@ -132,13 +132,11 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
     {
         $containerImageConfiguration = $this->getImageConfigurationForContainer($image->getPosition());
 
-        $fileName = $image->hasThumbnailFileName() ? $image->getThumbnailFileName() : $image->getFileName();
         $title = $image->getTitle();
-
         $imageConfiguration = [
             'altText' => $title,
             'titleText' => $title,
-            'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $fileName,
+            'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
             'file.' => [
                 'width' => $containerImageConfiguration['thumbnailSizeX'] . 'c',
                 'height' => $containerImageConfiguration['thumbnailSizeY'] . 'c',
