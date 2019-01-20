@@ -21,6 +21,9 @@ Upgrading from version 2.x.y to 3.x.y
 
 #. Note: The separate image thumbnail have been removed.
 
+#. Note: The image position setting has been removed. If you are using
+   a customized HTML template, please remove the IMAGES\_POSITION\_* subparts.
+
 #. Install the latest versions of the  *oelib* and  *static\_info\_tables*
    extensions.
 

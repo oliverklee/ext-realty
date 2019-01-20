@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Remove the position field for image records (#195)
 - Remove the separate thumbnails for image records (#194)
 - Drop the checks for the zip_archive PHP extension (#175)
 

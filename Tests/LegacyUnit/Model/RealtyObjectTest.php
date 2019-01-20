@@ -538,30 +538,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function setDataSetsImagePositionForImageFromDatabase()
-    {
-        $this->testingFramework->createRecord(
-            'tx_realty_images',
-            [
-                'caption' => 'foo',
-                'image' => 'foo.jpg',
-                'object' => $this->objectUid,
-                'position' => 4,
-            ]
-        );
-        $this->fixture->setData(['uid' => $this->objectUid, 'images' => 1]);
-
-        /** @var tx_realty_Model_Image $firstImage */
-        $firstImage = $this->fixture->getImages()->first();
-        self::assertEquals(
-            4,
-            $firstImage->getPosition()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function setDataSetsTheImageDataForImageFromArray()
     {
         $this->fixture->setData(
@@ -2278,74 +2254,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         self::assertEquals(
             3,
             $this->fixture->getProperty('images')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function addImageRecordByDefaultSetsPositionToZero()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-        $this->fixture->loadRealtyObject($this->objectUid);
-        $this->fixture->addImageRecord('foo', 'foo.jpg');
-
-        /** @var tx_realty_Model_Image $firstImage */
-        $firstImage = $this->fixture->getImages()->first();
-        self::assertEquals(
-            0,
-            $firstImage->getPosition()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function addImageRecordCanSetPositionZero()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-        $this->fixture->loadRealtyObject($this->objectUid);
-        $this->fixture->addImageRecord('foo', 'foo.jpg', 0);
-
-        /** @var tx_realty_Model_Image $firstImage */
-        $firstImage = $this->fixture->getImages()->first();
-        self::assertEquals(
-            0,
-            $firstImage->getPosition()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function addImageRecordCanSetPositionOne()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-        $this->fixture->loadRealtyObject($this->objectUid);
-        $this->fixture->addImageRecord('foo', 'foo.jpg', 1);
-
-        /** @var tx_realty_Model_Image $firstImage */
-        $firstImage = $this->fixture->getImages()->first();
-        self::assertEquals(
-            1,
-            $firstImage->getPosition()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function addImageRecordCanSetPositionFour()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-        $this->fixture->loadRealtyObject($this->objectUid);
-        $this->fixture->addImageRecord('foo', 'foo.jpg', 4);
-
-        /** @var tx_realty_Model_Image $firstImage */
-        $firstImage = $this->fixture->getImages()->first();
-        self::assertEquals(
-            4,
-            $firstImage->getPosition()
         );
     }
 

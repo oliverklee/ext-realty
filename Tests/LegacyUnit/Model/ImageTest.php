@@ -174,47 +174,4 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
             $this->fixture->getSorting()
         );
     }
-
-    ///////////////////////////////////////////////
-    // Tests concerning the position of the image
-    ///////////////////////////////////////////////
-
-    /**
-     * @test
-     */
-    public function getPositionWithoutDataSetReturnsZero()
-    {
-        $this->fixture->setData([]);
-
-        self::assertEquals(
-            0,
-            $this->fixture->getPosition()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function getPositionWithPositionSetReturnsPosition()
-    {
-        $this->fixture->setData(['position' => 1]);
-
-        self::assertEquals(
-            1,
-            $this->fixture->getPosition()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function setPositionSetsPosition()
-    {
-        $this->fixture->setPosition(5);
-
-        self::assertEquals(
-            5,
-            $this->fixture->getPosition()
-        );
-    }
 }

@@ -648,30 +648,6 @@
                 <source>Image</source>
                 <target>Imagen</target>
             </trans-unit>
-            <trans-unit id="tx_realty_images.position" xml:space="preserve" approved="yes">
-                <source>Position</source>
-                <target>Posición</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.0" xml:space="preserve" approved="yes">
-                <source>Standard</source>
-                <target>Estandar</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.1" xml:space="preserve" approved="yes">
-                <source>Position 1</source>
-                <target>Posición 1</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.2" xml:space="preserve" approved="yes">
-                <source>Position 2</source>
-                <target>Posición 2</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.3" xml:space="preserve" approved="yes">
-                <source>Position 3</source>
-                <target>Posición 3</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.position.4" xml:space="preserve" approved="yes">
-                <source>Position 4</source>
-                <target>Posición 4</target>
-            </trans-unit>
             <trans-unit id="tx_realty_documents" xml:space="preserve" approved="yes">
                 <source>Document</source>
                 <target>Dcoumento</target>

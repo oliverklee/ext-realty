@@ -103,27 +103,4 @@ class tx_realty_Model_Image extends tx_realty_Model_AbstractTitledModel implemen
     {
         $this->setAsInteger('sorting', $sorting);
     }
-
-    /**
-     * Sets the sorting of this image.
-     *
-     * @param int $position
-     *        the position of this image, must be between 0 and 4
-     *
-     * @return void
-     */
-    public function setPosition($position)
-    {
-        $this->setAsInteger('position', $position);
-    }
-
-    /**
-     * Gets the position of this image.
-     *
-     * @return int the position of this image, will be between 0 and 4
-     */
-    public function getPosition()
-    {
-        return $this->getAsInteger('position');
-    }
 }
