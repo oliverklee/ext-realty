@@ -44,7 +44,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
 
         $this->createImageConfiguration();
 
-        return ($this->renderImages() > 0) ? $this->getSubpart('FIELD_WRAPPER_IMAGETHUMBNAILS') : '';
+        return ($this->renderLegacyImages() > 0) ? $this->getSubpart('FIELD_WRAPPER_IMAGETHUMBNAILS') : '';
     }
 
     /**
@@ -55,7 +55,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      *
      * @throws \Tx_Oelib_Exception_NotFound
      */
-    private function renderImages()
+    private function renderLegacyImages()
     {
         /** @var \tx_realty_Mapper_RealtyObject $realtyObjectMapper */
         $realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
@@ -111,8 +111,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         foreach ($images as $image) {
             $configuration = $this->getImageConfigurationForContainer($position);
             $currentImage = $configuration['enableLightbox']
-                ? $this->createLightboxThumbnail($image)
-                : $this->createThumbnail($image);
+                ? $this->createLegacyLightboxThumbnail($image)
+                : $this->createLegacyThumbnail($image);
             $this->setMarker('one_image_tag', $currentImage);
             $result .= $this->getSubpart($itemSubpartName);
         }
@@ -128,7 +128,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      *
      * @return string image tag, will not be empty
      */
-    protected function createThumbnail(\tx_realty_Model_Image $image)
+    protected function createLegacyThumbnail(\tx_realty_Model_Image $image)
     {
         $containerImageConfiguration = $this->getImageConfigurationForContainer($image->getPosition());
 
@@ -155,9 +155,9 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      * @return string
      *         image tag wrapped in a Lightbox link, will not be empty
      */
-    protected function createLightboxThumbnail(\tx_realty_Model_Image $image)
+    protected function createLegacyLightboxThumbnail(\tx_realty_Model_Image $image)
     {
-        $thumbnailTag = $this->createThumbnail($image);
+        $thumbnailTag = $this->createLegacyThumbnail($image);
 
         $position = $image->getPosition();
         $configuration = $this->getImageConfigurationForContainer($position);
