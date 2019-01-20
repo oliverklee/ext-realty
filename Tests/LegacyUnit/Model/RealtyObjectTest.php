@@ -2349,40 +2349,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function addImageRecordByDefaultSetsEmptyThumbnailFileName()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-        $this->fixture->loadRealtyObject($this->objectUid);
-        $this->fixture->addImageRecord('foo', 'foo.jpg');
-
-        /** @var tx_realty_Model_Image $firstImage */
-        $firstImage = $this->fixture->getImages()->first();
-        self::assertEquals(
-            '',
-            $firstImage->getThumbnailFileName()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function addImageRecordCanSetNonEmptyThumbnailFileName()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-        $this->fixture->loadRealtyObject($this->objectUid);
-        $this->fixture->addImageRecord('foo', 'foo.jpg', 0, 'bar.jpg');
-
-        /** @var tx_realty_Model_Image $firstImage */
-        $firstImage = $this->fixture->getImages()->first();
-        self::assertEquals(
-            'bar.jpg',
-            $firstImage->getThumbnailFileName()
-        );
-    }
-
     //////////////////////////////////////////////
     // Tests concerning markImageRecordAsDeleted
     //////////////////////////////////////////////

@@ -1213,19 +1213,13 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *        name of the image in the upload directory, must not be empty
      * @param int $position
      *        the position of the image, must be between 0 and 4
-     * @param string $thumbnailFileName
-     *        name of the separate thumbnail in the upload directory
      *
      * @throws BadMethodCallException
      *
      * @return int key of the newly created record, will be >= 0
      */
-    public function addImageRecord(
-        $caption,
-        $fileName,
-        $position = 0,
-        $thumbnailFileName = ''
-    ) {
+    public function addImageRecord($caption, $fileName, $position = 0)
+    {
         if ($this->isVirgin()) {
             throw new BadMethodCallException(
                 'A realty record must be loaded before images can be appended.',
@@ -1244,8 +1238,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             $image->setFileName($fileName);
         }
         $image->setPosition($position);
-        $image->setThumbnailFileName($thumbnailFileName);
-
         $this->images->add($image);
 
         $this->imagesNeedToGetSaved = true;

@@ -55,45 +55,6 @@ class tx_realty_Model_Image extends tx_realty_Model_AbstractTitledModel implemen
     }
 
     /**
-     * Gets the thumbnail file name of this image (relative to the extension's
-     * upload directory).
-     *
-     * @return string
-     *         the thumbnail file name, will be empty if no file name has been
-     *         set
-     */
-    public function getThumbnailFileName()
-    {
-        return $this->getAsString('thumbnail');
-    }
-
-    /**
-     * Sets the name of the separate thumbnail file.
-     *
-     * @param string $fileName
-     *        the name of the thumbnail file relative to the extension's upload
-     *        directory, may be empty
-     *
-     * @return void
-     */
-    public function setThumbnailFileName($fileName)
-    {
-        $this->setAsString('thumbnail', $fileName);
-    }
-
-    /**
-     * Checks whether this image has a non-empty thumbnail file name.
-     *
-     * @return bool
-     *         TRUE if this image has a non-empty thumbnail file name, FALSE
-     *         otherwise
-     */
-    public function hasThumbnailFileName()
-    {
-        return $this->hasString('thumbnail');
-    }
-
-    /**
      * Gets the realty object this image is related to.
      *
      * @return tx_realty_Model_RealtyObject the related object, will be NULL

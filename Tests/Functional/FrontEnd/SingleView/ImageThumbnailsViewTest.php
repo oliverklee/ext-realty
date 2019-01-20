@@ -623,32 +623,4 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
             $result
         );
     }
-
-    /*
-     * Tests concerning the separate thumbnails
-     */
-
-    /**
-     * @test
-     */
-    public function renderWithSeparateThumbnailUsesThumbnailImage()
-    {
-        /** @var \tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('fooBar', 'foo.jpg', 0, 'thumbnail.jpg');
-        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
-            'IMAGE',
-            [
-                'altText' => 'fooBar',
-                'titleText' => 'fooBar',
-                'file' => \tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
-                'file.' => [
-                    'width' => '102c',
-                    'height' => '77c',
-                ],
-            ]
-        );
-
-        $this->subject->render(['showUid' => $realtyObject->getUid()]);
-    }
 }

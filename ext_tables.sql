@@ -252,7 +252,6 @@ CREATE TABLE tx_realty_images (
     is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
     caption varchar(255) DEFAULT '' NOT NULL,
     image varchar(255) DEFAULT '' NOT NULL,
-    thumbnail varchar(255) DEFAULT '' NOT NULL,
     position tinyint(1) DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),

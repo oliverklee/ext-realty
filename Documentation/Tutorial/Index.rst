@@ -23,7 +23,7 @@ Tutorial
    :glob:
 
    Installation/Index
-   UpgradingFromVersion1To2/Index
+   UpgradingFromVersion2To3/Index
    CreateATsTemplateForThisExtension/Index
    CreateSystemFoldersForRecords/Index
    CreateTheListView/Index
