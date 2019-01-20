@@ -13,7 +13,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_FavoritesListView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -76,7 +76,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_FavoritesListView(
+        $this->subject = new tx_realty_pi1_FavoritesListView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'favoritesPID' => $this->favoritesPid,
@@ -152,11 +152,11 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
             )
         );
 
-        $this->fixture->setConfigurationValue('pages', $systemFolder);
+        $this->subject->setConfigurationValue('pages', $systemFolder);
 
         self::assertNotContains(
             '###',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -166,8 +166,8 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
     public function renderForNoFavoritesShowsEmptyResultMessage()
     {
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_favorites'),
-            $this->fixture->render()
+            $this->subject->translate('message_noResultsFound_favorites'),
+            $this->subject->render()
         );
     }
 
@@ -176,11 +176,11 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForOneFavoriteShowsFavoriteTitle()
     {
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -198,10 +198,10 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->addToFavorites(
+        $this->subject->addToFavorites(
             [$this->firstRealtyUid, $secondRealtyUid]
         );
-        $output = $this->fixture->render();
+        $output = $this->subject->render();
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -218,10 +218,10 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForOneFavoriteShowsDeleteFavoriteLink()
     {
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
-        $this->fixture->render();
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->render();
 
-        $this->fixture->isSubpartVisible('remove_from_favorites_button');
+        $this->subject->isSubpartVisible('remove_from_favorites_button');
     }
 
     /**
@@ -229,11 +229,11 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function favoriteCanBeDeleted()
     {
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
 
         self::assertNotContains(
             self::$firstObjectTitle,
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'favorites' => [$this->firstRealtyUid],
                     'remove' => 1,
@@ -255,14 +255,14 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
                 'city' => $this->cityUid,
             ]
         );
-        $this->fixture->addToFavorites(
+        $this->subject->addToFavorites(
             [
                 $this->firstRealtyUid,
                 $secondRealtyUid,
             ]
         );
 
-        $output = $this->fixture->render(
+        $output = $this->subject->render(
             [
                 'favorites' => [$this->firstRealtyUid, $secondRealtyUid],
                 'remove' => 1,
@@ -270,7 +270,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_favorites'),
+            $this->subject->translate('message_noResultsFound_favorites'),
             $output
         );
     }
@@ -280,10 +280,10 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForEnabledContactLinkAndSetContactPidShowsContactLink()
     {
-        $this->fixture->setConfigurationValue('showContactPageLink', 1);
+        $this->subject->setConfigurationValue('showContactPageLink', 1);
         $contactPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue('contactPID', $contactPid);
-        $result = $this->fixture->render();
+        $this->subject->setConfigurationValue('contactPID', $contactPid);
+        $result = $this->subject->render();
 
         self::assertContains(
             '?id=' . $contactPid,
@@ -300,15 +300,15 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForDisabledContactLinkNotShowsContactLink()
     {
-        $this->fixture->setConfigurationValue('showContactPageLink', 0);
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue('showContactPageLink', 0);
+        $this->subject->setConfigurationValue(
             'contactPID',
             $this->testingFramework->createFrontEndPage()
         );
 
         self::assertNotContains(
             'class="button listViewContact"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -317,12 +317,12 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForEnabledContactLinkButNotSetContactPidNotShowsContactLink()
     {
-        $this->fixture->setConfigurationValue('showContactPageLink', 1);
-        $this->fixture->setConfigurationValue('contactPID', '');
+        $this->subject->setConfigurationValue('showContactPageLink', 1);
+        $this->subject->setConfigurationValue('contactPID', '');
 
         self::assertNotContains(
             'class="button listViewContact"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -331,12 +331,12 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderForContactFormPidSameAsFavoritePidNotShowsContactLink()
     {
-        $this->fixture->setConfigurationValue('showContactPageLink', 1);
-        $this->fixture->setConfigurationValue('contactPID', $this->favoritesPid);
+        $this->subject->setConfigurationValue('showContactPageLink', 1);
+        $this->subject->setConfigurationValue('contactPID', $this->favoritesPid);
 
         self::assertNotContains(
             'class="button listViewContact"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -349,7 +349,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function addToFavoritesWithNewItemCanAddItemToEmptySession()
     {
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
 
         self::assertEquals(
             [$this->firstRealtyUid],
@@ -373,7 +373,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->addToFavorites(
+        $this->subject->addToFavorites(
             [$this->firstRealtyUid, $secondRealtyUid]
         );
 
@@ -403,7 +403,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->addToFavorites([$secondRealtyUid]);
+        $this->subject->addToFavorites([$secondRealtyUid]);
 
         self::assertEquals(
             [$this->firstRealtyUid, $secondRealtyUid],
@@ -423,7 +423,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
             $this->firstRealtyUid
         );
 
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
 
         self::assertEquals(
             [$this->firstRealtyUid],
@@ -446,7 +446,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
             tx_realty_pi1_FavoritesListView::FAVORITES_SESSION_KEY,
             $this->firstRealtyUid
         );
-        $this->fixture->writeSummaryStringOfFavoritesToSession();
+        $this->subject->writeSummaryStringOfFavoritesToSession();
 
         self::assertContains(
             '* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
@@ -466,7 +466,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
             tx_realty_pi1_FavoritesListView::FAVORITES_SESSION_KEY,
             $this->firstRealtyUid
         );
-        $this->fixture->writeSummaryStringOfFavoritesToSession();
+        $this->subject->writeSummaryStringOfFavoritesToSession();
 
         self::assertContains(
             '* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
@@ -486,7 +486,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertEquals(
             '',
-            $this->fixture->createSummaryStringOfFavorites()
+            $this->subject->createSummaryStringOfFavorites()
         );
     }
 
@@ -495,11 +495,11 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createSummaryStringOfFavoritesForOneStoredFavoriteReturnsTitleOfFavorite()
     {
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
 
         self::assertContains(
             self::$firstObjectTitle,
-            $this->fixture->createSummaryStringOfFavorites()
+            $this->subject->createSummaryStringOfFavorites()
         );
     }
 
@@ -508,11 +508,11 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function createSummaryStringOfFavoritesForOneStoredFavoriteReturnsObjectNumberOfFavorite()
     {
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
 
         self::assertContains(
             self::$firstObjectNumber,
-            $this->fixture->createSummaryStringOfFavorites()
+            $this->subject->createSummaryStringOfFavorites()
         );
     }
 
@@ -529,9 +529,9 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
                 'city' => $this->cityUid,
             ]
         );
-        $this->fixture->addToFavorites([$this->firstRealtyUid, $secondRealtyUid]);
+        $this->subject->addToFavorites([$this->firstRealtyUid, $secondRealtyUid]);
 
-        $result = $this->fixture->createSummaryStringOfFavorites();
+        $result = $this->subject->createSummaryStringOfFavorites();
 
         self::assertContains(
             self::$firstObjectTitle,
@@ -552,9 +552,9 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends \Tx_Phpunit_TestCase
      */
     public function favoriteFieldsInSessionForTitleDoesNotCrash()
     {
-        $this->fixture->addToFavorites([$this->firstRealtyUid]);
-        $this->fixture->setConfigurationValue('favoriteFieldsInSession', 'title');
+        $this->subject->addToFavorites([$this->firstRealtyUid]);
+        $this->subject->setConfigurationValue('favoriteFieldsInSession', 'title');
 
-        $this->fixture->render();
+        $this->subject->render();
     }
 }

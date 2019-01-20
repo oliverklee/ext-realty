@@ -13,7 +13,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_DefaultListView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -64,7 +64,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
 
         $this->createDummyObjects();
 
-        $this->fixture = new tx_realty_pi1_DefaultListView(
+        $this->subject = new tx_realty_pi1_DefaultListView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'pages' => $this->systemFolderPid,
@@ -156,11 +156,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
                 ),
             ]
         );
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'district');
 
         self::assertContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -180,16 +180,16 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-        $this->fixture->setConfigurationValue('pages', $systemFolder);
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('pages', $systemFolder);
 
         self::assertContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render()
+            $this->subject->render()
         );
         self::assertNotContains(
             '###',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -208,11 +208,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
                 ),
             ]
         );
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'district');
 
         self::assertContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render(['city' => $this->firstCityUid])
+            $this->subject->render(['city' => $this->firstCityUid])
         );
     }
 
@@ -225,11 +225,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
             'tx_realty_districts',
             ['title' => 'test district']
         );
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'district');
 
         self::assertNotContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -238,11 +238,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listFilterIsInvisibleIfCheckboxesFilterSetToDistrictAndNoDistrictsExists()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'district');
 
         self::assertNotContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -251,11 +251,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listFilterIsVisibleIfCheckboxesFilterSetToCityAndCitySelectorIsInactive()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
         self::assertContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -264,11 +264,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listFilterIsInvisibleIfCheckboxesFilterIsSetToCityAndCitySelectorIsActive()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
         self::assertNotContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render(['city' => $this->firstCityUid])
+            $this->subject->render(['city' => $this->firstCityUid])
         );
     }
 
@@ -279,7 +279,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertNotContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -292,9 +292,9 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
             'tx_realty_cities',
             ['title' => 'unlinked city']
         );
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
-        $output = $this->fixture->render();
+        $output = $this->subject->render();
 
         self::assertContains(
             'id="tx_realty_pi1_search"',
@@ -320,9 +320,9 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
             $this->firstRealtyUid,
             ['city' => $deletedCityUid]
         );
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
-        $output = $this->fixture->render();
+        $output = $this->subject->render();
 
         self::assertContains(
             'id="tx_realty_pi1_search"',
@@ -339,14 +339,14 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listIsFilteredForOneCriterion()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
         $piVars = ['search' => [$this->firstCityUid]];
 
         // The city's title will occur twice if it is within the list view and
         // within the list filter. It will occur once if it is only a filter
         // criterion.
         // piVars would usually be set by each submit of the list filter.
-        $output = $this->fixture->render($piVars);
+        $output = $this->subject->render($piVars);
 
         self::assertEquals(
             2,
@@ -363,7 +363,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listIsFilteredForTwoCriteria()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
         $piVars = [
             'search' => [
                 $this->firstCityUid,
@@ -375,7 +375,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
         // within the list filter. It will occur once if it is only a filter
         // criterion.
         // piVars would usually be set by each submit of the list filter.
-        $output = $this->fixture->render($piVars);
+        $output = $this->subject->render($piVars);
 
         self::assertEquals(
             2,
@@ -392,11 +392,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listFilterLinksToTheSelfUrl()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
         self::assertContains(
             '?id=' . $this->getFrontEndController()->id,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -405,11 +405,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listFiltersLinkDoesNotContainSearchPiVars()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
         self::assertNotContains(
             'tx_realty_pi1[search][0]=' . $this->firstCityUid,
-            $this->fixture->render(['search' => [$this->firstCityUid]])
+            $this->subject->render(['search' => [$this->firstCityUid]])
         );
     }
 
@@ -418,11 +418,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listFiltersLinkDoesNotContainPointerPiVars()
     {
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
         self::assertNotContains(
             'pointer',
-            $this->fixture->render(['pointer' => 1])
+            $this->subject->render(['pointer' => 1])
         );
     }
 
@@ -431,12 +431,12 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      */
     public function listFilterKeepsAlreadySetPiVars()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-        $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+        $this->subject->setConfigurationValue('what_to_display', 'realty_list');
+        $this->subject->setConfigurationValue('checkboxesFilter', 'city');
 
         self::assertContains(
             'tx_realty_pi1%5Bowner%5D=25',
-            $this->fixture->render(['owner' => 25])
+            $this->subject->render(['owner' => 25])
         );
     }
 }

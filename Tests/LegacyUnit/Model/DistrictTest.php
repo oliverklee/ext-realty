@@ -10,11 +10,11 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_Model_District
      */
-    private $fixture = null;
+    private $subject = null;
 
     protected function setUp()
     {
-        $this->fixture = new tx_realty_Model_District();
+        $this->subject = new tx_realty_Model_District();
     }
 
     ///////////////////////////////
@@ -26,11 +26,11 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
      */
     public function getTitleWithNonEmptyTitleReturnsTitle()
     {
-        $this->fixture->setData(['title' => 'Bad Godesberg']);
+        $this->subject->setData(['title' => 'Bad Godesberg']);
 
         self::assertEquals(
             'Bad Godesberg',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -39,11 +39,11 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleSetsTitle()
     {
-        $this->fixture->setTitle('Bad Godesberg');
+        $this->subject->setTitle('Bad Godesberg');
 
         self::assertEquals(
             'Bad Godesberg',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -53,7 +53,7 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleWithEmptyStringThrowsException()
     {
-        $this->fixture->setTitle('');
+        $this->subject->setTitle('');
     }
 
     //////////////////////////////
@@ -67,11 +67,11 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
     {
         $city = new tx_realty_Model_City();
 
-        $this->fixture->setData(['city' => $city]);
+        $this->subject->setData(['city' => $city]);
 
         self::assertSame(
             $city,
-            $this->fixture->getCity()
+            $this->subject->getCity()
         );
     }
 
@@ -82,11 +82,11 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
     {
         $city = new tx_realty_Model_City();
 
-        $this->fixture->setCity($city);
+        $this->subject->setCity($city);
 
         self::assertSame(
             $city,
-            $this->fixture->getCity()
+            $this->subject->getCity()
         );
     }
 
@@ -95,10 +95,10 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
      */
     public function getCityAfterSetCityWithNullReturnsNull()
     {
-        $this->fixture->setCity(null);
+        $this->subject->setCity(null);
 
         self::assertNull(
-            $this->fixture->getCity()
+            $this->subject->getCity()
         );
     }
 }

@@ -12,7 +12,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
     /**
      * @var Tca
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -22,7 +22,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
     protected function setUp()
     {
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->fixture = new Tca();
+        $this->subject = new Tca();
     }
 
     protected function tearDown()
@@ -39,7 +39,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
      */
     public function getDistrictsForCitySetsItems()
     {
-        $result = $this->fixture->getDistrictsForCity(
+        $result = $this->subject->getDistrictsForCity(
             ['row' => ['city' => 0]]
         );
 
@@ -51,7 +51,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
      */
     public function getDistrictsForCityContainsEmptyOption()
     {
-        $result = $this->fixture->getDistrictsForCity(
+        $result = $this->subject->getDistrictsForCity(
             ['row' => ['city' => 0]]
         );
 
@@ -78,7 +78,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
             ->will(self::returnValue($cities));
         Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_District', $mapper);
 
-        $result = $this->fixture->getDistrictsForCity(
+        $result = $this->subject->getDistrictsForCity(
             ['row' => ['city' => 42]]
         );
 

@@ -10,7 +10,7 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_Mapper_Document
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -20,7 +20,7 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
     protected function setUp()
     {
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->fixture = new tx_realty_Mapper_Document();
+        $this->subject = new tx_realty_Mapper_Document();
     }
 
     protected function tearDown()
@@ -39,7 +39,7 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
     {
         self::assertInstanceOf(
             tx_realty_Model_Document::class,
-            $this->fixture->find(1)
+            $this->subject->find(1)
         );
     }
 
@@ -54,7 +54,7 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
         );
 
         /** @var tx_realty_Model_Document $model */
-        $model = $this->fixture->find($uid);
+        $model = $this->subject->find($uid);
         self::assertEquals(
             'an important document',
             $model->getTitle()
@@ -73,7 +73,7 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->getNewGhost();
         /** @var tx_realty_Model_Document $document */
-        $document = $this->fixture->getLoadedTestingModel(
+        $document = $this->subject->getLoadedTestingModel(
             ['object' => $realtyObject->getUid()]
         );
 
@@ -99,8 +99,8 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
         );
 
         /** @var tx_realty_Model_Document $model */
-        $model = $this->fixture->find($uid);
-        $this->fixture->delete($model);
+        $model = $this->subject->find($uid);
+        $this->subject->delete($model);
 
         self::assertFileNotExists(
             $dummyFile
@@ -120,8 +120,8 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
         );
 
         /** @var tx_realty_Model_Document $model */
-        $model = $this->fixture->find($uid);
-        $this->fixture->delete($model);
+        $model = $this->subject->find($uid);
+        $this->subject->delete($model);
     }
 
     /**
@@ -135,7 +135,7 @@ class tx_realty_Mapper_DocumentTest extends \Tx_Phpunit_TestCase
         );
 
         /** @var tx_realty_Model_Document $model */
-        $model = $this->fixture->find($uid);
-        $this->fixture->delete($model);
+        $model = $this->subject->find($uid);
+        $this->subject->delete($model);
     }
 }

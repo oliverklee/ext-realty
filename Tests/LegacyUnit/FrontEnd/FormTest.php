@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_frontEndForm object to be tested
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -51,7 +51,7 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_frontEndEditor(
+        $this->subject = new tx_realty_frontEndEditor(
             [],
             $frontEndController->cObj,
             0,
@@ -94,11 +94,11 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
     public function getRedirectUrlReturnsUrlWithRedirectPidForConfiguredRedirectPid()
     {
         $fePageUid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+        $this->subject->setConfigurationValue('feEditorRedirectPid', $fePageUid);
 
         self::assertContains(
             '?id=' . $fePageUid,
-            $this->fixture->getRedirectUrl()
+            $this->subject->getRedirectUrl()
         );
     }
 
@@ -111,14 +111,14 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
             0,
             ['deleted' => 1]
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'feEditorRedirectPid',
             $nonExistingFePageUid
         );
 
         self::assertNotContains(
             '?id=' . $nonExistingFePageUid,
-            $this->fixture->getRedirectUrl()
+            $this->subject->getRedirectUrl()
         );
     }
 
@@ -127,11 +127,11 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
      */
     public function getRedirectUrlReturnsUrlWithoutRedirectPidForNonConfiguredRedirectPid()
     {
-        $this->fixture->setConfigurationValue('feEditorRedirectPid', '0');
+        $this->subject->setConfigurationValue('feEditorRedirectPid', '0');
 
         self::assertNotContains(
             '?id=0',
-            $this->fixture->getRedirectUrl()
+            $this->subject->getRedirectUrl()
         );
     }
 

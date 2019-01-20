@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCa
     /**
      * @var tx_realty_pi1_AddToFavoritesButtonView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -26,7 +26,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCa
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_AddToFavoritesButtonView(
+        $this->subject = new tx_realty_pi1_AddToFavoritesButtonView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
@@ -48,7 +48,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCa
     {
         self::assertNotEquals(
             '',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 
@@ -59,7 +59,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCa
     {
         self::assertContains(
             'class="js-realty-favorites button singleViewAddToFavorites"',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 
@@ -73,7 +73,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCa
 
         self::assertContains(
             'value="' . $realtyObject->getUid() . '"',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -83,11 +83,11 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCa
     public function renderReturnsConfiguredFavoritesPidAsLinkTarget()
     {
         $pageUid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue('favoritesPID', $pageUid);
+        $this->subject->setConfigurationValue('favoritesPID', $pageUid);
 
         self::assertContains(
             '?id=' . $pageUid,
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 
@@ -98,7 +98,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends \Tx_Phpunit_TestCa
     {
         self::assertNotContains(
             '###',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 }

@@ -10,11 +10,11 @@ class tx_realty_Model_CityTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_Model_City
      */
-    private $fixture = null;
+    private $subject = null;
 
     protected function setUp()
     {
-        $this->fixture = new tx_realty_Model_City();
+        $this->subject = new tx_realty_Model_City();
     }
 
     /**
@@ -22,11 +22,11 @@ class tx_realty_Model_CityTest extends \Tx_Phpunit_TestCase
      */
     public function getTitleWithNonEmptyTitleReturnsTitle()
     {
-        $this->fixture->setData(['title' => 'London']);
+        $this->subject->setData(['title' => 'London']);
 
         self::assertEquals(
             'London',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -35,11 +35,11 @@ class tx_realty_Model_CityTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleSetsTitle()
     {
-        $this->fixture->setTitle('London');
+        $this->subject->setTitle('London');
 
         self::assertEquals(
             'London',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -49,6 +49,6 @@ class tx_realty_Model_CityTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleWithEmptyStringThrowsException()
     {
-        $this->fixture->setTitle('');
+        $this->subject->setTitle('');
     }
 }

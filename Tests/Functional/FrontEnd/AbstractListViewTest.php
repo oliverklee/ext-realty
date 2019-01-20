@@ -729,7 +729,7 @@ class AbstractListViewTest extends FunctionalTestCase
      */
     public function forRelatedImageUsesImageFile()
     {
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'pages' => $this->systemFolderPid,
@@ -754,7 +754,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ['images' => 1]
         );
 
-        $fixture->render();
+        $subject->render();
         self::assertSame(
             [
                 'altText' => 'test image',
@@ -833,7 +833,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
@@ -844,8 +844,8 @@ class AbstractListViewTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $fixture->translate('label_floor') . ' 3',
-            $fixture->render()
+            $subject->translate('label_floor') . ' 3',
+            $subject->render()
         );
     }
 
@@ -864,7 +864,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
@@ -874,8 +874,8 @@ class AbstractListViewTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $fixture->translate('label_floor') . ' -3',
-            $fixture->render()
+            $subject->translate('label_floor') . ' -3',
+            $subject->render()
         );
     }
 
@@ -894,7 +894,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'showGoogleMaps' => 0,
@@ -905,8 +905,8 @@ class AbstractListViewTest extends FunctionalTestCase
         );
 
         self::assertNotContains(
-            $fixture->translate('label_floor'),
-            $fixture->render()
+            $subject->translate('label_floor'),
+            $subject->render()
         );
     }
 
@@ -933,7 +933,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithFloor.html',
                 'pages' => $systemFolder,
@@ -943,8 +943,8 @@ class AbstractListViewTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $fixture->translate('label_floor') . ' 3',
-            $fixture->render()
+            $subject->translate('label_floor') . ' 3',
+            $subject->render()
         );
     }
 
@@ -978,7 +978,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -989,8 +989,8 @@ class AbstractListViewTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $fixture->translate('label_status_3'),
-            $fixture->render()
+            $subject->translate('label_status_3'),
+            $subject->render()
         );
     }
 
@@ -1009,7 +1009,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1021,7 +1021,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         self::assertContains(
             'class="status_vacant"',
-            $fixture->render()
+            $subject->render()
         );
     }
 
@@ -1040,7 +1040,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1052,7 +1052,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         self::assertContains(
             'class="status_reserved"',
-            $fixture->render()
+            $subject->render()
         );
     }
 
@@ -1071,7 +1071,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1083,7 +1083,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         self::assertContains(
             'class="status_sold"',
-            $fixture->render()
+            $subject->render()
         );
     }
 
@@ -1102,7 +1102,7 @@ class AbstractListViewTest extends FunctionalTestCase
             ]
         );
 
-        $fixture = new TestingListView(
+        $subject = new TestingListView(
             [
                 'templateFile' => 'EXT:realty/Tests/Functional/FrontEnd/Fixtures/listViewWithStatus.html',
                 'showGoogleMaps' => 0,
@@ -1114,7 +1114,7 @@ class AbstractListViewTest extends FunctionalTestCase
 
         self::assertContains(
             'class="status_rented"',
-            $fixture->render()
+            $subject->render()
         );
     }
 

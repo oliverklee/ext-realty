@@ -15,13 +15,13 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_Mapper_City
      */
-    private $fixture = null;
+    private $subject = null;
 
     protected function setUp()
     {
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 
-        $this->fixture = new tx_realty_Mapper_City();
+        $this->subject = new tx_realty_Mapper_City();
     }
 
     protected function tearDown()
@@ -40,7 +40,7 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
     {
         self::assertInstanceOf(
             tx_realty_Model_City::class,
-            $this->fixture->find(1)
+            $this->subject->find(1)
         );
     }
 
@@ -55,7 +55,7 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
         );
 
         /** @var tx_realty_Model_City $model */
-        $model = $this->fixture->find($uid);
+        $model = $this->subject->find($uid);
         self::assertEquals(
             'London',
             $model->getTitle()
@@ -73,7 +73,7 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->findByName('');
+        $this->subject->findByName('');
     }
 
     /**
@@ -81,13 +81,13 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
      */
     public function findByNameCanFindModelFromCache()
     {
-        $model = $this->fixture->getLoadedTestingModel(
+        $model = $this->subject->getLoadedTestingModel(
             ['title' => 'Kleinwurzeling']
         );
 
         self::assertSame(
             $model,
-            $this->fixture->findByName('Kleinwurzeling')
+            $this->subject->findByName('Kleinwurzeling')
         );
     }
 
@@ -102,7 +102,7 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
         );
 
         /** @var tx_realty_Model_City $model */
-        $model = $this->fixture->findByName('Kleinwurzeling');
+        $model = $this->subject->findByName('Kleinwurzeling');
         self::assertEquals(
             $uid,
             $model->getUid()
@@ -116,6 +116,6 @@ class tx_realty_Mapper_CityTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_NotFound::class);
 
-        $this->fixture->findByName('Hupflingen');
+        $this->subject->findByName('Hupflingen');
     }
 }

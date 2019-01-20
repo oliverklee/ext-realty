@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_BackButtonView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -26,7 +26,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_BackButtonView(
+        $this->subject = new tx_realty_pi1_BackButtonView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
@@ -48,7 +48,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertContains(
             'class="js-realty-back button singleViewBack"',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 
@@ -61,11 +61,11 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
      */
     public function forPreviousNextButtonsEnabledAndListUidViewContainsLinkToListViewPage()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'enableNextPreviousButtons',
             true
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'singleViewPartsToDisplay',
             'nextPreviousButtons'
         );
@@ -73,11 +73,11 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
         $listUid = $this->testingFramework->createContentElement(
             $listViewPageUid
         );
-        $this->fixture->piVars['listUid'] = $listUid;
+        $this->subject->piVars['listUid'] = $listUid;
 
         self::assertContains(
             '?id=' . $listViewPageUid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -86,11 +86,11 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
      */
     public function forPreviousNextButtonsEnabledAndListViewLimitationSetAddsListViewLimitationDecodedToPiVar()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'enableNextPreviousButtons',
             true
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'singleViewPartsToDisplay',
             'nextPreviousButtons'
         );
@@ -99,10 +99,10 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
             $listViewPageUid
         );
         $listViewLimitation = json_encode(['objectNumber' => 'foo']);
-        $this->fixture->piVars['listUid'] = $listUid;
-        $this->fixture->piVars['listViewLimitation'] = $listViewLimitation;
+        $this->subject->piVars['listUid'] = $listUid;
+        $this->subject->piVars['listViewLimitation'] = $listViewLimitation;
 
-        self::assertContains('=foo', $this->fixture->render());
+        self::assertContains('=foo', $this->subject->render());
     }
 
     /**
@@ -110,11 +110,11 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
      */
     public function forPreviousNextButtonsEnabledAndFooSetAsPiVarNotAddsFooToBackLink()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'enableNextPreviousButtons',
             true
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'singleViewPartsToDisplay',
             'nextPreviousButtons'
         );
@@ -122,12 +122,12 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
         $listUid = $this->testingFramework->createContentElement(
             $listViewPageUid
         );
-        $this->fixture->piVars['listUid'] = $listUid;
-        $this->fixture->piVars['foo'] = 'bar';
+        $this->subject->piVars['listUid'] = $listUid;
+        $this->subject->piVars['foo'] = 'bar';
 
         self::assertNotContains(
             'foo',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -136,19 +136,19 @@ class tx_realty_FrontEnd_BackButtonViewTest extends \Tx_Phpunit_TestCase
      */
     public function forPreviousNextButtonsEnabledAndListUidSetToStringDoesNotAddListUidStringToLink()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'enableNextPreviousButtons',
             true
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'singleViewPartsToDisplay',
             'nextPreviousButtons'
         );
-        $this->fixture->piVars['listUid'] = 'fooo';
+        $this->subject->piVars['listUid'] = 'fooo';
 
         self::assertNotContains(
             'fooo',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 }
