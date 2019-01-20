@@ -3,6 +3,9 @@
 namespace OliverKlee\Realty\Tests\Functional\FrontEnd\SingleView;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use Prophecy\Prophecy\ObjectProphecy;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -70,29 +73,188 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
         );
         $configurationRegistry->set('plugin.tx_realty_pi1', $this->configuration);
 
+        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
+        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
+        $backEndUserProphecy->isAdmin()->willReturn(true);
+        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
+
         $this->realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
     }
 
     protected function tearDown()
     {
+        if (\file_exists($this->getPathOfTestFile())) {
+            unlink($this->getPathOfTestFile());
+        }
         $this->testingFramework->cleanUp();
         parent::tearDown();
     }
 
+    /**
+     * @return void
+     */
+    private function copyTestFile()
+    {
+        \copy(__DIR__ . '/../../Fixtures/test.jpg', $this->getPathOfTestFile());
+    }
+
+    /**
+     * @return string
+     */
+    private function getPathOfTestFile()
+    {
+        return GeneralUtility::getFileAbsFileName('fileadmin/test.jpg');
+    }
+
     /*
-     * Testing the image thumbnails view
+     * current tests
      */
 
     /**
      * @test
      */
-    public function renderReturnsEmptyResultForUidOfObjectWithoutImagesProvided()
+    public function renderReturnsEmptyResultForObjectWithoutImages()
     {
-        self::assertEquals(
-            '',
-            $this->subject->render(['showUid' => $this->realtyObjectMapper->getNewGhost()->getUid()])
-        );
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->render(['showUid' => 101]);
+
+        self::assertSame('', $result);
     }
+
+    /**
+     * @test
+     */
+    public function renderReturnsNoUnreplacedMarkersForObjectWithAttachments()
+    {
+        $this->copyTestFile();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->render(['showUid' => 102]);
+
+        self::assertNotContains('###', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function renderEnabledLightboxReturnsImageWithRelAttribute()
+    {
+        $this->configuration->setAsBoolean('enableLightbox', true);
+
+        $this->copyTestFile();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->render(['showUid' => 102]);
+
+        self::assertContains('data-lightbox="objectGallery"', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function renderDisabledLightboxNotReturnsImageWithRelAttribute()
+    {
+        $this->configuration->setAsBoolean('enableLightbox', false);
+
+        $this->copyTestFile();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->render(['showUid' => 102]);
+
+        self::assertNotContains('data-lightbox="objectGallery"', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function renderForDisabledLightboxNotAddsImageLink()
+    {
+        $this->configuration->setAsBoolean('enableLightbox', false);
+
+        $this->copyTestFile();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->render(['showUid' => 102]);
+
+        self::assertNotContains('<a href', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function renderForEnabledLightboxAddsImageLink()
+    {
+        $this->configuration->setAsBoolean('enableLightbox', true);
+
+        $this->copyTestFile();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->render(['showUid' => 102]);
+
+        self::assertContains('<a href', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function renderUsesThumbnailImageSize()
+    {
+        $this->copyTestFile();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $this->contentObject->expects(self::at(0))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'JPEG image & file',
+                'titleText' => 'JPEG image & file',
+                'file' => 'fileadmin/test.jpg',
+                'file.' => [
+                    'width' => '102c',
+                    'height' => '77c',
+                ],
+            ]
+        );
+
+        $this->subject->render(['showUid' => 102]);
+    }
+
+    /**
+     * @test
+     */
+    public function renderForEnabledLightboxAlsoUsesLightboxImageSize()
+    {
+        $this->configuration->setAsBoolean('enableLightbox', true);
+
+        $this->copyTestFile();
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
+
+        $this->contentObject->expects(self::at(1))->method('cObjGetSingle')->with(
+            'IMAGE',
+            [
+                'altText' => 'JPEG image & file',
+                'titleText' => 'JPEG image & file',
+                'file' => 'fileadmin/test.jpg',
+                'file.' => [
+                    'maxW' => '1024',
+                    'maxH' => '768',
+                ],
+            ]
+        );
+
+        $this->subject->render(['showUid' => 102]);
+    }
+
+    /*
+     * legacy tests
+     */
 
     /**
      * @test
@@ -129,23 +291,10 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function renderReturnsNoNonHtmlspecialcharedImageCaptionForLightboxStyledGallery()
-    {
-        /** @var \tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getNewGhost();
-        $realtyObject->addImageRecord('foo</br>', 'foo.jpg');
-
-        self::assertNotContains(
-            'foo</br>',
-            $this->subject->render(['showUid' => $realtyObject->getUid()])
-        );
-    }
-
-    /**
-     * @test
-     */
     public function renderForDisabledLightboxNotAddsLightboxAttributeToImage()
     {
+        $this->configuration->setAsBoolean('enableLightbox', false);
+
         /** @var \tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
@@ -161,6 +310,8 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
      */
     public function renderForDisabledLightboxNotLinksImage()
     {
+        $this->configuration->setAsBoolean('enableLightbox', false);
+
         /** @var \tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg');
@@ -169,6 +320,20 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
             '<a href',
             $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
+    }
+
+    /**
+     * @test
+     */
+    public function renderForEnabledLightboxLinksImage()
+    {
+        $this->configuration->setAsBoolean('enableLightbox', true);
+
+        /** @var \tx_realty_Model_RealtyObject $realtyObject */
+        $realtyObject = $this->realtyObjectMapper->getNewGhost();
+        $realtyObject->addImageRecord('fooBar', 'foo.jpg');
+
+        self::assertContains('<a href', $this->subject->render(['showUid' => $realtyObject->getUid()]));
     }
 
     /**

@@ -55,7 +55,7 @@
 
     <sys_file_metadata>
         <uid>1</uid>
-        <file>12</file>
+        <file>10</file>
         <title>JPEG image &amp; file</title>
         <l10n_diffsource/>
     </sys_file_metadata>
@@ -63,6 +63,12 @@
         <uid>2</uid>
         <file>11</file>
         <title>some nice &amp; fine PDF document</title>
+        <l10n_diffsource/>
+    </sys_file_metadata>
+    <sys_file_metadata>
+        <uid>3</uid>
+        <file>12</file>
+        <title>Text data &amp; file</title>
         <l10n_diffsource/>
     </sys_file_metadata>
 </dataset>
