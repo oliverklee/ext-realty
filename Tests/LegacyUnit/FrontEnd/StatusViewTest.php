@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_StatusView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -26,7 +26,7 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_StatusView(
+        $this->subject = new tx_realty_pi1_StatusView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
@@ -49,7 +49,7 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel([]);
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
@@ -73,12 +73,12 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
                 ['status' => tx_realty_Model_RealtyObject::STATUS_VACANT]
             );
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(
-            $this->fixture->translate('label_status_0'),
+            $this->subject->translate('label_status_0'),
             $result
         );
     }
@@ -93,12 +93,12 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
                 ['status' => tx_realty_Model_RealtyObject::STATUS_RENTED]
             );
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(
-            $this->fixture->translate('label_status_3'),
+            $this->subject->translate('label_status_3'),
             $result
         );
     }
@@ -113,7 +113,7 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
                 ['status' => tx_realty_Model_RealtyObject::STATUS_VACANT]
             );
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
@@ -133,7 +133,7 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
                 ['status' => tx_realty_Model_RealtyObject::STATUS_RESERVED]
             );
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
@@ -153,7 +153,7 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
                 ['status' => tx_realty_Model_RealtyObject::STATUS_SOLD]
             );
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
@@ -173,7 +173,7 @@ class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
                 ['status' => tx_realty_Model_RealtyObject::STATUS_RENTED]
             );
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 

@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_AddressViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_AddressView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -26,7 +26,7 @@ class tx_realty_FrontEnd_AddressViewTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_AddressView(
+        $this->subject = new tx_realty_pi1_AddressView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
@@ -51,7 +51,7 @@ class tx_realty_FrontEnd_AddressViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -63,7 +63,7 @@ class tx_realty_FrontEnd_AddressViewTest extends \Tx_Phpunit_TestCase
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['zip' => '12345']);
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
@@ -87,7 +87,7 @@ class tx_realty_FrontEnd_AddressViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '12345',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -101,7 +101,7 @@ class tx_realty_FrontEnd_AddressViewTest extends \Tx_Phpunit_TestCase
 
         self::assertEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 }

@@ -10,7 +10,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_Model_FrontEndUser
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -20,7 +20,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     protected function setUp()
     {
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-        $this->fixture = new tx_realty_Model_FrontEndUser();
+        $this->subject = new tx_realty_Model_FrontEndUser();
     }
 
     protected function tearDown()
@@ -33,7 +33,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function fixtureIsInstanceOfOelibFrontEndUser()
     {
-        self::assertInstanceOf(Tx_Oelib_Model_FrontEndUser::class, $this->fixture);
+        self::assertInstanceOf(Tx_Oelib_Model_FrontEndUser::class, $this->subject);
     }
 
     ///////////////////////
@@ -134,11 +134,11 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function getTotalNumberOfAllowedObjectsForUserWithNoMaximumObjectsSetReturnsZero()
     {
-        $this->fixture->setData([]);
+        $this->subject->setData([]);
 
         self::assertEquals(
             0,
-            $this->fixture->getTotalNumberOfAllowedObjects()
+            $this->subject->getTotalNumberOfAllowedObjects()
         );
     }
 
@@ -147,11 +147,11 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function getTotalNumberOfAllowedObjectsForUserWithNonZeroMaximumObjectsReturnsMaximumObjectsValue()
     {
-        $this->fixture->setData(['tx_realty_maximum_objects' => 42]);
+        $this->subject->setData(['tx_realty_maximum_objects' => 42]);
 
         self::assertEquals(
             42,
-            $this->fixture->getTotalNumberOfAllowedObjects()
+            $this->subject->getTotalNumberOfAllowedObjects()
         );
     }
 
@@ -165,11 +165,11 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getNumberOfObjectsForUserWithNoObjectsReturnsZero()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(['uid' => $userUid]);
+        $this->subject->setData(['uid' => $userUid]);
 
         self::assertEquals(
             0,
-            $this->fixture->getNumberOfObjects()
+            $this->subject->getNumberOfObjects()
         );
     }
 
@@ -179,12 +179,12 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getNumberOfObjectsForUserWithOneObjectReturnsOne()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(['uid' => $userUid]);
+        $this->subject->setData(['uid' => $userUid]);
         $this->createObject($userUid);
 
         self::assertEquals(
             1,
-            $this->fixture->getNumberOfObjects()
+            $this->subject->getNumberOfObjects()
         );
     }
 
@@ -194,13 +194,13 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getNumberOfObjectsForUserWithTwoObjectReturnsTwo()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(['uid' => $userUid]);
+        $this->subject->setData(['uid' => $userUid]);
         $this->createObject($userUid);
         $this->createObject($userUid);
 
         self::assertEquals(
             2,
-            $this->fixture->getNumberOfObjects()
+            $this->subject->getNumberOfObjects()
         );
     }
 
@@ -214,12 +214,12 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getObjectsLeftToEnterForUserWithNoObjectsAndNoMaximumNumberOfObjectsReturnsZero()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(['uid' => $userUid]);
-        $this->fixture->getNumberOfObjects();
+        $this->subject->setData(['uid' => $userUid]);
+        $this->subject->getNumberOfObjects();
 
         self::assertEquals(
             0,
-            $this->fixture->getObjectsLeftToEnter()
+            $this->subject->getObjectsLeftToEnter()
         );
     }
 
@@ -229,18 +229,18 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getObjectsLeftToEnterForUserWithOneObjectAndLimitSetToOneObjectReturnsZero()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 1,
             ]
         );
         $this->createObject($userUid);
-        $this->fixture->getNumberOfObjects();
+        $this->subject->getNumberOfObjects();
 
         self::assertEquals(
             0,
-            $this->fixture->getObjectsLeftToEnter()
+            $this->subject->getObjectsLeftToEnter()
         );
     }
 
@@ -250,7 +250,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getObjectsLeftToEnterForUserWithTwoObjectsAndLimitSetToOneObjectReturnsZero()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 1,
@@ -258,11 +258,11 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
         );
         $this->createObject($userUid);
         $this->createObject($userUid);
-        $this->fixture->getNumberOfObjects();
+        $this->subject->getNumberOfObjects();
 
         self::assertEquals(
             0,
-            $this->fixture->getObjectsLeftToEnter()
+            $this->subject->getObjectsLeftToEnter()
         );
     }
 
@@ -272,17 +272,17 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getObjectsLeftToEnterForUserWithNoObjectsAndLimitSetToTwoReturnsTwo()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 2,
             ]
         );
-        $this->fixture->getNumberOfObjects();
+        $this->subject->getNumberOfObjects();
 
         self::assertEquals(
             2,
-            $this->fixture->getObjectsLeftToEnter()
+            $this->subject->getObjectsLeftToEnter()
         );
     }
 
@@ -292,18 +292,18 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function getObjectsLeftToEnterForUserWithOneObjectAndLimitSetToTwoReturnsOne()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 2,
             ]
         );
         $this->createObject($userUid);
-        $this->fixture->getNumberOfObjects();
+        $this->subject->getNumberOfObjects();
 
         self::assertEquals(
             1,
-            $this->fixture->getObjectsLeftToEnter()
+            $this->subject->getObjectsLeftToEnter()
         );
     }
 
@@ -316,7 +316,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function canAddNewObjectsForUserWithMaximumObjectsSetToZeroReturnsTrue()
     {
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $this->testingFramework->createFrontEndUser(),
                 'tx_realty_maximum_objects' => 0,
@@ -324,7 +324,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
         );
 
         self::assertTrue(
-            $this->fixture->canAddNewObjects()
+            $this->subject->canAddNewObjects()
         );
     }
 
@@ -334,7 +334,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function canAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToZeroReturnsTrue()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 0,
@@ -343,7 +343,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
         $this->createObject($userUid);
 
         self::assertTrue(
-            $this->fixture->canAddNewObjects()
+            $this->subject->canAddNewObjects()
         );
     }
 
@@ -353,7 +353,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function canAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToTwoReturnsTrue()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 2,
@@ -362,7 +362,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
         $this->createObject($userUid);
 
         self::assertTrue(
-            $this->fixture->canAddNewObjects()
+            $this->subject->canAddNewObjects()
         );
     }
 
@@ -372,7 +372,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function canAddNewObjectsForUserWithTwoObjectsAndMaximumObjectsSetToOneReturnsFalse()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 1,
@@ -382,7 +382,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
         $this->createObject($userUid);
 
         self::assertFalse(
-            $this->fixture->canAddNewObjects()
+            $this->subject->canAddNewObjects()
         );
     }
 
@@ -392,7 +392,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function canAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToOneReturnsFalse()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 1,
@@ -401,7 +401,7 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
         $this->createObject($userUid);
 
         self::assertFalse(
-            $this->fixture->canAddNewObjects()
+            $this->subject->canAddNewObjects()
         );
     }
 
@@ -415,17 +415,17 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function canAddNewObjectsDoesNotRecalculateObjectLimit()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 1,
             ]
         );
-        $this->fixture->canAddNewObjects();
+        $this->subject->canAddNewObjects();
         $this->createObject($userUid);
 
         self::assertTrue(
-            $this->fixture->canAddNewObjects()
+            $this->subject->canAddNewObjects()
         );
     }
 
@@ -435,18 +435,18 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
     public function canAddNewObjectsAfterResetObjectsHaveBeenCalculatedIsCalledRecalculatesObjectLimit()
     {
         $userUid = $this->testingFramework->createFrontEndUser();
-        $this->fixture->setData(
+        $this->subject->setData(
             [
                 'uid' => $userUid,
                 'tx_realty_maximum_objects' => 1,
             ]
         );
-        $this->fixture->canAddNewObjects();
+        $this->subject->canAddNewObjects();
         $this->createObject($userUid);
-        $this->fixture->resetObjectsHaveBeenCalculated();
+        $this->subject->resetObjectsHaveBeenCalculated();
 
         self::assertFalse(
-            $this->fixture->canAddNewObjects()
+            $this->subject->canAddNewObjects()
         );
     }
 
@@ -459,11 +459,11 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function getOpenImmoOffererIdForNoDataReturnsEmptyString()
     {
-        $this->fixture->setData([]);
+        $this->subject->setData([]);
 
         self::assertEquals(
             '',
-            $this->fixture->getOpenImmoOffererId()
+            $this->subject->getOpenImmoOffererId()
         );
     }
 
@@ -472,13 +472,13 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function getOpenImmoOffererIdReturnsOpenImmoOffererId()
     {
-        $this->fixture->setData(
+        $this->subject->setData(
             ['tx_realty_openimmo_anid' => 'some complicated ID']
         );
 
         self::assertEquals(
             'some complicated ID',
-            $this->fixture->getOpenImmoOffererId()
+            $this->subject->getOpenImmoOffererId()
         );
     }
 
@@ -487,12 +487,12 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function hasOpenImmoOffererIdForEmptyIdReturnsFalse()
     {
-        $this->fixture->setData(
+        $this->subject->setData(
             ['tx_realty_openimmo_anid' => '']
         );
 
         self::assertFalse(
-            $this->fixture->hasOpenImmoOffererId()
+            $this->subject->hasOpenImmoOffererId()
         );
     }
 
@@ -501,12 +501,12 @@ class tx_realty_Model_FrontEndUserTest extends \Tx_Phpunit_TestCase
      */
     public function hasOpenImmoOffererIdForNonEmptyIdReturnsTrue()
     {
-        $this->fixture->setData(
+        $this->subject->setData(
             ['tx_realty_openimmo_anid' => 'some complicated ID']
         );
 
         self::assertTrue(
-            $this->fixture->hasOpenImmoOffererId()
+            $this->subject->hasOpenImmoOffererId()
         );
     }
 }

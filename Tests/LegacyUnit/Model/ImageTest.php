@@ -10,11 +10,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_Model_Image
      */
-    private $fixture = null;
+    private $subject = null;
 
     protected function setUp()
     {
-        $this->fixture = new tx_realty_Model_Image();
+        $this->subject = new tx_realty_Model_Image();
     }
 
     /*
@@ -26,11 +26,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function getTitleReturnsCaption()
     {
-        $this->fixture->setData(['caption' => 'Just another room']);
+        $this->subject->setData(['caption' => 'Just another room']);
 
         self::assertEquals(
             'Just another room',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -39,11 +39,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleSetsTitle()
     {
-        $this->fixture->setTitle('Just another room');
+        $this->subject->setTitle('Just another room');
 
         self::assertEquals(
             'Just another room',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -52,11 +52,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleForEmptyTitleSetsEmptyTitle()
     {
-        $this->fixture->setTitle('');
+        $this->subject->setTitle('');
 
         self::assertEquals(
             '',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -69,11 +69,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function getFileNameReturnsImageFileName()
     {
-        $this->fixture->setData(['image' => 'foo.jpg']);
+        $this->subject->setData(['image' => 'foo.jpg']);
 
         self::assertEquals(
             'foo.jpg',
-            $this->fixture->getFileName()
+            $this->subject->getFileName()
         );
     }
 
@@ -82,11 +82,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function setFileNameSetsFileName()
     {
-        $this->fixture->setFileName('bar.jpg');
+        $this->subject->setFileName('bar.jpg');
 
         self::assertEquals(
             'bar.jpg',
-            $this->fixture->getFileName()
+            $this->subject->getFileName()
         );
     }
 
@@ -97,7 +97,7 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function setFileNameForEmptyFileNameThrowsException()
     {
-        $this->fixture->setFileName('');
+        $this->subject->setFileName('');
     }
 
     ///////////////////////////////////////////////////////
@@ -110,11 +110,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
     public function getObjectReturnsObject()
     {
         $realtyObject = new tx_realty_Model_RealtyObject();
-        $this->fixture->setData(['object' => $realtyObject]);
+        $this->subject->setData(['object' => $realtyObject]);
 
         self::assertSame(
             $realtyObject,
-            $this->fixture->getObject()
+            $this->subject->getObject()
         );
     }
 
@@ -124,11 +124,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
     public function setObjectSetsObject()
     {
         $realtyObject = new tx_realty_Model_RealtyObject();
-        $this->fixture->setObject($realtyObject);
+        $this->subject->setObject($realtyObject);
 
         self::assertSame(
             $realtyObject,
-            $this->fixture->getObject()
+            $this->subject->getObject()
         );
     }
 
@@ -141,11 +141,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function getSortingInitiallyReturnsZero()
     {
-        $this->fixture->setData([]);
+        $this->subject->setData([]);
 
         self::assertEquals(
             0,
-            $this->fixture->getSorting()
+            $this->subject->getSorting()
         );
     }
 
@@ -154,11 +154,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function getSortingReturnsSorting()
     {
-        $this->fixture->setData(['sorting' => 42]);
+        $this->subject->setData(['sorting' => 42]);
 
         self::assertEquals(
             42,
-            $this->fixture->getSorting()
+            $this->subject->getSorting()
         );
     }
 
@@ -167,11 +167,11 @@ class tx_realty_Model_ImageTest extends \Tx_Phpunit_TestCase
      */
     public function setSortingSetsSorting()
     {
-        $this->fixture->setSorting(21);
+        $this->subject->setSorting(21);
 
         self::assertEquals(
             21,
-            $this->fixture->getSorting()
+            $this->subject->getSorting()
         );
     }
 }

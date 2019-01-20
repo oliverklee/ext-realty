@@ -13,7 +13,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_PriceView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -27,7 +27,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_PriceView(
+        $this->subject = new tx_realty_pi1_PriceView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'currencyUnit' => 'EUR',
@@ -59,7 +59,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -73,7 +73,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         self::assertEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -88,7 +88,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'rent_excluding_bills' => '123',
             ]);
 
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             ['showUid' => $realtyObject->getUid()]
         );
 
@@ -115,7 +115,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -131,11 +131,11 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
             ]);
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -151,11 +151,11 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
             ]);
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -171,11 +171,11 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
             ]);
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -192,7 +192,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -209,7 +209,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -225,11 +225,11 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
             ]);
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -245,11 +245,11 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
             ]);
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -265,11 +265,11 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
                 'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
             ]);
 
-        $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
+        $this->subject->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -286,7 +286,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '&euro; 123',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -303,7 +303,7 @@ class tx_realty_FrontEnd_PriceViewTest extends \Tx_Phpunit_TestCase
 
         self::assertEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 }

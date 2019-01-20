@@ -10,7 +10,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_AccessCheck
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -32,7 +32,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
             'tx_realty_objects'
         );
 
-        $this->fixture = new tx_realty_pi1_AccessCheck();
+        $this->subject = new tx_realty_pi1_AccessCheck();
     }
 
     protected function tearDown()
@@ -51,7 +51,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('fe_editor', [
+        $this->subject->checkAccess('fe_editor', [
             'showUid' => $this->testingFramework->createRecord(
                 'tx_realty_objects',
                 ['deleted' => 1]
@@ -70,7 +70,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('fe_editor', [
+        $this->subject->checkAccess('fe_editor', [
             'showUid' => $this->testingFramework->createRecord(
                 'tx_realty_objects',
                 ['deleted' => 1]
@@ -88,7 +88,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         try {
-            $this->fixture->checkAccess('fe_editor', [
+            $this->subject->checkAccess('fe_editor', [
                 'showUid' => $this->testingFramework->createRecord(
                     'tx_realty_objects',
                     ['deleted' => 1]
@@ -110,7 +110,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('fe_editor', ['showUid' => 0]);
+        $this->subject->checkAccess('fe_editor', ['showUid' => 0]);
     }
 
     /**
@@ -120,7 +120,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'fe_editor',
             ['showUid' => $this->dummyObjectUid]
         );
@@ -137,7 +137,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'fe_editor',
             ['showUid' => $this->dummyObjectUid]
         );
@@ -153,7 +153,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         try {
-            $this->fixture->checkAccess(
+            $this->subject->checkAccess(
                 'fe_editor',
                 ['showUid' => $this->dummyObjectUid]
             );
@@ -181,7 +181,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
             ['owner' => $user->getUid()]
         );
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'fe_editor',
             ['showUid' => $this->dummyObjectUid]
         );
@@ -205,7 +205,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'fe_editor',
             ['showUid' => $this->dummyObjectUid]
         );
@@ -220,7 +220,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         $user = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)->getLoadedTestingModel([]);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->checkAccess('fe_editor', ['showUid' => 0]);
+        $this->subject->checkAccess('fe_editor', ['showUid' => 0]);
     }
 
     /**
@@ -236,7 +236,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('fe_editor', ['showUid' => 0]);
+        $this->subject->checkAccess('fe_editor', ['showUid' => 0]);
     }
 
     /**
@@ -255,7 +255,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
             ['owner' => $user->getUid()]
         );
 
-        $this->fixture->checkAccess('fe_editor', ['showUid' => $objectUid]);
+        $this->subject->checkAccess('fe_editor', ['showUid' => $objectUid]);
     }
 
     /**
@@ -269,7 +269,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         $user->method('getNumberOfObjects')->will(self::returnValue(0));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->checkAccess('fe_editor', ['showUid' => 0]);
+        $this->subject->checkAccess('fe_editor', ['showUid' => 0]);
     }
 
     /////////////////////////////////////////////////
@@ -283,7 +283,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('image_upload', [
+        $this->subject->checkAccess('image_upload', [
             'showUid' => $this->testingFramework->createRecord(
                 'tx_realty_objects',
                 ['deleted' => 1]
@@ -302,7 +302,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('image_upload', ['showUid' => 0]);
+        $this->subject->checkAccess('image_upload', ['showUid' => 0]);
     }
 
     /**
@@ -316,7 +316,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('image_upload', [
+        $this->subject->checkAccess('image_upload', [
             'showUid' => $this->testingFramework->createRecord(
                 'tx_realty_objects',
                 ['deleted' => 1]
@@ -334,7 +334,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         try {
-            $this->fixture->checkAccess('image_upload', [
+            $this->subject->checkAccess('image_upload', [
                 'showUid' => $this->testingFramework->createRecord(
                     'tx_realty_objects',
                     ['deleted' => 1]
@@ -356,7 +356,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('image_upload', ['showUid' => 0]);
+        $this->subject->checkAccess('image_upload', ['showUid' => 0]);
     }
 
     /**
@@ -366,7 +366,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     ) {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('image_upload', [
+        $this->subject->checkAccess('image_upload', [
             'showUid' => $this->dummyObjectUid,
         ]);
     }
@@ -382,7 +382,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'image_upload',
             ['showUid' => $this->dummyObjectUid]
         );
@@ -398,7 +398,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         try {
-            $this->fixture->checkAccess(
+            $this->subject->checkAccess(
                 'image_upload',
                 ['showUid' => $this->dummyObjectUid]
             );
@@ -426,7 +426,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
             ['owner' => $user->getUid()]
         );
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'image_upload',
             ['showUid' => $this->dummyObjectUid]
         );
@@ -443,7 +443,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('my_objects', [
+        $this->subject->checkAccess('my_objects', [
             'delete' => $this->testingFramework->createRecord(
                 'tx_realty_objects',
                 ['deleted' => 1]
@@ -462,7 +462,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('my_objects', [
+        $this->subject->checkAccess('my_objects', [
             'delete' => $this->testingFramework->createRecord(
                 'tx_realty_objects',
                 ['deleted' => 1]
@@ -480,7 +480,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         try {
-            $this->fixture->checkAccess('my_objects', [
+            $this->subject->checkAccess('my_objects', [
                 'delete' => $this->testingFramework->createRecord(
                     'tx_realty_objects',
                     ['deleted' => 1]
@@ -502,7 +502,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('my_objects', ['delete' => 0]);
+        $this->subject->checkAccess('my_objects', ['delete' => 0]);
     }
 
     /**
@@ -512,7 +512,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     ) {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('my_objects', ['delete' => $this->dummyObjectUid]);
+        $this->subject->checkAccess('my_objects', ['delete' => $this->dummyObjectUid]);
     }
 
     /**
@@ -526,7 +526,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'my_objects',
             ['delete' => $this->dummyObjectUid]
         );
@@ -542,7 +542,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         try {
-            $this->fixture->checkAccess(
+            $this->subject->checkAccess(
                 'my_objects',
                 ['delete' => $this->dummyObjectUid]
             );
@@ -570,7 +570,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
             ['owner' => $user->getUid()]
         );
 
-        $this->fixture->checkAccess(
+        $this->subject->checkAccess(
             'my_objects',
             ['delete' => $this->dummyObjectUid]
         );
@@ -585,7 +585,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         $user = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)->getNewGhost();
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->checkAccess('my_objects', ['delete' => 0]);
+        $this->subject->checkAccess('my_objects', ['delete' => 0]);
     }
 
     ////////////////////////////////////////////////
@@ -599,7 +599,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
 
-        $this->fixture->checkAccess('single_view', []);
+        $this->subject->checkAccess('single_view', []);
     }
 
     /**
@@ -611,7 +611,7 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
         $user = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_FrontEndUser::class)->getNewGhost();
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->checkAccess('single_view', []);
+        $this->subject->checkAccess('single_view', []);
     }
 
     //////////////////////////////////////////////
@@ -623,6 +623,6 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
      */
     public function checkAccessForOtherViewDoesNotThrowAnException()
     {
-        $this->fixture->checkAccess('other', []);
+        $this->subject->checkAccess('other', []);
     }
 }

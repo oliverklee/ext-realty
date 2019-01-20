@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
     /**
      * @var tx_realty_pi1_NextPreviousButtonsView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -42,12 +42,12 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $this->listViewUid = $this->testingFramework->createContentElement();
         $this->dummyCityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
-        $this->fixture = new tx_realty_pi1_NextPreviousButtonsView(
+        $this->subject = new tx_realty_pi1_NextPreviousButtonsView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
 
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', true);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', true);
     }
 
     protected function tearDown()
@@ -137,9 +137,9 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => 'ABC112']);
 
-        $this->fixture->setConfigurationValue('enableNextPreviousButtons', false);
+        $this->subject->setConfigurationValue('enableNextPreviousButtons', false);
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $realtyObject->getUid(),
             'recordPosition' => 0,
             'listViewType' => 'realty_list',
@@ -148,7 +148,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -160,7 +160,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['object_number' => 'ABC112']);
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $realtyObject->getUid(),
             'recordPosition' => 0,
             'listViewLimitation' => json_encode(['objectNumber' => 'ABC112']),
@@ -170,7 +170,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -182,7 +182,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $objectUid = $this->createRealtyRecordWithCity();
         $this->createRealtyRecordWithCity();
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid,
             'recordPosition' => 0,
             'listViewType' => 'realty_list',
@@ -191,7 +191,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertContains(
             'nextPage',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -203,7 +203,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $objectUid = $this->createRealtyRecordWithCity();
         $this->createRealtyRecordWithCity();
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid,
             'recordPosition' => 0,
             'listViewType' => 'realty_list',
@@ -212,7 +212,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertNotContains(
             'previousPage',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -236,7 +236,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             ]
         );
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid,
             'recordPosition' => 1,
             'listViewLimitation' => json_encode(['objectNumber' => 'foo']),
@@ -246,7 +246,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertNotContains(
             'nextPage',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -270,7 +270,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             ]
         );
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid2,
             'recordPosition' => 1,
             'listViewType' => 'realty_list',
@@ -278,7 +278,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        $result = $this->fixture->render();
+        $result = $this->subject->render();
 
         self::assertContains('showUid', $result);
         self::assertContains('=' . $objectUid1, $result);
@@ -304,7 +304,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             ]
         );
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid1,
             'recordPosition' => 0,
             'listViewType' => 'realty_list',
@@ -312,7 +312,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        $result = $this->fixture->render();
+        $result = $this->subject->render();
 
         self::assertContains('showUid', $result);
         self::assertContains('=' . $objectUid2, $result);
@@ -344,7 +344,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $realtyObject = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)
             ->getLoadedTestingModel(['pid' => $sysFolder]);
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $realtyObject,
             'recordPosition' => 0,
             'listViewType' => 'realty_list',
@@ -353,7 +353,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -372,14 +372,14 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $objectUid = $this->createRealtyRecordWithCity();
         $this->createRealtyRecordWithCity();
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid,
             'recordPosition' => 1,
             'listUid' => $this->listViewUid,
             'listViewType' => 'realty_list',
         ];
 
-        $result = $this->fixture->render();
+        $result = $this->subject->render();
 
         self::assertContains('listUid', $result);
         self::assertContains('=' . $this->listViewUid, $result);
@@ -393,14 +393,14 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
         $objectUid = $this->createRealtyRecordWithCity();
         $this->createRealtyRecordWithCity();
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid,
             'recordPosition' => 1,
             'listViewType' => 'favorites',
             'listUid' => $this->listViewUid,
         ];
 
-        $result = $this->fixture->render();
+        $result = $this->subject->render();
 
         self::assertContains('listViewType', $result);
         self::assertContains('=favorites', $result);
@@ -416,7 +416,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         $listViewLimitation = json_encode(['objectNumber' => 'foo']);
 
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid,
             'recordPosition' => 1,
             'listViewType' => 'favorites',
@@ -424,7 +424,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
             'listUid' => $this->listViewUid,
         ];
 
-        $result = $this->fixture->render();
+        $result = $this->subject->render();
 
         self::assertContains('listViewLimitation', $result);
         self::assertContains('=' . urlencode($listViewLimitation), $result);
@@ -435,7 +435,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function renderForNoListViewTypeReturnsEmptyString()
     {
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $this->createRealtyRecordWithCity(),
             'recordPosition' => 1,
             'listUid' => $this->listViewUid,
@@ -443,7 +443,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -452,7 +452,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function renderForInvalidListViewTypeReturnsString()
     {
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $this->createRealtyRecordWithCity(),
             'recordPosition' => 1,
             'listViewType' => 'foo',
@@ -461,7 +461,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -470,7 +470,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function renderForNegativeRecordPositionReturnsEmptyString()
     {
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $this->createRealtyRecordWithCity(),
             'recordPosition' => -1,
             'listViewType' => 'realty_list',
@@ -479,7 +479,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -490,14 +490,14 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
     {
         $objectUid = $this->createRealtyRecordWithCity();
         $this->createRealtyRecordWithCity();
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $objectUid,
             'recordPosition' => 'foo',
             'listViewType' => 'realty_list',
             'listUid' => $this->listViewUid,
         ];
 
-        $result = $this->fixture->render();
+        $result = $this->subject->render();
 
         self::assertContains('recordPosition', $result);
         self::assertContains('=1', $result);
@@ -508,7 +508,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function renderForRecordPositionStringHidesPreviousButton()
     {
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $this->createRealtyRecordWithCity(),
             'recordPosition' => 'foo',
             'listViewType' => 'realty_list',
@@ -517,7 +517,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertNotContains(
             'previousPage',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -526,7 +526,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function renderForListUidNegativeReturnsEmptyString()
     {
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $this->createRealtyRecordWithCity(),
             'recordPosition' => 0,
             'listUid' => -1,
@@ -535,7 +535,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -544,7 +544,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function renderForListUidPointingToNonExistingContentElementReturnsEmptyString()
     {
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $this->createRealtyRecordWithCity(),
             'recordPosition' => 0,
             'listUid' => $this->testingFramework->getAutoIncrement('tt_content'),
@@ -553,7 +553,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -562,7 +562,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
      */
     public function renderForNoListUidSetInPiVarsReturnsEmptyString()
     {
-        $this->fixture->piVars = [
+        $this->subject->piVars = [
             'showUid' => $this->createRealtyRecordWithCity(),
             'recordPosition' => 0,
             'listViewType' => 'realty_list',
@@ -570,7 +570,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends \Tx_Phpunit_TestCas
 
         self::assertEquals(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 }

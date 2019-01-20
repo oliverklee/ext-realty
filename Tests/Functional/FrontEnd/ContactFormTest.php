@@ -23,7 +23,7 @@ class ContactFormTest extends FunctionalTestCase
     /**
      * @var \tx_realty_contactForm
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var \Tx_Oelib_TestingFramework
@@ -68,21 +68,21 @@ class ContactFormTest extends FunctionalTestCase
             ]
         );
 
-        $this->fixture = new \tx_realty_contactForm(
+        $this->subject = new \tx_realty_contactForm(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $this->createContentMock()
         );
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'defaultContactEmail',
             'default-contact@example.com'
         );
-        $this->fixture->setConfigurationValue('blindCarbonCopyAddress', '');
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue('blindCarbonCopyAddress', '');
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'name,street,zip_and_city,telephone,request,viewing,information,callback'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             'request'
         );
@@ -171,7 +171,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             self::REALTY_TITLE,
-            $this->fixture->render(
+            $this->subject->render(
                 ['showUid' => $this->realtyUid]
             )
         );
@@ -184,7 +184,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             self::REALTY_OBJECT_NUMBER,
-            $this->fixture->render(
+            $this->subject->render(
                 ['showUid' => $this->realtyUid]
             )
         );
@@ -196,8 +196,8 @@ class ContactFormTest extends FunctionalTestCase
     public function generalContactFormDoesNotContainTitleLabelWithoutRealtyObjectSet()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_title'),
-            $this->fixture->render()
+            $this->subject->translate('label_title'),
+            $this->subject->render()
         );
     }
 
@@ -207,8 +207,8 @@ class ContactFormTest extends FunctionalTestCase
     public function generalContactFormDoesNotContainObjectNumberLabelWithoutRealtyObjectSet()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_object_number'),
-            $this->fixture->render()
+            $this->subject->translate('label_object_number'),
+            $this->subject->render()
         );
     }
 
@@ -219,7 +219,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertNotContains(
             'disabled',
-            $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->subject->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -230,7 +230,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertNotContains(
             'disabled',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -245,7 +245,7 @@ class ContactFormTest extends FunctionalTestCase
 
         self::assertContains(
             'value="test user" disabled="disabled"',
-            $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->subject->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -258,11 +258,11 @@ class ContactFormTest extends FunctionalTestCase
         $user->setData(['name' => 'test user']);
         \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->setConfigurationValue('visibleContactFormFields', '');
+        $this->subject->setConfigurationValue('visibleContactFormFields', '');
 
         self::assertNotContains(
             'value="test user"',
-            $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->subject->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -277,7 +277,7 @@ class ContactFormTest extends FunctionalTestCase
 
         self::assertContains(
             'value="frontend-user@example.com" disabled="disabled"',
-            $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->subject->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -292,7 +292,7 @@ class ContactFormTest extends FunctionalTestCase
 
         self::assertContains(
             'value="test user" disabled="disabled"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -307,7 +307,7 @@ class ContactFormTest extends FunctionalTestCase
 
         self::assertContains(
             'value="frontend-user@example.com" disabled="disabled"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -317,8 +317,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormHasNoDisabledInfomationIfNotLoggedIn()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_requester_data_is_uneditable'),
-            $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->subject->translate('label_requester_data_is_uneditable'),
+            $this->subject->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -328,8 +328,8 @@ class ContactFormTest extends FunctionalTestCase
     public function generalContactHasNoDisabledInfomationIfNotLoggedIn()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_requester_data_is_uneditable'),
-            $this->fixture->render()
+            $this->subject->translate('label_requester_data_is_uneditable'),
+            $this->subject->render()
         );
     }
 
@@ -343,8 +343,8 @@ class ContactFormTest extends FunctionalTestCase
         \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            $this->fixture->translate('label_requester_data_is_uneditable'),
-            $this->fixture->render(['showUid' => $this->realtyUid])
+            $this->subject->translate('label_requester_data_is_uneditable'),
+            $this->subject->render(['showUid' => $this->realtyUid])
         );
     }
 
@@ -358,8 +358,8 @@ class ContactFormTest extends FunctionalTestCase
         \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            $this->fixture->translate('label_requester_data_is_uneditable'),
-            $this->fixture->render()
+            $this->subject->translate('label_requester_data_is_uneditable'),
+            $this->subject->render()
         );
     }
 
@@ -369,8 +369,8 @@ class ContactFormTest extends FunctionalTestCase
     public function contactFormDisplaysGeneralViewIfTheRealtyObjectUidWasNotNumeric()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_object_number'),
-            $this->fixture->render(
+            $this->subject->translate('label_object_number'),
+            $this->subject->render(
                 ['showUid' => 'foo']
             )
         );
@@ -383,7 +383,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertNotContains(
             '###',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->testingFramework->createRecord(
                         'tx_realty_objects',
@@ -400,8 +400,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormNotDisplaysObjectNumberLabelIfRealtyObjectDoesNotExist()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_object_number'),
-            $this->fixture->render(
+            $this->subject->translate('label_object_number'),
+            $this->subject->render(
                 [
                     'showUid' => $this->testingFramework->createRecord(
                         'tx_realty_objects',
@@ -418,8 +418,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormNotDisplaysTitleLabelIfRealtyObjectDoesNotExist()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_title'),
-            $this->fixture->render(
+            $this->subject->translate('label_title'),
+            $this->subject->render(
                 [
                     'showUid' => $this->testingFramework->createRecord(
                         'tx_realty_objects',
@@ -436,8 +436,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormNotDisplaysSubmitLabelIfRealtyObjectDoesNotExist()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_submit'),
-            $this->fixture->render(
+            $this->subject->translate('label_submit'),
+            $this->subject->render(
                 [
                     'showUid' => $this->testingFramework->createRecord(
                         'tx_realty_objects',
@@ -454,8 +454,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormNotDisplaysYourNameLabelIfRealtyObjectDoesNotExist()
     {
         self::assertNotContains(
-            $this->fixture->translate('label_your_name'),
-            $this->fixture->render(
+            $this->subject->translate('label_your_name'),
+            $this->subject->render(
                 [
                     'showUid' => $this->testingFramework->createRecord(
                         'tx_realty_objects',
@@ -472,8 +472,8 @@ class ContactFormTest extends FunctionalTestCase
     public function contactFormDisplaysYourNameLabelIfThisIsConfigured()
     {
         self::assertContains(
-            $this->fixture->translate('label_your_name'),
-            $this->fixture->render()
+            $this->subject->translate('label_your_name'),
+            $this->subject->render()
         );
     }
 
@@ -482,11 +482,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysYourNameLabelIfThisIsNotConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', '');
+        $this->subject->setConfigurationValue('visibleContactFormFields', '');
 
         self::assertNotContains(
-            $this->fixture->translate('label_your_name'),
-            $this->fixture->render()
+            $this->subject->translate('label_your_name'),
+            $this->subject->render()
         );
     }
 
@@ -497,7 +497,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'name="tx_realty_pi1[request]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -506,11 +506,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysRequestFieldIfThisIsNotConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'name');
 
         self::assertNotContains(
             'name="tx_realty_pi1[request]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -519,14 +519,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysViewingFieldIfThisIsConfigured()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'viewing'
         );
 
         self::assertContains(
             'name="tx_realty_pi1[viewing]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -535,11 +535,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysViewingFieldIfThisIsNotConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'name');
 
         self::assertNotContains(
             'name="tx_realty_pi1[viewing]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -548,14 +548,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysInformationFieldIfThisIsConfigured()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'information'
         );
 
         self::assertContains(
             'name="tx_realty_pi1[information]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -564,11 +564,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysInformationFieldIfThisIsNotConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'name');
 
         self::assertNotContains(
             'name="tx_realty_pi1[information]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -577,14 +577,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysCallbackFieldIfThisIsConfigured()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'callback'
         );
 
         self::assertContains(
             'name="tx_realty_pi1[callback]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -593,11 +593,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysCallbackFieldIfThisIsNotConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'name');
 
         self::assertNotContains(
             'name="tx_realty_pi1[callback]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -606,14 +606,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysCallbackAsteriskIfCallbackAndLawTextAreVisible()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'callback,law'
         );
 
         self::assertContains(
             'class="tx-realty-pi1-law-asterisk"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -622,14 +622,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysCallbackAsteriskIfCallbackIsVisibleAndLawTextIsNotVisible()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'callback'
         );
 
         self::assertNotContains(
             'class="tx-realty-pi1-law-asterisk"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -638,11 +638,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysTermsFieldIfThisIsConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'terms');
 
         self::assertContains(
             'name="tx_realty_pi1[terms]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -651,11 +651,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysTermsFieldIfThisIsNotConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'name');
 
         self::assertNotContains(
             'name="tx_realty_pi1[terms]"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -664,11 +664,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysLawTextIfThisIsConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'law');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'law');
 
         self::assertContains(
             'class="tx-realty-pi1-law"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -677,11 +677,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormNotDisplaysLawTextIfThisIsNotConfigured()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'name');
 
         self::assertNotContains(
             'class="tx-realty-pi1-law"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -695,12 +695,12 @@ class ContactFormTest extends FunctionalTestCase
     public function termsLabelContainsLinkToTermsPage()
     {
         $termsPid = 1337;
-        $this->fixture->setConfigurationValue('termsPID', $termsPid);
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
+        $this->subject->setConfigurationValue('termsPID', $termsPid);
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'terms');
 
         self::assertContains(
             'a href="index.php?id=' . $termsPid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -714,8 +714,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormDisplaysAnErrorIfRealtyObjectDoesNotExist()
     {
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_contact_form'),
-            $this->fixture->render(
+            $this->subject->translate('message_noResultsFound_contact_form'),
+            $this->subject->render(
                 [
                     'showUid' => $this->testingFramework->createRecord(
                         'tx_realty_objects',
@@ -732,8 +732,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided()
     {
         self::assertContains(
-            $this->fixture->translate('label_set_valid_email_address'),
-            $this->fixture->render(
+            $this->subject->translate('label_set_valid_email_address'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -751,8 +751,8 @@ class ContactFormTest extends FunctionalTestCase
     public function generalContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided()
     {
         self::assertContains(
-            $this->fixture->translate('label_set_valid_email_address'),
-            $this->fixture->render(
+            $this->subject->translate('label_set_valid_email_address'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterName' => 'any name',
@@ -769,8 +769,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheEmailField()
     {
         self::assertContains(
-            $this->fixture->translate('label_set_valid_email_address'),
-            $this->fixture->render(
+            $this->subject->translate('label_set_valid_email_address'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -788,8 +788,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheNameField()
     {
         self::assertContains(
-            $this->fixture->translate('label_set_name'),
-            $this->fixture->render(
+            $this->subject->translate('label_set_name'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -807,8 +807,8 @@ class ContactFormTest extends FunctionalTestCase
     public function contactFormDisplaysErrorAfterSubmittingIfAngleBracketsAreSetInTheNameField()
     {
         self::assertContains(
-            $this->fixture->translate('label_set_name'),
-            $this->fixture->render(
+            $this->subject->translate('label_set_name'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -826,8 +826,8 @@ class ContactFormTest extends FunctionalTestCase
     public function contactFormDisplaysErrorAfterSubmittingIfQuotationMarksAreSetInTheNameField()
     {
         self::assertContains(
-            $this->fixture->translate('label_set_name'),
-            $this->fixture->render(
+            $this->subject->translate('label_set_name'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -844,11 +844,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function specializedContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'name');
 
         self::assertContains(
-            $this->fixture->translate('message_required_field'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -865,11 +865,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function generalContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'name');
 
         self::assertContains(
-            $this->fixture->translate('message_required_field'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterName' => '',
@@ -885,14 +885,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function specializedContactFormForRequiredMessageDisplaysErrorAfterSubmittingIfTheRequestWasEmpty()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             'request'
         );
 
         self::assertContains(
-            $this->fixture->translate('message_required_field_request'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field_request'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -909,11 +909,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function generalContactFormForRequiredMessageDisplaysErrorAfterSubmittingIfTheRequestWasEmpty()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'request');
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'request');
 
         self::assertContains(
-            $this->fixture->translate('message_required_field_request'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field_request'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterName' => 'any name',
@@ -929,11 +929,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function generalContactFormWithoutRequiredMessageNotDisplaysErrorAfterSubmittingIfTheRequestWasEmpty()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', '');
+        $this->subject->setConfigurationValue('requiredContactFormFields', '');
 
         self::assertNotContains(
-            $this->fixture->translate('message_required_field_request'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field_request'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterName' => 'any name',
@@ -949,11 +949,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function specializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet(
     ) {
-        $this->fixture->setConfigurationValue('defaultContactEmail', '');
+        $this->subject->setConfigurationValue('defaultContactEmail', '');
 
         self::assertContains(
-            $this->fixture->translate('label_no_contact_person'),
-            $this->fixture->render(
+            $this->subject->translate('label_no_contact_person'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -970,11 +970,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function generalContactFormDisplaysAnErrorAfterSubmittingIfNoDefaultEmailAddressWasSet()
     {
-        $this->fixture->setConfigurationValue('defaultContactEmail', '');
+        $this->subject->setConfigurationValue('defaultContactEmail', '');
 
         self::assertContains(
-            $this->fixture->translate('label_no_contact_person'),
-            $this->fixture->render(
+            $this->subject->translate('label_no_contact_person'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterName' => 'any name',
@@ -990,12 +990,12 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysTwoErrorMessagesIfNameAndStreetAreRequiredButEmpty()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'name,street');
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'name,street');
 
         self::assertEquals(
             2,
             substr_count(
-                $this->fixture->render(
+                $this->subject->render(
                     [
                         'isSubmitted' => true,
                         'requesterName' => '',
@@ -1003,7 +1003,7 @@ class ContactFormTest extends FunctionalTestCase
                         'request' => 'foo',
                     ]
                 ),
-                $this->fixture->translate('message_required_field')
+                $this->subject->translate('message_required_field')
             )
         );
     }
@@ -1013,7 +1013,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function specializedContactFormStillDisplaysTheFormIfAnErrorOccurs()
     {
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1024,7 +1024,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('message_required_field_request'),
+            $this->subject->translate('message_required_field_request'),
             $result
         );
         self::assertContains(
@@ -1032,7 +1032,7 @@ class ContactFormTest extends FunctionalTestCase
             $result
         );
         self::assertContains(
-            $this->fixture->translate('label_your_request'),
+            $this->subject->translate('label_your_request'),
             $result
         );
     }
@@ -1042,7 +1042,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormStillDisplaysGeneralViewOfTheFormIfAnErrorOccurs()
     {
-        $result = $this->fixture->render(
+        $result = $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'any name',
@@ -1052,7 +1052,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('message_required_field_request'),
+            $this->subject->translate('message_required_field_request'),
             $result
         );
         self::assertNotContains(
@@ -1060,7 +1060,7 @@ class ContactFormTest extends FunctionalTestCase
             $result
         );
         self::assertContains(
-            $this->fixture->translate('label_your_request'),
+            $this->subject->translate('label_your_request'),
             $result
         );
     }
@@ -1071,8 +1071,8 @@ class ContactFormTest extends FunctionalTestCase
     public function specializedContactFormShowsSubmittedMessageIfAllContentIsValid()
     {
         self::assertContains(
-            $this->fixture->translate('label_message_sent'),
-            $this->fixture->render(
+            $this->subject->translate('label_message_sent'),
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -1090,8 +1090,8 @@ class ContactFormTest extends FunctionalTestCase
     public function generalContactFormShowsSubmittedMessageIfAllContentIsValid()
     {
         self::assertContains(
-            $this->fixture->translate('label_message_sent'),
-            $this->fixture->render(
+            $this->subject->translate('label_message_sent'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterName' => 'any name',
@@ -1107,11 +1107,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysErrorMessageForEmptyRequiredStreetField()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'street');
 
         self::assertContains(
-            $this->fixture->translate('message_required_field'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester@example.com',
@@ -1127,11 +1127,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysErrorMessageForEmptyRequiredCityField()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'city');
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'city');
 
         self::assertContains(
-            $this->fixture->translate('message_required_field_requesterCity'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field_requesterCity'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester@example.com',
@@ -1147,11 +1147,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormDisplaysNoErrorMessageForNonEmptyRequiredField()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'street');
 
         self::assertNotContains(
-            $this->fixture->translate('message_required_field'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester@example.com',
@@ -1167,12 +1167,12 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormForVisibleAndNotSubmittedTermsFieldDisplaysErrorMessage()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
-        $this->fixture->setConfigurationValue('requiredContactFormFields', '');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'terms');
+        $this->subject->setConfigurationValue('requiredContactFormFields', '');
 
         self::assertContains(
-            $this->fixture->translate('message_required_field_terms'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field_terms'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester@example.com',
@@ -1186,12 +1186,12 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormForVisibleAndFilledTermsFieldNotDisplaysErrorMessage()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
-        $this->fixture->setConfigurationValue('requiredContactFormFields', '');
+        $this->subject->setConfigurationValue('visibleContactFormFields', 'terms');
+        $this->subject->setConfigurationValue('requiredContactFormFields', '');
 
         self::assertNotContains(
-            $this->fixture->translate('message_required_field_terms'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field_terms'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester@example.com',
@@ -1206,12 +1206,12 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function contactFormForNotVisibleAndNotSubmittedTermsFieldNotDisplaysErrorMessage()
     {
-        $this->fixture->setConfigurationValue('visibleContactFormFields', '');
-        $this->fixture->setConfigurationValue('requiredContactFormFields', '');
+        $this->subject->setConfigurationValue('visibleContactFormFields', '');
+        $this->subject->setConfigurationValue('requiredContactFormFields', '');
 
         self::assertNotContains(
-            $this->fixture->translate('message_required_field_terms'),
-            $this->fixture->render(
+            $this->subject->translate('message_required_field_terms'),
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester@example.com',
@@ -1231,7 +1231,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertNotContains(
             '###',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1242,7 +1242,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'tx_realty_pi1[requesterStreet]',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1253,7 +1253,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'tx_realty_pi1[requesterStreet]',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1264,7 +1264,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'tx_realty_pi1[requesterStreet]',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -1279,7 +1279,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             '>the request</textarea>',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'request' => 'the request',
@@ -1295,7 +1295,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'value="any name"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterName' => 'any name',
@@ -1311,7 +1311,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'value="1234567"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterPhone' => '1234567',
@@ -1327,7 +1327,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'value="requester@example.com"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester@example.com',
@@ -1343,7 +1343,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             'value="requester-invalid-email"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'requesterEmail' => 'requester-invalid-email',
@@ -1359,7 +1359,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         self::assertContains(
             '>&lt;fieldset /&gt;the request&lt;script /&gt;</textarea>',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'isSubmitted' => true,
                     'request' => '<fieldset />the request<script />',
@@ -1377,7 +1377,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function specializedContactFormUsesDefaultEmailAddressIfTheObjectHasNoContactData()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1400,7 +1400,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         $this->message->expects(self::once())->method('send');
 
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1427,7 +1427,7 @@ class ContactFormTest extends FunctionalTestCase
                 'contact_email' => 'any-valid@example.com',
             ]
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1460,7 +1460,7 @@ class ContactFormTest extends FunctionalTestCase
                 'owner' => $ownerUid,
             ]
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1489,7 +1489,7 @@ class ContactFormTest extends FunctionalTestCase
                 'contact_email' => 'invalid-address',
             ]
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1522,7 +1522,7 @@ class ContactFormTest extends FunctionalTestCase
             ]
         );
 
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1560,7 +1560,7 @@ class ContactFormTest extends FunctionalTestCase
                 'owner' => $deletedUserUid,
             ]
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1592,7 +1592,7 @@ class ContactFormTest extends FunctionalTestCase
                 ),
             ]
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1615,7 +1615,7 @@ class ContactFormTest extends FunctionalTestCase
     {
         $this->message->expects(self::once())->method('send');
 
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'any name',
@@ -1630,7 +1630,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function generalContactFormUsesTheDefaultEmailAddress()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'any name',
@@ -1650,7 +1650,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function usesDefaultFromEmailFromInstallTool()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'any name',
@@ -1676,7 +1676,7 @@ class ContactFormTest extends FunctionalTestCase
         );
         \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1704,7 +1704,7 @@ class ContactFormTest extends FunctionalTestCase
         );
         \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1732,9 +1732,9 @@ class ContactFormTest extends FunctionalTestCase
         );
         \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->setConfigurationValue('visibleContactFormFields', '');
+        $this->subject->setConfigurationValue('visibleContactFormFields', '');
 
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1753,11 +1753,11 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function headerContainsABccAddressIfThisWasConfigured()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'blindCarbonCopyAddress',
             'bcc-address@example.com'
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'any name',
@@ -1777,7 +1777,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function headerContainsNoBccLineIfNoAddressWasConfigured()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'any name',
@@ -1796,7 +1796,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function noEmailIsSentIfTheContactFormWasNotFilledCorrectly()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'any name',
@@ -1811,7 +1811,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailWithMinimumContentContainsNoUnreplacedMarkers()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1832,8 +1832,8 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailWithNonEmptyRequestContainsRequestIntro()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
-        $this->fixture->render(
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'name');
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1844,7 +1844,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('label_has_request'),
+            $this->subject->translate('label_has_request'),
             $this->message->getBody()
         );
     }
@@ -1854,8 +1854,8 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailWithEmptyRequestNotContainsRequestIntro()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
-        $this->fixture->render(
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'name');
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1866,7 +1866,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertNotContains(
-            $this->fixture->translate('label_has_request'),
+            $this->subject->translate('label_has_request'),
             $this->message->getBody()
         );
     }
@@ -1876,8 +1876,8 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailWithMissingRequestNotContainsRequestIntro()
     {
-        $this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
-        $this->fixture->render(
+        $this->subject->setConfigurationValue('requiredContactFormFields', 'name');
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1887,7 +1887,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertNotContains(
-            $this->fixture->translate('label_has_request'),
+            $this->subject->translate('label_has_request'),
             $this->message->getBody()
         );
     }
@@ -1897,7 +1897,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailContainsTheTitleOfTheRequestedObjectIfASpecializedContactFormWasSubmitted()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1918,7 +1918,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailContainsTheObjectNumberOfTheRequestedObjectIfASpecializedContactFormWasSubmitted()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -1939,7 +1939,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailFromGeneralContactFormContainsASummaryStringOfTheFavoritesList()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -1960,7 +1960,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailBodyContainsTheRequestersName()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -1980,7 +1980,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailBodyContainsTheRequestersEmailAddress()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2000,7 +2000,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailBodyContainsTheRequestersPhoneNumber()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2021,7 +2021,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailBodyNotContainsThePhoneNumberLabelIfNoPhoneNumberWasSet()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2031,7 +2031,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertNotContains(
-            $this->fixture->translate('label_requester_phone'),
+            $this->subject->translate('label_requester_phone'),
             $this->message->getBody()
         );
     }
@@ -2041,7 +2041,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailBodyContainsTheRequestersStreet()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2062,7 +2062,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailBodyContainsTheRequestersZip()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2083,7 +2083,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailBodyContainsTheRequestersCity()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2104,7 +2104,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailSubjectIsGeneralForTheGeneralForm()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2114,7 +2114,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('label_email_subject_general'),
+            $this->subject->translate('label_email_subject_general'),
             $this->message->getSubject()
         );
     }
@@ -2124,7 +2124,7 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailSubjectIsSpecializedForTheSpecializedForm()
     {
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'showUid' => $this->realtyUid,
                 'isSubmitted' => true,
@@ -2149,14 +2149,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function viewingCheckboxNotSubmittedIsNotMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'viewing'
         );
 
         self::assertNotContains(
             'checked="checked" name="tx_realty_pi1[viewing]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2171,14 +2171,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function viewingCheckboxSubmittedCheckedIsMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'viewing'
         );
 
         self::assertContains(
             'checked="checked" name="tx_realty_pi1[viewing]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2194,14 +2194,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function informationCheckboxNotSubmittedIsNotMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'information'
         );
 
         self::assertNotContains(
             'checked="checked" name="tx_realty_pi1[information]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2216,14 +2216,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function informationCheckboxSubmittedCheckedIsMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'information'
         );
 
         self::assertContains(
             'checked="checked" name="tx_realty_pi1[information]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2239,14 +2239,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function callbackCheckboxNotSubmittedIsNotMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'callback'
         );
 
         self::assertNotContains(
             'checked="checked" name="tx_realty_pi1[callback]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2261,14 +2261,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function callbackCheckboxSubmittedCheckedIsMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'callback'
         );
 
         self::assertContains(
             'checked="checked" name="tx_realty_pi1[callback]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2284,14 +2284,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function termsCheckboxNotSubmittedIsNotMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'terms'
         );
 
         self::assertNotContains(
             'checked="checked" name="tx_realty_pi1[terms]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2306,14 +2306,14 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function termsCheckboxSubmittedCheckedIsMarkedAsChecked()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'terms'
         );
 
         self::assertContains(
             'checked="checked" name="tx_realty_pi1[terms]"',
-            $this->fixture->render(
+            $this->subject->render(
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
@@ -2333,15 +2333,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForCheckedViewingCheckboxContainsViewingCheckboxText()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'viewing'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2351,7 +2351,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('label_viewing'),
+            $this->subject->translate('label_viewing'),
             $this->message->getBody()
         );
     }
@@ -2361,15 +2361,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForVisibleAndNotCheckedViewingCheckboxNotContainsViewingCheckboxText()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'viewing'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2379,7 +2379,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertNotContains(
-            $this->fixture->translate('label_viewing'),
+            $this->subject->translate('label_viewing'),
             $this->message->getBody()
         );
     }
@@ -2389,15 +2389,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForCheckedInformationCheckboxContainsInformationCheckboxText()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'information'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2407,7 +2407,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('label_information'),
+            $this->subject->translate('label_information'),
             $this->message->getBody()
         );
     }
@@ -2417,15 +2417,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForVisibleAndNotCheckedInformationCheckboxNotContainsInformationCheckboxText()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'information'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2435,7 +2435,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertNotContains(
-            $this->fixture->translate('label_information'),
+            $this->subject->translate('label_information'),
             $this->message->getBody()
         );
     }
@@ -2445,15 +2445,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForCheckedCallbackCheckboxContainsCallbackCheckboxText()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'callback'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2463,7 +2463,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('label_callback'),
+            $this->subject->translate('label_callback'),
             $this->message->getBody()
         );
     }
@@ -2473,15 +2473,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForVisibleAndNotCheckedCallbackCheckboxNotContainsCallbackCheckboxText()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'callback'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2491,7 +2491,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         self::assertNotContains(
-            $this->fixture->translate('label_callback'),
+            $this->subject->translate('label_callback'),
             $this->message->getBody()
         );
     }
@@ -2501,15 +2501,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForCheckedTermsCheckboxContainsStrippedTermsCheckboxText()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'terms'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2519,7 +2519,7 @@ class ContactFormTest extends FunctionalTestCase
         );
 
         $label = strip_tags(
-            str_replace(' %s', '', $this->fixture->translate('label_terms'))
+            str_replace(' %s', '', $this->subject->translate('label_terms'))
         );
         self::assertContains(
             $label,
@@ -2532,15 +2532,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForVisibleAndNotCheckedTermsCheckboxNotSendsEmail()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'terms'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2557,15 +2557,15 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function emailForCheckedInformationAndCallbackCheckboxContainsBothCheckboxTexts()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'visibleContactFormFields',
             'information,callback'
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'requiredContactFormFields',
             ''
         );
-        $this->fixture->render(
+        $this->subject->render(
             [
                 'isSubmitted' => true,
                 'requesterName' => 'a name of a requester',
@@ -2577,11 +2577,11 @@ class ContactFormTest extends FunctionalTestCase
 
         $emailBody = $this->message->getBody();
         self::assertContains(
-            $this->fixture->translate('label_information'),
+            $this->subject->translate('label_information'),
             $emailBody
         );
         self::assertContains(
-            $this->fixture->translate('label_callback'),
+            $this->subject->translate('label_callback'),
             $emailBody
         );
     }

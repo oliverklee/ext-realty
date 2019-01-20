@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_PrintPageButtonView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -26,7 +26,7 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_PrintPageButtonView(
+        $this->subject = new tx_realty_pi1_PrintPageButtonView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $frontEndController->cObj
         );
@@ -48,7 +48,7 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertContains(
             'class="js-realty-print button printPage"',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 }

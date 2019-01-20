@@ -10,7 +10,7 @@ class tx_realty_Service_TranslatorTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_translator instance to be tested
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @test
@@ -19,11 +19,11 @@ class tx_realty_Service_TranslatorTest extends \Tx_Phpunit_TestCase
     {
         Tx_Oelib_ConfigurationProxy::getInstance('realty')
             ->setAsString('cliLanguage', 'en');
-        $this->fixture = new tx_realty_translator();
+        $this->subject = new tx_realty_translator();
 
         self::assertEquals(
             'Allowed',
-            $this->fixture->translate('label_allowed')
+            $this->subject->translate('label_allowed')
         );
     }
 
@@ -34,11 +34,11 @@ class tx_realty_Service_TranslatorTest extends \Tx_Phpunit_TestCase
     {
         Tx_Oelib_ConfigurationProxy::getInstance('realty')
             ->setAsString('cliLanguage', 'xy');
-        $this->fixture = new tx_realty_translator();
+        $this->subject = new tx_realty_translator();
 
         self::assertEquals(
             'Allowed',
-            $this->fixture->translate('label_allowed')
+            $this->subject->translate('label_allowed')
         );
     }
 
@@ -49,11 +49,11 @@ class tx_realty_Service_TranslatorTest extends \Tx_Phpunit_TestCase
     {
         Tx_Oelib_ConfigurationProxy::getInstance('realty')
             ->setAsString('cliLanguage', '');
-        $this->fixture = new tx_realty_translator();
+        $this->subject = new tx_realty_translator();
 
         self::assertEquals(
             'Allowed',
-            $this->fixture->translate('label_allowed')
+            $this->subject->translate('label_allowed')
         );
     }
 
@@ -62,10 +62,10 @@ class tx_realty_Service_TranslatorTest extends \Tx_Phpunit_TestCase
      */
     public function translatorThrowsAnExceptionForEmptyKey()
     {
-        $this->fixture = new tx_realty_translator();
+        $this->subject = new tx_realty_translator();
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->translate('');
+        $this->subject->translate('');
     }
 }

@@ -30,7 +30,7 @@ class EditorTest extends FunctionalTestCase
     /**
      * @var \tx_realty_frontEndEditor
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var \Tx_Oelib_TestingFramework
@@ -69,7 +69,7 @@ class EditorTest extends FunctionalTestCase
 
         $this->createDummyRecords();
 
-        $this->fixture = new \tx_realty_frontEndEditor(
+        $this->subject = new \tx_realty_frontEndEditor(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'feEditorTemplateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html',
@@ -186,8 +186,8 @@ class EditorTest extends FunctionalTestCase
             $this->dummyObjectUid,
             ['owner' => $this->testingFramework->createFrontEndUser()]
         );
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->deleteRecord();
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->deleteRecord();
 
         self::assertEquals(
             0,
@@ -211,7 +211,7 @@ class EditorTest extends FunctionalTestCase
     public function isObjectNumberReadonlyReturnsFalseForNewObject()
     {
         self::assertFalse(
-            $this->fixture->isObjectNumberReadonly()
+            $this->subject->isObjectNumberReadonly()
         );
     }
 
@@ -220,10 +220,10 @@ class EditorTest extends FunctionalTestCase
      */
     public function isObjectNumberReadonlyReturnsTrueForAnExistingObject()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
 
         self::assertTrue(
-            $this->fixture->isObjectNumberReadonly()
+            $this->subject->isObjectNumberReadonly()
         );
     }
 
@@ -241,11 +241,11 @@ class EditorTest extends FunctionalTestCase
             'tx_realty_districts',
             ['city' => $cityUid, 'title' => 'Kreuzberg']
         );
-        $this->fixture->setFakedFormValue('city', $cityUid);
+        $this->subject->setFakedFormValue('city', $cityUid);
 
         self::assertContains(
             ['value' => $districtUid, 'caption' => 'Kreuzberg'],
-            $this->fixture->populateDistrictList()
+            $this->subject->populateDistrictList()
         );
     }
 
@@ -259,11 +259,11 @@ class EditorTest extends FunctionalTestCase
             'tx_realty_districts',
             ['title' => 'Kreuzberg']
         );
-        $this->fixture->setFakedFormValue('city', $cityUid);
+        $this->subject->setFakedFormValue('city', $cityUid);
 
         self::assertContains(
             ['value' => $districtUid, 'caption' => 'Kreuzberg'],
-            $this->fixture->populateDistrictList()
+            $this->subject->populateDistrictList()
         );
     }
 
@@ -278,11 +278,11 @@ class EditorTest extends FunctionalTestCase
             'tx_realty_districts',
             ['city' => $otherCityUid, 'title' => 'Kreuzberg']
         );
-        $this->fixture->setFakedFormValue('city', $cityUid);
+        $this->subject->setFakedFormValue('city', $cityUid);
 
         self::assertNotContains(
             ['value' => $districtUid, 'caption' => 'Kreuzberg'],
-            $this->fixture->populateDistrictList()
+            $this->subject->populateDistrictList()
         );
     }
 
@@ -291,11 +291,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function populateDistrictListForNoSelectedCityIsEmpty()
     {
-        $this->fixture->setFakedFormValue('city', 0);
+        $this->subject->setFakedFormValue('city', 0);
 
         self::assertEquals(
             [],
-            $this->fixture->populateDistrictList()
+            $this->subject->populateDistrictList()
         );
     }
 
@@ -308,7 +308,7 @@ class EditorTest extends FunctionalTestCase
      */
     public function populateListForValidTableReturnsARecordsTitleAsCaption()
     {
-        $result = $this->fixture->populateList(['table' => 'tx_realty_cities']);
+        $result = $this->subject->populateList(['table' => 'tx_realty_cities']);
 
         self::assertEquals(
             self::$dummyStringValue,
@@ -323,7 +323,7 @@ class EditorTest extends FunctionalTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->populateList(['table' => 'invalid_table']);
+        $this->subject->populateList(['table' => 'invalid_table']);
     }
 
     /**
@@ -333,7 +333,7 @@ class EditorTest extends FunctionalTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->populateList(['title_column' => 'foo', 'table' => 'tx_realty_cities']);
+        $this->subject->populateList(['title_column' => 'foo', 'table' => 'tx_realty_cities']);
     }
 
     /**
@@ -348,7 +348,7 @@ class EditorTest extends FunctionalTestCase
                 'value' => '54',
                 'caption' => 'Deutschland',
             ],
-            $this->fixture->populateList(
+            $this->subject->populateList(
                 [
                     'table' => 'static_countries',
                     'title_column' => 'cn_short_local',
@@ -369,8 +369,8 @@ class EditorTest extends FunctionalTestCase
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor')
             . ': ' .
-            $this->fixture->translate('message_no_valid_number'),
-            $this->fixture->getMessageForRealtyObjectField(
+            $this->subject->translate('message_no_valid_number'),
+            $this->subject->getMessageForRealtyObjectField(
                 ['fieldName' => 'floor', 'label' => 'message_no_valid_number']
             )
         );
@@ -382,8 +382,8 @@ class EditorTest extends FunctionalTestCase
     public function getMessageForRealtyObjectFieldCanReturnMessageWithoutFieldName()
     {
         self::assertEquals(
-            $this->fixture->translate('message_no_valid_number'),
-            $this->fixture->getMessageForRealtyObjectField(
+            $this->subject->translate('message_no_valid_number'),
+            $this->subject->getMessageForRealtyObjectField(
                 ['fieldName' => '', 'label' => 'message_no_valid_number']
             )
         );
@@ -396,7 +396,7 @@ class EditorTest extends FunctionalTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->getMessageForRealtyObjectField(['fieldName' => 'foo', 'label' => 'message_no_valid_number']);
+        $this->subject->getMessageForRealtyObjectField(['fieldName' => 'foo', 'label' => 'message_no_valid_number']);
     }
 
     /**
@@ -406,7 +406,7 @@ class EditorTest extends FunctionalTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->getMessageForRealtyObjectField(['label' => '123']);
+        $this->subject->getMessageForRealtyObjectField(['label' => '123']);
     }
 
     /**
@@ -416,7 +416,7 @@ class EditorTest extends FunctionalTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->getMessageForRealtyObjectField(['label' => '']);
+        $this->subject->getMessageForRealtyObjectField(['label' => '']);
     }
 
     /**
@@ -424,13 +424,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function getNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToBuy()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price')
             . ': ' .
-            $this->fixture->translate('message_enter_valid_non_empty_buying_price'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
+            $this->subject->translate('message_enter_valid_non_empty_buying_price'),
+            $this->subject->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
         );
     }
 
@@ -439,13 +439,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function getNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToRent()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price')
             . ': ' .
-            $this->fixture->translate('message_enter_valid_or_empty_buying_price'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
+            $this->subject->translate('message_enter_valid_or_empty_buying_price'),
+            $this->subject->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
         );
     }
 
@@ -454,13 +454,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function getNoValidPriceOrEmptyMessageForRentFieldsIfObjectToRent()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills')
             . ': ' .
-            $this->fixture->translate('message_enter_valid_non_empty_rent'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
+            $this->subject->translate('message_enter_valid_non_empty_rent'),
+            $this->subject->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
         );
     }
 
@@ -469,13 +469,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function getNoValidPriceOrEmptyMessageForRentFieldsIfObjectToBuy()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills')
             . ': ' .
-            $this->fixture->translate('message_enter_valid_or_empty_rent'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
+            $this->subject->translate('message_enter_valid_or_empty_rent'),
+            $this->subject->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
         );
     }
 
@@ -484,13 +484,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function getInvalidObjectNumberMessageForEmptyObjectNumber()
     {
-        $this->fixture->setFakedFormValue('object_number', '');
+        $this->subject->setFakedFormValue('object_number', '');
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number')
             . ': ' .
-            $this->fixture->translate('message_required_field'),
-            $this->fixture->getInvalidObjectNumberMessage()
+            $this->subject->translate('message_required_field'),
+            $this->subject->getInvalidObjectNumberMessage()
         );
     }
 
@@ -499,13 +499,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function getInvalidObjectNumberMessageForNonEmptyObjectNumber()
     {
-        $this->fixture->setFakedFormValue('object_number', 'foo');
+        $this->subject->setFakedFormValue('object_number', 'foo');
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number')
             . ': ' .
-            $this->fixture->translate('message_object_number_exists'),
-            $this->fixture->getInvalidObjectNumberMessage()
+            $this->subject->translate('message_object_number_exists'),
+            $this->subject->getInvalidObjectNumberMessage()
         );
     }
 
@@ -514,13 +514,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function getInvalidOrEmptyCityMessageForEmptyCity()
     {
-        $this->fixture->setFakedFormValue('city', 0);
+        $this->subject->setFakedFormValue('city', 0);
 
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city') . ': '
             .
-            $this->fixture->translate('message_required_field'),
-            $this->fixture->getInvalidOrEmptyCityMessage()
+            $this->subject->translate('message_required_field'),
+            $this->subject->getInvalidOrEmptyCityMessage()
         );
     }
 
@@ -529,7 +529,7 @@ class EditorTest extends FunctionalTestCase
      */
     public function getInvalidOrEmptyCityMessageForNonEmptyCity()
     {
-        $this->fixture->setFakedFormValue(
+        $this->subject->setFakedFormValue(
             'city',
             $this->testingFramework->createRecord(
                 'tx_realty_cities',
@@ -540,8 +540,8 @@ class EditorTest extends FunctionalTestCase
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city') . ': '
             .
-            $this->fixture->translate('message_value_not_allowed'),
-            $this->fixture->getInvalidOrEmptyCityMessage()
+            $this->subject->translate('message_value_not_allowed'),
+            $this->subject->getInvalidOrEmptyCityMessage()
         );
     }
 
@@ -555,7 +555,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNonNegativeIntegerNumberForIntegerReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '12345'])
+            $this->subject->isValidNonNegativeIntegerNumber(['value' => '12345'])
         );
     }
 
@@ -565,7 +565,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNonNegativeIntegerNumberForIntegerWithSpaceAsThousandsSeparatorReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '12 345'])
+            $this->subject->isValidNonNegativeIntegerNumber(['value' => '12 345'])
         );
     }
 
@@ -575,7 +575,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNonNegativeIntegerNumberForEmptyStringReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidNonNegativeIntegerNumber(['value' => ''])
+            $this->subject->isValidNonNegativeIntegerNumber(['value' => ''])
         );
     }
 
@@ -585,7 +585,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNonNegativeIntegerNumberForNumberWithDotAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '123.45'])
+            $this->subject->isValidNonNegativeIntegerNumber(['value' => '123.45'])
         );
     }
 
@@ -595,7 +595,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNonNegativeIntegerNumberForNumberWithCommaAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '123,45'])
+            $this->subject->isValidNonNegativeIntegerNumber(['value' => '123,45'])
         );
     }
 
@@ -605,7 +605,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNonNegativeIntegerNumberForNegativeIntegerReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '-123'])
+            $this->subject->isValidNonNegativeIntegerNumber(['value' => '-123'])
         );
     }
 
@@ -615,7 +615,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNonNegativeIntegerNumberForNonNumericStringReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(['value' => 'string'])
+            $this->subject->isValidNonNegativeIntegerNumber(['value' => 'string'])
         );
     }
 
@@ -625,7 +625,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidIntegerNumberForIntegerReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(['value' => '12345'])
+            $this->subject->isValidIntegerNumber(['value' => '12345'])
         );
     }
 
@@ -635,7 +635,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidIntegerNumberForIntegerWithSpaceAsThousandsSeparatorReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(['value' => '12 345'])
+            $this->subject->isValidIntegerNumber(['value' => '12 345'])
         );
     }
 
@@ -645,7 +645,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidIntegerNumberForEmptyStringReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(['value' => ''])
+            $this->subject->isValidIntegerNumber(['value' => ''])
         );
     }
 
@@ -655,7 +655,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidIntegerNumberForNumberWithDotAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidIntegerNumber(['value' => '123.45'])
+            $this->subject->isValidIntegerNumber(['value' => '123.45'])
         );
     }
 
@@ -665,7 +665,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidIntegerNumberForNumberWithCommaAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidIntegerNumber(['value' => '123,45'])
+            $this->subject->isValidIntegerNumber(['value' => '123,45'])
         );
     }
 
@@ -675,7 +675,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidIntegerNumberForNegativeIntegerReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(['value' => '-123'])
+            $this->subject->isValidIntegerNumber(['value' => '-123'])
         );
     }
 
@@ -685,7 +685,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidIntegerNumberForNonNumericStringReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidIntegerNumber(['value' => 'string'])
+            $this->subject->isValidIntegerNumber(['value' => 'string'])
         );
     }
 
@@ -695,7 +695,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithOneDecimal()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(['value' => '1234.5'])
+            $this->subject->isValidNumberWithDecimals(['value' => '1234.5'])
         );
     }
 
@@ -705,7 +705,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithOneDecimalAndSpace()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(['value' => '1 234.5'])
+            $this->subject->isValidNumberWithDecimals(['value' => '1 234.5'])
         );
     }
 
@@ -715,7 +715,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithTwoDecimalsSeparatedByDot()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(['value' => '123.45'])
+            $this->subject->isValidNumberWithDecimals(['value' => '123.45'])
         );
     }
 
@@ -725,7 +725,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithTwoDecimalsSeparatedByComma()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(['value' => '123,45'])
+            $this->subject->isValidNumberWithDecimals(['value' => '123,45'])
         );
     }
 
@@ -735,7 +735,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithoutDecimals()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(['value' => '12345'])
+            $this->subject->isValidNumberWithDecimals(['value' => '12345'])
         );
     }
 
@@ -745,7 +745,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsTrueForAnEmptyString()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(['value' => ''])
+            $this->subject->isValidNumberWithDecimals(['value' => ''])
         );
     }
 
@@ -755,7 +755,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsFalseForNumberWithMoreThanTwoDecimals()
     {
         self::assertFalse(
-            $this->fixture->isValidNumberWithDecimals(['value' => '12.345'])
+            $this->subject->isValidNumberWithDecimals(['value' => '12.345'])
         );
     }
 
@@ -765,7 +765,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidNumberWithDecimalsReturnsFalseForNonNumericString()
     {
         self::assertFalse(
-            $this->fixture->isValidNumberWithDecimals(['value' => 'string'])
+            $this->subject->isValidNumberWithDecimals(['value' => 'string'])
         );
     }
 
@@ -775,7 +775,7 @@ class EditorTest extends FunctionalTestCase
     public function isIntegerInRangeReturnsTrueForAllowedInteger()
     {
         self::assertTrue(
-            $this->fixture->isIntegerInRange(
+            $this->subject->isIntegerInRange(
                 ['value' => '1', 'range' => '1-2', 'multiple' => '0']
             )
         );
@@ -787,7 +787,7 @@ class EditorTest extends FunctionalTestCase
     public function isIntegerInRangeReturnsFalseForBelowTheRange()
     {
         self::assertFalse(
-            $this->fixture->isIntegerInRange(
+            $this->subject->isIntegerInRange(
                 ['value' => '0', 'range' => '1-2', 'multiple' => '0']
             )
         );
@@ -799,7 +799,7 @@ class EditorTest extends FunctionalTestCase
     public function isIntegerInRangeReturnsFalseForHigherThanTheRange()
     {
         self::assertFalse(
-            $this->fixture->isIntegerInRange(
+            $this->subject->isIntegerInRange(
                 ['value' => '2', 'range' => '0-1', 'multiple' => '0']
             )
         );
@@ -811,7 +811,7 @@ class EditorTest extends FunctionalTestCase
     public function isIntegerInRangeReturnsFalseForNonIntegerValue()
     {
         self::assertFalse(
-            $this->fixture->isIntegerInRange(
+            $this->subject->isIntegerInRange(
                 ['value' => 'string', 'range' => '0-1', 'multiple' => '0']
             )
         );
@@ -823,7 +823,7 @@ class EditorTest extends FunctionalTestCase
     public function isIntegerInRangeReturnsTrueForEmptyValue()
     {
         self::assertTrue(
-            $this->fixture->isIntegerInRange(
+            $this->subject->isIntegerInRange(
                 ['value' => '', 'range' => '1-2', 'multiple' => '0']
             )
         );
@@ -835,7 +835,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidYearReturnsTrueForTheCurrentYear()
     {
         self::assertTrue(
-            $this->fixture->isValidYear(['value' => date('Y')])
+            $this->subject->isValidYear(['value' => date('Y')])
         );
     }
 
@@ -845,7 +845,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidYearReturnsTrueForFormerYear()
     {
         self::assertTrue(
-            $this->fixture->isValidYear(['value' => '2000'])
+            $this->subject->isValidYear(['value' => '2000'])
         );
     }
 
@@ -855,7 +855,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidYearReturnsTrueForFutureYear()
     {
         self::assertTrue(
-            $this->fixture->isValidYear(['value' => '2100'])
+            $this->subject->isValidYear(['value' => '2100'])
         );
     }
 
@@ -865,7 +865,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidYearReturnsFalseForNumberWithDecimals()
     {
         self::assertFalse(
-            $this->fixture->isValidYear(['value' => '42,55'])
+            $this->subject->isValidYear(['value' => '42,55'])
         );
     }
 
@@ -874,9 +874,9 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsValid()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertTrue(
-            $this->fixture->isNonEmptyValidPriceForObjectForSale(
+            $this->subject->isNonEmptyValidPriceForObjectForSale(
                 ['value' => '1234']
             )
         );
@@ -887,9 +887,9 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsInvalid()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertFalse(
-            $this->fixture->isNonEmptyValidPriceForObjectForSale(
+            $this->subject->isNonEmptyValidPriceForObjectForSale(
                 ['value' => 'foo']
             )
         );
@@ -900,9 +900,9 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsEmpty()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertFalse(
-            $this->fixture->isNonEmptyValidPriceForObjectForSale(
+            $this->subject->isNonEmptyValidPriceForObjectForSale(
                 ['value' => '']
             )
         );
@@ -913,11 +913,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfOnePriceIsValidAndOneEmpty()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('year_rent', '');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('year_rent', '');
 
         self::assertTrue(
-            $this->fixture->isNonEmptyValidPriceForObjectForRent(
+            $this->subject->isNonEmptyValidPriceForObjectForRent(
                 ['value' => '1234']
             )
         );
@@ -928,10 +928,10 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentForEmptyValueAndValidYearRentIsTrue()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('year_rent', '1234');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('year_rent', '1234');
 
-        static::assertTrue($this->fixture->isNonEmptyValidPriceForObjectForRent(['value' => '']));
+        static::assertTrue($this->subject->isNonEmptyValidPriceForObjectForRent(['value' => '']));
     }
 
     /**
@@ -939,10 +939,10 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentForEmptyValueAndValidRentWithHeatingCostsRentIsTrue()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('rent_with_heating_costs', '1234');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('rent_with_heating_costs', '1234');
 
-        static::assertTrue($this->fixture->isNonEmptyValidPriceForObjectForRent(['value' => '']));
+        static::assertTrue($this->subject->isNonEmptyValidPriceForObjectForRent(['value' => '']));
     }
 
     /**
@@ -950,11 +950,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreValid()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('year_rent', '1234');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('year_rent', '1234');
 
         self::assertTrue(
-            $this->fixture->isNonEmptyValidPriceForObjectForRent(
+            $this->subject->isNonEmptyValidPriceForObjectForRent(
                 ['value' => '1234']
             )
         );
@@ -965,11 +965,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreInvalid()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('year_rent', 'foo');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('year_rent', 'foo');
 
         self::assertFalse(
-            $this->fixture->isNonEmptyValidPriceForObjectForRent(
+            $this->subject->isNonEmptyValidPriceForObjectForRent(
                 ['value' => 'foo']
             )
         );
@@ -980,11 +980,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreEmpty()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('year_rent', '');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('year_rent', '');
 
         self::assertFalse(
-            $this->fixture->isNonEmptyValidPriceForObjectForRent(
+            $this->subject->isNonEmptyValidPriceForObjectForRent(
                 ['value' => '']
             )
         );
@@ -995,11 +995,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfOnePriceIsInvalidAndOneValid()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('year_rent', '1234');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('year_rent', '1234');
 
         self::assertFalse(
-            $this->fixture->isNonEmptyValidPriceForObjectForRent(
+            $this->subject->isNonEmptyValidPriceForObjectForRent(
                 ['value' => 'foo']
             )
         );
@@ -1010,11 +1010,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsInvalidAndOneValid()
     {
-        $this->fixture->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
-        $this->fixture->setFakedFormValue('year_rent', 'foo');
+        $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
+        $this->subject->setFakedFormValue('year_rent', 'foo');
 
         self::assertFalse(
-            $this->fixture->isNonEmptyValidPriceForObjectForRent(
+            $this->subject->isNonEmptyValidPriceForObjectForRent(
                 ['value' => '1234']
             )
         );
@@ -1028,7 +1028,7 @@ class EditorTest extends FunctionalTestCase
         // The dummy record's language is not ''. A new record's language
         // is always ''.
         self::assertTrue(
-            $this->fixture->isObjectNumberUniqueForLanguage(
+            $this->subject->isObjectNumberUniqueForLanguage(
                 ['value' => '1234']
             )
         );
@@ -1046,7 +1046,7 @@ class EditorTest extends FunctionalTestCase
         );
 
         self::assertTrue(
-            $this->fixture->isObjectNumberUniqueForLanguage(
+            $this->subject->isObjectNumberUniqueForLanguage(
                 ['value' => '1234']
             )
         );
@@ -1064,7 +1064,7 @@ class EditorTest extends FunctionalTestCase
         );
 
         self::assertFalse(
-            $this->fixture->isObjectNumberUniqueForLanguage(
+            $this->subject->isObjectNumberUniqueForLanguage(
                 ['value' => self::$dummyStringValue]
             )
         );
@@ -1082,7 +1082,7 @@ class EditorTest extends FunctionalTestCase
         );
 
         self::assertFalse(
-            $this->fixture->isObjectNumberUniqueForLanguage(
+            $this->subject->isObjectNumberUniqueForLanguage(
                 ['value' => self::$dummyStringValue]
             )
         );
@@ -1094,7 +1094,7 @@ class EditorTest extends FunctionalTestCase
     public function isObjectNumberUniqueForLanguageForEmptyObjectNumber()
     {
         self::assertFalse(
-            $this->fixture->isObjectNumberUniqueForLanguage(
+            $this->subject->isObjectNumberUniqueForLanguage(
                 ['value' => '']
             )
         );
@@ -1106,7 +1106,7 @@ class EditorTest extends FunctionalTestCase
     public function isAllowedValueForCityReturnsTrueForAllowedValue()
     {
         self::assertTrue(
-            $this->fixture->isAllowedValueForCity(
+            $this->subject->isAllowedValueForCity(
                 ['value' => $this->testingFramework->createRecord('tx_realty_cities')]
             )
         );
@@ -1117,10 +1117,10 @@ class EditorTest extends FunctionalTestCase
      */
     public function isAllowedValueForCityReturnsTrueForZeroIfANewRecordTitleIsProvided()
     {
-        $this->fixture->setFakedFormValue('new_city', 'new city');
+        $this->subject->setFakedFormValue('new_city', 'new city');
 
         self::assertTrue(
-            $this->fixture->isAllowedValueForCity(
+            $this->subject->isAllowedValueForCity(
                 ['value' => '0']
             )
         );
@@ -1132,7 +1132,7 @@ class EditorTest extends FunctionalTestCase
     public function isAllowedValueForCityReturnsFalseForZeroIfNoNewRecordTitleIsProvided()
     {
         self::assertFalse(
-            $this->fixture->isAllowedValueForCity(
+            $this->subject->isAllowedValueForCity(
                 ['value' => '0']
             )
         );
@@ -1144,7 +1144,7 @@ class EditorTest extends FunctionalTestCase
     public function isAllowedValueForCityReturnsFalseForInvalidValue()
     {
         self::assertFalse(
-            $this->fixture->isAllowedValueForCity(
+            $this->subject->isAllowedValueForCity(
                 [
                     'value' => $this->testingFramework->createRecord(
                         'tx_realty_cities',
@@ -1161,7 +1161,7 @@ class EditorTest extends FunctionalTestCase
     public function checkKeyExistsInTableReturnsTrueForAllowedValue()
     {
         self::assertTrue(
-            $this->fixture->checkKeyExistsInTable(
+            $this->subject->checkKeyExistsInTable(
                 [
                     'value' => $this->testingFramework->createRecord('tx_realty_districts'),
                     'table' => 'tx_realty_districts',
@@ -1176,7 +1176,7 @@ class EditorTest extends FunctionalTestCase
     public function checkKeyExistsInTableReturnsTrueForZero()
     {
         self::assertTrue(
-            $this->fixture->checkKeyExistsInTable(
+            $this->subject->checkKeyExistsInTable(
                 ['value' => '0', 'table' => 'tx_realty_districts']
             )
         );
@@ -1188,7 +1188,7 @@ class EditorTest extends FunctionalTestCase
     public function checkKeyExistsInTableReturnsFalseForInvalidValue()
     {
         self::assertFalse(
-            $this->fixture->checkKeyExistsInTable(
+            $this->subject->checkKeyExistsInTable(
                 [
                     'value' => $this->testingFramework->createRecord(
                         'tx_realty_districts',
@@ -1207,7 +1207,7 @@ class EditorTest extends FunctionalTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->fixture->checkKeyExistsInTable([
+        $this->subject->checkKeyExistsInTable([
             'value' => 1,
             'table' => 'invalid_table',
         ]);
@@ -1219,7 +1219,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueFor180WithoutDecimal()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '180']
             )
         );
@@ -1231,7 +1231,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueFor180WithOneDecimal()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '180.0']
             )
         );
@@ -1243,7 +1243,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueFor180WithTwoDecimals()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '180.00']
             )
         );
@@ -1255,7 +1255,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueForMinus180()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '-180.0']
             )
         );
@@ -1267,7 +1267,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsFalseForGreater180()
     {
         self::assertFalse(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '180.1']
             )
         );
@@ -1279,7 +1279,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsFalseForLowerMinus180()
     {
         self::assertFalse(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '-180.1']
             )
         );
@@ -1291,7 +1291,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueForValueInAllowedPositiveRangeWithManyDecimals()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '123.12345678901234']
             )
         );
@@ -1303,7 +1303,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueForValueInAllowedNegativeRangeWithDecimals()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '-123.12345678901234']
             )
         );
@@ -1315,7 +1315,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueForZero()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '0']
             )
         );
@@ -1327,7 +1327,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsTrueForEmptyString()
     {
         self::assertTrue(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => '']
             )
         );
@@ -1339,7 +1339,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLongitudeDegreeReturnsFalseForAlphaChars()
     {
         self::assertFalse(
-            $this->fixture->isValidLongitudeDegree(
+            $this->subject->isValidLongitudeDegree(
                 ['value' => 'abc']
             )
         );
@@ -1351,7 +1351,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsTrueFor90WithNoDecimal()
     {
         self::assertTrue(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '90']
             )
         );
@@ -1363,7 +1363,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsTrueFor90WithOneDecimal()
     {
         self::assertTrue(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '90.0']
             )
         );
@@ -1375,7 +1375,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsTrueForMinus90()
     {
         self::assertTrue(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '-90.0']
             )
         );
@@ -1387,7 +1387,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsFalseForGreater90()
     {
         self::assertFalse(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '90.1']
             )
         );
@@ -1399,7 +1399,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsFalseForLowerMinus90()
     {
         self::assertFalse(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '-90.1']
             )
         );
@@ -1411,7 +1411,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsTrueForValueInAllowedPositiveRangeWithDecimals()
     {
         self::assertTrue(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '83.12345678901234']
             )
         );
@@ -1423,7 +1423,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsTrueForValueInAllowedNegativeRangeWithDecimals()
     {
         self::assertTrue(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '-83.12345678901234']
             )
         );
@@ -1435,7 +1435,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsTrueForEmptyString()
     {
         self::assertTrue(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '']
             )
         );
@@ -1447,7 +1447,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsTrueForZero()
     {
         self::assertTrue(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => '0']
             )
         );
@@ -1459,7 +1459,7 @@ class EditorTest extends FunctionalTestCase
     public function isValidLatitudeDegreeReturnsFalseForAlphaChars()
     {
         self::assertFalse(
-            $this->fixture->isValidLatitudeDegree(
+            $this->subject->isValidLatitudeDegree(
                 ['value' => 'abc']
             )
         );
@@ -1470,10 +1470,10 @@ class EditorTest extends FunctionalTestCase
      */
     public function isAtMostOneValueForAuxiliaryRecordProvidedReturnsTrueForNonEmptyNewTitleAndNoExistingRecord()
     {
-        $this->fixture->setFakedFormValue('city', 0);
+        $this->subject->setFakedFormValue('city', 0);
 
         self::assertTrue(
-            $this->fixture->isAtMostOneValueForAuxiliaryRecordProvided([
+            $this->subject->isAtMostOneValueForAuxiliaryRecordProvided([
                 'value' => $this->testingFramework->createRecord('tx_realty_cities'),
                 'fieldName' => 'city',
             ])
@@ -1485,10 +1485,10 @@ class EditorTest extends FunctionalTestCase
      */
     public function isAtMostOneValueForAuxiliaryRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord()
     {
-        $this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord('tx_realty_cities'));
+        $this->subject->setFakedFormValue('city', $this->testingFramework->createRecord('tx_realty_cities'));
 
         self::assertFalse(
-            $this->fixture->isAtMostOneValueForAuxiliaryRecordProvided([
+            $this->subject->isAtMostOneValueForAuxiliaryRecordProvided([
                 'value' => $this->testingFramework->createRecord('tx_realty_cities'),
                 'fieldName' => 'city',
             ])
@@ -1500,13 +1500,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsOwner()
     {
-        $this->fixture->setFakedFormValue(
+        $this->subject->setFakedFormValue(
             'contact_data_source',
             \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
         );
 
         self::assertTrue(
-            $this->fixture->isNonEmptyOrOwnerDataUsed([])
+            $this->subject->isNonEmptyOrOwnerDataUsed([])
         );
     }
 
@@ -1515,13 +1515,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsNonEmpty()
     {
-        $this->fixture->setFakedFormValue(
+        $this->subject->setFakedFormValue(
             'contact_data_source',
             \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
         );
 
         self::assertTrue(
-            $this->fixture->isNonEmptyOrOwnerDataUsed(['value' => 'foo'])
+            $this->subject->isNonEmptyOrOwnerDataUsed(['value' => 'foo'])
         );
     }
 
@@ -1530,13 +1530,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsEmpty()
     {
-        $this->fixture->setFakedFormValue(
+        $this->subject->setFakedFormValue(
             'contact_data_source',
             \tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
         );
 
         self::assertFalse(
-            $this->fixture->isNonEmptyOrOwnerDataUsed([])
+            $this->subject->isNonEmptyOrOwnerDataUsed([])
         );
     }
 
@@ -1551,9 +1551,9 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsTheTimeStampForExistingObject()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
 
-        $result = $this->fixture->modifyDataToInsert([]);
+        $result = $this->subject->modifyDataToInsert([]);
         // object type will always be added and is not needed here.
         unset($result['object_type']);
 
@@ -1568,11 +1568,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsTimeStampForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
+        $this->subject->setRealtyObjectUid(0);
 
         self::assertContains(
             'tstamp',
-            $this->fixture->modifyDataToInsert([])
+            $this->subject->modifyDataToInsert([])
         );
     }
 
@@ -1581,11 +1581,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsDateForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
+        $this->subject->setRealtyObjectUid(0);
 
         self::assertContains(
             'crdate',
-            $this->fixture->modifyDataToInsert([])
+            $this->subject->modifyDataToInsert([])
         );
     }
 
@@ -1594,11 +1594,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsPidForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
+        $this->subject->setRealtyObjectUid(0);
 
         self::assertContains(
             'pid',
-            $this->fixture->modifyDataToInsert([])
+            $this->subject->modifyDataToInsert([])
         );
     }
 
@@ -1607,11 +1607,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsHiddenFlagForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
+        $this->subject->setRealtyObjectUid(0);
 
         self::assertContains(
             'hidden',
-            $this->fixture->modifyDataToInsert([])
+            $this->subject->modifyDataToInsert([])
         );
     }
 
@@ -1620,11 +1620,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsObjectTypeForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
+        $this->subject->setRealtyObjectUid(0);
 
         self::assertContains(
             'object_type',
-            $this->fixture->modifyDataToInsert([])
+            $this->subject->modifyDataToInsert([])
         );
     }
 
@@ -1633,11 +1633,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsOwnerForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
+        $this->subject->setRealtyObjectUid(0);
 
         self::assertContains(
             'owner',
-            $this->fixture->modifyDataToInsert([])
+            $this->subject->modifyDataToInsert([])
         );
     }
 
@@ -1646,11 +1646,11 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsOpenImmoAnidForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
+        $this->subject->setRealtyObjectUid(0);
 
         self::assertContains(
             'openimmo_anid',
-            $this->fixture->modifyDataToInsert([])
+            $this->subject->modifyDataToInsert([])
         );
     }
 
@@ -1660,12 +1660,12 @@ class EditorTest extends FunctionalTestCase
     public function addAdministrativeDataAddsDefaultPidForNewObject()
     {
         $systemFolderPid = $this->testingFramework->createSystemFolder(1);
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'sysFolderForFeCreatedRecords',
             $systemFolderPid
         );
-        $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid(0);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertEquals(
             $systemFolderPid,
@@ -1679,12 +1679,12 @@ class EditorTest extends FunctionalTestCase
     public function addAdministrativeDataNotAddsDefaultPidForExistingObject()
     {
         $systemFolderPid = $this->testingFramework->createSystemFolder(1);
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'sysFolderForFeCreatedRecords',
             $systemFolderPid
         );
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertNotEquals(
             $systemFolderPid,
@@ -1703,8 +1703,8 @@ class EditorTest extends FunctionalTestCase
             ['save_folder' => $systemFolderPid]
         );
 
-        $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(['city' => $cityUid]);
+        $this->subject->setRealtyObjectUid(0);
+        $result = $this->subject->modifyDataToInsert(['city' => $cityUid]);
 
         self::assertEquals(
             $systemFolderPid,
@@ -1727,8 +1727,8 @@ class EditorTest extends FunctionalTestCase
             ['city' => $cityUid]
         );
 
-        $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(['city' => $cityUid]);
+        $this->subject->setRealtyObjectUid(0);
+        $result = $this->subject->modifyDataToInsert(['city' => $cityUid]);
 
         self::assertEquals(
             $systemFolderPid,
@@ -1741,8 +1741,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsFrontEndUserUidForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid(0);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertEquals(
             \Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser()
@@ -1756,8 +1756,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataNotAddsFrontEndUserUidForObjectToUpdate()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertFalse(
             isset($result['owner'])
@@ -1769,8 +1769,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataAddsFrontEndUsersOpenImmoAnidForNewObject()
     {
-        $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid(0);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertEquals(
             'test-user-anid',
@@ -1787,8 +1787,8 @@ class EditorTest extends FunctionalTestCase
         $user->setData([]);
         \Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid(0);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertEquals(
             '',
@@ -1801,8 +1801,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function addAdministrativeDataNotAddsFrontEndUsersOpenImmoAnidForAnObjectToUpdate()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertFalse(
             isset($result['openimmo_anid'])
@@ -1814,8 +1814,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function newRecordIsMarkedAsHidden()
     {
-        $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid(0);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertEquals(
             1,
@@ -1828,8 +1828,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function existingRecordIsNotMarkedAsHidden()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert([]);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert([]);
 
         self::assertFalse(
             isset($result['hidden'])
@@ -1845,12 +1845,12 @@ class EditorTest extends FunctionalTestCase
      */
     public function unifyNumbersToInsertForNonNumericValues()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
         $formData = [
             'title' => '12,3.45',
             'employer' => 'abc,de.fgh',
         ];
-        $result = $this->fixture->modifyDataToInsert($formData);
+        $result = $this->subject->modifyDataToInsert($formData);
         // PID, object type and time stamp will always be added,
         // they are not needed here.
         unset($result['tstamp'], $result['pid'], $result['object_type']);
@@ -1866,8 +1866,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function unifyNumbersToInsertIfSomeElementsNeedFormatting()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert([
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert([
             'garage_rent' => '123,45',
             'garage_price' => '12 345',
         ]);
@@ -1890,8 +1890,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsDeletesNonEmptyNewCityElement()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert(
             ['new_city' => 'foo']
         );
 
@@ -1905,8 +1905,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsDeletesEmptyNewCityElement()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert(
             ['new_city' => '']
         );
 
@@ -1920,8 +1920,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsDeletesNonEmptyNewDistrictElement()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert(
             ['new_district' => 'foo']
         );
 
@@ -1935,8 +1935,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsDeletesEmptyNewDistrictElement()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert(
             ['new_district' => '']
         );
 
@@ -1950,8 +1950,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsNotCreatesANewRecordForAnExistingTitle()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->modifyDataToInsert(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->modifyDataToInsert(
             ['new_city' => self::$dummyStringValue]
         );
 
@@ -1969,8 +1969,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsCreatesANewRecordForNewTitle()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->modifyDataToInsert(['new_city' => 'new city']);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->modifyDataToInsert(['new_city' => 'new city']);
 
         self::assertEquals(
             1,
@@ -1996,8 +1996,8 @@ class EditorTest extends FunctionalTestCase
             $configuration
         );
 
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->modifyDataToInsert(['new_city' => 'new city']);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->modifyDataToInsert(['new_city' => 'new city']);
 
         self::assertEquals(
             1,
@@ -2013,8 +2013,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsStoresNewUidToTheFormData()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert(
             ['new_city' => 'new city']
         );
 
@@ -2032,8 +2032,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsCreatesnoNewRecordForAnEmptyTitle()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->modifyDataToInsert(['new_city' => '']);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->modifyDataToInsert(['new_city' => '']);
 
         self::assertEquals(
             1,
@@ -2046,8 +2046,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function storeNewAuxiliaryRecordsNotCreatesARecordIfAUidIsAlreadySet()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $result = $this->subject->modifyDataToInsert(
             ['city' => 1, 'new_city' => 'new city']
         );
 
@@ -2073,12 +2073,12 @@ class EditorTest extends FunctionalTestCase
      */
     public function fieldThatDoesNotExistInTheRealtyObjectsTableIsPurged()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
 
         self::assertFalse(
             array_key_exists(
                 'spacer_01',
-                $this->fixture->modifyDataToInsert(['spacer_01' => 'blubb'])
+                $this->subject->modifyDataToInsert(['spacer_01' => 'blubb'])
             )
         );
         // TODO: remove the workaround when PHPUnit Bug 992 is fixed.
@@ -2090,12 +2090,12 @@ class EditorTest extends FunctionalTestCase
      */
     public function fieldThatExitsInTheRealtyObjectsTableIsNotPurged()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
 
         self::assertTrue(
             array_key_exists(
                 'title',
-                $this->fixture->modifyDataToInsert(['title' => 'foo'])
+                $this->subject->modifyDataToInsert(['title' => 'foo'])
             )
         );
         // TODO: remove the workaround when PHPUnit Bug 992 is fixed.
@@ -2114,12 +2114,12 @@ class EditorTest extends FunctionalTestCase
     public function sendEmailForNewObjectSendsToTheConfiguredRecipient()
     {
         // This will create an empty dummy record.
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         self::assertArrayHasKey(
             'recipient@example.com',
@@ -2133,12 +2133,12 @@ class EditorTest extends FunctionalTestCase
     public function sentEmailHasDefaultSenderAsFrom()
     {
         // This will create an empty dummy record.
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         self::assertArrayHasKey('alex@example.com', $this->message->getFrom());
     }
@@ -2149,12 +2149,12 @@ class EditorTest extends FunctionalTestCase
     public function sentEmailHasTheCurrentFeUserAsReplyTo()
     {
         // This will create an empty dummy record.
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         self::assertArrayHasKey('mr-test@example.com', $this->message->getReplyTo());
     }
@@ -2165,12 +2165,12 @@ class EditorTest extends FunctionalTestCase
     public function sentEmailContainsTheFeUsersName()
     {
         // This will create an empty dummy record.
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         self::assertContains(
             'Mr. Test',
@@ -2184,12 +2184,12 @@ class EditorTest extends FunctionalTestCase
     public function sentEmailContainsTheFeUsersUsername()
     {
         // This will create an empty dummy record.
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         self::assertContains(
             'test_user',
@@ -2202,13 +2202,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function sentEmailContainsTheNewObjectsTitle()
     {
-        $this->fixture->setFakedFormValue('title', 'any title');
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setFakedFormValue('title', 'any title');
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         self::assertContains(
             'any title',
@@ -2221,13 +2221,13 @@ class EditorTest extends FunctionalTestCase
      */
     public function sentEmailContainsTheNewObjectsObjectNumber()
     {
-        $this->fixture->setFakedFormValue('object_number', '1234');
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setFakedFormValue('object_number', '1234');
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         self::assertContains(
             '1234',
@@ -2242,14 +2242,14 @@ class EditorTest extends FunctionalTestCase
     {
         // The UID is found with the help of the combination of object number
         // and language.
-        $this->fixture->setFakedFormValue('object_number', '1234');
-        $this->fixture->setFakedFormValue('language', 'XY');
-        $this->fixture->writeFakedFormDataToDatabase();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setFakedFormValue('object_number', '1234');
+        $this->subject->setFakedFormValue('language', 'XY');
+        $this->subject->writeFakedFormDataToDatabase();
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         $expectedResult = \Tx_Oelib_Db::selectSingle(
             'uid',
@@ -2268,8 +2268,8 @@ class EditorTest extends FunctionalTestCase
      */
     public function noEmailIsSentIfNoRecipientWasConfigured()
     {
-        $this->fixture->setConfigurationValue('feEditorNotifyEmail', '');
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->setConfigurationValue('feEditorNotifyEmail', '');
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         $this->message->expects(self::never())->method('send');
     }
@@ -2279,12 +2279,12 @@ class EditorTest extends FunctionalTestCase
      */
     public function noEmailIsSentForExistingObject()
     {
-        $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->setConfigurationValue(
+        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setConfigurationValue(
             'feEditorNotifyEmail',
             'recipient@example.com'
         );
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
 
         $this->message->expects(self::never())->method('send');
     }
@@ -2315,7 +2315,7 @@ class EditorTest extends FunctionalTestCase
         $cacheManager->registerCache($cacheFrontEnd);
         \tx_realty_cacheManager::injectCacheManager($cacheManager);
 
-        $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+        $this->subject->sendEmailForNewObjectAndClearFrontEndCache();
     }
 
     //////////////////////////////////////

@@ -13,7 +13,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_MyObjectsListView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -51,7 +51,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_pi1_MyObjectsListView(
+        $this->subject = new tx_realty_pi1_MyObjectsListView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'pages' => $this->systemFolderPid,
@@ -182,8 +182,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_my_objects'),
-            $this->fixture->render()
+            $this->subject->translate('message_noResultsFound_my_objects'),
+            $this->subject->render()
         );
     }
 
@@ -196,7 +196,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$objectTitle,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -212,7 +212,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$objectTitle,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -237,7 +237,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'another object',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -250,7 +250,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '###',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -261,14 +261,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->prepareMyObjects();
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'editorPID',
             $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             'button edit',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -280,11 +280,11 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $this->prepareMyObjects();
 
         $editorPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue('editorPID', $editorPid);
+        $this->subject->setConfigurationValue('editorPID', $editorPid);
 
         self::assertContains(
             '?id=' . $editorPid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -295,12 +295,12 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->prepareMyObjects();
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'editorPID',
             $this->testingFramework->createFrontEndPage()
         );
 
-        self::assertContains('=' . $this->realtyUid, $this->fixture->render());
+        self::assertContains('=' . $this->realtyUid, $this->subject->render());
     }
 
     /**
@@ -312,12 +312,12 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             self::$objectTitle,
-            $this->fixture->render()
+            $this->subject->render()
         );
 
         self::assertNotContains(
             self::$objectTitle,
-            $this->fixture->render(['delete' => $this->realtyUid])
+            $this->subject->render(['delete' => $this->realtyUid])
         );
         self::assertFalse(
             Tx_Oelib_Db::existsRecordWithUid(
@@ -339,14 +339,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'editorPID',
             $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             'button newRecord',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -361,14 +361,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'editorPID',
             $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             'button newRecord',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -383,14 +383,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $user->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'editorPID',
             $this->testingFramework->createFrontEndPage()
         );
 
         self::assertNotContains(
             'button newRecord',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -406,11 +406,11 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $editorPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue('editorPID', $editorPid);
+        $this->subject->setConfigurationValue('editorPID', $editorPid);
 
         self::assertContains(
             '?id=' . $editorPid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -422,8 +422,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         $this->prepareMyObjects();
 
         self::assertContains(
-            $this->fixture->translate('label_published'),
-            $this->fixture->render()
+            $this->subject->translate('label_published'),
+            $this->subject->render()
         );
     }
 
@@ -440,8 +440,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         );
 
         self::assertContains(
-            $this->fixture->translate('label_pending'),
-            $this->fixture->render()
+            $this->subject->translate('label_pending'),
+            $this->subject->render()
         );
     }
 
@@ -457,8 +457,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertNotContains(
-            $this->fixture->translate('label_objects_already_entered'),
-            $this->fixture->render()
+            $this->subject->translate('label_objects_already_entered'),
+            $this->subject->render()
         );
     }
 
@@ -474,8 +474,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            sprintf($this->fixture->translate('label_objects_already_entered'), 1, 1),
-            $this->fixture->render()
+            sprintf($this->subject->translate('label_objects_already_entered'), 1, 1),
+            $this->subject->render()
         );
     }
 
@@ -491,8 +491,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            $this->fixture->translate('label_no_objects_left'),
-            $this->fixture->render()
+            $this->subject->translate('label_no_objects_left'),
+            $this->subject->render()
         );
     }
 
@@ -508,8 +508,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            $this->fixture->translate('label_no_objects_left'),
-            $this->fixture->render()
+            $this->subject->translate('label_no_objects_left'),
+            $this->subject->render()
         );
     }
 
@@ -525,8 +525,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            $this->fixture->translate('label_one_object_left'),
-            $this->fixture->render()
+            $this->subject->translate('label_one_object_left'),
+            $this->subject->render()
         );
     }
 
@@ -542,8 +542,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            sprintf($this->fixture->translate('label_multiple_objects_left'), 2),
-            $this->fixture->render()
+            sprintf($this->subject->translate('label_multiple_objects_left'), 2),
+            $this->subject->render()
         );
     }
 
@@ -557,14 +557,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
     public function myItemWithAdvertisePidAndNoAdvertisementDateHasAdvertiseButton()
     {
         $this->prepareMyObjects();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementPID',
             $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             'class="button advertise"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -577,7 +577,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'class="button advertise"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -588,14 +588,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->prepareMyObjects();
         $advertisementPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementPID',
             $advertisementPid
         );
 
         self::assertContains(
             '?id=' . $advertisementPid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -606,18 +606,18 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
     {
         $this->prepareMyObjects();
         $advertisementPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementPID',
             $advertisementPid
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementParameterForObjectUid',
             'foo'
         );
 
         self::assertContains(
             'foo=' . $this->realtyUid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -634,19 +634,19 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
             ['advertised_date' => $GLOBALS['SIM_EXEC_TIME'] - Tx_Oelib_Time::SECONDS_PER_DAY]
         );
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementExpirationInDays',
             0
         );
         $advertisementPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementPID',
             $advertisementPid
         );
 
         self::assertNotContains(
             '?id=' . $advertisementPid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -663,19 +663,19 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
             ['advertised_date' => $GLOBALS['SIM_EXEC_TIME'] - 10]
         );
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementExpirationInDays',
             1
         );
         $advertisementPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementPID',
             $advertisementPid
         );
 
         self::assertContains(
             '?id=' . $advertisementPid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -692,19 +692,19 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends \Tx_Phpunit_TestCase
             ['advertised_date' => $GLOBALS['SIM_EXEC_TIME'] - 2 * Tx_Oelib_Time::SECONDS_PER_DAY]
         );
 
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementExpirationInDays',
             1
         );
         $advertisementPid = $this->testingFramework->createFrontEndPage();
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'advertisementPID',
             $advertisementPid
         );
 
         self::assertNotContains(
             '?id=' . $advertisementPid,
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 }

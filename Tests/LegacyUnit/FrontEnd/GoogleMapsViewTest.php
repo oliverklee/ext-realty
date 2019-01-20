@@ -13,7 +13,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_GoogleMapsView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -90,7 +90,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
         $this->realtyMapper->method('find')->with($this->realtyUid)
             ->will(self::returnValue($this->realtyObject));
 
-        $this->fixture = new tx_realty_pi1_GoogleMapsView(
+        $this->subject = new tx_realty_pi1_GoogleMapsView(
             [
                 'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
                 'defaultCountryUID' => 54,
@@ -126,7 +126,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertSame(
             '',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -135,11 +135,11 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderGoogleMapsViewWithCollectedMarkerReturnsNonEmptyResult()
     {
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
 
         self::assertContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -148,11 +148,11 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderGoogleMapsViewWithCollectedMarkerReturnsNoUnreplacedMarkers()
     {
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
 
         self::assertNotContains(
             '###',
-            $this->fixture->render(['message_access_denied'])
+            $this->subject->render(['message_access_denied'])
         );
     }
 
@@ -167,7 +167,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
         $this->geoCoder->expects(self::never())->method('lookUp');
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -180,7 +180,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
 
         $this->realtyObject->expects(self::never())->method('writeToDatabase');
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -194,7 +194,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
         $this->geoCoder->expects(self::never())->method('lookUp');
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -207,7 +207,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
 
         $this->realtyObject->expects(self::never())->method('writeToDatabase');
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -221,7 +221,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
         $this->geoCoder->expects(self::never())->method('lookUp');
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -234,7 +234,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
 
         $this->realtyObject->expects(self::never())->method('writeToDatabase');
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -248,7 +248,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
         $this->geoCoder->expects(self::once())->method('lookUp')->with($this->realtyObject);
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -261,7 +261,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
 
         $this->realtyObject->expects(self::once())->method('writeToDatabase');
 
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
     }
 
     /**
@@ -270,11 +270,11 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewReturnsMapForObjectWithCoordinatesAndGoogleMapsEnabledCreatesMapsDiv()
     {
         $this->realtyObject->setGeoCoordinates(['latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE]);
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
 
         self::assertContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -284,11 +284,11 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewForObjectWithGeoErrorAndGoogleMapsEnabledNotCreatesMapsDiv()
     {
         $this->realtyObject->setGeoError();
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
 
         self::assertNotContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render()
+            $this->subject->render()
         );
     }
 
@@ -298,8 +298,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewForObjectWithCoordinatesAddsGoogleMapsJavaScript()
     {
         $this->realtyObject->setGeoCoordinates(['latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE]);
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertTrue(
             isset($this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps'])
@@ -313,8 +313,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     {
         $this->realtyObject->setGeoCoordinates(['latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE]);
         $this->realtyObject->setGeoError();
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertFalse(
             isset($this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps'])
@@ -327,8 +327,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewReturnsCoordinatesInJavaScript()
     {
         $this->realtyObject->setGeoCoordinates(['latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE]);
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertContains(
             (string)self::LATITUDE,
@@ -346,8 +346,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewForShowAddressTrueReturnsTheObjectsFullAddressAsTitleForGoogleMaps()
     {
         $this->realtyObject->setShowAddress(true);
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertContains(
             'title: "Main Street',
@@ -362,8 +362,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     {
         $this->realtyObject->setShowAddress(false);
 
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertContains(
             'title: "12345"',
@@ -377,8 +377,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewReturnsCroppedObjectTitleAsInfoWindowForGoogleMaps()
     {
         $this->realtyObject->setTitle('A really long title that is not too short.');
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertRegExp(
             '/myInfoWindow\\.setContent\\(\'[^\']*A really long title that is not …/',
@@ -392,8 +392,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewHasStreetAsInfoWindowForGoogleMapsForDetailedAddress()
     {
         $this->realtyObject->setShowAddress(true);
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertRegExp(
             '/myInfoWindow\\.setContent\\(\'[^\']*Main Street/',
@@ -406,12 +406,12 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderGoogleMapsViewWithMapMarkerWithoutCreateLinkOptiontDoesNotLinkObjectTitleInMap()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'singlePID',
             $this->testingFramework->createFrontEndPage()
         );
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertNotContains(
             'href=',
@@ -424,12 +424,12 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderGoogleMapsViewWithMapMarkerWithCreateLinkOptionLinksObjectTitleInMap()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'singlePID',
             $this->testingFramework->createFrontEndPage()
         );
-        $this->fixture->setMapMarker($this->realtyUid, true);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid, true);
+        $this->subject->render();
 
         self::assertContains(
             'href=',
@@ -443,8 +443,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     public function renderGoogleMapsViewOmitsStreetAsInfoWindowForGoogleMapsForShowAddressFalse()
     {
         $this->realtyObject->setShowAddress(false);
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->render();
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->render();
 
         self::assertNotRegExp(
             '/bindInfoWindowHtml\\(\'[^\']*Foo road/',
@@ -457,10 +457,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderSetsAutoZoomForTwoObjectsWithCoordinates()
     {
-        $this->fixture->setMapMarker($this->realtyUid);
-        $this->fixture->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
+        $this->subject->setMapMarker($this->realtyUid);
 
-        $this->fixture->render();
+        $this->subject->render();
 
         self::assertContains(
             'zoom:',

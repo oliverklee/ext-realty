@@ -12,7 +12,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1_ContactButtonView
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -24,11 +24,11 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->createFakeFrontEnd();
 
-        $this->fixture = new tx_realty_pi1_ContactButtonView(
+        $this->subject = new tx_realty_pi1_ContactButtonView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $this->getFrontEndController()->cObj
         );
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'contactPID',
             $this->testingFramework->createFrontEndPage()
         );
@@ -60,7 +60,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertNotEquals(
             '',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 
@@ -74,7 +74,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -88,7 +88,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
 
         self::assertContains(
             '=' . $realtyObject->getUid(),
-            $this->fixture->render(['showUid' => $realtyObject->getUid()])
+            $this->subject->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -99,7 +99,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
     {
         self::assertNotContains(
             '###',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 
@@ -108,11 +108,11 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderReturnsEmptyResultForTheCurrentPageBeingTheSameAsTheConfiguredContactPid()
     {
-        $this->fixture->setConfigurationValue('contactPID', $this->getFrontEndController()->id);
+        $this->subject->setConfigurationValue('contactPID', $this->getFrontEndController()->id);
 
         self::assertEquals(
             '',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 
@@ -121,11 +121,11 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends \Tx_Phpunit_TestCase
      */
     public function renderReturnsEmptyResultForNoContactPidConfigured()
     {
-        $this->fixture->setConfigurationValue('contactPID', '');
+        $this->subject->setConfigurationValue('contactPID', '');
 
         self::assertEquals(
             '',
-            $this->fixture->render(['showUid' => 0])
+            $this->subject->render(['showUid' => 0])
         );
     }
 }

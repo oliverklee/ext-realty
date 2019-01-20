@@ -10,7 +10,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_pi1
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -105,15 +105,15 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         $this->createDummyObjects();
 
         // True enables the test mode which inhibits the FE editor mkforms object from being created.
-        $this->fixture = new tx_realty_pi1(true);
+        $this->subject = new tx_realty_pi1(true);
         // This passed array with configuration values becomes part of
-        // $this->fixture->conf. "conf" is inherited from AbstractPlugin and needs
+        // $this->subject->conf. "conf" is inherited from AbstractPlugin and needs
         // to contain "pidList". "pidList" is none of our configuration values
         // but if cObj->currentRecord is set, "pidList" is set to our
         // configuration value "pages".
         // As we are in BE mode, "pidList" needs to be set directly.
         // The template file also needs to be included explicitly.
-        $this->fixture->init([
+        $this->subject->init([
             'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
             'pages' => $this->systemFolderPid,
             'showGoogleMaps' => 0,
@@ -188,17 +188,17 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         // The configuration check is created during initialization, therefore
         // the object to test is recreated for this test.
         Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', true);
-        $fixture = new tx_realty_pi1();
-        $fixture->init([
+        $subject = new tx_realty_pi1();
+        $subject->init([
             'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
             'pages' => $this->systemFolderPid,
         ]);
         // ensures there is at least one configuration error to report
-        $fixture->setConfigurationValue('isStaticTemplateLoaded', false);
+        $subject->setConfigurationValue('isStaticTemplateLoaded', false);
 
         self::assertContains(
             'Configuration check warning',
-            $fixture->main('', [])
+            $subject->main('', [])
         );
     }
 
@@ -210,17 +210,17 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         // The configuration check is created during initialization, therefore
         // the object to test is recreated for this test.
         Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', false);
-        $fixture = new tx_realty_pi1();
-        $fixture->init([
+        $subject = new tx_realty_pi1();
+        $subject->init([
             'templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html',
             'pages' => $this->systemFolderPid,
         ]);
         // ensures there is at least one configuration error to report
-        $fixture->setConfigurationValue('isStaticTemplateLoaded', false);
+        $subject->setConfigurationValue('isStaticTemplateLoaded', false);
 
         self::assertNotContains(
             'Configuration check warning',
-            $fixture->main('', [])
+            $subject->main('', [])
         );
     }
 
@@ -234,10 +234,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
     public function pi1MustBeInitialized()
     {
         self::assertNotNull(
-            $this->fixture
+            $this->subject
         );
         self::assertTrue(
-            $this->fixture->isInitialized()
+            $this->subject->isInitialized()
         );
     }
 
@@ -253,7 +253,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(null);
 
         self::assertTrue(
-            $this->fixture->isAccessToSingleViewPageAllowed()
+            $this->subject->isAccessToSingleViewPageAllowed()
         );
     }
 
@@ -266,7 +266,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
             ->logInUser(new tx_realty_Model_FrontEndUser());
 
         self::assertTrue(
-            $this->fixture->isAccessToSingleViewPageAllowed()
+            $this->subject->isAccessToSingleViewPageAllowed()
         );
     }
 
@@ -275,11 +275,11 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function accessToSingleViewIsAllowedWithoutLoginIfNotDeniedPerConfiguration()
     {
-        $this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+        $this->subject->setConfigurationValue('requireLoginForSingleViewPage', 0);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(null);
 
         self::assertTrue(
-            $this->fixture->isAccessToSingleViewPageAllowed()
+            $this->subject->isAccessToSingleViewPageAllowed()
         );
     }
 
@@ -288,12 +288,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function accessToSingleViewIsAllowedWithLoginIfNotDeniedPerConfiguration()
     {
-        $this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+        $this->subject->setConfigurationValue('requireLoginForSingleViewPage', 0);
         Tx_Oelib_FrontEndLoginManager::getInstance()
             ->logInUser(new tx_realty_Model_FrontEndUser());
 
         self::assertTrue(
-            $this->fixture->isAccessToSingleViewPageAllowed()
+            $this->subject->isAccessToSingleViewPageAllowed()
         );
     }
 
@@ -302,11 +302,11 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function accessToSingleViewIsDeniedWithoutLoginIfDeniedPerConfiguration()
     {
-        $this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
+        $this->subject->setConfigurationValue('requireLoginForSingleViewPage', 1);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(null);
 
         self::assertFalse(
-            $this->fixture->isAccessToSingleViewPageAllowed()
+            $this->subject->isAccessToSingleViewPageAllowed()
         );
     }
 
@@ -315,12 +315,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function accessToSingleViewIsAllowedWithLoginIfDeniedPerConfiguration()
     {
-        $this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
+        $this->subject->setConfigurationValue('requireLoginForSingleViewPage', 1);
         Tx_Oelib_FrontEndLoginManager::getInstance()
             ->logInUser(new tx_realty_Model_FrontEndUser());
 
         self::assertTrue(
-            $this->fixture->isAccessToSingleViewPageAllowed()
+            $this->subject->isAccessToSingleViewPageAllowed()
         );
     }
 
@@ -333,12 +333,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function singleViewIsDisplayedForValidRealtyObjectAndAccessAllowed()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'single_view');
-        $this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+        $this->subject->setConfigurationValue('what_to_display', 'single_view');
+        $this->subject->piVars['showUid'] = $this->firstRealtyUid;
 
         self::assertContains(
             'class="single-view"',
-            $this->fixture->main('', [])
+            $this->subject->main('', [])
         );
     }
 
@@ -347,15 +347,15 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function noResultViewIsDisplayedForRenderingTheSingleViewOfNonExistentObject()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'single_view');
-        $this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
+        $this->subject->setConfigurationValue('what_to_display', 'single_view');
+        $this->subject->piVars['showUid'] = $this->testingFramework->createRecord(
             'tx_realty_objects',
             ['deleted' => 1]
         );
 
         self::assertContains(
             'class="noresults"',
-            $this->fixture->main('', [])
+            $this->subject->main('', [])
         );
     }
 
@@ -364,15 +364,15 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function errorMessageIsDisplayedForRenderingTheSingleViewOfNonExistentObject()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'single_view');
-        $this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
+        $this->subject->setConfigurationValue('what_to_display', 'single_view');
+        $this->subject->piVars['showUid'] = $this->testingFramework->createRecord(
             'tx_realty_objects',
             ['deleted' => 1]
         );
 
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_single_view'),
-            $this->fixture->main('', [])
+            $this->subject->translate('message_noResultsFound_single_view'),
+            $this->subject->main('', [])
         );
     }
 
@@ -386,12 +386,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
             $this->firstRealtyUid,
             ['hidden' => 1]
         );
-        $this->fixture->setConfigurationValue('what_to_display', 'single_view');
-        $this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+        $this->subject->setConfigurationValue('what_to_display', 'single_view');
+        $this->subject->piVars['showUid'] = $this->firstRealtyUid;
 
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_single_view'),
-            $this->fixture->main('', [])
+            $this->subject->translate('message_noResultsFound_single_view'),
+            $this->subject->main('', [])
         );
     }
 
@@ -405,12 +405,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
             $this->firstRealtyUid,
             ['deleted' => 1]
         );
-        $this->fixture->setConfigurationValue('what_to_display', 'single_view');
-        $this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+        $this->subject->setConfigurationValue('what_to_display', 'single_view');
+        $this->subject->piVars['showUid'] = $this->firstRealtyUid;
 
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_single_view'),
-            $this->fixture->main('', [])
+            $this->subject->translate('message_noResultsFound_single_view'),
+            $this->subject->main('', [])
         );
     }
 
@@ -430,12 +430,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
                 'owner' => $this->testingFramework->createFrontEndUser(),
             ]
         );
-        $this->fixture->setConfigurationValue('what_to_display', 'single_view');
-        $this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+        $this->subject->setConfigurationValue('what_to_display', 'single_view');
+        $this->subject->piVars['showUid'] = $this->firstRealtyUid;
 
         self::assertContains(
-            $this->fixture->translate('message_noResultsFound_single_view'),
-            $this->fixture->main('', [])
+            $this->subject->translate('message_noResultsFound_single_view'),
+            $this->subject->main('', [])
         );
     }
 
@@ -444,12 +444,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function headerIsSetIfRenderingTheSingleViewLeadsToNoResultsMessage()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'single_view');
-        $this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
+        $this->subject->setConfigurationValue('what_to_display', 'single_view');
+        $this->subject->piVars['showUid'] = $this->testingFramework->createRecord(
             'tx_realty_objects',
             ['deleted' => 1]
         );
-        $this->fixture->main('', []);
+        $this->subject->main('', []);
 
         self::assertEquals(
             'Status: 404 Not Found',
@@ -466,12 +466,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function accessToMyObjectsViewIsForbiddenForNotLoggedInUser()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('what_to_display', 'my_objects');
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
-        $output = $this->fixture->main('', []);
+        $output = $this->subject->main('', []);
         self::assertContains(
-            $this->fixture->translate('message_please_login'),
+            $this->subject->translate('message_please_login'),
             $output
         );
 
@@ -488,10 +488,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
     {
         $myObjectsPid = $this->testingFramework->createFrontEndPage();
         $this->testingFramework->createFakeFrontEnd($myObjectsPid);
-        $this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('what_to_display', 'my_objects');
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
-        $output = $this->fixture->main('', []);
+        $output = $this->subject->main('', []);
         self::assertContains(
             'redirect_url',
             $output
@@ -508,12 +508,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function headerIsSentWhenTheMyObjectsViewShowsPleaseLoginMessage()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-        $this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+        $this->subject->setConfigurationValue('what_to_display', 'my_objects');
+        $this->subject->setConfigurationValue('loginPID', $this->loginPid);
 
         self::assertContains(
-            $this->fixture->translate('message_please_login'),
-            $this->fixture->main('', [])
+            $this->subject->translate('message_please_login'),
+            $this->subject->main('', [])
         );
 
         self::assertEquals(
@@ -534,12 +534,12 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
         $groupId = $this->testingFramework->createFrontEndUserGroup();
         $this->testingFramework->createFrontEndUser($groupId);
 
-        $this->fixture->setConfigurationValue('what_to_display', 'offerer_list');
-        $this->fixture->setConfigurationValue('userGroupsForOffererList', $groupId);
+        $this->subject->setConfigurationValue('what_to_display', 'offerer_list');
+        $this->subject->setConfigurationValue('userGroupsForOffererList', $groupId);
 
         self::assertContains(
             'offerer-list',
-            $this->fixture->main('', [])
+            $this->subject->main('', [])
         );
     }
 
@@ -552,11 +552,11 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function forNoWhatToDisplaySetRealtyListViewWillBeRendered()
     {
-        $this->fixture->setConfigurationValue('what_to_display', '');
+        $this->subject->setConfigurationValue('what_to_display', '');
 
         self::assertContains(
-            $this->fixture->translate('label_weofferyou'),
-            $this->fixture->main('', [])
+            $this->subject->translate('label_weofferyou'),
+            $this->subject->main('', [])
         );
     }
 
@@ -565,11 +565,11 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function realtyListViewCanBeRendered()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+        $this->subject->setConfigurationValue('what_to_display', 'realty_list');
 
         self::assertContains(
-            $this->fixture->translate('label_weofferyou'),
-            $this->fixture->main('', [])
+            $this->subject->translate('label_weofferyou'),
+            $this->subject->main('', [])
         );
     }
 
@@ -578,11 +578,11 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function favoritesViewCanBeRendered()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'favorites');
+        $this->subject->setConfigurationValue('what_to_display', 'favorites');
 
         self::assertContains(
-            $this->fixture->translate('label_yourfavorites'),
-            $this->fixture->main('', [])
+            $this->subject->translate('label_yourfavorites'),
+            $this->subject->main('', [])
         );
     }
 
@@ -591,15 +591,15 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function myObjectsViewCanBeRendered()
     {
-        $this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+        $this->subject->setConfigurationValue('what_to_display', 'my_objects');
 
         $user = new tx_realty_Model_FrontEndUser();
         $user->setData([]);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
-            $this->fixture->translate('label_your_objects'),
-            $this->fixture->main('', [])
+            $this->subject->translate('label_your_objects'),
+            $this->subject->main('', [])
         );
     }
 
@@ -608,14 +608,14 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      */
     public function objectByOwnerViewCanBeRendered()
     {
-        $this->fixture->setConfigurationValue(
+        $this->subject->setConfigurationValue(
             'what_to_display',
             'objects_by_owner'
         );
 
         self::assertContains(
-            $this->fixture->translate('label_sorry'),
-            $this->fixture->main('', [])
+            $this->subject->translate('label_sorry'),
+            $this->subject->main('', [])
         );
     }
 }

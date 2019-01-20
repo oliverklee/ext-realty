@@ -11,7 +11,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_cli_ImageCleanUp
      */
-    private $fixture = null;
+    private $subject = null;
 
     /**
      * @var Tx_Oelib_TestingFramework
@@ -29,13 +29,13 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->setUploadFolderPath(PATH_site);
         Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
-        $this->fixture = new tx_realty_cli_ImageCleanUp();
+        $this->subject = new tx_realty_cli_ImageCleanUp();
         $this->uploadFolder = str_replace(
             PATH_site,
             '',
             $this->testingFramework->createDummyFolder($this->uploadFolder)
         );
-        $this->fixture->setTestMode($this->uploadFolder);
+        $this->subject->setTestMode($this->uploadFolder);
     }
 
     protected function tearDown()
@@ -52,7 +52,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
      */
     public function checkUploadFolderForExistingWritableFolderNotThrowsException()
     {
-        $this->fixture->checkUploadFolder();
+        $this->subject->checkUploadFolder();
     }
 
     /**
@@ -62,8 +62,8 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $this->fixture->setTestMode('uploads_tx_realty_test/no_folder');
-        $this->fixture->checkUploadFolder();
+        $this->subject->setTestMode('uploads_tx_realty_test/no_folder');
+        $this->subject->checkUploadFolder();
     }
 
     /////////////////////////////////////////
@@ -85,7 +85,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->hideUnusedImagesInDatabase();
+        $this->subject->hideUnusedImagesInDatabase();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -110,7 +110,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->hideUnusedImagesInDatabase();
+        $this->subject->hideUnusedImagesInDatabase();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -135,7 +135,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->hideUnusedImagesInDatabase();
+        $this->subject->hideUnusedImagesInDatabase();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -152,7 +152,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord('tx_realty_images');
 
-        $this->fixture->hideUnusedImagesInDatabase();
+        $this->subject->hideUnusedImagesInDatabase();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -170,7 +170,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->createRecord('tx_realty_images');
         $this->testingFramework->createRecord('tx_realty_images');
 
-        $this->fixture->hideUnusedImagesInDatabase();
+        $this->subject->hideUnusedImagesInDatabase();
 
         self::assertEquals(
             2,
@@ -200,7 +200,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->deleteUnusedDocumentRecords();
+        $this->subject->deleteUnusedDocumentRecords();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -225,7 +225,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->deleteUnusedDocumentRecords();
+        $this->subject->deleteUnusedDocumentRecords();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -250,7 +250,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ]
         );
 
-        $this->fixture->deleteUnusedDocumentRecords();
+        $this->subject->deleteUnusedDocumentRecords();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -267,7 +267,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord('tx_realty_documents');
 
-        $this->fixture->deleteUnusedDocumentRecords();
+        $this->subject->deleteUnusedDocumentRecords();
 
         self::assertTrue(
             $this->testingFramework->existsExactlyOneRecord(
@@ -285,7 +285,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
         $this->testingFramework->createRecord('tx_realty_documents');
         $this->testingFramework->createRecord('tx_realty_documents');
 
-        $this->fixture->deleteUnusedDocumentRecords();
+        $this->subject->deleteUnusedDocumentRecords();
 
         self::assertEquals(
             2,
@@ -313,7 +313,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ['deleted' => 1, 'image' => basename($fileName)]
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileNotExists(
             $fileName
@@ -329,7 +329,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             $this->uploadFolder . '/image.jpg'
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileNotExists(
             $fileName
@@ -349,7 +349,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ['hidden' => 1, 'image' => basename($fileName)]
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileExists(
             $fileName
@@ -365,7 +365,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             $this->uploadFolder . '/test.txt'
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileNotExists(
             $fileName
@@ -385,7 +385,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ['image' => basename($fileName)]
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileExists(
             $fileName
@@ -404,7 +404,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             $this->uploadFolder . '/image.jpg'
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileNotExists(
             $fileName1
@@ -427,7 +427,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ['deleted' => 1, 'filename' => basename($fileName)]
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileNotExists(
             $fileName
@@ -443,7 +443,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             $this->uploadFolder . '/document.pdf'
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileNotExists(
             $fileName
@@ -463,7 +463,7 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             ['filename' => basename($fileName)]
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertFileExists(
             $fileName
@@ -483,11 +483,11 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
             $this->uploadFolder . '/image.jpg'
         );
 
-        $this->fixture->deleteUnusedFiles();
+        $this->subject->deleteUnusedFiles();
 
         self::assertContains(
             'Files deleted: 1',
-            $this->fixture->getStatistics()
+            $this->subject->getStatistics()
         );
     }
 
@@ -498,11 +498,11 @@ class tx_realty_Cli_ImageCleanUpTest extends \Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord('tx_realty_images');
 
-        $this->fixture->hideUnusedImagesInDatabase();
+        $this->subject->hideUnusedImagesInDatabase();
 
         self::assertContains(
             ', 1 of those were hidden',
-            $this->fixture->getStatistics()
+            $this->subject->getStatistics()
         );
     }
 }

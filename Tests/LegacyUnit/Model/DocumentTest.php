@@ -10,11 +10,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
     /**
      * @var tx_realty_Model_Document
      */
-    private $fixture = null;
+    private $subject = null;
 
     protected function setUp()
     {
-        $this->fixture = new tx_realty_Model_Document();
+        $this->subject = new tx_realty_Model_Document();
     }
 
     /*
@@ -26,11 +26,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function getTitleReturnsTitle()
     {
-        $this->fixture->setData(['title' => 'Just another document']);
+        $this->subject->setData(['title' => 'Just another document']);
 
         self::assertEquals(
             'Just another document',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -39,11 +39,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleSetsTitle()
     {
-        $this->fixture->setTitle('Just another document');
+        $this->subject->setTitle('Just another document');
 
         self::assertEquals(
             'Just another document',
-            $this->fixture->getTitle()
+            $this->subject->getTitle()
         );
     }
 
@@ -53,7 +53,7 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function setTitleForEmptyTitleThrowsException()
     {
-        $this->fixture->setTitle('');
+        $this->subject->setTitle('');
     }
 
     ////////////////////////////////////////////
@@ -65,11 +65,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function getFileNameReturnsDocumentFileName()
     {
-        $this->fixture->setData(['filename' => 'foo.pdf']);
+        $this->subject->setData(['filename' => 'foo.pdf']);
 
         self::assertEquals(
             'foo.pdf',
-            $this->fixture->getFileName()
+            $this->subject->getFileName()
         );
     }
 
@@ -78,11 +78,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function setFileNameSetsFileName()
     {
-        $this->fixture->setFileName('bar.pdf');
+        $this->subject->setFileName('bar.pdf');
 
         self::assertEquals(
             'bar.pdf',
-            $this->fixture->getFileName()
+            $this->subject->getFileName()
         );
     }
 
@@ -93,7 +93,7 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function setFileNameForEmptyFileNameThrowsException()
     {
-        $this->fixture->setFileName('');
+        $this->subject->setFileName('');
     }
 
     ///////////////////////////////////////////////////////
@@ -106,11 +106,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
     public function getObjectReturnsObject()
     {
         $realtyObject = new tx_realty_Model_RealtyObject();
-        $this->fixture->setData(['object' => $realtyObject]);
+        $this->subject->setData(['object' => $realtyObject]);
 
         self::assertSame(
             $realtyObject,
-            $this->fixture->getObject()
+            $this->subject->getObject()
         );
     }
 
@@ -120,11 +120,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
     public function setObjectSetsObject()
     {
         $realtyObject = new tx_realty_Model_RealtyObject();
-        $this->fixture->setObject($realtyObject);
+        $this->subject->setObject($realtyObject);
 
         self::assertSame(
             $realtyObject,
-            $this->fixture->getObject()
+            $this->subject->getObject()
         );
     }
 
@@ -137,11 +137,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function getSortingInitiallyReturnsZero()
     {
-        $this->fixture->setData([]);
+        $this->subject->setData([]);
 
         self::assertEquals(
             0,
-            $this->fixture->getSorting()
+            $this->subject->getSorting()
         );
     }
 
@@ -150,11 +150,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function getSortingReturnsSorting()
     {
-        $this->fixture->setData(['sorting' => 42]);
+        $this->subject->setData(['sorting' => 42]);
 
         self::assertEquals(
             42,
-            $this->fixture->getSorting()
+            $this->subject->getSorting()
         );
     }
 
@@ -163,11 +163,11 @@ class tx_realty_Model_DocumentTest extends \Tx_Phpunit_TestCase
      */
     public function setSortingSetsSorting()
     {
-        $this->fixture->setSorting(21);
+        $this->subject->setSorting(21);
 
         self::assertEquals(
             21,
-            $this->fixture->getSorting()
+            $this->subject->getSorting()
         );
     }
 }
