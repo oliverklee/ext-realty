@@ -34,17 +34,17 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      *
      * @param array $piVars piVars array, must contain the key "showUid" with a valid realty object UID as value
      *
-     * @return string HTML for the image thumbnails, will be empty if there are
-     *                no images to render
+     * @return string HTML for the image thumbnails, will be empty if there are no images to render
+     *
+     * @throws \Tx_Oelib_Exception_NotFound
      */
     public function render(array $piVars = [])
     {
-        $this->showUid = $piVars['showUid'];
+        $this->showUid = (int)$piVars['showUid'];
 
         $this->createImageConfiguration();
 
-        return ($this->renderImages() > 0)
-            ? $this->getSubpart('FIELD_WRAPPER_IMAGETHUMBNAILS') : '';
+        return ($this->renderImages() > 0) ? $this->getSubpart('FIELD_WRAPPER_IMAGETHUMBNAILS') : '';
     }
 
     /**
@@ -52,17 +52,19 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      * in their particular subparts.
      *
      * @return int the total number of rendered images, will be >= 0
+     *
+     * @throws \Tx_Oelib_Exception_NotFound
      */
     private function renderImages()
     {
-        /** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-        $realtyObjectMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
+        /** @var \tx_realty_Mapper_RealtyObject $realtyObjectMapper */
+        $realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
+        /** @var \tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $realtyObjectMapper->find($this->getUid());
         $allImages = $realtyObject->getImages();
 
         $imagesByPosition = [];
-        $usedPositions = max(
+        $usedPositions = \max(
             self::IMAGE_POSITIONS_IN_DEFAULT_TEMPLATE,
             $this->findHighestConfiguredPositionIndex()
         );
@@ -70,13 +72,13 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
             $imagesByPosition[$i] = [];
         }
 
-        /** @var tx_realty_Model_Image $image */
+        /** @var \tx_realty_Model_Image $image */
         foreach ($allImages as $image) {
             $position = $image->getPosition();
             $imagesByPosition[$position][] = $image;
         }
 
-        /** @var tx_realty_Model_Image[] $images */
+        /** @var \tx_realty_Model_Image[] $images */
         foreach ($imagesByPosition as $position => $images) {
             $this->renderImagesInPosition($position, $images);
         }
@@ -89,7 +91,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      * subpart in the template.
      *
      * @param int $position the zero-based position index of the images
-     * @param tx_realty_Model_Image[] $images
+     * @param \tx_realty_Model_Image[] $images
      *        the images to render, must all be in position $position
      *
      * @return void
@@ -102,10 +104,10 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
             return;
         }
 
-        $itemSubpartName = ($position > 0)
-            ? 'ONE_IMAGE_CONTAINER_' . $position : 'ONE_IMAGE_CONTAINER';
+        $itemSubpartName = ($position > 0) ? 'ONE_IMAGE_CONTAINER_' . $position : 'ONE_IMAGE_CONTAINER';
 
         $result = '';
+        /** @var \tx_realty_Model_Image $image */
         foreach ($images as $image) {
             $configuration = $this->getImageConfigurationForContainer($position);
             $currentImage = $configuration['enableLightbox']
@@ -122,13 +124,11 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      * Creates a thumbnail (without Lightbox) of $image sized as per the
      * configuration.
      *
-     * @param tx_realty_Model_Image $image
-     *        the image to render
+     * @param \tx_realty_Model_Image $image
      *
-     * @return string
-     *         image tag, will not be empty
+     * @return string image tag, will not be empty
      */
-    protected function createThumbnail(tx_realty_Model_Image $image)
+    protected function createThumbnail(\tx_realty_Model_Image $image)
     {
         $containerImageConfiguration = $this->getImageConfigurationForContainer($image->getPosition());
 
@@ -136,7 +136,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         $imageConfiguration = [
             'altText' => $title,
             'titleText' => $title,
-            'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
+            'file' => \tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
             'file.' => [
                 'width' => $containerImageConfiguration['thumbnailSizeX'] . 'c',
                 'height' => $containerImageConfiguration['thumbnailSizeY'] . 'c',
@@ -149,13 +149,13 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
     /**
      * Creates a Lightbox thumbnail of $image sized as per the configuration.
      *
-     * @param tx_realty_Model_Image $image
+     * @param \tx_realty_Model_Image $image
      *        the image to render
      *
      * @return string
      *         image tag wrapped in a Lightbox link, will not be empty
      */
-    protected function createLightboxThumbnail(tx_realty_Model_Image $image)
+    protected function createLightboxThumbnail(\tx_realty_Model_Image $image)
     {
         $thumbnailTag = $this->createThumbnail($image);
 
@@ -165,7 +165,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         $imageConfiguration = [
             'altText' => $image->getTitle(),
             'titleText' => $image->getTitle(),
-            'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
+            'file' => \tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
             'file.' => [
                 'maxW' => $configuration['lightboxSizeX'],
                 'maxH' => $configuration['lightboxSizeY'],
@@ -174,12 +174,12 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         $imageWithTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
 
         $imagePath = [];
-        preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
+        \preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
         $fullSizeImageUrl = $imagePath[1];
 
         $lightboxGallerySuffix = ($position > 0) ? '_' . $position : '';
         $linkAttribute = ' data-lightbox="objectGallery' . $lightboxGallerySuffix .
-            '" data-title="' . htmlspecialchars($image->getTitle()) . '"';
+            '" data-title="' . \htmlspecialchars($image->getTitle(), ENT_COMPAT | ENT_HTML5) . '"';
 
         return '<a href="' . $fullSizeImageUrl . '"' . $linkAttribute . '>' . $thumbnailTag . '</a>';
     }
@@ -202,7 +202,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      */
     private function createImageConfiguration()
     {
-        $configuration = Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1');
+        $configuration = \Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1');
 
         $highestPositionIndex = $this->findHighestConfiguredPositionIndex();
         for ($position = 0; $position <= $highestPositionIndex; $position++) {
@@ -215,7 +215,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
             ];
 
             if ($position > 0) {
-                $specificConfiguration = Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
+                $specificConfiguration = \Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
                     ->getAsMultidimensionalArray($position . '.');
                 if (isset($specificConfiguration['enableLightbox'])) {
                     $accumulatedConfiguration['enableLightbox'] = (bool)$specificConfiguration['enableLightbox'];
@@ -265,9 +265,10 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
     {
         $highestIndex = 0;
 
-        $imageConfigurations = Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')->getAsMultidimensionalArray('images.');
+        $imageConfigurations = \Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+            ->getAsMultidimensionalArray('images.');
 
-        foreach (array_keys($imageConfigurations) as $key) {
+        foreach (\array_keys($imageConfigurations) as $key) {
             $index = (int)$key;
             if ($index > $highestIndex) {
                 $highestIndex = $index;
