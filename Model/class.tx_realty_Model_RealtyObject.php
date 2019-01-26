@@ -384,7 +384,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *
      * @return string[] contents of the database entry, empty if database result could not be fetched
      */
-    protected function loadDatabaseEntry($uid)
+    public function loadDatabaseEntry($uid)
     {
         try {
             $result = Tx_Oelib_Db::selectSingle(
@@ -1163,10 +1163,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     private function retrieveAttachedImages()
     {
-        if (!$this->identifyObjectAndSetUid()) {
-            return;
-        }
-        if (!$this->hasInteger('images')) {
+        if (!$this->hasInteger('images') || !$this->identifyObjectAndSetUid()) {
             return;
         }
 
@@ -1185,10 +1182,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     private function retrieveAttachedDocuments()
     {
-        if (!$this->identifyObjectAndSetUid()) {
-            return;
-        }
-        if (!$this->hasInteger('documents')) {
+        if (!$this->hasInteger('documents') || !$this->identifyObjectAndSetUid()) {
             return;
         }
 
@@ -1461,7 +1455,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *                 database result could not be fetched or if neither 'uid'
      *                 nor $alternativeKey were elements of $dataArray.
      */
-    protected function recordExistsInDatabase(array $dataArray, $table = 'tx_realty_objects')
+    public function recordExistsInDatabase(array $dataArray, $table = 'tx_realty_objects')
     {
         $databaseResult = $this->compareWithDatabase(
             'COUNT(*) AS number',
