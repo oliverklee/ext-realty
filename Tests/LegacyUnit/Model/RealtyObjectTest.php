@@ -175,119 +175,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getObidReturnsObid()
-    {
-        $obid = 'bklhjewkbjvewq';
-        $this->subject->setData(['openimmo_obid' => $obid]);
-
-        self::assertSame($obid, $this->subject->getObid());
-    }
-
-    /**
-     * @test
-     */
-    public function recordExistsInDatabaseIfNoExistingObjectNumberGiven()
-    {
-        self::assertFalse(
-            $this->subject->recordExistsInDatabase(
-                ['object_number' => '99999']
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function recordExistsInDatabaseIfExistingObjectNumberGiven()
-    {
-        self::assertTrue(
-            $this->subject->recordExistsInDatabase(
-                ['object_number' => self::$objectNumber]
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function loadDatabaseEntryWithValidUid()
-    {
-        self::assertEquals(
-            Tx_Oelib_Db::selectSingle(
-                '*',
-                'tx_realty_objects',
-                'uid = ' . $this->objectUid
-            ),
-            $this->subject->loadDatabaseEntry($this->objectUid)
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function loadDatabaseEntryWithInvalidUid()
-    {
-        self::assertEquals(
-            [],
-            $this->subject->loadDatabaseEntry('99999')
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function loadDatabaseEntryOfAnNonHiddenObjectIfOnlyVisibleAreAllowed()
-    {
-        $this->subject->loadRealtyObject($this->objectUid, false);
-        self::assertEquals(
-            Tx_Oelib_Db::selectSingle(
-                '*',
-                'tx_realty_objects',
-                'uid = ' . $this->objectUid
-            ),
-            $this->subject->loadDatabaseEntry($this->objectUid)
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function loadDatabaseEntryDoesNotLoadAHiddenObjectIfOnlyVisibleAreAllowed()
-    {
-        $this->subject->loadRealtyObject($this->objectUid, false);
-        $uid = $this->testingFramework->createRecord(
-            'tx_realty_objects',
-            ['hidden' => 1]
-        );
-        self::assertEquals(
-            [],
-            $this->subject->loadDatabaseEntry($uid)
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function loadDatabaseEntryLoadsAHiddenObjectIfHiddenAreAllowed()
-    {
-        $this->subject->loadRealtyObject($this->objectUid, true);
-        $uid = $this->testingFramework->createRecord(
-            'tx_realty_objects',
-            ['hidden' => 1]
-        );
-        self::assertEquals(
-            Tx_Oelib_Db::selectSingle(
-                '*',
-                'tx_realty_objects',
-                'uid = ' . $uid
-            ),
-            $this->subject->loadDatabaseEntry($uid)
-        );
-    }
-
-    /**
-     * @test
-     */
     public function getDataTypeWhenArrayGiven()
     {
         self::assertEquals(
@@ -345,7 +232,7 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function loadHiddenRealtyObjectIfHidddenObjectsAreAllowed()
+    public function loadHiddenRealtyObjectIfHiddenObjectsAreAllowed()
     {
         $this->testingFramework->changeRecord(
             'tx_realty_objects',

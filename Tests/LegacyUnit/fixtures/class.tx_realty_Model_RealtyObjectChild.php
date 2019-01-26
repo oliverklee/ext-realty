@@ -8,32 +8,6 @@
 final class tx_realty_Model_RealtyObjectChild extends \tx_realty_Model_RealtyObject
 {
     /**
-     * Checks whether a record exists in the database.
-     * If $dataArray has got an element named 'uid', the database match is
-     * searched by this UID. Otherwise, the database match is searched by the
-     * list of alternative keys.
-     * The result will be TRUE if either the UIDs matched or if all the elements
-     * of $dataArray which correspond to the list of alternative keys match the
-     * a database record.
-     *
-     * @param array $dataArray
-     *        Data array with database column names and the corresponding values.
-     *        The database match is searched by all these keys' values in case there is no UID within the array.
-     * @param string $table
-     *        name of table where to find out whether an entry yet exists, must not be empty
-     *
-     * @return bool True if the UID in the data array equals an existing
-     *                 entry or if the value of the alternative key was found in
-     *                 the database. False in any other case, also if the
-     *                 database result could not be fetched or if neither 'uid'
-     *                 nor $alternativeKey were elements of $dataArray.
-     */
-    public function recordExistsInDatabase(array $dataArray, $table = 'tx_realty_objects')
-    {
-        return parent::recordExistsInDatabase($dataArray, $table);
-    }
-
-    /**
      * Creates a new record with the contents of the array $realtyData, unless
      * it is empty, in the database. All fields to insert must already exist in
      * the database.
@@ -74,19 +48,6 @@ final class tx_realty_Model_RealtyObjectChild extends \tx_realty_Model_RealtyObj
     public function getDataType($realtyData)
     {
         return parent::getDataType($realtyData);
-    }
-
-    /**
-     * Loads an existing realty object entry from the database. If
-     * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
-     *
-     * @param int $uid UID of the database entry to load, must be > 0
-     *
-     * @return string[] contents of the database entry, empty if database result could not be fetched
-     */
-    public function loadDatabaseEntry($uid)
-    {
-        return parent::loadDatabaseEntry($uid);
     }
 
     /**

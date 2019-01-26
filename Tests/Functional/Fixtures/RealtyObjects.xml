@@ -3,12 +3,18 @@
     <tx_realty_objects>
         <uid>101</uid>
         <title>A music house for house music</title>
+        <object_number>100000</object_number>
     </tx_realty_objects>
     <tx_realty_objects>
         <uid>102</uid>
         <title>The place to be</title>
         <city>100</city>
         <attachments>3</attachments>
+    </tx_realty_objects>
+    <tx_realty_objects>
+        <uid>103</uid>
+        <title>A hidden object</title>
+        <hidden>1</hidden>
     </tx_realty_objects>
 
     <tx_realty_cities>
