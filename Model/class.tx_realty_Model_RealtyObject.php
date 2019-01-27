@@ -1512,14 +1512,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *        caption for the new image record, may be empty
      * @param string $fileName
      *        name of the image in the upload directory, must not be empty
-     * @param int $position
-     *        the position of the image, must be between 0 and 4
      *
      * @throws BadMethodCallException
      *
      * @return int key of the newly created record, will be >= 0
      */
-    public function addImageRecord($caption, $fileName, $position = 0)
+    public function addImageRecord($caption, $fileName)
     {
         if ($this->isVirgin()) {
             throw new BadMethodCallException(
