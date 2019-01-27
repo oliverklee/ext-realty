@@ -103,7 +103,7 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
      */
     private function getPathOfTestFile()
     {
-        return GeneralUtility::getFileAbsFileName('fileadmin/test.jpg');
+        return GeneralUtility::getFileAbsFileName('fileadmin/realty_attachments/102/test.jpg');
     }
 
     /*
@@ -214,7 +214,7 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
             [
                 'altText' => 'JPEG image & file',
                 'titleText' => 'JPEG image & file',
-                'file' => 'fileadmin/test.jpg',
+                'file' => 'fileadmin/realty_attachments/102/test.jpg',
                 'file.' => [
                     'width' => '102c',
                     'height' => '77c',
@@ -241,7 +241,7 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
             [
                 'altText' => 'JPEG image & file',
                 'titleText' => 'JPEG image & file',
-                'file' => 'fileadmin/test.jpg',
+                'file' => 'fileadmin/realty_attachments/102/test.jpg',
                 'file.' => [
                     'maxW' => '1024',
                     'maxH' => '768',
