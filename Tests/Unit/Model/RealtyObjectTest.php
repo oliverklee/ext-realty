@@ -32,6 +32,17 @@ class RealtyObjectTest extends UnitTestCase
     /**
      * @test
      */
+    public function getObidReturnsObid()
+    {
+        $obid = 'bklhjewkbjvewq';
+        $this->subject->setData(['openimmo_obid' => $obid]);
+
+        self::assertSame($obid, $this->subject->getObid());
+    }
+
+    /**
+     * @test
+     */
     public function getNumberOfAttachmentsInitiallyReturnsZero()
     {
         $this->subject->setData([]);

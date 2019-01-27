@@ -22,7 +22,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Move the location-related fields to the "geo" tab (#193)
 - Move the images and documents to the "attachments" TCEforms tab (#191)
 - Speed up the new functional by omitting the auto increment reset (#189)
-- Convert more tests to nimut/testing framework (#181, #185, #190)
+- Convert more tests to nimut/testing framework (#181, #185, #190, #205)
 - Stop using the charset conversion from the BE or FE (#178)
 
 ### Deprecated

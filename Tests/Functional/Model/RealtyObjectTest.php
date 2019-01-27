@@ -26,6 +26,11 @@ class RealtyObjectTest extends FunctionalTestCase
      */
     private $realtyObjectMapper = null;
 
+    /**
+     * @var \tx_realty_Model_RealtyObject
+     */
+    private $subject = null;
+
     protected function setUp()
     {
         parent::setUp();
@@ -36,6 +41,87 @@ class RealtyObjectTest extends FunctionalTestCase
         $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
 
         $this->realtyObjectMapper = new \tx_realty_Mapper_RealtyObject();
+
+        $this->subject = new \tx_realty_Model_RealtyObject();
+    }
+
+    /**
+     * @test
+     */
+    public function recordExistsInDatabaseIfNoExistingObjectNumberGiven()
+    {
+        self::assertFalse($this->subject->recordExistsInDatabase(['object_number' => '99999']));
+    }
+
+    /**
+     * @test
+     */
+    public function recordExistsInDatabaseIfExistingObjectNumberGiven()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        self::assertTrue($this->subject->recordExistsInDatabase(['object_number' => '100000']));
+    }
+
+    /**
+     * @test
+     */
+    public function loadDatabaseEntryWithValidUidLoadsData()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $result = $this->subject->loadDatabaseEntry(102);
+
+        self::assertSame(\Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 102'), $result);
+    }
+
+    /**
+     * @test
+     */
+    public function loadDatabaseEntryWithInexistentUidReturnsEmptyArray()
+    {
+        $result = $this->subject->loadDatabaseEntry('99999');
+
+        self::assertSame([], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function loadDatabaseEntryOfAnNonHiddenObjectIfOnlyVisibleAreAllowedReturnsObjectData()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $this->subject->loadRealtyObject(102, false);
+        $result = $this->subject->loadDatabaseEntry(102);
+
+        self::assertSame(\Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 102'), $result);
+    }
+
+    /**
+     * @test
+     */
+    public function loadDatabaseEntryDoesNotLoadAHiddenObjectIfOnlyVisibleAreAllowed()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $this->subject->loadRealtyObject(103, false);
+        $result = $this->subject->loadDatabaseEntry(103);
+
+        self::assertSame([], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function loadDatabaseEntryLoadsAHiddenObjectIfHiddenAreAllowed()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $this->subject->loadRealtyObject(103, true);
+        $result = $this->subject->loadDatabaseEntry(103);
+
+        self::assertSame(\Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 103'), $result);
     }
 
     /**
