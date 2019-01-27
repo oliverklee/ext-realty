@@ -2,8 +2,13 @@
 
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Database\ReferenceIndex;
+use TYPO3\CMS\Core\Resource\DuplicationBehavior;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\Folder;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
 
@@ -1152,6 +1157,144 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         // get the arrays keys to always start at 0 again
         return \array_values($pdfAttachments);
+    }
+
+    /**
+     * Adds an attachment (reusing an existing FAL record if it exists).
+     *
+     * Note: This function does not persist this realty object yet.
+     * You'll need to do this once after all attachments have been added.
+     *
+     * @param string $absoluteFileName
+     * @param string $title
+     *
+     * @return File
+     *
+     * @throws \BadMethodCallException if this model has no UID yet
+     * @throws \UnexpectedValueException if the file does not exist
+     */
+    public function addAndSaveAttachment($absoluteFileName, $title)
+    {
+        if (!$this->hasUid()) {
+            throw new \BadMethodCallException(
+                'This method may only be called with models that already have a UID.',
+                1548585098
+            );
+        }
+        if (!\file_exists($absoluteFileName)) {
+            throw new \UnexpectedValueException('The file "' . $absoluteFileName . '" does not exist.', 1548585309);
+        }
+
+        $file = $this->createOrReuseFalFile($absoluteFileName, $title);
+        $this->increaseNumberOfAttachments();
+
+        return $file;
+    }
+
+    /**
+     * @param string $absolutePath
+     * @param string $title
+     *
+     * @return File
+     */
+    private function createOrReuseFalFile($absolutePath, $title)
+    {
+        $storage = $this->getDefaultStorage();
+        $folder = $this->getOrCreateObjectSpecificFileFolder();
+
+        $baseName = \basename($absolutePath);
+        if ($folder->hasFile($baseName)) {
+            $relativeName = $this->createObjectSpecificFolderPath() . $baseName;
+
+            /** @var File $file */
+            $file = $this->getResourceFactory()
+                ->getFileObjectByStorageAndIdentifier($storage->getUid(), $relativeName);
+        } else {
+            /** @var File $file */
+            $file = $storage->addFile($absolutePath, $folder, '', DuplicationBehavior::RENAME, false);
+        }
+        $this->updateAttachmentTitle($file, $title);
+        $this->createFileReferenceIfMissing($file);
+
+        return $file;
+    }
+
+    /**
+     * @return Folder
+     */
+    private function getOrCreateObjectSpecificFileFolder()
+    {
+        $storage = $this->getDefaultStorage();
+        $folderPath = $this->createObjectSpecificFolderPath();
+        if ($storage->hasFolder($folderPath)) {
+            $folder = $storage->getFolder($folderPath);
+        } else {
+            $folder = $storage->createFolder($folderPath);
+        }
+
+        return $folder;
+    }
+
+    /**
+     * @return string including a leading and trailing slash
+     */
+    private function createObjectSpecificFolderPath()
+    {
+        return '/realty_attachments/' . $this->getUid() . '/';
+    }
+
+    /**
+     * @return ResourceStorage
+     */
+    private function getDefaultStorage()
+    {
+        return $this->getResourceFactory()->getDefaultStorage();
+    }
+
+    /**
+     * @return ResourceFactory
+     */
+    private function getResourceFactory()
+    {
+        return ResourceFactory::getInstance();
+    }
+
+    /**
+     * @param File $file
+     * @param string $title
+     *
+     * @return void
+     */
+    private function updateAttachmentTitle(File $file, $title)
+    {
+        \Tx_Oelib_Db::update('sys_file_metadata', 'file = ' . $file->getUid(), ['title' => $title]);
+    }
+
+    /**
+     * @param File $file
+     *
+     * @return void
+     */
+    private function createFileReferenceIfMissing(File $file)
+    {
+        $where = 'deleted = 0 AND uid_local = ' . $file->getUid() . ' AND uid_foreign = ' . $this->getUid() .
+            ' AND tablenames = "tx_realty_objects" AND fieldname = "attachments"';
+        if (\Tx_Oelib_Db::existsRecord('sys_file_reference', $where)) {
+            return;
+        }
+
+        $timestamp = (int)$GLOBALS['SIM_EXEC_TIME'];
+        $referenceData = [
+            'uid_local' => $file->getUid(),
+            'uid_foreign' => $this->getUid(),
+            'tablenames' => 'tx_realty_objects',
+            'fieldname' => 'attachments',
+            'table_local' => 'sys_file',
+            'crdate' => $timestamp,
+            'tstamp' => $timestamp,
+            'l10n_diffsource' => '',
+        ];
+        \Tx_Oelib_Db::insert('sys_file_reference', $referenceData);
     }
 
     /**
