@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed
+- Use fewer DB requests when reading images/documents (#202)
 - Rename "fixture" to "subject" in the tests (#199)
 - Move the location-related fields to the "geo" tab (#193)
 - Move the images and documents to the "attachments" TCEforms tab (#191)
