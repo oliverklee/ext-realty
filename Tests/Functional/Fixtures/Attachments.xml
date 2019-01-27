@@ -2,32 +2,51 @@
 <dataset>
     <sys_file>
         <uid>10</uid>
-        <pid>1</pid>
-        <identifier>fileadmin/test.jpg</identifier>
+        <storage>1</storage>
+        <type>0</type>
+        <folder_hash>470d503fd4520e8ddda2a00da92e6d0cbd3c1771</folder_hash>
+        <identifier>/realty_attachments/102/test.jpg</identifier>
+        <identifier_hash>4fa42e1bee14cf5249d3c5c4d6b468e9d077c096</identifier_hash>
         <name>test.jpg</name>
         <extension>jpg</extension>
         <mime_type>image/jpeg</mime_type>
     </sys_file>
     <sys_file>
         <uid>11</uid>
-        <pid>1</pid>
-        <identifier>fileadmin/test.pdf</identifier>
+        <storage>1</storage>
+        <type>0</type>
+        <folder_hash>470d503fd4520e8ddda2a00da92e6d0cbd3c1771</folder_hash>
+        <identifier>/realty_attachments/102/test.pdf</identifier>
+        <identifier_hash>988a5263871cf34a2a2d3b2bbea0112f99aa61dc</identifier_hash>
         <name>test.pdf</name>
-        <extension>txt</extension>
+        <extension>pdf</extension>
         <mime_type>application/pdf</mime_type>
     </sys_file>
     <sys_file>
         <uid>12</uid>
-        <pid>1</pid>
-        <identifier>fileadmin/test.txt</identifier>
+        <storage>1</storage>
+        <type>0</type>
+        <folder_hash>1663304bf4a9600a4ad741593113f6a1c8673468</folder_hash>
+        <identifier>/realty_attachments/102/test.txt</identifier>
+        <identifier_hash></identifier_hash>
         <name>test.txt</name>
-        <extension>jpg</extension>
+        <extension>txt</extension>
+        <mime_type>text/plain</mime_type>
+    </sys_file>
+    <sys_file>
+        <uid>13</uid>
+        <storage>1</storage>
+        <type>0</type>
+        <folder_hash>470d503fd4520e8ddda2a00da92e6d0cbd3c1771</folder_hash>
+        <identifier>/realty_attachments/102/test2.txt</identifier>
+        <identifier_hash>589bb8156d7dc41cf3661d21f121fb7f01cb0caf</identifier_hash>
+        <name>test2.txt</name>
+        <extension>txt</extension>
         <mime_type>text/plain</mime_type>
     </sys_file>
 
     <sys_file_reference>
         <uid>1</uid>
-        <pid>1</pid>
         <uid_local>10</uid_local>
         <uid_foreign>102</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
@@ -36,7 +55,6 @@
     </sys_file_reference>
     <sys_file_reference>
         <uid>2</uid>
-        <pid>1</pid>
         <uid_local>11</uid_local>
         <uid_foreign>102</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
@@ -45,7 +63,6 @@
     </sys_file_reference>
     <sys_file_reference>
         <uid>3</uid>
-        <pid>1</pid>
         <uid_local>12</uid_local>
         <uid_foreign>102</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
