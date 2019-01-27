@@ -1066,10 +1066,54 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
+     * @return int
+     */
+    public function getNumberOfAttachments()
+    {
+        return $this->getAsInteger('attachments');
+    }
+
+    /**
+     * @param int $numberOfAttachments
+     *
+     * @return void
+     */
+    public function setNumberOfAttachments($numberOfAttachments)
+    {
+        $this->setAsInteger('attachments', $numberOfAttachments);
+    }
+
+    /**
+     * Increases the number of attachments by one.
+     *
+     * @return void
+     */
+    public function increaseNumberOfAttachments()
+    {
+        $newNumberOfAttachments = $this->getNumberOfAttachments() + 1;
+        $this->setNumberOfAttachments($newNumberOfAttachments);
+    }
+
+    /**
+     * Decreases the number of attachments by one, but not lower than zero.
+     *
+     * @return void
+     */
+    public function decreaseNumberOfAttachments()
+    {
+        $newNumberOfAttachments = \max(0, $this->getNumberOfAttachments() - 1);
+        $this->setNumberOfAttachments($newNumberOfAttachments);
+    }
+
+    /**
      * @return FileReference[]
      */
     public function getAttachments()
     {
+        if ($this->getNumberOfAttachments() === 0) {
+            return [];
+        }
+
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
 

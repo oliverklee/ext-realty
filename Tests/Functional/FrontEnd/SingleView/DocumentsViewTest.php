@@ -83,7 +83,7 @@ class DocumentsViewTest extends FunctionalTestCase
     {
         $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
 
-        $result = $this->subject->render(['showUid' => 1]);
+        $result = $this->subject->render(['showUid' => 101]);
 
         self::assertSame('', $result);
     }
