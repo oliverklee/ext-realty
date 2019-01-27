@@ -50,8 +50,9 @@ class RealtyObjectMapperTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
 
         /** @var \tx_realty_Model_RealtyObject $model */
-        $model = $this->subject->find(101);
+        $model = $this->subject->find(102);
 
-        self::assertSame('A music house for house music', $model->getTitle());
+        self::assertSame('The place to be', $model->getTitle());
+        self::assertSame(3, $model->getNumberOfAttachments());
     }
 }

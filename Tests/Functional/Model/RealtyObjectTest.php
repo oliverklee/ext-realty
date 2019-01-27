@@ -46,7 +46,7 @@ class RealtyObjectTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
 
         /** @var \tx_realty_Model_RealtyObject $model */
-        $model = $this->realtyObjectMapper->find(1);
+        $model = $this->realtyObjectMapper->find(101);
         $attachments = $model->getAttachments();
 
         self::assertSame([], $attachments);
