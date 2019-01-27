@@ -223,6 +223,129 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     private $owner = null;
 
     /**
+     * @var string[]
+     */
+    protected static $allowedFields = [
+        'hidden',
+        'deleted',
+        'object_number',
+        'object_type',
+        'title',
+        'emphasized',
+        'street',
+        'zip',
+        'city',
+        'district',
+        'country',
+        'show_address',
+        'has_coordinates',
+        'coordinates_problem',
+        'longitude',
+        'latitude',
+        'distance_to_the_sea',
+        'sea_view',
+        'number_of_rooms',
+        'living_area',
+        'total_area',
+        'estate_size',
+        'rent_excluding_bills',
+        'rent_with_heating_costs',
+        'extra_charges',
+        'heating_included',
+        'deposit',
+        'provision',
+        'usable_from',
+        'buying_price',
+        'hoa_fee',
+        'year_rent',
+        'rental_income_target',
+        'status',
+        'apartment_type',
+        'house_type',
+        'floor',
+        'floors',
+        'bedrooms',
+        'bathrooms',
+        'heating_type',
+        'has_air_conditioning',
+        'garage_type',
+        'garage_rent',
+        'garage_price',
+        'pets',
+        'construction_year',
+        'old_or_new_building',
+        'state',
+        'balcony',
+        'garden',
+        'elevator',
+        'barrier_free',
+        'wheelchair_accessible',
+        'ramp',
+        'lifting_platform',
+        'suitable_for_the_elderly',
+        'assisted_living',
+        'fitted_kitchen',
+        'has_pool',
+        'has_community_pool',
+        'teaser',
+        'description',
+        'equipment',
+        'layout',
+        'location',
+        'misc',
+        'details_page',
+        'attachments',
+        'images',
+        'documents',
+        'employer',
+        'openimmo_anid',
+        'openimmo_obid',
+        'utilization',
+        'contact_data_source',
+        'contact_person',
+        'contact_person_first_name',
+        'contact_person_salutation',
+        'contact_email',
+        'phone_switchboard',
+        'phone_direct_extension',
+        'owner',
+        'language',
+        'currency',
+        'advertised_date',
+        'rent_per_square_meter',
+        'shop_area',
+        'sales_area',
+        'total_usable_area',
+        'storage_area',
+        'office_space',
+        'other_area',
+        'window_bank',
+        'site_occupancy_index',
+        'floor_space_index',
+        'parking_spaces',
+        'furnishing_category',
+        'flooring',
+        'energy_certificate_type',
+        'energy_certificate_valid_until',
+        'energy_consumption_characteristic',
+        'with_hot_water',
+        'ultimate_energy_demand',
+        'primary_energy_carrier',
+        'electric_power_consumption_characteristic',
+        'heat_energy_consumption_characteristic',
+        'value_category',
+        'year_of_construction',
+        'energy_certificate_issue_date',
+        'energy_certificate_year',
+        'building_type',
+        'energy_certificate_text',
+        'heat_energy_requirement_value',
+        'heat_energy_requirement_class',
+        'total_energy_efficiency_value',
+        'total_energy_efficiency_class',
+    ];
+
+    /**
      * Constructor.
      *
      * @param bool $createDummyRecords whether the database records to create are for testing purposes only
@@ -778,18 +901,18 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * @param string $key key of the value to set in current realty object, must not be empty and must not be 'uid'
      * @param mixed $value value to set, must be either numeric or a string (also empty) or of boolean, may not be NULL
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @return void
      */
     public function set($key, $value)
     {
-        if ($this->isVirgin() || !$this->isAllowedValue($value) || !$this->isAllowedKey($key)) {
-            return;
+        if ($key === 'uid') {
+            throw new \InvalidArgumentException('The key must not be "uid".', 1333035810);
         }
 
-        if ($key === 'uid') {
-            throw new InvalidArgumentException('The key must not be "uid".', 1333035810);
+        if ($this->isVirgin() || !$this->isAllowedValue($value) || !$this->isAllowedKey($key)) {
+            return;
         }
 
         parent::set($key, $value);
@@ -832,12 +955,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *
      * @param string $key key to be checked for being an allowed field name, must not be empty
      *
-     * @return bool TRUE if key is an allowed field name for a realty object,
-     *                 FALSE otherwise
+     * @return bool
      */
     public function isAllowedKey($key)
     {
-        return Tx_Oelib_Db::tableHasColumn('tx_realty_objects', $key);
+        return \in_array($key, static::$allowedFields, true);
     }
 
     /**
