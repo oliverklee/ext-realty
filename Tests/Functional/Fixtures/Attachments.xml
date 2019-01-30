@@ -28,7 +28,7 @@
         <type>0</type>
         <folder_hash>1663304bf4a9600a4ad741593113f6a1c8673468</folder_hash>
         <identifier>/realty_attachments/102/test.txt</identifier>
-        <identifier_hash></identifier_hash>
+        <identifier_hash>1663304bf4a9600a4ad741593113f6a1c8673468</identifier_hash>
         <name>test.txt</name>
         <extension>txt</extension>
         <mime_type>text/plain</mime_type>
@@ -67,6 +67,22 @@
         <uid_foreign>102</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
         <fieldname>attachments</fieldname>
+        <l10n_diffsource/>
+    </sys_file_reference>
+    <sys_file_reference>
+        <uid>4</uid>
+        <uid_local>999</uid_local>
+        <uid_foreign>104</uid_foreign>
+        <tablenames>tx_realty_objects</tablenames>
+        <fieldname>attachments</fieldname>
+        <l10n_diffsource/>
+    </sys_file_reference>
+    <sys_file_reference>
+        <uid>5</uid>
+        <uid_local>12</uid_local>
+        <uid_foreign>12</uid_foreign>
+        <tablenames>tt_content</tablenames>
+        <fieldname>image</fieldname>
         <l10n_diffsource/>
     </sys_file_reference>
 

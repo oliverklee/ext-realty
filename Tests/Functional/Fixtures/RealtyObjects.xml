@@ -16,6 +16,11 @@
         <title>A hidden object</title>
         <hidden>1</hidden>
     </tx_realty_objects>
+    <tx_realty_objects>
+        <uid>104</uid>
+        <title>Object with reference to nonexistent file record</title>
+        <attachments>1</attachments>
+    </tx_realty_objects>
 
     <tx_realty_cities>
         <uid>100</uid>

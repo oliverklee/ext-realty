@@ -69,7 +69,7 @@ class RealtyObjectTest extends FunctionalTestCase
      */
     public function getAbsoluteAttachmentsTargetFolder()
     {
-        return GeneralUtility::getFileAbsFileName('fileadmin/realty_attachments');
+        return GeneralUtility::getFileAbsFileName('fileadmin/realty_attachments/');
     }
 
     /**
@@ -404,5 +404,268 @@ class RealtyObjectTest extends FunctionalTestCase
 
         $numberOfReferences = \Tx_Oelib_Db::count('sys_file_reference', 'uid_local = 10 AND uid_foreign = 102');
         self::assertSame(1, $numberOfReferences);
+    }
+
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     */
+    public function removeAttachmentByFileUidWithoutFileAndWithoutReferenceCanBeCalledWithInexistentUid()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(101);
+
+        $subject->removeAttachmentByFileUid(999);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForReferenceWithoutExistingFileRecordDecreasesAttachmentCount()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(104);
+        $previousAttachmentCount = $subject->getNumberOfAttachments();
+
+        $subject->removeAttachmentByFileUid(999);
+
+        self::assertSame($previousAttachmentCount - 1, $subject->getNumberOfAttachments());
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForOwnReferenceWithoutExistingFileRecordDeletesReference()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(104);
+
+        $subject->removeAttachmentByFileUid(999);
+
+        $remainingRecords = \Tx_Oelib_Db::count(
+            'sys_file_reference',
+            'uid_local = 999 AND uid_foreign = 104 AND deleted = 0'
+        );
+        self::assertSame(0, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithoutOwnReferenceKeepsFileRecord()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(101);
+
+        $subject->removeAttachmentByFileUid(10);
+
+        $remainingRecords = \Tx_Oelib_Db::count('sys_file', 'uid = 10');
+        self::assertSame(1, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithoutOwnReferenceKeepsAttachmentCountUnchanged()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(101);
+        $previousAttachmentCount = $subject->getNumberOfAttachments();
+
+        $subject->removeAttachmentByFileUid(10);
+
+        self::assertSame($previousAttachmentCount, $subject->getNumberOfAttachments());
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnReferenceAsSingleReferenceDecreasesAttachmentCount()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+        $previousAttachmentCount = $subject->getNumberOfAttachments();
+
+        $subject->removeAttachmentByFileUid(10);
+
+        self::assertSame($previousAttachmentCount - 1, $subject->getNumberOfAttachments());
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsSingleReferenceDeletesReference()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(10);
+
+        $remainingRecords = \Tx_Oelib_Db::count('sys_file_reference', 'uid_local = 10 AND deleted = 0');
+        self::assertSame(0, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsSingleReferenceDeletesFileRecord()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(10);
+
+        $remainingRecords = \Tx_Oelib_Db::count('sys_file', 'uid = 10');
+        self::assertSame(0, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsSingleReferenceDeletesMetadata()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(10);
+
+        $remainingRecords = \Tx_Oelib_Db::count('sys_file_metadata', 'file = 10');
+        self::assertSame(0, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsSingleReferenceDeletesFile()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+        $targetFolder = $this->getAbsoluteAttachmentsTargetFolder() . '102/';
+        GeneralUtility::mkdir_deep($targetFolder);
+        \copy($this->getAbsoluteFixturesPath() . 'test.jpg', $targetFolder . 'test.jpg');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(10);
+
+        self::assertFileNotExists($targetFolder . 'test.jpg');
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsNotSingleReferenceDecreasesAttachmentCount()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+        $previousAttachmentCount = $subject->getNumberOfAttachments();
+
+        $subject->removeAttachmentByFileUid(12);
+
+        self::assertSame($previousAttachmentCount - 1, $subject->getNumberOfAttachments());
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsNotSingleReferenceDeletesReference()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(12);
+
+        $remainingRecords = \Tx_Oelib_Db::count(
+            'sys_file_reference',
+            'uid_local = 12 AND uid_foreign = 102 AND deleted = 0'
+        );
+        self::assertSame(0, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsNotSingleReferenceKeepsFileRecord()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(12);
+
+        $remainingRecords = \Tx_Oelib_Db::count('sys_file', 'uid = 12');
+        self::assertSame(1, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsNotSingleReferenceKeepsMetadata()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(12);
+
+        $remainingRecords = \Tx_Oelib_Db::count('sys_file_metadata', 'file = 12');
+        self::assertSame(1, $remainingRecords);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAttachmentByFileUidForFileWithOwnAsNotSingleReferenceKeepsFile()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+        $targetFolder = $this->getAbsoluteAttachmentsTargetFolder() . '102/';
+        GeneralUtility::mkdir_deep($targetFolder);
+        \copy($this->getAbsoluteFixturesPath() . 'test.txt', $targetFolder . 'test.txt');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $subject->removeAttachmentByFileUid(12);
+
+        self::assertFileExists($targetFolder . 'test.txt');
     }
 }
