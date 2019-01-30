@@ -1119,10 +1119,18 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             return [];
         }
 
+        return $this->getFileRepository()->findByRelation('tx_realty_objects', 'attachments', $this->getUid());
+    }
+
+    /**
+     * @return FileRepository
+     */
+    private function getFileRepository()
+    {
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
 
-        return $fileRepository->findByRelation('tx_realty_objects', 'attachments', $this->getUid());
+        return $fileRepository;
     }
 
     /**
@@ -1295,6 +1303,43 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             'l10n_diffsource' => '',
         ];
         \Tx_Oelib_Db::insert('sys_file_reference', $referenceData);
+    }
+
+    /**
+     * @param int $fileUid
+     *
+     * @return void
+     */
+    public function removeAttachmentByFileUid($fileUid)
+    {
+        $commonReferenceWhere = 'tablenames = "tx_realty_objects" AND fieldname = "attachments" AND ';
+        $byFileUidWhere = 'deleted = 0 AND uid_local = ' . $fileUid;
+
+        $deletedReferences = \Tx_Oelib_Db::delete(
+            'sys_file_reference',
+            $commonReferenceWhere . $byFileUidWhere . ' AND uid_foreign = ' . $this->getUid()
+        );
+        if ($deletedReferences === 0) {
+            return;
+        }
+
+        try {
+            /** @var File $file */
+            $file = $this->getFileRepository()->findByUid($fileUid);
+            $relativePath = $file->getIdentifier();
+            $remainingReferences = \Tx_Oelib_Db::count('sys_file_reference', $byFileUidWhere);
+            if ($remainingReferences === 0) {
+                \Tx_Oelib_Db::delete('sys_file', 'uid = ' . $fileUid);
+                \Tx_Oelib_Db::delete('sys_file_metadata', 'file = ' . $fileUid);
+                $absolutePath = GeneralUtility::getFileAbsFileName('fileadmin' . $relativePath);
+                if (\file_exists($absolutePath) && \is_writable($absolutePath)) {
+                    \unlink($absolutePath);
+                }
+            }
+        } catch (\RuntimeException $exception) {
+            // The file record is no longer there. So there is no need to delete it.
+        }
+        $this->decreaseNumberOfAttachments();
     }
 
     /**
