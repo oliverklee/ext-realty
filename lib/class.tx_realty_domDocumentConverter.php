@@ -211,7 +211,7 @@ class tx_realty_domDocumentConverter
      * The returned array is empty if the given DOMDocument could not be
      * converted.
      *
-     * @param DOMDocument $domDocument data to convert, must not be NULL
+     * @param DOMDocument $domDocument data to convert
      *
      * @return array[] data of each realty record, will be empty if the passed DOMDocument could not be converted
      */
@@ -362,6 +362,7 @@ class tx_realty_domDocumentConverter
     private function getRealtyArray()
     {
         $this->fetchNodeValues();
+        $this->fetchAttachments();
         $this->fetchImages();
         $this->fetchDocuments();
         $this->fetchEquipmentAttributes();
@@ -553,6 +554,47 @@ class tx_realty_domDocumentConverter
 
         $contactEmailNode = $this->findFirstGrandchild('kontaktperson', 'email_direkt');
         $this->addImportedDataIfValueIsNonEmpty('contact_email', $contactEmailNode->nodeValue);
+    }
+
+    /**
+     * Fetches information about attachments from $openImmoNode of an OpenImmo record
+     * and stores them as an inner array in $this->importedData.
+     *
+     * @return void
+     */
+    private function fetchAttachments()
+    {
+        $this->addImportedDataIfValueIsNonEmpty('attached_files', $this->extractAttachments());
+    }
+
+    /**
+     * Creates an array of attachments for one realty record.
+     *
+     * @return array[]
+     */
+    protected function extractAttachments()
+    {
+        $listedRealtyObjects = $this->getListedRealtyObjects();
+        if ($listedRealtyObjects === null) {
+            return [];
+        }
+
+        $attachmentNodes = $this->getNodeListFromRawData('anhang', '', $listedRealtyObjects->item($this->recordNumber));
+
+        $attachments = [];
+        /** @var DOMNode $attachmentNode */
+        foreach ($attachmentNodes as $attachmentNode) {
+            $titleNodes = $this->getNodeListFromRawData('anhangtitel', '', $attachmentNode);
+            $title = $titleNodes->item(0) !== null ? $titleNodes->item(0)->nodeValue : '';
+
+            $pathNodes = $this->getNodeListFromRawData('daten', 'pfad', $attachmentNode);
+            if ($pathNodes->item(0) !== null) {
+                $path = $pathNodes->item(0)->nodeValue;
+                $attachments[] = ['title' => $title, 'path' => $path];
+            }
+        }
+
+        return $attachments;
     }
 
     /**
@@ -1267,11 +1309,9 @@ class tx_realty_domDocumentConverter
     }
 
     /**
-     * Returns a DOMNodeList of the realty records found in $realtyData or NULL
-     * if there are none.
+     * Returns a DOMNodeList of the realty records found in $realtyData or null if there are none.
      *
-     * @return DOMNodeList list of nodes named 'immobilie', NULL if none were
-     *                     found
+     * @return DOMNodeList|null list of nodes named 'immobilie', null if none were found
      */
     private function getListedRealtyObjects()
     {

@@ -2870,6 +2870,190 @@ class DomDocumentConverterTest extends UnitTestCase
         );
     }
 
+    /*
+     * Tests concerning the attachments
+     */
+
+    /**
+     * @test
+     */
+    public function getConvertedDataForNoAttachmentsNodeNotSetsAttachments()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie/>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->subject->getConvertedData($node);
+        $realtyObjectData = $result[0];
+
+        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataForEmptyAttachmentsNodeNotSetsAttachments()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->subject->getConvertedData($node);
+        $realtyObjectData = $result[0];
+
+        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataForEmptySingleAttachmentNodeWithoutPathNotSetsAttachments()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->subject->getConvertedData($node);
+        $realtyObjectData = $result[0];
+
+        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataForAttachmentNodeWithoutPathNotSetsAttachments()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->subject->getConvertedData($node);
+        $realtyObjectData = $result[0];
+
+        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataForFullyFilledAttachmentNodeSetsAttachments()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<anhangtitel>bar</anhangtitel>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->subject->getConvertedData($node);
+        $realtyObjectData = $result[0];
+
+        self::assertSame(
+            [['title' => 'bar', 'path' => 'tx_realty_image_test.jpg']],
+            $realtyObjectData['attached_files']
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataForAttachmentWithPathOnlyNodeSetsAttachments()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->subject->getConvertedData($node);
+        $realtyObjectData = $result[0];
+
+        self::assertSame([['title' => '', 'path' => 'tx_realty_image_test.jpg']], $realtyObjectData['attached_files']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataForMultipleAttachmentsSetsAttachments()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<anhaenge>' .
+            '<anhang>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '<anhang>' .
+            '<daten>' .
+            '<pfad>tx_realty_image_test2.jpg</pfad>' .
+            '</daten>' .
+            '</anhang>' .
+            '</anhaenge>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->subject->getConvertedData($node);
+        $realtyObjectData = $result[0];
+
+        self::assertCount(2, $realtyObjectData['attached_files']);
+    }
+
     ////////////////////////////////////////////
     // Tests concerning createRecordsForImages
     ////////////////////////////////////////////
