@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Use FAL for the FE image upload (#210)
 - Add RealtyObject.removeAttachmentByFileUid (#209)
 - Add RealtyObject.addAndSaveAttachment (#207)
 - Add accessors for the number of attachments (#204)

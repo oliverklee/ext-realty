@@ -3,12 +3,16 @@
 namespace OliverKlee\Realty\Tests\Functional\FrontEnd;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use Prophecy\Prophecy\ObjectProphecy;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class ImageUploadTest extends FunctionalTestCase
 {
@@ -27,53 +31,14 @@ class ImageUploadTest extends FunctionalTestCase
      */
     private $testingFramework = null;
 
-    /**
-     * UID of the dummy object
-     *
-     * @var int
-     */
-    private $dummyObjectUid = 0;
-
-    /**
-     * title for the first dummy image
-     *
-     * @var string
-     */
-    private static $firstImageTitle = 'first test image';
-
-    /**
-     * file name for the first dummy image
-     *
-     * @var string
-     */
-    private static $firstImageFileName = 'first.jpg';
-
-    /**
-     * title for the second dummy image
-     *
-     * @var string
-     */
-    private static $secondImageTitle = 'second test image';
-
-    /**
-     * file name for the second dummy image
-     *
-     * @var string
-     */
-    private static $secondImageFileName = 'second.jpg';
-
-    /**
-     * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
-     *
-     * @var array
-     */
-    private $graphicsConfigurationBackup = [];
-
     protected function setUp()
     {
         parent::setUp();
-        $this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
+
+        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
+        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
+        $backEndUserProphecy->isAdmin()->willReturn(true);
+        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
 
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->setResetAutoIncrementThreshold(99999999);
@@ -81,7 +46,7 @@ class ImageUploadTest extends FunctionalTestCase
 
         \Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
-        $this->createDummyRecords();
+        $this->importRecords();
 
         $this->subject = new \tx_realty_frontEndImageUpload(
             ['feEditorTemplateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Editor.html'],
@@ -90,13 +55,15 @@ class ImageUploadTest extends FunctionalTestCase
             '',
             true
         );
-        $this->subject->setRealtyObjectUid($this->dummyObjectUid);
+        $this->subject->setRealtyObjectUid(102);
     }
 
     protected function tearDown()
     {
+        GeneralUtility::rmdir($this->getAbsoluteAttachmentsPath(), true);
+        GeneralUtility::rmdir($this->getAbsoluteUploadsPath(), true);
+
         $this->testingFramework->cleanUp();
-        $GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
         parent::tearDown();
     }
 
@@ -110,149 +77,185 @@ class ImageUploadTest extends FunctionalTestCase
         return $GLOBALS['TSFE'];
     }
 
-    ///////////////////////
-    // Utility functions.
-    ///////////////////////
+    /*
+     * Utility functions.
+     */
 
     /**
-     * Creates dummy records in the DB and logs in a front-end user.
+     * Imports the dummy records into the DB.
+     *
+     * @return void
+     *
+     * @throws \Nimut\TestingFramework\Exception\Exception
+     */
+    private function importRecords()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/FrontEndUsers.xml');
+    }
+
+    /**
+     * @return string
+     */
+    private function getAbsoluteUploadsPath()
+    {
+        return GeneralUtility::getFileAbsFileName('uploads/tx_realty/');
+    }
+
+    /**
+     * @return string
+     */
+    private function getAbsoluteAttachmentsPath()
+    {
+        return GeneralUtility::getFileAbsFileName('fileadmin/realty_attachments/');
+    }
+
+    /**
+     * @param string $fileName
      *
      * @return void
      */
-    private function createDummyRecords()
+    private function copyFixtureFileToUploads($fileName)
     {
-        $userUid = $this->testingFramework->createFrontEndUser();
-
-        $this->dummyObjectUid = $this->testingFramework->createRecord(
-            'tx_realty_objects',
-            ['owner' => $userUid]
-        );
-        $this->createImageRecords();
+        $uploadsPath = $this->getAbsoluteUploadsPath();
+        if (!\file_exists($uploadsPath)) {
+            GeneralUtility::mkdir_deep($uploadsPath);
+        }
+        \copy(__DIR__ . '/../Fixtures/' . $fileName, $uploadsPath . $fileName);
     }
 
-    /**
-     * Creates dummy image records in the DB.
-     *
-     * @return void
+    /*
+     * Tests for the functions called in the XML form.
      */
-    private function createImageRecords()
-    {
-        $realtyObject = new \tx_realty_Model_RealtyObject(true);
-        $realtyObject->loadRealtyObject($this->dummyObjectUid);
-
-        $realtyObject->addImageRecord(self::$firstImageTitle, self::$firstImageFileName);
-        $realtyObject->addImageRecord(self::$secondImageTitle, self::$secondImageFileName);
-        $realtyObject->writeToDatabase();
-
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-    }
-
-    ////////////////////////////////////////////////////
-    // Tests for the functions called in the XML form.
-    ////////////////////////////////////////////////////
 
     /**
      * @test
      */
-    public function processImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase()
+    public function processImageUploadCreatesFile()
     {
-        $this->subject->processImageUpload(
-            [
-                'caption' => 'test image',
-                'image' => 'image.jpg',
-            ]
-        );
+        $fileName = 'test2.jpg';
+        $this->copyFixtureFileToUploads($fileName);
 
-        self::assertEquals(
-            1,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'image = "image.jpg" AND caption = "test image"'
-            )
-        );
+        $numberOfFiles = \Tx_Oelib_Db::count('sys_file');
+
+        $this->subject->processImageUpload(['caption' => 'test image', 'image' => $fileName]);
+
+        self::assertSame($numberOfFiles + 1, \Tx_Oelib_Db::count('sys_file'));
     }
 
     /**
      * @test
      */
-    public function processImageUploadStoresCurrentObjectUidAsParentForTheImage()
+    public function processImageUploadIncreasesNumberOfAttachments()
     {
-        $this->subject->processImageUpload(
-            [
-                'caption' => 'test image',
-                'image' => 'image.jpg',
-            ]
-        );
+        $fileName = 'test2.jpg';
+        $this->copyFixtureFileToUploads($fileName);
 
-        self::assertEquals(
-            1,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'object=' . $this->dummyObjectUid . ' AND caption="test image" AND image="image.jpg"'
-            )
-        );
+        $this->subject->processImageUpload(['caption' => 'test image', 'image' => $fileName]);
+
+        $recordData = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 102');
+        self::assertSame(4, (int)$recordData['attachments']);
     }
 
     /**
      * @test
      */
-    public function processImageUploadDoesNotInsertAnImageIfOnlyACaptionProvided()
+    public function processImageUploadSavesCaption()
     {
-        $this->subject->processImageUpload(
-            [
-                'caption' => 'test image',
-                'image' => '',
-            ]
-        );
+        $fileName = 'test2.jpg';
+        $this->copyFixtureFileToUploads($fileName);
 
-        self::assertEquals(
-            0,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'object=' . $this->dummyObjectUid . ' AND caption="test image"'
-            )
-        );
+        $this->subject->processImageUpload(['caption' => 'test image', 'image' => $fileName]);
+
+        self::assertSame(1, \Tx_Oelib_Db::count('sys_file_metadata', 'title = "test image"'));
     }
 
     /**
      * @test
      */
-    public function processImageUploadDeletesImageRecordForCurrentObjectFromTheDatabase()
+    public function processImageUploadForEmptyFileNameNotCreatesFile()
     {
-        $this->subject->processImageUpload(
-            ['imagesToDelete' => 'attached_image_0,']
-        );
+        $numberOfFiles = \Tx_Oelib_Db::count('sys_file');
 
-        self::assertEquals(
-            1,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                '1=1' . \Tx_Oelib_Db::enableFields('tx_realty_images')
-            )
-        );
+        $this->subject->processImageUpload(['caption' => 'test image', 'image' => '']);
+
+        self::assertSame($numberOfFiles, \Tx_Oelib_Db::count('sys_file'));
     }
 
     /**
      * @test
      */
-    public function processImageUploadDeletesImageTwoRecordsForCurrentObjectFromTheDatabase()
+    public function processImageUploadForEmptyCaptionNotCreatesFile()
     {
-        $this->subject->processImageUpload(
-            ['imagesToDelete' => 'attached_image_0,attached_image_1,']
-        );
+        $fileName = 'test2.jpg';
+        $this->copyFixtureFileToUploads($fileName);
 
-        self::assertEquals(
-            0,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                '1=1' . \Tx_Oelib_Db::enableFields('tx_realty_images')
-            )
-        );
+        $numberOfFiles = \Tx_Oelib_Db::count('sys_file');
+
+        $this->subject->processImageUpload(['caption' => '', 'image' => $fileName]);
+
+        self::assertSame($numberOfFiles, \Tx_Oelib_Db::count('sys_file'));
     }
 
-    /////////////////////////////////
-    // Tests concerning validation.
-    /////////////////////////////////
+    /**
+     * @test
+     */
+    public function processImageUploadForEmptyCaptionNotIncreasesNumberOfAttachments()
+    {
+        $fileName = 'test2.jpg';
+        $this->copyFixtureFileToUploads($fileName);
+
+        $this->subject->processImageUpload(['caption' => '', 'image' => $fileName]);
+
+        $recordData = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 102');
+        self::assertSame(3, (int)$recordData['attachments']);
+    }
+
+    /**
+     * @test
+     */
+    public function processImageUploadCanDeleteAttachedFile()
+    {
+        $fileName = 'test2.jpg';
+        $this->copyFixtureFileToUploads($fileName);
+
+        $numberOfFiles = \Tx_Oelib_Db::count('sys_file');
+
+        $this->subject->processImageUpload(['imagesToDelete' => '10']);
+
+        self::assertSame($numberOfFiles - 1, \Tx_Oelib_Db::count('sys_file'));
+    }
+
+    /**
+     * @test
+     */
+    public function processImageUploadForDeletedFileDecreasesOfAttachments()
+    {
+        $this->subject->processImageUpload(['imagesToDelete' => '10']);
+
+        $recordData = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 102');
+        self::assertSame(2, (int)$recordData['attachments']);
+    }
+
+    /**
+     * @test
+     */
+    public function processImageUploadNotDeletesNonAttachedFile()
+    {
+        $fileName = 'test2.jpg';
+        $this->copyFixtureFileToUploads($fileName);
+
+        $numberOfFiles = \Tx_Oelib_Db::count('sys_file');
+
+        $this->subject->processImageUpload(['imagesToDelete' => '13']);
+
+        self::assertSame($numberOfFiles, \Tx_Oelib_Db::count('sys_file'));
+    }
+
+    /*
+     * Tests concerning validation.
+     */
 
     /**
      * @test
@@ -265,41 +268,11 @@ class ImageUploadTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function checkFileForGifFileReturnsTrue()
-    {
-        $this->subject->setFakedFormValue('caption', 'foo');
-
-        self::assertTrue($this->subject->checkFile(['value' => 'foo.gif']));
-    }
-
-    /**
-     * @test
-     */
-    public function checkFileForPngFileReturnsTrue()
-    {
-        $this->subject->setFakedFormValue('caption', 'foo');
-
-        self::assertTrue($this->subject->checkFile(['value' => 'foo.png']));
-    }
-
-    /**
-     * @test
-     */
     public function checkFileForJpgFileReturnsTrue()
     {
         $this->subject->setFakedFormValue('caption', 'foo');
 
         self::assertTrue($this->subject->checkFile(['value' => 'foo.jpg']));
-    }
-
-    /**
-     * @test
-     */
-    public function checkFileForJpegFileReturnsTrue()
-    {
-        $this->subject->setFakedFormValue('caption', 'foo');
-
-        self::assertTrue($this->subject->checkFile(['value' => 'foo.jpeg']));
     }
 
     /**

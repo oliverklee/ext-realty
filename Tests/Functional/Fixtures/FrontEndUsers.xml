@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <fe_users>
+        <uid>1</uid>
+        <username>fe-user@example.com</username>
+        <password>no password set</password>
+        <usergroup>1</usergroup>
+        <email>fe-user@example.com</email>
+    </fe_users>
+
+    <fe_groups>
+        <uid>1</uid>
+        <title>FE users</title>
+    </fe_groups>
+</dataset>

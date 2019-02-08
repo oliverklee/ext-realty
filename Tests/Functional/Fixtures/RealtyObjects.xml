@@ -10,6 +10,7 @@
         <title>The place to be</title>
         <city>100</city>
         <attachments>3</attachments>
+        <owner>1</owner>
     </tx_realty_objects>
     <tx_realty_objects>
         <uid>103</uid>

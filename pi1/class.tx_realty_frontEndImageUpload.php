@@ -1,5 +1,6 @@
 <?php
 
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -8,16 +9,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
+class tx_realty_frontEndImageUpload extends \tx_realty_frontEndForm
 {
     /**
      * @var string stores the type of validation error if there was one
      */
     private $validationError = '';
-
-    ////////////////////////////////
-    // Functions used by the form.
-    ////////////////////////////////
 
     /**
      * Returns the FE editor in HTML if a user is logged in and authorized, and
@@ -38,9 +35,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         $this->processTemplate($result);
         $this->setLabels();
 
-        $images = $this->realtyObject->getImages();
+        $images = $this->realtyObject->getJpegAttachments();
 
-        if ($images->isEmpty()) {
+        if (empty($images)) {
             $this->hideSubparts('images_to_delete', 'wrapper');
         } else {
             $this->setSubpart('single_attached_image', $this->getRenderedImageList($images));
@@ -50,10 +47,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
     }
 
     /**
-     * Inserts the image record into the database if one has been provided in
-     * $formData.
-     * Deletes image records of the current record if images were checked to be
-     * deleted in the form .
+     * Inserts the image record into the database if one has been provided in $formData.
+     * Deletes image records of the current record if images were checked to be deleted in the form.
      *
      * @param array $formData form data, must not be empty
      *
@@ -64,30 +59,20 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         $caption = (string)$formData['caption'];
         $fileName = (string)$formData['image'];
         if ($caption !== '' && $fileName !== '') {
-            $this->realtyObject->addImageRecord(strip_tags($caption), $fileName);
+            $absoluteFileName = GeneralUtility::getFileAbsFileName('uploads/tx_realty/' . $fileName);
+            $this->realtyObject->addAndSaveAttachment($absoluteFileName, $caption);
+            \unlink($absoluteFileName);
         }
 
-        $idsOfImagesToDelete = GeneralUtility::trimExplode(
-            ',',
-            $formData['imagesToDelete'],
-            true
-        );
-        foreach ($idsOfImagesToDelete as $imageId) {
-            try {
-                // The ID-prefix is "attached_image_" which are 15 charachters.
-                $this->realtyObject->markImageRecordAsDeleted(
-                    (int)substr($imageId, 15)
-                );
-            } catch (Exception $exception) {
-            }
+        $uidsOfFilesToDelete = GeneralUtility::intExplode(',', $formData['imagesToDelete'], true);
+        foreach ($uidsOfFilesToDelete as $fileUid) {
+            $this->realtyObject->removeAttachmentByFileUid($fileUid);
         }
 
         // The original PID is provided to ensure the default settings for the
         // PID are not used because this might change the record's location.
-        $this->realtyObject->writeToDatabase(
-            $this->realtyObject->getProperty('pid')
-        );
-        tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
+        $this->realtyObject->writeToDatabase((int)$this->realtyObject->getProperty('pid'));
+        \tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
     }
 
     /**
@@ -105,28 +90,14 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         }
 
         $validationErrorLabel = '';
-        $imageExtensions = GeneralUtility::trimExplode(
-            ',',
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-            true
-        );
-        if (in_array('pdf', $imageExtensions, true)) {
-            unset($imageExtensions[(int)array_search('pdf', $imageExtensions, true)]);
-        }
-        if (in_array('ps', $imageExtensions, true)) {
-            unset($imageExtensions[(int)array_search('ps', $imageExtensions, true)]);
-        }
-        $extensionValidator = '/^.+\\.(' . implode('|', $imageExtensions) . ')$/i';
 
         if ($this->getFormValue('caption') === '') {
             $validationErrorLabel = 'message_empty_caption';
-        } elseif (!preg_match($extensionValidator, $fileName)) {
+        } elseif (\strtolower(\substr($fileName, -4)) !== '.jpg') {
             $validationErrorLabel = 'message_invalid_type';
         }
 
-        $this->validationError = ($validationErrorLabel !== '')
-            ? $this->translate($validationErrorLabel)
-            : '';
+        $this->validationError = ($validationErrorLabel !== '') ? $this->translate($validationErrorLabel) : '';
 
         return $validationErrorLabel === '';
     }
@@ -135,8 +106,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
      * Returns an error message if the provided file was invalid. The result
      * will be empty if no error message was set before.
      *
-     * @return string localized validation error message, will be empty
-     *                if no error message was set
+     * @return string localized validation error message, will be empty if no error message was set
      *
      * @see checkFile()
      */
@@ -145,51 +115,27 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         return $this->validationError;
     }
 
-    ////////////////////////////////////
-    // Miscellaneous helper functions.
-    ////////////////////////////////////
-
-    /**
-     * Returns the URL to the current page.
-     *
-     * @return string URL of the current page, will not be empty
+    /*
+     * Miscellaneous helper functions.
      */
-    private function getUrlOfCurrentPage()
-    {
-        return GeneralUtility::locationHeaderUrl(
-            $this->cObj->typoLink_URL(
-                [
-                    'parameter' => $this->getFrontEndController()->id,
-                    'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                        '',
-                        [$this->prefixId => ['showUid' => $this->realtyObjectUid]]
-                    ),
-                    'useCacheHash' => true,
-                ]
-            )
-        );
-    }
 
     /**
      * Returns HTML for the images as list items with their thumbnails.
      *
-     * @param Tx_Oelib_List<tx_realty_Model_Image> $images
-     *        the images to render, may be empty
+     * @param FileReference[] $images
      *
      * @return string listed images with thumbnails in HTML, will not be empty
      */
-    private function getRenderedImageList(Tx_Oelib_List $images)
+    private function getRenderedImageList(array $images)
     {
         $result = '';
 
-        $index = 0;
-        /** @var tx_realty_Model_Image $image */
         foreach ($images as $image) {
-            $imagePath = tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName();
-            $imageUrl = htmlspecialchars(GeneralUtility::locationHeaderUrl(
-                $this->cObj->typoLink_URL(['parameter' => $imagePath, 'useCacheHash' => true])
-            ));
+            $imagePath = $image->getPublicUrl();
+            $url = $this->cObj->typoLink_URL(['parameter' => $imagePath, 'useCacheHash' => true]);
+            $encodedUrl = \htmlspecialchars($url, ENT_COMPAT | ENT_HTML5);
             $title = $image->getTitle();
+            $encodedTitle = htmlspecialchars($title, ENT_COMPAT | ENT_HTML5);
 
             $imageConfiguration = [
                 'altText' => '',
@@ -203,24 +149,13 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
             $imageTag = $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
             $this->setMarker(
                 'single_image_item',
-                '<a href="' . $imageUrl . '" data-lightbox="objectGallery" ' .
-                'data-title="' . htmlspecialchars($title) . '"' . '>' . $imageTag . '</a>'
+                '<a href="' . $encodedUrl . '" data-lightbox="objectGallery" ' .
+                'data-title="' . $encodedTitle . '"' . '>' . $imageTag . '</a>'
             );
-            $this->setMarker(
-                'image_title',
-                htmlspecialchars($title)
-            );
-            $this->setMarker(
-                'image_title_for_js',
-                htmlspecialchars($title)
-            );
-            $this->setMarker(
-                'single_attached_image_id',
-                'attached_image_' . $index
-            );
+            $this->setMarker('image_title', $encodedTitle);
+            $this->setMarker('image_title_for_js', $encodedTitle);
+            $this->setMarker('single_attached_image_id', $image->getOriginalFile()->getUid());
             $result .= $this->getSubpart('SINGLE_ATTACHED_IMAGE');
-
-            $index++;
         }
 
         return $result;
