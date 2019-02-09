@@ -39,6 +39,11 @@ class ext_update
     ];
 
     /**
+     * @var int[]
+     */
+    private $attachmentSortings = [];
+
+    /**
      * Checks whether the update module needs to to anything
      *
      * @return bool
@@ -156,6 +161,7 @@ class ext_update
     private function updateAttachmentForSingleObject(array $realtyObject)
     {
         $objectUid = (int)$realtyObject['uid'];
+        $this->attachmentSortings[$objectUid] = 1;
         $output = '<h4>Processing object #' . $objectUid . '</h4>';
 
         $output .= $this->updateImagesForSingleObject($objectUid);
@@ -184,7 +190,9 @@ class ext_update
         $images = \Tx_Oelib_Db::selectMultiple(
             '*',
             'tx_realty_images',
-            'deleted = 0 AND hidden = 0 AND object = ' . $objectUid
+            'deleted = 0 AND hidden = 0 AND object = ' . $objectUid,
+            '',
+            'sorting ASC'
         );
         if (empty($images)) {
             return '';
@@ -214,7 +222,9 @@ class ext_update
         $documents = \Tx_Oelib_Db::selectMultiple(
             '*',
             'tx_realty_documents',
-            'deleted = 0 AND object = ' . $objectUid
+            'deleted = 0 AND object = ' . $objectUid,
+            '',
+            'sorting ASC'
         );
         if (empty($documents)) {
             return '';
@@ -301,9 +311,11 @@ class ext_update
                 'table_local' => 'sys_file',
                 'crdate' => $timestamp,
                 'tstamp' => $timestamp,
+                'sorting_foreign' => $this->attachmentSortings[$objectUid],
                 'l10n_diffsource' => '',
             ];
             \Tx_Oelib_Db::insert('sys_file_reference', $referenceData);
+            $this->attachmentSortings[$objectUid]++;
         }
 
         return $file;
