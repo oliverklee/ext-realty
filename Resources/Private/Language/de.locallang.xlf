@@ -1613,8 +1613,8 @@
                 <target>Das zum Hochladen gewählte Bild ist zu groß. Bitte wählen Sie ein kleineres Bild oder skalieren Sie dieses Bild und versuchen Sie es erneut.</target>
             </trans-unit>
             <trans-unit id="message_invalid_type" xml:space="preserve" approved="yes">
-                <source>The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</source>
-                <target>Der Typ des zum Hochladen gewählten Bildes is nicht erlaubt. Erlaubte Dateiendungen sind: JPG, JPEG, GIF, PNG.</target>
+                <source>The image you have tried to upload is of an invalid file type. Only JPG files are allowed.</source>
+                <target>Der Typ des zum Hochladen gewählten Bildes is nicht erlaubt. Erlaubt sind nur JPG.</target>
             </trans-unit>
             <trans-unit id="message_empty_caption" xml:space="preserve" approved="yes">
                 <source>Please provide a caption for the image.</source>
