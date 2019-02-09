@@ -349,6 +349,26 @@ class RealtyObjectTest extends FunctionalTestCase
     /**
      * @test
      */
+    public function addAndSaveAttachmentPutsNewAttachmentToTheBottomOfTheList()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $result = $subject->addAndSaveAttachment($this->getAbsoluteFixturesPath() . 'test2.jpg', 'test image');
+
+        $lastAttachment = null;
+        foreach ($subject->getAttachments() as $reference) {
+            $lastAttachment = $reference;
+        }
+        self::assertSame($result->getUid(), $lastAttachment->getOriginalFile()->getUid());
+    }
+
+    /**
+     * @test
+     */
     public function addAndSaveAttachmentForDuplicatedFileNameFileReusesExistingFile()
     {
         $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');

@@ -36,6 +36,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the checks for the zip_archive PHP extension (#175)
 
 ### Fixed
+- Set the sorting when adding attachments to realty objects (#212)
 - Keep the sorting when converting images and documents to FAL (#211)
 - Use the correct path name when PHP-linting the tests (#192)
 - Drop unneeded, copy'n'pasted DIV wrapper from the BE module (#177)

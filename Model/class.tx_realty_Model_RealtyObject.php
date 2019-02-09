@@ -1285,10 +1285,17 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     private function createFileReferenceIfMissing(File $file)
     {
-        $where = 'deleted = 0 AND uid_local = ' . $file->getUid() . ' AND uid_foreign = ' . $this->getUid() .
-            ' AND tablenames = "tx_realty_objects" AND fieldname = "attachments"';
-        if (\Tx_Oelib_Db::existsRecord('sys_file_reference', $where)) {
+        $generalWhere = 'deleted = 0 AND tablenames = "tx_realty_objects" AND fieldname = "attachments" ' .
+            'AND uid_foreign = ' . $this->getUid();
+        $whereForThisFile = $generalWhere . ' AND uid_local = ' . $file->getUid();
+        if (\Tx_Oelib_Db::existsRecord('sys_file_reference', $whereForThisFile)) {
             return;
+        }
+
+        $references = \Tx_Oelib_Db::selectMultiple('*', 'sys_file_reference', $generalWhere);
+        $maximumSorting = 0;
+        foreach ($references as $reference) {
+            $maximumSorting = \max($maximumSorting, (int)$reference['sorting_foreign']);
         }
 
         $timestamp = (int)$GLOBALS['SIM_EXEC_TIME'];
@@ -1300,6 +1307,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             'table_local' => 'sys_file',
             'crdate' => $timestamp,
             'tstamp' => $timestamp,
+            'sorting_foreign' => $maximumSorting + 1,
             'l10n_diffsource' => '',
         ];
         \Tx_Oelib_Db::insert('sys_file_reference', $referenceData);
