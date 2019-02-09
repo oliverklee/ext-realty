@@ -51,6 +51,7 @@
         <uid_foreign>102</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
         <fieldname>attachments</fieldname>
+        <sorting_foreign>1</sorting_foreign>
         <l10n_diffsource/>
     </sys_file_reference>
     <sys_file_reference>
@@ -59,6 +60,7 @@
         <uid_foreign>102</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
         <fieldname>attachments</fieldname>
+        <sorting_foreign>2</sorting_foreign>
         <l10n_diffsource/>
     </sys_file_reference>
     <sys_file_reference>
@@ -67,6 +69,7 @@
         <uid_foreign>102</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
         <fieldname>attachments</fieldname>
+        <sorting_foreign>5</sorting_foreign>
         <l10n_diffsource/>
     </sys_file_reference>
     <sys_file_reference>
@@ -75,6 +78,7 @@
         <uid_foreign>104</uid_foreign>
         <tablenames>tx_realty_objects</tablenames>
         <fieldname>attachments</fieldname>
+        <sorting_foreign>1</sorting_foreign>
         <l10n_diffsource/>
     </sys_file_reference>
     <sys_file_reference>
@@ -83,6 +87,7 @@
         <uid_foreign>12</uid_foreign>
         <tablenames>tt_content</tablenames>
         <fieldname>image</fieldname>
+        <sorting_foreign>1</sorting_foreign>
         <l10n_diffsource/>
     </sys_file_reference>
 
