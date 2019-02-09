@@ -1545,8 +1545,8 @@
                 <target>La imagen que quiere subir es muy grande. Por favor escoja una mas pequeña o reduzca esta y pruebe de nuevo.</target>
             </trans-unit>
             <trans-unit id="message_invalid_type" xml:space="preserve" approved="yes">
-                <source>The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</source>
-                <target>La imagen que quiere subir tiene un tipo invalido. Las extensiones permitîdas son : JPG, JPEG, GIF, PNG.</target>
+                <source>The image you have tried to upload is of an invalid file type. Only JPG files are allowed.</source>
+                <target>La imagen que quiere subir tiene un tipo invalido. Las extensiones permitîdas son: JPG.</target>
             </trans-unit>
             <trans-unit id="message_empty_caption" xml:space="preserve" approved="yes">
                 <source>Please provide a caption for the image.</source>
