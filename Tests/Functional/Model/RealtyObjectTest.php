@@ -221,6 +221,68 @@ class RealtyObjectTest extends FunctionalTestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function getAttachmentByBaseNameForEmptyBaseNameThrowsException()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(101);
+
+        $subject->getAttachmentByBaseName('');
+    }
+
+    /**
+     * @test
+     */
+    public function getAttachmentByBaseNameForNoAttachmentsReturnsNull()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(101);
+
+        $result = $subject->getAttachmentByBaseName('test.txt');
+
+        self::assertNull($result);
+    }
+
+    /**
+     * @test
+     */
+    public function getAttachmentByBaseNameForNoMatchReturnsNull()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $result = $subject->getAttachmentByBaseName('not-there.txt');
+
+        self::assertNull($result);
+    }
+
+    /**
+     * @test
+     */
+    public function getAttachmentByBaseNameForMatchReturnsMatchingReference()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+
+        $result = $subject->getAttachmentByBaseName('test.txt');
+
+        self::assertInstanceOf(FileReference::class, $result);
+        self::assertSame(12, $result->getOriginalFile()->getUid());
+    }
+
+    /**
+     * @test
      *
      * @expectedException \BadMethodCallException
      */

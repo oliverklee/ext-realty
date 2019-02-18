@@ -1168,6 +1168,30 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
+     * @param string $baseName must not be empty
+     *
+     * @return FileReference|null
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getAttachmentByBaseName($baseName)
+    {
+        if ($baseName === '') {
+            throw new \InvalidArgumentException('$baseName must not be empty.', 1550514147);
+        }
+
+        $match = null;
+        foreach ($this->getAttachments() as $attachment) {
+            if ($attachment->getOriginalFile()->getName() === $baseName) {
+                $match = $attachment;
+                break;
+            }
+        }
+
+        return $match;
+    }
+
+    /**
      * Adds an attachment (reusing an existing FAL record if it exists).
      *
      * Note: This function does not persist this realty object yet.

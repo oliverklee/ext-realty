@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add RealtyObject.getAttachmentByBaseName (#215)
 - Have DomDocumentConverter find general attachments (#214)
 - Use FAL for the FE image upload (#210)
 - Add RealtyObject.removeAttachmentByFileUid (#209)
