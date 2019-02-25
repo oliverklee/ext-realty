@@ -452,14 +452,14 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function setData(array $realtyData)
     {
-        if (is_array($realtyData['images']) || is_array($realtyData['documents'])) {
-            $dataWithImages = $this->isolateImageRecords($realtyData);
-            $dataWithImagesAndDocuments = $this->isolateDocumentRecords(
-                $dataWithImages
-            );
+        $scrubbedData = $realtyData;
+        unset($scrubbedData['attached_files']);
+        if (is_array($scrubbedData['images']) || is_array($scrubbedData['documents'])) {
+            $dataWithImages = $this->isolateImageRecords($scrubbedData);
+            $dataWithImagesAndDocuments = $this->isolateDocumentRecords($dataWithImages);
             parent::setData($dataWithImagesAndDocuments);
         } else {
-            parent::setData($realtyData);
+            parent::setData($scrubbedData);
             $this->retrieveAttachedImages();
             $this->retrieveAttachedDocuments();
         }
@@ -625,12 +625,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function writeToDatabase($overridePid = 0, $setOwner = false)
     {
-        // If contact_email is the only field, the object is assumed to be not
-        // loaded.
-        if ($this->isEmpty()
-            || ($this->existsKey('contact_email')
-                && count($this->getAllProperties()) === 1)
-        ) {
+        // If contact_email is the only field, the object is assumed to be not loaded.
+        if ($this->isEmpty() || ($this->existsKey('contact_email') && count($this->getAllProperties()) === 1)) {
             return 'message_object_not_loaded';
         }
 
