@@ -121,7 +121,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         GeneralUtility::makeInstance(MailMessage::class);
 
         $this->testingFramework->cleanUp();
-        $this->deleteTestImportFolder();
+        $this->deleteTestFolders();
 
         \tx_realty_cacheManager::purgeCacheManager();
         $GLOBALS['LANG'] = $this->languageServiceBackup;
@@ -209,11 +209,15 @@ class OpenImmoImportTest extends FunctionalTestCase
      *
      * @return void
      */
-    private function deleteTestImportFolder()
+    private function deleteTestFolders()
     {
         if ($this->testImportFolderExists) {
             GeneralUtility::rmdir($this->importFolder, true);
             $this->testImportFolderExists = false;
+        }
+        $extractionDirectory = PATH_site . 'typo3temp/var/realty/';
+        if (\is_dir($extractionDirectory)) {
+            GeneralUtility::rmdir($extractionDirectory, true);
         }
     }
 
@@ -261,74 +265,68 @@ class OpenImmoImportTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function getNameForExtractionFolder()
+    public function getNameForExtractionFolderReturnsPathWithinTypo3Temp()
     {
         $this->copyTestFileIntoImportFolder('bar.zip');
 
-        self::assertSame(
-            'bar/',
-            $this->subject->getNameForExtractionFolder('bar.zip')
-        );
+        $result = $this->subject->getNameForExtractionFolder('bar.zip');
+
+        self::assertSame(PATH_site . 'typo3temp/var/realty/bar/', $result);
     }
 
     /**
      * @test
      */
-    public function createExtractionFolderForExistingZip()
+    public function createExtractionFolderForExistingZipCreatesFolder()
     {
         $this->copyTestFileIntoImportFolder('foo.zip');
-        $dirName = $this->subject->createExtractionFolder($this->importFolder . 'foo.zip');
+        $this->subject->createExtractionFolder($this->importFolder . 'foo.zip');
 
-        self::assertTrue(
-            is_dir($this->importFolder . 'foo/')
-        );
-        self::assertSame(
-            $this->importFolder . 'foo/',
-            $dirName
-        );
+        self::assertDirectoryExists(PATH_site . 'typo3temp/var/realty/foo/');
     }
 
     /**
      * @test
      */
-    public function createExtractionFolderForNonExistingZip()
+    public function createExtractionFolderForNonExistingZipNotCreatesExtractionFolder()
+    {
+        $this->copyTestFileIntoImportFolder('');
+        $this->subject->createExtractionFolder($this->importFolder . 'foobar.zip');
+
+        self::assertDirectoryNotExists(PATH_site . 'typo3temp/var/realty/foobar/');
+    }
+
+    /**
+     * @test
+     */
+    public function createExtractionFolderForNonExistingZipReturnsEmptyString()
     {
         $this->copyTestFileIntoImportFolder('');
         $dirName = $this->subject->createExtractionFolder($this->importFolder . 'foobar.zip');
 
-        self::assertFalse(
-            is_dir($this->importFolder . 'foobar/')
-        );
-        self::assertSame(
-            '',
-            $dirName
-        );
+        self::assertSame('', $dirName);
     }
 
     /**
      * @test
      */
-    public function extractZipIfOneZipToExtractExists()
+    public function extractZipForExistingZipToExtractCreatesExtractionFolder()
     {
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->subject->extractZip($this->importFolder . 'foo.zip');
 
-        self::assertTrue(
-            is_dir($this->importFolder . 'foo/')
-        );
+        self::assertDirectoryExists(PATH_site . 'typo3temp/var/realty/foo/');
     }
 
     /**
      * @test
      */
-    public function extractZipIfZipDoesNotExist()
+    public function extractZipForInexistentZipToExtractNotCreatesExtractionFolder()
     {
         $this->copyTestFileIntoImportFolder('');
         $this->subject->extractZip($this->importFolder . 'foobar.zip');
 
-        self::assertFalse(
-            is_dir($this->importFolder . 'foobar/')
-        );
+        self::assertDirectoryNotExists(PATH_site . 'typo3temp/var/realty/foobar/');
     }
 
     /**
@@ -340,7 +338,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->subject->extractZip($this->importFolder . 'foo.zip');
 
         self::assertSame(
-            $this->importFolder . 'foo/foo.xml',
+            PATH_site . 'typo3temp/var/realty/foo/foo.xml',
             $this->subject->getPathForXml($this->importFolder . 'foo.zip')
         );
     }
@@ -793,17 +791,13 @@ class OpenImmoImportTest extends FunctionalTestCase
     {
         $this->testingFramework->markTableAsDirty('tx_realty_objects');
 
+        $extractionFolder = PATH_site . 'typo3temp/var/realty/foo/';
         $this->copyTestFileIntoImportFolder('foo.zip');
-        GeneralUtility::mkdir($this->importFolder . 'foo/');
+        GeneralUtility::mkdir_deep($extractionFolder);
+
         $result = $this->subject->importFromZip();
 
-        self::assertContains(
-            $this->translator->translate('message_surplus_folder'),
-            $result
-        );
-        self::assertTrue(
-            is_dir($this->importFolder . 'foo/')
-        );
+        self::assertContains($this->translator->translate('message_surplus_folder'), $result);
     }
 
     /**
