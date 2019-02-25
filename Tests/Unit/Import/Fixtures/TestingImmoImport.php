@@ -36,12 +36,13 @@ class TestingImmoImport extends \tx_realty_openImmoImport
     }
 
     /**
-     * Gets a name for a folder according to the ZIP archive to extract to it.
+     * Gets the full path for the folder according to the ZIP archive to extract to it.
      *
      * @param string $pathOfZip path of a ZIP archive, must not be empty
      *
-     * @return string path for a folder named like the ZIP archive, empty
-     *                if the passed string is empty
+     * @return string absolute path for a folder named like the ZIP archive
+     *
+     * @throws \InvalidArgumentException
      */
     public function getNameForExtractionFolder($pathOfZip)
     {
