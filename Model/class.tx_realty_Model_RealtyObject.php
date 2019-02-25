@@ -139,40 +139,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     private $images = null;
 
     /**
-     * whether the image records need to get saved
-     *
-     * @var bool
-     */
-    private $imagesNeedToGetSaved = false;
-
-    /**
-     * whether the old image records associated with this model need to get deleted
-     *
-     * @var bool
-     */
-    private $oldImagesNeedToGetDeleted = false;
-
-    /**
      * the documents related to this realty object
      *
      * @var Tx_Oelib_List<tx_realty_Model_Document>
      */
     private $documents = null;
-
-    /**
-     * whether the related documents need to get saved
-     *
-     * @var bool
-     */
-    private $documentsNeedToGetSaved = false;
-
-    /**
-     * whether the old document records associated with this model need to get
-     * deleted
-     *
-     * @var bool
-     */
-    private $oldDocumentsNeedToGetDeleted = false;
 
     /**
      * @var string[] the owner record is cached in order to improve performance
@@ -563,9 +534,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             $this->images->add($image);
         }
 
-        $this->oldImagesNeedToGetDeleted = true;
-        $this->imagesNeedToGetSaved = true;
-
         return $result;
     }
 
@@ -603,9 +571,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             $this->documents->add($document);
         }
 
-        $this->oldDocumentsNeedToGetDeleted = true;
-        $this->documentsNeedToGetSaved = true;
-
         return $result;
     }
 
@@ -617,7 +582,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * in the realty object data to insert.
      *
      * @param int $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
-     * @param bool $setOwner TRUE if the owner may be set, FALSE otherwise
+     * @param bool $setOwner whether the owner may be set
      *
      * @return string locallang key of an error message if the record was
      *                not written to database, an empty string if it was
@@ -644,8 +609,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         if ($this->identifyObjectAndSetUid()) {
             if ($this->getAsBoolean('deleted')) {
-                $this->discardExistingImages();
-                $this->discardExistingDocuments();
                 Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->delete($this);
                 $errorMessage = 'message_deleted_flag_causes_deletion';
             } else {
@@ -669,11 +632,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             }
         } else {
             $errorMessage = 'message_object_limit_reached';
-        }
-
-        if ($errorMessage === '' || $errorMessage === 'message_deleted_flag_causes_deletion') {
-            $this->refreshImageEntries($overridePid);
-            $this->refreshDocumentEntries($overridePid);
         }
 
         return $errorMessage;
@@ -1371,137 +1329,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Inserts entries for images of the current realty object to the database
-     * table 'tx_realty_images' and deletes all former image entries.
-     *
-     * @param int $overridePid
-     *        PID for new object and image records (omit this parameter to use the PID set in the global configuration)
-     *
-     * @return void
-     */
-    private function refreshImageEntries($overridePid = 0)
-    {
-        if ($this->oldImagesNeedToGetDeleted) {
-            $this->discardExistingImages();
-        }
-
-        if (!$this->imagesNeedToGetSaved) {
-            return;
-        }
-
-        /** @var tx_realty_Mapper_Image $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
-
-        $pageUid = ($overridePid > 0)
-            ? $overridePid
-            : Tx_Oelib_ConfigurationProxy::getInstance('realty')
-                ->getAsInteger('pidForRealtyObjectsAndImages');
-
-        $sorting = 0;
-        /** @var tx_realty_Model_Image $image */
-        foreach ($this->getImages() as $image) {
-            if ($image->isDead()) {
-                continue;
-            }
-            $image->setObject($this);
-            $image->setPageUid($pageUid);
-            $image->setSorting($sorting);
-
-            $mapper->save($image);
-            $sorting++;
-        }
-
-        $this->imagesNeedToGetSaved = false;
-    }
-
-    /**
-     * Deletes all images that are related to this realty object from the
-     * database.
-     *
-     * This function does not affect in-memory images that have not been
-     * persisted to the database yet.
-     *
-     * @return void
-     */
-    protected function discardExistingImages()
-    {
-        /** @var tx_realty_Mapper_Image $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
-        /** @var tx_realty_Model_Image $image */
-        foreach ($mapper->findAllByRelation($this, 'object') as $image) {
-            $mapper->delete($image);
-        }
-
-        $this->oldImagesNeedToGetDeleted = false;
-    }
-
-    /**
-     * Inserts entries for documents of the current realty object to the database
-     * table 'tx_realty_documents' and deletes all former document entries.
-     *
-     * @param int $overridePid
-     *        PID for new object, image and documents records (omit this
-     *        parameter to use the PID set in the global configuration)
-     *
-     * @return void
-     */
-    private function refreshDocumentEntries($overridePid = 0)
-    {
-        if ($this->oldDocumentsNeedToGetDeleted) {
-            $this->discardExistingDocuments();
-        }
-
-        if (!$this->documentsNeedToGetSaved) {
-            return;
-        }
-
-        /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
-
-        $pageUid = ($overridePid > 0)
-            ? $overridePid
-            : Tx_Oelib_ConfigurationProxy::getInstance('realty')
-                ->getAsInteger('pidForRealtyObjectsAndImages');
-
-        $sorting = 0;
-        /** @var tx_realty_Model_Document $document */
-        foreach ($this->getDocuments() as $document) {
-            if ($document->isDead()) {
-                continue;
-            }
-            $document->setObject($this);
-            $document->setPageUid($pageUid);
-            $document->setSorting($sorting);
-
-            $mapper->save($document);
-            $sorting++;
-        }
-
-        $this->documentsNeedToGetSaved = false;
-    }
-
-    /**
-     * Deletes all documents that are related to this realty object from the
-     * database.
-     *
-     * This function does not affect in-memory documents that have not been
-     * persisted to the database yet.
-     *
-     * @return void
-     */
-    protected function discardExistingDocuments()
-    {
-        /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
-        foreach ($mapper->findAllByRelation($this, 'object') as $document) {
-            /** @var \tx_realty_Model_Document $document */
-            $mapper->delete($document);
-        }
-
-        $this->oldDocumentsNeedToGetDeleted = false;
-    }
-
-    /**
      * Gets the images attached to this object.
      *
      * All images attached to this object are returned, except images of file type PDF or PS.
@@ -1611,8 +1438,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
         $this->images->add($image);
 
-        $this->imagesNeedToGetSaved = true;
-
         return $this->images->count() - 1;
     }
 
@@ -1654,80 +1479,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
         $this->documents->add($document);
 
-        $this->documentsNeedToGetSaved = true;
-
         return $this->documents->count() - 1;
-    }
-
-    /**
-     * Marks an image record of the currently loaded object as deleted. This
-     * record will be marked as deleted in the database when the object is
-     * written to the database.
-     *
-     * @param int $imageKey key of the image record to mark as deleted, must be a key of the image data array and must
-     *     be >= 0
-     *
-     * @throws BadMethodCallException
-     * @throws Tx_Oelib_Exception_NotFound
-     *
-     * @return void
-     */
-    public function markImageRecordAsDeleted($imageKey)
-    {
-        if ($this->isVirgin()) {
-            throw new BadMethodCallException(
-                'A realty record must be loaded before images can be marked as deleted.',
-                1333035867
-            );
-        }
-
-        /** @var tx_realty_Model_Image $image */
-        $image = $this->images->at($imageKey);
-        if ($image === null) {
-            throw new Tx_Oelib_Exception_NotFound('The image record does not exist.', 1333035899);
-        }
-
-        /** @var tx_realty_Mapper_Image $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
-        $mapper->delete($image);
-
-        $this->setAsInteger('images', $this->getAsInteger('images') - 1);
-    }
-
-    /**
-     * Marks an document record of the currently loaded object as deleted. This
-     * record will be marked as deleted in the database when the object is
-     * written to the database.
-     *
-     * @param int $key
-     *        key of the document record to mark as deleted, must be a key of
-     *        the document data array and must be >= 0
-     *
-     * @throws BadMethodCallException
-     * @throws Tx_Oelib_Exception_NotFound
-     *
-     * @return void
-     */
-    public function deleteDocument($key)
-    {
-        if ($this->isVirgin()) {
-            throw new BadMethodCallException(
-                'A realty record must be loaded before documents can be deleted.',
-                1333035926
-            );
-        }
-
-        /** @var tx_realty_Model_Document $document */
-        $document = $this->documents->at($key);
-        if ($document === null) {
-            throw new Tx_Oelib_Exception_NotFound('The document does not exist.', 1333035940);
-        }
-
-        /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
-        $mapper->delete($document);
-
-        $this->setAsInteger('documents', $this->getAsInteger('documents') - 1);
     }
 
     /**

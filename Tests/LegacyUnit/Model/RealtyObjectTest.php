@@ -123,11 +123,8 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     {
         // Inserting images causes an entry to 'sys_refindex' which is currently
         // not cleaned up automatically by the testing framework.
-        if (in_array(
-            'tx_realty_images',
-            $this->testingFramework->getListOfDirtyTables()
-        )) {
-            Tx_Oelib_Db::delete(
+        if (in_array('tx_realty_images', $this->testingFramework->getListOfDirtyTables(), true)) {
+            \Tx_Oelib_Db::delete(
                 'sys_refindex',
                 'ref_string = "' . tx_realty_Model_Image::UPLOAD_FOLDER . 'bar"'
             );
@@ -1639,123 +1636,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function addImageRecordInsertsNewEntryWithParentUid()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addImageRecord('foo', 'foo.jpg');
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            ['image' => 'foo.jpg'],
-            Tx_Oelib_Db::selectSingle(
-                'image',
-                'tx_realty_images',
-                'object = ' . $this->objectUid
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function insertImageEntriesInsertsNewImageWithCaptionWithQuotationMarks()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addImageRecord('foo "bar"', 'foo.jpg');
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            ['image' => 'foo.jpg'],
-            Tx_Oelib_Db::selectSingle(
-                'image',
-                'tx_realty_images',
-                'object = ' . $this->objectUid
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function insertImageEntriesInsertsImageWithEmptyTitleIfNoTitleIsSet()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addImageRecord('', 'foo.jpg');
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            ['caption' => '', 'image' => 'foo.jpg'],
-            Tx_Oelib_Db::selectSingle(
-                'caption, image',
-                'tx_realty_images',
-                'object = ' . $this->objectUid
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function deleteFromDatabaseRemovesRelatedImage()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addImageRecord('foo', 'foo.jpg');
-        $this->subject->writeToDatabase();
-        $this->subject->setToDeleted();
-        $message = $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            1,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'deleted = 1'
-            )
-        );
-        self::assertEquals(
-            'message_deleted_flag_causes_deletion',
-            $message
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function deleteFromDatabaseRemovesSeveralRelatedImages()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addImageRecord('foo1', 'foo1.jpg');
-        $this->subject->addImageRecord('foo2', 'foo2.jpg');
-        $this->subject->addImageRecord('foo3', 'foo3.jpg');
-        $this->subject->writeToDatabase();
-        $this->subject->setToDeleted();
-        $message = $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            3,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'deleted = 1'
-            )
-        );
-        self::assertEquals(
-            'message_deleted_flag_causes_deletion',
-            $message
-        );
-    }
-
-    /**
-     * @test
-     */
     public function writeToDatabaseInsertsCorrectPageUidForNewRecord()
     {
         $this->subject->loadRealtyObject(
@@ -1791,31 +1671,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
                 'tx_realty_objects',
                 'object_number = "' . self::$otherObjectNumber . '"' .
                 Tx_Oelib_Db::enableFields('tx_realty_objects')
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function imagesReceiveTheCorrectPageUidIfOverridePidIsSet()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject(
-            [
-                'object_number' => self::$otherObjectNumber,
-                'images' => [['caption' => 'foo', 'image' => 'bar.jpg']],
-            ]
-        );
-        $this->subject->writeToDatabase($this->otherPageUid);
-
-        self::assertEquals(
-            ['pid' => $this->otherPageUid],
-            Tx_Oelib_Db::selectSingle(
-                'pid',
-                'tx_realty_images',
-                'is_dummy_record = 1'
             )
         );
     }
@@ -1979,99 +1834,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function loadingAnExistingRecordWithAnImageAndWritingItToTheDatabaseDoesNotDuplicateTheImage()
-    {
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['images' => 1]
-        );
-        $this->testingFramework->createRecord(
-            'tx_realty_images',
-            ['object' => $this->objectUid, 'image' => 'test.jpg']
-        );
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->writeToDatabase();
-
-        self::assertTrue(
-            $this->testingFramework->existsExactlyOneRecord(
-                'tx_realty_images',
-                'deleted = 0 AND image="test.jpg"'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function loadingAnExistingRecordWithAnImageByArrayAndWritingItWithAnotherImageToTheDatabaseDeletesTheExistingImage(
-    ) {
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['images' => 1]
-        );
-        $this->testingFramework->createRecord(
-            'tx_realty_images',
-            ['object' => $this->objectUid, 'image' => 'test.jpg']
-        );
-        $this->subject->loadRealtyObject(
-            [
-                'object_number' => self::$objectNumber,
-                'images' => [
-                    ['caption' => 'test', 'image' => 'test2.jpg'],
-                ],
-            ]
-        );
-        $this->subject->writeToDatabase();
-
-        self::assertTrue(
-            $this->testingFramework->existsExactlyOneRecord(
-                'tx_realty_images',
-                'deleted = 1 AND image="test.jpg"'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function importRecordWithImageThatAlreadyExistsForAnotherRecordDoesNotChangeTheOriginalObjectUid()
-    {
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['images' => 1]
-        );
-        $this->testingFramework->createRecord(
-            'tx_realty_images',
-            [
-                'object' => $this->objectUid,
-                'image' => 'test.jpg',
-                'caption' => 'test',
-            ]
-        );
-        $this->subject->loadRealtyObject(
-            [
-                'object_number' => self::$otherObjectNumber,
-                'images' => [
-                    ['caption' => 'test', 'image' => 'test.jpg'],
-                ],
-            ]
-        );
-        $this->subject->writeToDatabase();
-
-        self::assertTrue(
-            $this->testingFramework->existsExactlyOneRecord(
-                'tx_realty_images',
-                'object=' . $this->objectUid . ' AND image="test.jpg"'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
     public function recreateAnAuxiliaryRecord()
     {
         $this->testingFramework->markTableAsDirty('tx_realty_cities');
@@ -2106,7 +1868,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      */
     public function addImageRecordForLoadedObject()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
         $this->subject->loadRealtyObject($this->objectUid);
         $this->subject->addImageRecord('foo', 'foo.jpg');
 
@@ -2123,7 +1884,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      */
     public function addImageRecordForLoadedObjectReturnsKeyWhereTheRecordIsStored()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
         $this->subject->loadRealtyObject($this->objectUid);
 
         self::assertEquals(
@@ -2139,8 +1899,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      */
     public function addImageRecordForNoObjectLoadedThrowsException()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
         $this->subject->addImageRecord('foo', 'foo.jpg');
     }
 
@@ -2149,8 +1907,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      */
     public function addImagesRecordsUpdatesTheNumberOfCurrentlyAppendedImagesForTheRealtyObject()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
         $this->subject->loadRealtyObject($this->objectUid);
         $this->subject->addImageRecord('foo1', 'foo1.jpg');
         $this->subject->addImageRecord('foo2', 'foo2.jpg');
@@ -2159,196 +1915,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         self::assertEquals(
             3,
             $this->subject->getProperty('images')
-        );
-    }
-
-    //////////////////////////////////////////////
-    // Tests concerning markImageRecordAsDeleted
-    //////////////////////////////////////////////
-
-    /**
-     * @test
-     */
-    public function markImageRecordAsDeletedUpdatesTheNumberOfCurrentlyAppendedImagesForTheRealtyObject()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addImageRecord('foo1', 'foo1.jpg');
-        $this->subject->addImageRecord('foo2', 'foo2.jpg');
-        $this->subject->markImageRecordAsDeleted(
-            $this->subject->addImageRecord('foo', 'foo.jpg')
-        );
-
-        self::assertEquals(
-            2,
-            $this->subject->getProperty('images')
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @expectedException \BadMethodCallException
-     */
-    public function markImageRecordAsDeletedForNoObjectLoadedThrowsException()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->markImageRecordAsDeleted(
-            $this->subject->addImageRecord('foo', 'foo.jpg')
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @expectedException \Tx_Oelib_Exception_NotFound
-     */
-    public function markImageRecordAsDeletedForNonExistingRecordThrowsException()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->markImageRecordAsDeleted(
-            $this->subject->addImageRecord('foo', 'foo.jpg') + 1
-        );
-    }
-
-    /////////////////////////////////////////////////
-    // Tests concerning writeToDatabase with images
-    /////////////////////////////////////////////////
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseMarksImageRecordToDeleteAsDeleted()
-    {
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['images' => 1]
-        );
-        $imageUid = $this->testingFramework->createRecord(
-            'tx_realty_images',
-            [
-                'caption' => 'foo',
-                'image' => 'foo.jpg',
-                'object' => $this->objectUid,
-            ]
-        );
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->markImageRecordAsDeleted(0);
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            1,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'uid=' . $imageUid . ' AND deleted=1'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseCreatesNewImageRecordIfTheSameRecordExistsButIsDeleted()
-    {
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['images' => 1]
-        );
-        $this->testingFramework->createRecord(
-            'tx_realty_images',
-            [
-                'caption' => 'foo',
-                'image' => 'foo.jpg',
-                'object' => $this->objectUid,
-                'deleted' => 1,
-            ]
-        );
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addImageRecord('foo', 'foo.jpg');
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            2,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'image = "foo.jpg"'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseDeletesExistingImageFromTheFileSystem()
-    {
-        $fileName = $this->testingFramework->createDummyFile('foo.jpg');
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['images' => 1]
-        );
-        $this->testingFramework->createRecord(
-            'tx_realty_images',
-            [
-                'caption' => 'foo',
-                'image' => basename($fileName),
-                'object' => $this->objectUid,
-            ]
-        );
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->markImageRecordAsDeleted(0);
-        $this->subject->writeToDatabase();
-
-        self::assertFileNotExists(
-            $fileName
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseNotAddsImageRecordWithDeletedFlagSet()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->markImageRecordAsDeleted(
-            $this->subject->addImageRecord('foo', 'foo.jpg')
-        );
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            0,
-            $this->testingFramework->countRecords(
-                'tx_realty_images',
-                'deleted = 1'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function importANewRecordWithImagesAndTheDeletedFlagBeingSetReturnsMarkedAsDeletedMessageKey()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_images');
-
-        $this->subject->loadRealtyObject(
-            ['object_number' => 'foo-bar', 'deleted' => 1]
-        );
-        $this->subject->addImageRecord('foo', 'foo.jpg');
-
-        self::assertEquals(
-            'message_deleted_flag_set',
-            $this->subject->writeToDatabase()
         );
     }
 
@@ -2429,195 +1995,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         self::assertEquals(
             3,
             $this->subject->getProperty('documents')
-        );
-    }
-
-    ////////////////////////////////////
-    // Tests concerning deleteDocument
-    ////////////////////////////////////
-
-    /**
-     * @test
-     */
-    public function deleteDocumentUpdatesTheNumberOfAppendedDocuments()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_documents');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addDocument('foo1', 'foo1.pdf');
-        $this->subject->addDocument('foo2', 'foo2.pdf');
-        $this->subject->deleteDocument(
-            $this->subject->addDocument('foo', 'foo.pdf')
-        );
-
-        self::assertEquals(
-            2,
-            $this->subject->getProperty('documents')
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @expectedException \BadMethodCallException
-     */
-    public function deleteDocumentForNoObjectLoadedThrowsException()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_documents');
-
-        $this->subject->deleteDocument(
-            $this->subject->addDocument('foo', 'foo.pdf')
-        );
-    }
-
-    /**
-     * @test
-     *
-     * @expectedException \Tx_Oelib_Exception_NotFound
-     */
-    public function deleteDocumentForNonExistingRecordThrowsException()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_documents');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $documentKey = $this->subject->addDocument('foo', 'foo.pdf') + 1;
-
-        $this->subject->deleteDocument($documentKey);
-    }
-
-    ////////////////////////////////////////////////////
-    // Tests concerning writeToDatabase with documents
-    ////////////////////////////////////////////////////
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseMarksDocumentRecordToDeleteAsDeleted()
-    {
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['documents' => 1]
-        );
-        $documentUid = $this->testingFramework->createRecord(
-            'tx_realty_documents',
-            [
-                'title' => 'foo',
-                'filename' => 'foo.pdf',
-                'object' => $this->objectUid,
-            ]
-        );
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->deleteDocument(0);
-        $this->subject->writeToDatabase();
-
-        self::assertTrue(
-            $this->testingFramework->existsRecord(
-                'tx_realty_documents',
-                'uid = ' . $documentUid . ' AND deleted = 1'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseCreatesNewDocumentRecordIfTheSameRecordExistsButIsDeleted()
-    {
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['documents' => 1]
-        );
-        $this->testingFramework->createRecord(
-            'tx_realty_documents',
-            [
-                'title' => 'foo',
-                'filename' => 'foo.pdf',
-                'object' => $this->objectUid,
-                'deleted' => 1,
-            ]
-        );
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->addDocument('foo', 'foo.pdf');
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            1,
-            $this->testingFramework->countRecords(
-                'tx_realty_documents',
-                'filename = "foo.pdf" AND deleted = 0'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseDeletesExistingDocumentFromFileSystem()
-    {
-        $fileName = $this->testingFramework->createDummyFile('foo.pdf');
-        $this->testingFramework->changeRecord(
-            'tx_realty_objects',
-            $this->objectUid,
-            ['documents' => 1]
-        );
-        $this->testingFramework->createRecord(
-            'tx_realty_documents',
-            [
-                'title' => 'foo',
-                'filename' => basename($fileName),
-                'object' => $this->objectUid,
-            ]
-        );
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->deleteDocument(0);
-        $this->subject->writeToDatabase();
-
-        self::assertFileNotExists(
-            $fileName
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function writeToDatabaseNotAddsDeletedDocumentRecord()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_documents');
-
-        $this->subject->loadRealtyObject($this->objectUid);
-        $this->subject->deleteDocument(
-            $this->subject->addDocument('foo', 'foo.pdf')
-        );
-        $this->subject->writeToDatabase();
-
-        self::assertEquals(
-            0,
-            $this->testingFramework->countRecords(
-                'tx_realty_documents',
-                'deleted = 1'
-            )
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function importANewRecordWithDocumentsAndTheDeletedFlagBeingSetReturnsMarkedAsDeletedMessageKey()
-    {
-        $this->testingFramework->markTableAsDirty('tx_realty_documents');
-
-        $this->subject->loadRealtyObject(
-            ['object_number' => 'foo-bar', 'deleted' => 1]
-        );
-        $this->subject->addDocument('foo', 'foo.pdf');
-
-        self::assertEquals(
-            'message_deleted_flag_set',
-            $this->subject->writeToDatabase()
         );
     }
 

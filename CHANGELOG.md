@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Import the attachments from OpenImmo to FAL (#222)
+- Add the AttachmentImporter class (#216)
 - Add RealtyObject.getAttachmentByBaseName (#215)
 - Have DomDocumentConverter find general attachments (#214)
 - Use FAL for the FE image upload (#210)

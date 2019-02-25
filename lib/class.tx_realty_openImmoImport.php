@@ -1,6 +1,7 @@
 <?php
 
 use OliverKlee\Oelib\Email\SystemEmailFromBuilder;
+use OliverKlee\Realty\Import\AttachmentImporter;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
@@ -62,11 +63,6 @@ class tx_realty_openImmoImport
     private static $translator = null;
 
     /**
-     * @var tx_realty_fileNameMapper
-     */
-    private $fileNameMapper = null;
-
-    /**
      * @var string the upload directory for images
      */
     private $uploadDirectory = '';
@@ -113,7 +109,6 @@ class tx_realty_openImmoImport
         $this->isTestMode = $isTestMode;
         libxml_use_internal_errors(true);
         $this->globalConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('realty');
-        $this->fileNameMapper = GeneralUtility::makeInstance(\tx_realty_fileNameMapper::class);
         $this->setUploadDirectory(PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER);
     }
 
@@ -219,13 +214,13 @@ class tx_realty_openImmoImport
      * Success and failures are logged and an array with data for e-mails about
      * the proceedings is returned.
      *
-     * @param string $currentZip path of the current ZIP file, only used for log, may be empty
+     * @param string $pathOfCurrentZipFile path of the current ZIP file, only used for log, may be empty
      *
      * @return mixed[][]
      *         Two-dimensional array of e-mail data. Each inner array has the elements "recipient", "objectNumber",
      *         "logEntry" and "errorLog". Will be empty if there are no records to insert.
      */
-    private function processRealtyRecordInsertion($currentZip)
+    private function processRealtyRecordInsertion($pathOfCurrentZipFile)
     {
         $emailData = [];
         $savedRealtyObjects = new \Tx_Oelib_List();
@@ -255,13 +250,12 @@ class tx_realty_openImmoImport
             // Ensures that the foreach-loop is passed at least once, so the log gets processed correctly.
             $recordsToInsert = [[]];
         } else {
-            $this->copyImagesAndDocumentsFromExtractedZip($currentZip, $recordsToInsert);
             // Only ZIP archives that have a valid owner and therefore can be
             // imported are marked as deletable.
             // The owner is the same for each record within one ZIP archive.
             $this->loadRealtyObject($recordsToInsert[0]);
             if ($this->hasValidOwnerForImport()) {
-                $this->filesToDelete[] = $currentZip;
+                $this->filesToDelete[] = $pathOfCurrentZipFile;
             }
         }
 
@@ -269,6 +263,7 @@ class tx_realty_openImmoImport
             $this->writeToDatabase($record);
 
             if (!$this->realtyObject->isDead()) {
+                $this->importAttachments($record, $pathOfCurrentZipFile);
                 $savedRealtyObjects->add($this->realtyObject);
                 $emailData[] = $this->createEmailRawDataArray(
                     $this->getContactEmailFromRealtyObject(),
@@ -303,11 +298,38 @@ class tx_realty_openImmoImport
         }
 
         if (!$this->deleteCurrentZipFile) {
-            $this->filesToDelete = array_diff($this->filesToDelete, [$currentZip]);
+            $this->filesToDelete = array_diff($this->filesToDelete, [$pathOfCurrentZipFile]);
             $this->deleteCurrentZipFile = true;
         }
 
         return $emailData;
+    }
+
+    /**
+     * @param array $objectData
+     * @param string $pathOfCurrentZipFile
+     *
+     * @return void
+     */
+    private function importAttachments(array $objectData, $pathOfCurrentZipFile)
+    {
+        if (empty($objectData['attached_files'])) {
+            return;
+        }
+
+        $attachmentImporter = GeneralUtility::makeInstance(AttachmentImporter::class, $this->realtyObject);
+        $attachmentImporter->startTransaction();
+        $extractionFolder = $this->getNameForExtractionFolder($pathOfCurrentZipFile);
+
+        /** @var string[] $attachmentData */
+        foreach ($objectData['attached_files'] as $attachmentData) {
+            $relativePath = $attachmentData['path'];
+            $fullPath = $extractionFolder . $relativePath;
+            $title = $attachmentData['title'];
+            $attachmentImporter->addAttachment($fullPath, $title);
+        }
+
+        $attachmentImporter->finishTransaction();
     }
 
     /**
@@ -563,8 +585,7 @@ class tx_realty_openImmoImport
     }
 
     /**
-     * Sets the path for the upload directory and updated the fileNameMapper's
-     * destination path accordingly. This path must be valid and absolute and
+     * Sets the path for the upload directory. The given path must be valid and absolute and
      * may end with a trailing slash.
      *
      * @param string $path absolute path of the upload directory, must not be empty
@@ -574,7 +595,6 @@ class tx_realty_openImmoImport
     protected function setUploadDirectory($path)
     {
         $this->uploadDirectory = $this->unifyPath($path);
-        $this->fileNameMapper->setDestinationFolder($this->uploadDirectory);
     }
 
     /**
@@ -1128,89 +1148,6 @@ class tx_realty_openImmoImport
     }
 
     /**
-     * Copies images and documents for OpenImmo records to the local upload
-     * folder.
-     *
-     * @param string $pathOfZip
-     *        path of the extracted ZIP archive, must not be empty
-     * @param array[] $realtyRecords
-     *        realty record data derived from the XML file, must not be empty
-     *
-     * @return void
-     */
-    public function copyImagesAndDocumentsFromExtractedZip($pathOfZip, array $realtyRecords)
-    {
-        $folderWithImages = $this->getNameForExtractionFolder($pathOfZip);
-        $imagesNotToCopy = $this->findFileNamesOfDeletedRecords($realtyRecords);
-
-        /** @var string[] $lowercaseFileExtensions */
-        $lowercaseFileExtensions = GeneralUtility::trimExplode(
-            ',',
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-            true
-        );
-        if (!in_array('pdf', $lowercaseFileExtensions, true)) {
-            $lowercaseFileExtensions[] = 'pdf';
-        }
-        if (in_array('ps', $lowercaseFileExtensions, true)) {
-            unset($lowercaseFileExtensions[(int)array_search('ps', $lowercaseFileExtensions, true)]);
-        }
-
-        $allCaseFileExtensions = $lowercaseFileExtensions;
-        foreach ($lowercaseFileExtensions as $extension) {
-            $allCaseFileExtensions[] = strtoupper($extension);
-        }
-
-        foreach ($allCaseFileExtensions as $extension) {
-            $files = glob($folderWithImages . '*.' . $extension);
-            if (!is_array($files)) {
-                continue;
-            }
-
-            /** @var string $file */
-            foreach ($files as $file) {
-                $uniqueFileNames = $this->fileNameMapper->releaseMappedFileNames(basename($file));
-
-                foreach ($uniqueFileNames as $uniqueName) {
-                    if (!in_array($uniqueName, $imagesNotToCopy, true)) {
-                        copy($file, $this->uploadDirectory . $uniqueName);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Finds file names of images and documents which must not be copied into
-     * the uploads folder because their corresponding realty records are marked
-     * as deleted.
-     *
-     * @param array[] $records realty records, must not be empty
-     *
-     * @return string[] names files which must not be copied
-     */
-    private function findFileNamesOfDeletedRecords(array $records)
-    {
-        $filesNotToCopy = [];
-
-        foreach ($records as $record) {
-            if ($record['deleted'] && is_array($record['images'])) {
-                foreach ($record['images'] as $image) {
-                    $filesNotToCopy[] = $image['image'];
-                }
-                if (isset($record['documents']) && is_array($record['documents'])) {
-                    /** @var string[] $document */
-                    foreach ($record['documents'] as $document) {
-                        $filesNotToCopy[] = $document['filename'];
-                    }
-                }
-            }
-        }
-
-        return $filesNotToCopy;
-    }
-
-    /**
      * Removes the ZIP archives which have been imported and the folders which
      * have been created to extract the ZIP archives.
      * Logs which ZIP archives have been deleted.
@@ -1279,10 +1216,7 @@ class tx_realty_openImmoImport
         }
 
         /** @var \tx_realty_domDocumentConverter $domDocumentConverter */
-        $domDocumentConverter = GeneralUtility::makeInstance(
-            \tx_realty_domDocumentConverter::class,
-            $this->fileNameMapper
-        );
+        $domDocumentConverter = GeneralUtility::makeInstance(\tx_realty_domDocumentConverter::class);
 
         return $domDocumentConverter->getConvertedData($realtyRecords);
     }

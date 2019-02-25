@@ -52,6 +52,7 @@ class AttachmentImporter
      * @return void
      *
      * @throws \BadMethodCallException
+     * @throws \RuntimeException
      */
     public function startTransaction()
     {
@@ -79,11 +80,19 @@ class AttachmentImporter
 
     /**
      * @return void
+     *
+     * @throws \RuntimeException
      */
     private function ensureUidForRealtyObject()
     {
         if (!$this->realtyObject->hasUid()) {
-            $this->realtyObject->writeToDatabase();
+            $result = $this->realtyObject->writeToDatabase();
+            if ($result !== '') {
+                throw new \RuntimeException(
+                    'The realty object could not be saved. This is the reason: ' . $result,
+                    1551133807
+                );
+            }
         }
     }
 
