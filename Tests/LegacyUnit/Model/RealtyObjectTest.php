@@ -1245,6 +1245,24 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
+     * @doesNotPerformAssertions
+     */
+    public function writeToDataBaseAfterSetDataWithAttachedFilesThrowsNoException()
+    {
+        $this->subject->setData(
+            [
+                'title' => 'new title',
+                'object_number' => self::$otherObjectNumber,
+                'openimmo_obid' => 'test-obid',
+                'attached_files' => [['title' => 'nice image', 'path' => '/tmp/image.jpg']],
+            ]
+        );
+        $this->subject->writeToDatabase();
+    }
+
+    /**
+     * @test
      */
     public function getPropertyWithNonExistingKeyWhenObjectLoaded()
     {
