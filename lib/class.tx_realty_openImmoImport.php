@@ -922,15 +922,21 @@ class tx_realty_openImmoImport
     }
 
     /**
-     * Gets a name for a folder according to the ZIP archive to extract to it.
+     * Gets the full path for the folder according to the ZIP archive to extract to it.
      *
      * @param string $pathOfZip path of a ZIP archive, must not be empty
      *
-     * @return string path for a folder named like the ZIP archive, empty if the passed string is empty
+     * @return string absolute path for a folder named like the ZIP archive
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getNameForExtractionFolder($pathOfZip)
     {
-        return str_replace('.zip', '/', $pathOfZip);
+        if ($pathOfZip === '') {
+            throw new \InvalidArgumentException('$pathOfZip must not be empty.', 1551119719);
+        }
+
+        return PATH_site . 'typo3temp/var/realty/' . \str_replace('.zip', '/', basename($pathOfZip));
     }
 
     /**
@@ -954,23 +960,26 @@ class tx_realty_openImmoImport
             $this->addToErrorLog($folderForZipExtraction . ': ' . $this->getTranslator()
                     ->translate('message_surplus_folder'));
             $folderForZipExtraction = '';
-        } elseif (GeneralUtility::mkdir($folderForZipExtraction)) {
-            $this->filesToDelete[] = $folderForZipExtraction;
-            if (!is_writable($folderForZipExtraction)) {
+        } else {
+            try {
+                GeneralUtility::mkdir_deep($folderForZipExtraction);
+                $this->filesToDelete[] = $folderForZipExtraction;
+                if (!is_writable($folderForZipExtraction)) {
+                    $this->addToErrorLog(
+                        sprintf(
+                            $this->getTranslator()->translate('message_folder_not_writable'),
+                            $folderForZipExtraction
+                        )
+                    );
+                }
+            } catch (\RuntimeException $exception) {
                 $this->addToErrorLog(
                     sprintf(
-                        $this->getTranslator()->translate('message_folder_not_writable'),
+                        $this->getTranslator()->translate('message_folder_creation_failed'),
                         $folderForZipExtraction
                     )
                 );
             }
-        } else {
-            $this->addToErrorLog(
-                sprintf(
-                    $this->getTranslator()->translate('message_folder_creation_failed'),
-                    $folderForZipExtraction
-                )
-            );
         }
 
         return $folderForZipExtraction;
