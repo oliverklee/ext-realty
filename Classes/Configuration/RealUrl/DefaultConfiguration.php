@@ -1,18 +1,20 @@
 <?php
 
+namespace OliverKlee\Realty\Configuration\RealUrl;
+
 /**
- * This class adds a RealURL configuration.
+ * This class adds a RealURL default configuration.
  *
- * @author     Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Realty_Configuration_RealUrl_Configuration
+class DefaultConfiguration
 {
     /**
      * Adds RealURL configuration.
      *
-     * @param mixed[][] $parameters the RealUrl configuration to modify
+     * @param array[] $parameters the RealUrl configuration to modify
      *
-     * @return mixed[][] the modified RealURL configuration
+     * @return array[] the modified RealURL configuration
      */
     public function addConfiguration(array $parameters)
     {
@@ -86,15 +88,20 @@ class Tx_Realty_Configuration_RealUrl_Configuration
         $ownerGetVariable = ['GETvar' => 'tx_realty_pi1[owner]', 'valueMap' => ['-' => '0']];
         $uidGetVariable = ['GETvar' => 'tx_realty_pi1[uid]', 'valueMap' => ['-' => '0']];
 
-        return array_merge_recursive(
+        return \array_merge_recursive(
             $parameters['config'],
             [
                 'preVars' => $preVariables,
                 'postVarSets' => [
                     '_DEFAULT' => [
                         'immo' => [
-                            $paginationGetVariable, $realtyObjectGetVariable, $modeGetVariable, $removeGetVariable,
-                            $deleteGetVariable, $ownerGetVariable, $uidGetVariable,
+                            $paginationGetVariable,
+                            $realtyObjectGetVariable,
+                            $modeGetVariable,
+                            $removeGetVariable,
+                            $deleteGetVariable,
+                            $ownerGetVariable,
+                            $uidGetVariable,
                         ],
                     ],
                 ],

@@ -23,7 +23,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['realty'] = 'EXT:realty/Ajax/tx
 
 // RealURL autoconfiguration
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['realty']
-    = 'Tx_Realty_Configuration_RealUrl_Configuration->addConfiguration';
+    = \OliverKlee\Realty\Configuration\RealUrl\DefaultConfiguration::class . '->addConfiguration';
 
 $openImmoTaskConfiguration = [
     'extension' => 'realty',
