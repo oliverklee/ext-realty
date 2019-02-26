@@ -19,7 +19,7 @@ Upgrading
 Upgrading from version 2.x.y to 3.x.y
 #####################################
 
-#. Note: The separate image thumbnail have been removed.
+#. Note: The separate image thumbnails have been removed.
 
 #. Note: The image position setting has been removed. If you are using
    a customized HTML template, please remove the IMAGES\_POSITION\_* subparts.
@@ -28,3 +28,7 @@ Upgrading from version 2.x.y to 3.x.y
    extensions.
 
 #. Update the realty extension.
+
+#. The images and documents have been converted to FAL.
+   Please run the update function for the realty extension in
+   the extension manager to convert your data.

@@ -208,10 +208,6 @@
                 <source>Separate page for the details view for this object</source>
                 <target>Separat side for detaljeret objektbeskrivelse</target>
             </trans-unit>
-            <trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
-                <source>Images</source>
-                <target>Billeder</target>
-            </trans-unit>
             <trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
                 <source>Last changed</source>
                 <target>Sidst ændret</target>
@@ -291,18 +287,6 @@
             <trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
                 <source>Title</source>
                 <target>Titel</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Billede</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
-                <source>Caption</source>
-                <target>Billedtekst</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Billede</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
                 <source>City</source>

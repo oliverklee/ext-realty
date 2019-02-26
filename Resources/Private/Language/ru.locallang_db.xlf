@@ -188,10 +188,6 @@
                 <source>Miscellaneous</source>
                 <target>Другое</target>
             </trans-unit>
-            <trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
-                <source>Images</source>
-                <target>Изображения</target>
-            </trans-unit>
             <trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
                 <source>Last changed</source>
                 <target>Последнее изменение</target>
@@ -227,18 +223,6 @@
             <trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
                 <source>Title</source>
                 <target>Заголовок</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Изображения</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
-                <source>Caption</source>
-                <target>Подпись</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Изображение</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
                 <source>City</source>

@@ -55,7 +55,7 @@ $tca = [
             .
             'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
             'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
-            'attachments, images, documents',
+            'attachments',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -1059,42 +1059,6 @@ $tca = [
                 ]
             ),
         ],
-        'images' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.images',
-            'config' => [
-                'type' => 'inline',
-                'foreign_table' => 'tx_realty_images',
-                'foreign_field' => 'object',
-                'foreign_sortby' => 'sorting',
-                'minitems' => 0,
-                'maxitems' => 99,
-                'appearance' => [
-                    'collapseAll' => 1,
-                    'expandSingle' => 1,
-                    'newRecordLinkAddTitle' => 1,
-                    'levelLinksPosition' => 'bottom',
-                ],
-            ],
-        ],
-        'documents' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.documents',
-            'config' => [
-                'type' => 'inline',
-                'foreign_table' => 'tx_realty_documents',
-                'foreign_field' => 'object',
-                'foreign_sortby' => 'sorting',
-                'minitems' => 0,
-                'maxitems' => 99,
-                'appearance' => [
-                    'collapseAll' => 1,
-                    'expandSingle' => 1,
-                    'newRecordLinkAddTitle' => 1,
-                    'levelLinksPosition' => 'bottom',
-                ],
-            ],
-        ],
         'employer' => [
             'displayCond' => 'FIELD:contact_data_source:<:1',
             'exclude' => 1,
@@ -1507,7 +1471,7 @@ $tca = [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
-                'attachments, images, documents, ' .
+                'attachments, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
                 'hidden, starttime, endtime',
         ],
@@ -1553,7 +1517,7 @@ $tca = [
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
                 'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.attachments, ' .
-                'attachments, images, documents, ' .
+                'attachments, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.access, ' .
                 'hidden, starttime, endtime',
         ],
