@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the checks for the zip_archive PHP extension (#175)
 
 ### Fixed
+- Remove obsolete directory creation "uploads/tx_realty/rte" (#224, #225)
 - Use a valid OpenImmo file in the functional tests (#220, #221)
 - Extract the imported ZIPs within typo3temp, not fileadmin (#217, #219)
 - Use the correct path name when PHP-linting the tests (#192)
