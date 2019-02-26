@@ -40,7 +40,6 @@ Tutorial
    CreateAListOfObjectsByOneOfferer/Index
    AddAConnectionToAnAdvertisementForm/Index
    TestingTheConfiguration/Index
-   ConfigureAdditionalImagePositionsForTheLightboxGallery/Index
    ChangeTheExtensionsLookFeel/Index
    ImportOpenimmoRecordsFromZipFiles/Index
    CleaningTheUploadFolderFromUnusedImageFiles/Index

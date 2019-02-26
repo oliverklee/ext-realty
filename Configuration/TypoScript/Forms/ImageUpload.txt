@@ -40,7 +40,6 @@ plugin.tx_realty_pi1.imageUpload {
         caption = renderlet:TEXT
         caption {
             name = caption
-            label = LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.caption
         }
 
         image = renderlet:UPLOAD

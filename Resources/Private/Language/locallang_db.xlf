@@ -430,12 +430,6 @@
             <trans-unit id="tx_realty_objects.attachments" xml:space="preserve">
                 <source>Attachments</source>
             </trans-unit>
-            <trans-unit id="tx_realty_objects.images" xml:space="preserve">
-                <source>Images</source>
-            </trans-unit>
-            <trans-unit id="tx_realty_objects.documents" xml:space="preserve">
-                <source>Documents</source>
-            </trans-unit>
             <trans-unit id="tx_realty_objects.tstamp" xml:space="preserve">
                 <source>Last changed</source>
             </trans-unit>
@@ -606,24 +600,6 @@
             </trans-unit>
             <trans-unit id="tx_realty_pets.title" xml:space="preserve">
                 <source>Title</source>
-            </trans-unit>
-            <trans-unit id="tx_realty_images" xml:space="preserve">
-                <source>Image</source>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.caption" xml:space="preserve">
-                <source>Caption</source>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.image" xml:space="preserve">
-                <source>Image</source>
-            </trans-unit>
-            <trans-unit id="tx_realty_documents" xml:space="preserve">
-                <source>Document</source>
-            </trans-unit>
-            <trans-unit id="tx_realty_documents.title" xml:space="preserve">
-                <source>Title</source>
-            </trans-unit>
-            <trans-unit id="tx_realty_documents.filename" xml:space="preserve">
-                <source>File</source>
             </trans-unit>
             <trans-unit id="tx_realty_cities" xml:space="preserve">
                 <source>City</source>

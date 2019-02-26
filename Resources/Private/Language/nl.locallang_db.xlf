@@ -368,10 +368,6 @@
                 <source>Separate page for the details view for this object</source>
                 <target>Pagina voor de details</target>
             </trans-unit>
-            <trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
-                <source>Images</source>
-                <target>Foto's</target>
-            </trans-unit>
             <trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
                 <source>Last changed</source>
                 <target>Laatst gewijzigd</target>
@@ -463,18 +459,6 @@
             <trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
                 <source>Title</source>
                 <target>Titel</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Foto</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
-                <source>Caption</source>
-                <target>Bijschrift</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Foto</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
                 <source>City</source>

@@ -572,14 +572,6 @@
                 <source>Attachments</source>
                 <target>Anhänge</target>
             </trans-unit>
-            <trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
-                <source>Images</source>
-                <target>Bilder</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_objects.documents" xml:space="preserve" approved="yes">
-                <source>Documents</source>
-                <target>Dokumente</target>
-            </trans-unit>
             <trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
                 <source>Last changed</source>
                 <target>Änderungsdatum</target>
@@ -807,30 +799,6 @@
             <trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
                 <source>Title</source>
                 <target>Titel</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Bild</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
-                <source>Caption</source>
-                <target>Bildunterschrift</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
-                <source>Image</source>
-                <target>Bild</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_documents" xml:space="preserve" approved="yes">
-                <source>Document</source>
-                <target>Dokument</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_documents.title" xml:space="preserve" approved="yes">
-                <source>Title</source>
-                <target>Titel</target>
-            </trans-unit>
-            <trans-unit id="tx_realty_documents.filename" xml:space="preserve" approved="yes">
-                <source>File</source>
-                <target>Datei</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
                 <source>City</source>
