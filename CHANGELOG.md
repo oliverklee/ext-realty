@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- Move the RealURL configuration to Classes/ and namespace it (#228, #229)
 - Use fewer DB requests when accessing the realty model (#202, #203)
 - Speed up the new functional by omitting the auto increment reset (#189)
 - Stop using the charset conversion from the BE or FE (#178)
