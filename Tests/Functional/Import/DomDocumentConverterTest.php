@@ -39,7 +39,7 @@ class DomDocumentConverterTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        $this->subject = new TestingDomDocumentConverter(new \tx_realty_fileNameMapper());
+        $this->subject = new TestingDomDocumentConverter();
     }
 
     /*

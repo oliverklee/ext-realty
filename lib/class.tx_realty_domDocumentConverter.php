@@ -174,39 +174,15 @@ class tx_realty_domDocumentConverter
     private static $cachedCountries = [];
 
     /**
-     * the mapper that creates unique file names for images and documents
-     *
-     * @var tx_realty_fileNameMapper
-     */
-    private $fileNameMapper = null;
-
-    /**
      * @var tx_realty_translator
      */
     private static $translator = null;
-
-    /**
-     * Constructor.
-     *
-     * @param tx_realty_fileNameMapper $fileNameMapper
-     *        mapper to receive unique file names for the images and documents
-     */
-    public function __construct(tx_realty_fileNameMapper $fileNameMapper)
-    {
-        $this->fileNameMapper = $fileNameMapper;
-    }
 
     /**
      * Handles the conversion of a DOMDocument and returns the realty records
      * found in the DOMDocument as values of an array. Each of this values is an
      * array with column names like in the database table 'tx_realty_objects' as
      * keys and their corresponding values fetched from the DOMDocument.
-     *
-     * As images need to be inserted to a separate database table, all image
-     * data is stored in an inner array in the element 'images' of each record.
-     *
-     * All document data is stored in an inner array in the element 'documents'
-     * of each record.
      *
      * The returned array is empty if the given DOMDocument could not be
      * converted.
@@ -363,8 +339,6 @@ class tx_realty_domDocumentConverter
     {
         $this->fetchNodeValues();
         $this->fetchAttachments();
-        $this->fetchImages();
-        $this->fetchDocuments();
         $this->fetchEquipmentAttributes();
         $this->fetchCategoryAttributes();
         $this->fetchState();
@@ -595,114 +569,6 @@ class tx_realty_domDocumentConverter
         }
 
         return $attachments;
-    }
-
-    /**
-     * Fetches information about images from $openImmoNode of an OpenImmo record
-     * and stores them as an inner array in $this->importedData.
-     *
-     * @return void
-     */
-    private function fetchImages()
-    {
-        $this->addImportedDataIfValueIsNonEmpty('images', $this->createRecordsForImages());
-    }
-
-    /**
-     * Creates an array of image records for one realty record.
-     *
-     * @return array[] image records, will be empty if there are none
-     */
-    protected function createRecordsForImages()
-    {
-        $imageExtensions = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], true);
-        if (in_array('pdf', $imageExtensions, true)) {
-            unset($imageExtensions[(int)array_search('pdf', $imageExtensions, true)]);
-        }
-        if (in_array('ps', $imageExtensions, true)) {
-            unset($imageExtensions[(int)array_search('ps', $imageExtensions, true)]);
-        }
-        $extensionValidator = '/^.+\\.(' . implode('|', $imageExtensions) . ')$/i';
-
-        $listedRealtyObjects = $this->getListedRealtyObjects();
-        if ($listedRealtyObjects === null) {
-            return [];
-        }
-
-        $attachments = $this->getNodeListFromRawData('anhang', '', $listedRealtyObjects->item($this->recordNumber));
-
-        $images = [];
-        /** @var DOMNode $contextNode */
-        foreach ($attachments as $contextNode) {
-            $titleNodeList = $this->getNodeListFromRawData('anhangtitel', '', $contextNode);
-
-            $title = '';
-            if ($titleNodeList->item(0)) {
-                $title = $titleNodeList->item(0)->nodeValue;
-            }
-
-            $fileNameNodeList = $this->getNodeListFromRawData('daten', 'pfad', $contextNode);
-
-            if ($fileNameNodeList->item(0)) {
-                $rawFileName = $fileNameNodeList->item(0)->nodeValue;
-
-                if (preg_match($extensionValidator, $rawFileName)) {
-                    $fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(basename($rawFileName));
-
-                    $images[] = ['caption' => $title, 'image' => $fileName];
-                }
-            }
-        }
-
-        return $images;
-    }
-
-    /**
-     * Fetches information about documents from $openImmoNode of an OpenImmo
-     * record and stores them as an inner array in $this->importedData.
-     *
-     * @return void
-     */
-    private function fetchDocuments()
-    {
-        $this->addImportedDataIfValueIsNonEmpty('documents', $this->importDocuments());
-    }
-
-    /**
-     * Creates an array of document records for one realty record.
-     *
-     * @return array[] document records, will be empty if there are none
-     */
-    protected function importDocuments()
-    {
-        $listedRealtyObjects = $this->getListedRealtyObjects();
-        if ($listedRealtyObjects === null) {
-            return [];
-        }
-
-        $attachments = $this->getNodeListFromRawData('anhang', '', $listedRealtyObjects->item($this->recordNumber));
-
-        $documents = [];
-        /** @var DOMNode $contextNode */
-        foreach ($attachments as $contextNode) {
-            $titleNodeList = $this->getNodeListFromRawData('anhangtitel', '', $contextNode);
-            $fileNameNodeList = $this->getNodeListFromRawData('daten', 'pfad', $contextNode);
-
-            if (!$titleNodeList->item(0) || !$fileNameNodeList->item(0)) {
-                continue;
-            }
-
-            $title = $titleNodeList->item(0)->nodeValue;
-            $rawFileName = $fileNameNodeList->item(0)->nodeValue;
-
-            if (($title !== '') && preg_match('/\\.pdf$/i', $rawFileName)) {
-                $fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(basename($rawFileName));
-
-                $documents[] = ['title' => $title, 'filename' => $fileName];
-            }
-        }
-
-        return $documents;
     }
 
     /**

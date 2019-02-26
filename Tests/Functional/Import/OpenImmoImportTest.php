@@ -4,6 +4,8 @@ namespace OliverKlee\Realty\Tests\Functional\Import;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use OliverKlee\Realty\Tests\Unit\Import\Fixtures\TestingImmoImport;
+use Prophecy\Prophecy\ObjectProphecy;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
@@ -113,6 +115,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         $this->message = $this->getMock(MailMessage::class, ['send']);
         GeneralUtility::addInstance(MailMessage::class, $this->message);
+
+        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
+        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
+        $backEndUserProphecy->isAdmin()->willReturn(true);
+        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
     }
 
     protected function tearDown()
@@ -416,92 +423,6 @@ class OpenImmoImportTest extends FunctionalTestCase
         self::assertStringEqualsFile($this->importFolder . 'import.xml', $xml);
     }
 
-    ////////////////////////////////////////////////////////////
-    // Tests concerning copyImagesAndDocumentsFromExtractedZip
-    ////////////////////////////////////////////////////////////
-
-    /**
-     * @test
-     */
-    public function copyImagesAndDocumentsFromExtractedZipCopiesJpgImagesIntoTheUploadFolder()
-    {
-        $this->copyTestFileIntoImportFolder('foo.zip');
-        $this->subject->importFromZip();
-
-        self::assertFileExists($this->importFolder . 'foo.jpg');
-        self::assertFileExists($this->importFolder . 'bar.jpg');
-    }
-
-    /**
-     * @test
-     */
-    public function copyImagesAndDocumentsFromExtractedZipCopiesPdfFilesIntoTheUploadFolder()
-    {
-        $this->copyTestFileIntoImportFolder('pdf.zip');
-        $this->subject->importFromZip();
-
-        self::assertFileExists($this->importFolder . 'foo.pdf');
-    }
-
-    /**
-     * @test
-     */
-    public function copyImagesAndDocumentsFromExtractedZipNotCopiesPsFilesIntoTheUploadFolder()
-    {
-        $this->copyTestFileIntoImportFolder('ps.zip');
-        $this->subject->importFromZip();
-
-        self::assertFileNotExists($this->importFolder . 'foo.ps');
-    }
-
-    /**
-     * @test
-     */
-    public function copyImagesAndDocumentsFromExtractedZipCopiesJpgImagesWithUppercasedExtensionsIntoTheUploadFolder()
-    {
-        $this->copyTestFileIntoImportFolder('foo-uppercased.zip');
-        $this->subject->importFromZip();
-
-        self::assertFileExists($this->importFolder . 'foo.JPG');
-    }
-
-    /**
-     * @test
-     */
-    public function copyImagesAndDocumentsFromExtractedZipTwiceCopiesImagesUniquelyNamedIntoTheUploadFolder()
-    {
-        $this->copyTestFileIntoImportFolder('foo.zip');
-        $this->copyTestFileIntoImportFolder('foo.zip', 'foo2.zip');
-        $this->subject->importFromZip();
-
-        self::assertFileExists($this->importFolder . 'foo.jpg');
-        self::assertFileExists($this->importFolder . 'foo_00.jpg');
-    }
-
-    /**
-     * @test
-     */
-    public function copyImagesAndDocumentsFromExtractedZipCopiesImagesForRealtyRecord()
-    {
-        $this->copyTestFileIntoImportFolder('foo.zip');
-        $this->subject->importFromZip();
-
-        self::assertFileExists($this->importFolder . 'foo.jpg');
-        self::assertFileExists($this->importFolder . 'bar.jpg');
-    }
-
-    /**
-     * @test
-     */
-    public function copyImagesAndDocumentsFromExtractedZipNotCopiesImagesForRecordWithDeletionFlagSet()
-    {
-        $this->copyTestFileIntoImportFolder('foo-deleted.zip');
-        $this->subject->importFromZip();
-
-        self::assertFileNotExists($this->importFolder . 'foo.jpg');
-        self::assertFileNotExists($this->importFolder . 'bar.jpg');
-    }
-
     ////////////////////////////////
     // Tests concerning cleanUp().
     ////////////////////////////////
@@ -602,7 +523,7 @@ class OpenImmoImportTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function cleanUpDoesNotRemoveZipWithTwoXmls()
+    public function cleanUpDoesNotRemoveZipWithTwoXmlFiles()
     {
         $this->copyTestFileIntoImportFolder('bar-bar.zip');
         $this->subject->importFromZip();
@@ -2966,6 +2887,39 @@ class OpenImmoImportTest extends FunctionalTestCase
                 . 'AND pid=' . $this->systemFolderPid . \Tx_Oelib_Db::enableFields('tx_realty_objects')
             )
         );
+    }
+
+    /*
+     * Tests concerning the attachments
+     */
+
+    /**
+     * @test
+     */
+    public function importFromZipCopiesAttachmentFiles()
+    {
+        $this->copyTestFileIntoImportFolder('foo.zip');
+        $this->subject->importFromZip();
+
+        $writtenData = \Tx_Oelib_Db::selectSingle('uid', 'tx_realty_objects', 'openimmo_obid = "111"');
+        $uid = (int)$writtenData['uid'];
+
+        self::assertFileExists(
+            GeneralUtility::getFileAbsFileName('fileadmin/realty_attachments/' . $uid . '/foo.jpg')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function importFromZipCreatesFileRecord()
+    {
+        $this->copyTestFileIntoImportFolder('foo.zip');
+        $this->subject->importFromZip();
+
+        $numberOfFileRecordMatches = \Tx_Oelib_Db::count('sys_file', 'name = "foo.jpg"');
+
+        self::assertSame(1, $numberOfFileRecordMatches);
     }
 
     /////////////////////////////////

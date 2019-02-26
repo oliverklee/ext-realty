@@ -8,7 +8,7 @@ namespace OliverKlee\Realty\Tests\Unit\Import\Fixtures;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class TestingDomDocumentConverter extends \tx_realty_domDocumentConverter
+class TestingDomDocumentConverter extends \tx_realty_domDocumentConverter
 {
     /**
      * Adds a new element $value to the array $arrayExpand, using the key $key.
@@ -24,26 +24,6 @@ final class TestingDomDocumentConverter extends \tx_realty_domDocumentConverter
     public function addElementToArray(array &$arrayToExpand, $key, $value)
     {
         parent::addElementToArray($arrayToExpand, $key, $value);
-    }
-
-    /**
-     * Creates an array of image records for one realty record.
-     *
-     * @return array[] image records, will be empty if there are none
-     */
-    public function createRecordsForImages()
-    {
-        return parent::createRecordsForImages();
-    }
-
-    /**
-     * Creates an array of document records for one realty record.
-     *
-     * @return array[] document records, will be empty if there are none
-     */
-    public function importDocuments()
-    {
-        return parent::importDocuments();
     }
 
     /**

@@ -43,10 +43,10 @@ class AttachmentImporterTest extends UnitTestCase
     /**
      * @test
      */
-    public function startTransActionForObjectWithoutUidSavesObject()
+    public function startTransactionForObjectWithoutUidSavesObject()
     {
         $this->realtyObjectMock->method('hasUid')->willReturn(false);
-        $this->realtyObjectMock->expects(self::once())->method('writeToDatabase');
+        $this->realtyObjectMock->expects(self::once())->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->subject->startTransaction();
@@ -55,10 +55,24 @@ class AttachmentImporterTest extends UnitTestCase
     /**
      * @test
      */
-    public function startTransActionForObjectWithUidNotSavesObject()
+    public function startTransactionForInvalidObjectWithoutUidThrowsExceptionOnSaving()
+    {
+        $this->realtyObjectMock->method('hasUid')->willReturn(false);
+        $this->realtyObjectMock->expects(self::once())->method('writeToDatabase')->willReturn('message_fields_required');
+        $this->realtyObjectMock->method('getAttachments')->willReturn([]);
+
+        $this->expectException(\RuntimeException::class);
+
+        $this->subject->startTransaction();
+    }
+
+    /**
+     * @test
+     */
+    public function startTransactionForObjectWithUidNotSavesObject()
     {
         $this->realtyObjectMock->method('hasUid')->willReturn(true);
-        $this->realtyObjectMock->expects(self::never())->method('writeToDatabase');
+        $this->realtyObjectMock->expects(self::never())->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->subject->startTransaction();
@@ -69,6 +83,7 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function startTransactionCalledTwoTimesThrowsException()
     {
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->subject->startTransaction();
@@ -93,6 +108,7 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function addAttachmentWithAlreadyFinishedTransactionThrowsException()
     {
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->subject->startTransaction();
@@ -118,6 +134,7 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function finishTransactionAfterAlreadyFinishedTransactionThrowsException()
     {
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->subject->startTransaction();
@@ -137,7 +154,7 @@ class AttachmentImporterTest extends UnitTestCase
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
         $this->subject->startTransaction();
 
-        $this->realtyObjectMock->expects(self::once())->method('writeToDatabase');
+        $this->realtyObjectMock->expects(self::once())->method('writeToDatabase')->willReturn('');
 
         $this->subject->finishTransaction();
     }
@@ -150,6 +167,7 @@ class AttachmentImporterTest extends UnitTestCase
         $fileName = '/tmp/test.jpg';
         $title = 'Some image';
 
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->subject->startTransaction();
@@ -179,6 +197,7 @@ class AttachmentImporterTest extends UnitTestCase
         $fileReferenceMock->method('getOriginalFile')->willReturn($fileMock);
         $this->realtyObjectMock->expects(self::at(2))->method('getAttachments')->willReturn([$fileReferenceMock]);
 
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->expects(self::once())->method('getAttachmentByBaseName')->with('test.jpg')
             ->willReturn($fileReferenceMock);
         $this->realtyObjectMock->expects(self::never())->method('addAndSaveAttachment');
@@ -198,6 +217,7 @@ class AttachmentImporterTest extends UnitTestCase
         $fileName = '/tmp/test.jpg';
         $title = 'Some image';
 
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->subject->startTransaction();
@@ -218,6 +238,8 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function finishTransactionDeletesExistingAttachmentsThatHaveNotBeenUpdated()
     {
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
+
         $fileUid = 42;
         /** @var File|\PHPUnit_Framework_MockObject_MockObject $fileMock */
         $fileMock = $this->getMockBuilder(File::class)->disableOriginalConstructor()->getMock();
@@ -239,6 +261,7 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function attachmentAddedOnlyInFirstTransactionWillBeDeletedInSecondTransaction()
     {
+        $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->expects(self::at(2))->method('getAttachments')->willReturn([]);
 
         $fileUid = 42;
