@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add the object number to the RealURL slug (#230, #231)
 - Import the attachments from OpenImmo to FAL (#222)
 - Add the AttachmentImporter class (#216)
 - Add RealtyObject.getAttachmentByBaseName (#215)
