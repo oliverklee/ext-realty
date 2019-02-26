@@ -3,9 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## x.y.z
+## 2.1.0
 
 ### Added
+- Add the object number to the RealURL slug (#230, #231)
 
 ### Changed
 - Move the RealURL configuration to Classes/ and namespace it (#228, #229)
