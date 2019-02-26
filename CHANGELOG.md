@@ -24,6 +24,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed
+- Move the RealURL configuration to Classes/ and namespace it (#228, #229)
 - Use fewer DB requests when accessing the realty model (#202, #203)
 - Rename "fixture" to "subject" in the tests (#199)
 - Move the location-related fields to the "geo" tab (#193)
