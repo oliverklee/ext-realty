@@ -484,9 +484,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function cleanUpDoesNotRemovesZipWithOneXmlInItIfDeletingZipsIsDisabled()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->globalConfiguration->setAsBoolean('deleteZipsAfterImport', false);
         $this->copyTestFileIntoImportFolder('same-name.zip');
         $this->subject->importFromZip();
@@ -499,10 +496,7 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function cleanUpRemovesZipWithOneXmlInItIfDeletingZipsIsEnabled()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
-        // 'deleteZipsAfterImport' is set to TRUE during setUp()
+        // 'deleteZipsAfterImport' is set to true during setUp()
         $this->copyTestFileIntoImportFolder('same-name.zip');
         $this->subject->importFromZip();
 
@@ -536,9 +530,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function cleanUpRemovesZipFileInASubFolderOfTheImportFolder()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         // just to ensure the import folder exists
         $this->copyTestFileIntoImportFolder('empty.zip');
         // copyTestFileIntoImportFolder() cannot copy folders
@@ -558,8 +549,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function cleanUpDoesNotRemoveZipOfUnregisteredOwnerIfOwnerRestrictionIsEnabled()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         // 'deleteZipsAfterImport' is set to TRUE during setUp()
         $this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', true);
         $this->copyTestFileIntoImportFolder('same-name.zip');
@@ -573,9 +562,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function cleanUpRemovesZipOfRegisteredOwnerIfOwnerRestrictionIsEnabled()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->testingFramework->createFrontEndUser('', ['tx_realty_openimmo_anid' => 'foo']);
         // 'deleteZipsAfterImport' is set to TRUE during setUp()
         $this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', true);
@@ -590,9 +576,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function cleanUpDoesNotRemoveZipIfOwnerWhichHasReachedObjectLimitDuringImport()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $this->testingFramework->createFrontEndUser(
             $feUserGroupUid,
@@ -617,9 +600,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function cleanUpDoesNotRemoveIfZipOwnerWhichHasNoObjectsLeftToEnter()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser(
             $feUserGroupUid,
@@ -689,9 +669,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipKeepsCurrentBackendLanguage()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $currentBackEndLanguage = 'fr';
         $this->getLanguageService()->lang = $currentBackEndLanguage;
 
@@ -710,8 +687,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $extractionFolder = PATH_site . 'typo3temp/var/realty/foo/';
         $this->copyTestFileIntoImportFolder('foo.zip');
         GeneralUtility::mkdir_deep($extractionFolder);
@@ -726,9 +701,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipImportsFromZipFileInASubFolderOfTheImportFolder()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         // just to ensure the import folder exists
         $this->copyTestFileIntoImportFolder('empty.zip');
         // copyTestFileIntoImportFolder() cannot copy folders
@@ -793,8 +765,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function addWithAllRequiredFieldsSavesNewRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -838,8 +808,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function updateWithAllRequiredFieldsSavesNewRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -883,8 +851,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function deleteWithAllRequiredFieldsWithoutRecordInDatabaseNotSavesNewRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -928,8 +894,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function addWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectData = '<immobilie>'
             . '<objektkategorie>'
@@ -976,8 +940,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function updateWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectData = '<immobilie>'
             . '<objektkategorie>'
@@ -1024,8 +986,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function deleteWithTwoIdenticalObjectsWithAllRequiredFieldsWithoutRecordInDatabaseNotSavesNewRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectData = '<immobilie>'
             . '<objektkategorie>'
@@ -1071,8 +1031,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function addWithAllRequiredFieldsUpdatesMatchingExistingRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1125,8 +1083,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function updateWithAllRequiredFieldsUpdatesMatchingExistingRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1179,8 +1135,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function deleteWithAllRequiredFieldsMarksMatchingExistingRecordAsDeleted()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1241,8 +1195,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function deleteTwoTimesWithAllRequiredFieldsMarksMatchingExistingRecordAsDeleted()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1306,8 +1258,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function addWithAllRequiredFieldsAndMatchingExistingDeletedRecordCreatesNewRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1371,8 +1321,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function updateWithAllRequiredFieldsAndMatchingExistingDeletedRecordCreatesNewRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1436,8 +1384,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function deleteWithAllRequiredFieldsWithMatchingExistingDeletedRecordNotAddsSecondDeletedRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1500,8 +1446,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function addWithAllRequiredFieldsUpdatesMatchingExistingHiddenRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1565,8 +1509,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function updateWithAllRequiredFieldsUpdatesMatchingExistingHiddenRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1630,8 +1572,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function deleteWithAllRequiredFieldsMarksMatchingExistingHiddenRecordAsDeleted()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $objectId = 'foo';
         $this->testingFramework->createRecord(
@@ -1705,8 +1645,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function addAndChangeWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -1770,8 +1708,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function changeAndAddWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -1835,8 +1771,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function deleteAndChangeWithTwoIdenticalObjectsWithAllRequiredFieldsSavesNoRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -1900,8 +1834,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function changeAndDeleteWithTwoIdenticalObjectsWithAllRequiredFieldsSavesOneRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -1965,8 +1897,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function changeAndAddDeleteWithTwoIdenticalObjectsWithAllRequiredFieldsAndContactDataNotSavesAnyRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -2158,10 +2088,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importStoresZipsWithLeadingZeroesIntoDb()
     {
-        $this->testingFramework->markTableAsDirty(
-            'tx_realty_objects' . ',' . 'tx_realty_house_types'
-        );
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -2212,10 +2138,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importStoresNumberOfRoomsWithDecimalsIntoDb()
     {
-        $this->testingFramework->markTableAsDirty(
-            'tx_realty_objects' . ',' . 'tx_realty_house_types'
-        );
-
         $objectNumber = 'bar1234567';
         $dummyDocument = new \DOMDocument();
         $dummyDocument->loadXML(
@@ -2268,9 +2190,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importUtf8FileWithCorrectUmlauts()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->copyTestFileIntoImportFolder('charset-UTF8.zip');
         $this->subject->importFromZip();
 
@@ -2287,9 +2206,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importUtf8FileWithUtf8AsDefaultEncodingAndNoXmlPrologueWithCorrectUmlauts()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->copyTestFileIntoImportFolder('charset-UTF8-default.zip');
         $this->subject->importFromZip();
 
@@ -2306,9 +2222,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importIso88591FileWithCorrectUmlauts()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->copyTestFileIntoImportFolder('charset-ISO8859-1.zip');
         $this->subject->importFromZip();
 
@@ -2329,9 +2242,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function recordWithAnidThatMatchesAnExistingFeUserIsImportedForEnabledOwnerRestriction()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $feUserUid = $this->testingFramework->createFrontEndUser('', ['tx_realty_openimmo_anid' => 'foo']);
         $this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', true);
         $this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2369,9 +2279,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function recordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction(
     ) {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser($feUserGroupUid, ['tx_realty_openimmo_anid' => 'foo']);
         $this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', true);
@@ -2418,8 +2325,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function writeToDatabaseForUserWithObjectLimitReachedDoesNotImportAnyFurtherRecords()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser(
             $feUserGroupUid,
@@ -2480,8 +2385,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function writeToDatabaseForUserWithObjectLimitNotReachedDoesImportRecords()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser(
             $feUserGroupUid,
@@ -2556,7 +2459,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function writeToDatabaseForUserWithoutObjectLimitDoesImportRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser($feUserGroupUid, ['tx_realty_openimmo_anid' => 'foo']);
         $this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', true);
@@ -2606,8 +2508,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function writeToDatabaseForUserWithOneObjectLeftToLimitImportsOnlyOneRecord()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
-
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser(
             $feUserGroupUid,
@@ -2682,9 +2582,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipForUserWithObjectLimitReachedReturnsObjectLimitReachedErrorMessage()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->testingFramework->createFrontEndUserGroup();
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser(
@@ -2720,8 +2617,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipClearsFrontEndCacheAfterImport()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('foo.zip');
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->testingFramework->createContentElement($pageUid, ['list_type' => 'realty_pi1']);
@@ -2756,8 +2651,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipReturnsLogMessageNoSchemaFileIfTheSchemaFileWasNotSet()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->globalConfiguration->setAsString('openImmoSchema', '');
 
@@ -2772,8 +2665,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipReturnsLogMessageIncorrectSchemaFileIfTheSchemaFilePathWasIncorrect()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->globalConfiguration->setAsString('openImmoSchema', '/any/not/existing/path');
 
@@ -2871,9 +2762,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importedRecordHasTheConfiguredPidByDefault()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->copyTestFileIntoImportFolder('same-name.zip');
         $this->disableValidation();
 
@@ -2933,8 +2821,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function emailSubjectIsSetCorrectly()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('email.zip');
         $this->subject->importFromZip();
 
@@ -2953,8 +2839,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function usesEmailFromSetInInstallTool()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('email.zip');
         $this->subject->importFromZip();
 
@@ -2976,8 +2860,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function emailIsSentToContactEmailForValidContactEmailAndObjectAsContactDataSource()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('valid-email.zip');
         $this->subject->importFromZip();
 
@@ -2992,8 +2874,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function emailIsSentToDefaultEmailForInvalidContactEmailAndObjectAsContactDataSource()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('email.zip');
         $this->subject->importFromZip();
 
@@ -3008,8 +2888,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function emailIsSentToDefaultAddressIfARecordIsNotLoadable()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->subject->importFromZip();
 
@@ -3035,7 +2913,6 @@ class OpenImmoImportTest extends FunctionalTestCase
             'useFrontEndUserDataAsContactDataForImportedRecords',
             true
         );
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
         $this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
         $this->subject->importFromZip();
 
@@ -3061,7 +2938,6 @@ class OpenImmoImportTest extends FunctionalTestCase
             'useFrontEndUserDataAsContactDataForImportedRecords',
             true
         );
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
         $this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
         $this->subject->importFromZip();
 
@@ -3087,7 +2963,6 @@ class OpenImmoImportTest extends FunctionalTestCase
             'useFrontEndUserDataAsContactDataForImportedRecords',
             true
         );
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
         $this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
         $this->subject->importFromZip();
 
@@ -3113,7 +2988,6 @@ class OpenImmoImportTest extends FunctionalTestCase
             'useFrontEndUserDataAsContactDataForImportedRecords',
             true
         );
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
         $this->copyTestFileIntoImportFolder('valid-email.zip');
         $this->subject->importFromZip();
 
@@ -3139,7 +3013,6 @@ class OpenImmoImportTest extends FunctionalTestCase
             'useFrontEndUserDataAsContactDataForImportedRecords',
             true
         );
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
         $this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
         $this->subject->importFromZip();
 
@@ -3165,7 +3038,6 @@ class OpenImmoImportTest extends FunctionalTestCase
             'useFrontEndUserDataAsContactDataForImportedRecords',
             true
         );
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
         $this->copyTestFileIntoImportFolder('foo.zip');
         $this->subject->importFromZip();
 
@@ -3184,8 +3056,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function sentEmailContainsTheObjectNumberLabel()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('email.zip');
         $this->subject->importFromZip();
 
@@ -3200,8 +3070,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function sentEmailContainsTheIntroductionMessage()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('email.zip');
         $this->subject->importFromZip();
 
@@ -3216,8 +3084,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function sentEmailContainsTheExplanationMessage()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->copyTestFileIntoImportFolder('email.zip');
         $this->subject->importFromZip();
 
@@ -3232,8 +3098,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function sentEmailContainsMessageThatARecordWasNotImportedForMismatchingAnidsAndEnabledOwnerRestriction()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-
         $this->globalConfiguration->setAsBoolean(
             'onlyImportForRegisteredFrontEndUsers',
             true
@@ -3252,9 +3116,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function sentEmailForUserWhoReachedHisObjectLimitContainsMessageThatRecordWasNotImported()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser(
             $feUserGroupUid,
@@ -3301,7 +3162,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function defaultSyncWithDeletingEnabledKeepsUnmentionedObjectsWithSameAnid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3357,7 +3217,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function partialSyncWithDeletingEnabledKeepsUnmentionedObjectsWithSameAnid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3414,7 +3273,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function fullSyncWithDeletingEnabledKeepsMentionedObjectsWithSameAnidAndObjectNumber()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3473,7 +3331,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function fullSyncWithDeletingEnabledKeepsUnmentionedObjectsWithOtherAnid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3530,7 +3387,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function fullSyncWithDeletingEnabledDeletesUnmentionedObjectsWithSameNonEmptyAnid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3587,7 +3443,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function fullSyncWithDeletingEnabledDeletesUnmentionedObjectsWithSameEmptyAnid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $obid = '1v24512-1g423512gv4-1gv2';
 
@@ -3642,7 +3497,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function fullSyncWithDeletingEnabledLogsDeletion()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3697,7 +3551,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function fullSyncWithDeletingEnabledWithoutAnidKeepsUnmentionedObjectsWithNonImportPid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3755,7 +3608,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function fullSyncWithDeletingDisabledKeepsUnmentionedObjectsWithSameAnid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', false);
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
         $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
@@ -3819,9 +3671,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function wasSuccessfulAfterSuccessfulImportReturnsTrue()
     {
-        $this->testingFramework->markTableAsDirty('tx_realty_objects');
-        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
-
         $this->copyTestFileIntoImportFolder('two-objects.zip');
         $this->subject->importFromZip();
 

@@ -161,12 +161,9 @@ class EditorTest extends FunctionalTestCase
         $realtyObject->loadRealtyObject($this->dummyObjectUid);
 
         foreach (
-            [
-                'city' => 'tx_realty_cities',
-                'district' => 'tx_realty_districts',
-            ] as $key => $table) {
+            ['city' => 'tx_realty_cities', 'district' => 'tx_realty_districts'] as $key => $table
+        ) {
             $realtyObject->setProperty($key, self::$dummyStringValue);
-            $this->testingFramework->markTableAsDirty($table);
         }
 
         $realtyObject->writeToDatabase();
