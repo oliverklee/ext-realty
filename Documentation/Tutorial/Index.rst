@@ -42,4 +42,3 @@ Tutorial
    TestingTheConfiguration/Index
    ChangeTheExtensionsLookFeel/Index
    ImportOpenimmoRecordsFromZipFiles/Index
-   CleaningTheUploadFolderFromUnusedImageFiles/Index

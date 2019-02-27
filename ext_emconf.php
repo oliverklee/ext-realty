@@ -33,7 +33,6 @@ $EM_CONF[$_EXTKEY] = [
         'classmap' => [
             'Classes',
             'Ajax',
-            'cli',
             'lib',
             'Mapper',
             'Model',

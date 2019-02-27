@@ -1760,14 +1760,6 @@
                 <source>This task runs the OpenImmo import. You can configure the import in the extension manager.</source>
                 <target>Dieser Task führt den OpenImmo-Import aus. Sie können den Import im Extension-Manager konfigurieren.</target>
             </trans-unit>
-            <trans-unit id="schedulerTask.imageCleanup.title" xml:space="preserve" approved="yes">
-                <source>Image cleanup</source>
-                <target>Bild-Aufräumen</target>
-            </trans-unit>
-            <trans-unit id="schedulerTask.imageCleanup.description" xml:space="preserve" approved="yes">
-                <source>This task cleans up orphaned image and document files that have been left after the OpenImmo import.</source>
-                <target>Dieser Task räumt verwaiste Dokument- und Bilddateien auf, die nach dem OpenImmo-Import übrig sind.</target>
-            </trans-unit>
         </body>
     </file>
 </xliff>

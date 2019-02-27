@@ -37,6 +37,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Remove the image cleanup (#233)
 - Remove the images and documents from the BE (#223)
 - Remove the position field for image records (#195)
 - Remove the separate thumbnails for image records (#194)
