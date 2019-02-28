@@ -277,46 +277,6 @@ class tx_realty_FrontEnd_SingleViewTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function singleViewDisplaysTheDocumentsOfARealtyObjectIfEnabled()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $realtyObject->addDocument('new document', 'readme.pdf');
-
-        $this->subject->setConfigurationValue(
-            'singleViewPartsToDisplay',
-            'documents'
-        );
-
-        self::assertContains(
-            'new document',
-            $this->subject->render(['showUid' => $realtyObject->getUid()])
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function singleViewNotDisplaysTheDocumentsOfARealtyObjectIfDisabled()
-    {
-        /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $realtyObject->addDocument('new document', 'readme.pdf');
-
-        $this->subject->setConfigurationValue(
-            'singleViewPartsToDisplay',
-            'heading'
-        );
-
-        self::assertNotContains(
-            'new document',
-            $this->subject->render(['showUid' => $realtyObject->getUid()])
-        );
-    }
-
-    /**
-     * @test
-     */
     public function singleViewDisplaysThePriceOfARealtyObjectIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */

@@ -67,11 +67,10 @@ class DocumentsViewTest extends FunctionalTestCase
      */
     public function renderReturnsNoUnreplacedMarkers()
     {
-        /** @var \tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $realtyObject->addDocument('new document', 'readme.pdf');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../../Fixtures/RealtyObjects.xml');
 
-        $result = $this->subject->render(['showUid' => $realtyObject->getUid()]);
+        $result = $this->subject->render(['showUid' => 102]);
 
         self::assertNotContains('###', $result);
     }
@@ -86,34 +85,6 @@ class DocumentsViewTest extends FunctionalTestCase
         $result = $this->subject->render(['showUid' => 101]);
 
         self::assertSame('', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function renderForObjectWithDocumentContainsEncodedDocumentTitle()
-    {
-        /** @var \tx_realty_Model_RealtyObject $object */
-        $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $object->addDocument('rise & shine', 'foo.pdf');
-
-        $result = $this->subject->render(['showUid' => $object->getUid()]);
-
-        self::assertContains('rise &amp; shine', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function renderContainsLinkToDocumentFile()
-    {
-        /** @var \tx_realty_Model_RealtyObject $object */
-        $object = $this->realtyObjectMapper->getLoadedTestingModel([]);
-        $object->addDocument('object layout', 'foo.pdf');
-
-        $result = $this->subject->render(['showUid' => $object->getUid()]);
-
-        self::assertContains('foo.pdf"', $result);
     }
 
     /**

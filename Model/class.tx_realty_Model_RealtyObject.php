@@ -139,13 +139,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     private $images = null;
 
     /**
-     * the documents related to this realty object
-     *
-     * @var Tx_Oelib_List<tx_realty_Model_Document>
-     */
-    private $documents = null;
-
-    /**
      * @var string[] the owner record is cached in order to improve performance
      */
     private $ownerData = [];
@@ -274,7 +267,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         'details_page',
         'attachments',
         'images',
-        'documents',
         'employer',
         'openimmo_anid',
         'openimmo_obid',
@@ -425,14 +417,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         $scrubbedData = $realtyData;
         unset($scrubbedData['attached_files']);
-        if (is_array($scrubbedData['images']) || is_array($scrubbedData['documents'])) {
+        if (\is_array($scrubbedData['images'])) {
             $dataWithImages = $this->isolateImageRecords($scrubbedData);
-            $dataWithImagesAndDocuments = $this->isolateDocumentRecords($dataWithImages);
-            parent::setData($dataWithImagesAndDocuments);
+            parent::setData($dataWithImages);
         } else {
             parent::setData($scrubbedData);
             $this->retrieveAttachedImages();
-            $this->retrieveAttachedDocuments();
         }
     }
 
@@ -532,43 +522,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             $image->setPageUid((int)$imageData['pid']);
             $image->setSorting((int)$imageData['sorting']);
             $this->images->add($image);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Stores the document records to $this->documents and writes the number of
-     * documents to the imported data array instead as this number is expected
-     * by the database configuration.
-     *
-     * @param array $data
-     *        realty record to be loaded as a realty object, may be empty
-     *
-     * @return array
-     *         realty record ready to load, document records got separated, will
-     *         be empty if the given array was empty
-     */
-    private function isolateDocumentRecords(array $data)
-    {
-        if (!is_array($data['documents'])) {
-            return $data;
-        }
-
-        $result = $data;
-        $result['documents'] = count($data['documents']);
-        $this->documents = GeneralUtility::makeInstance(Tx_Oelib_List::class);
-
-        /** @var string[] $documentData */
-        foreach ($data['documents'] as $documentData) {
-            /** @var \tx_realty_Model_Document $document */
-            $document = GeneralUtility::makeInstance(\tx_realty_Model_Document::class);
-            $document->setTitle($documentData['title']);
-            $document->setFileName($documentData['filename']);
-            $document->setPageUid((int)$documentData['pid']);
-            $document->setSorting((int)$documentData['sorting']);
-
-            $this->documents->add($document);
         }
 
         return $result;
@@ -1354,18 +1307,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Gets the related documents.
-     *
-     * @return Tx_Oelib_List<tx_realty_Model_Document>
-     *         the related documents, will be empty if this object has no
-     *         documents
-     */
-    public function getDocuments()
-    {
-        return $this->documents;
-    }
-
-    /**
      * Reads the images attached to this realty object into $this->images.
      *
      * @return void
@@ -1382,25 +1323,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         $images->sortBySorting();
 
         $this->images = $images;
-    }
-
-    /**
-     * Reads the documents attached to this realty object into $this->documents.
-     *
-     * @return void
-     */
-    private function retrieveAttachedDocuments()
-    {
-        if (!$this->hasInteger('documents') || !$this->identifyObjectAndSetUid()) {
-            return;
-        }
-
-        /** @var tx_realty_Mapper_Document $mapper */
-        $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Document::class);
-        $documents = $mapper->findAllByRelation($this, 'object');
-        $documents->sortBySorting();
-
-        $this->documents = $documents;
     }
 
     /**
@@ -1439,47 +1361,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         $this->images->add($image);
 
         return $this->images->count() - 1;
-    }
-
-    /**
-     * Adds a new document to the currently loaded object.
-     *
-     * Note: This function does not check whether $fileName points to a file.
-     *
-     * @param string $title
-     *        title for the new document record, must not be empty
-     * @param string $fileName
-     *        name of the PDF document in the upload directory, must not be empty
-     *
-     * @throws BadMethodCallException
-     *
-     * @return int
-     *         zero-based index of the newly created document, will be >= 0
-     */
-    public function addDocument($title, $fileName)
-    {
-        if ($this->isVirgin()) {
-            throw new BadMethodCallException(
-                'A realty record must be loaded before documents can be appended.',
-                1333035851
-            );
-        }
-
-        $this->markAsLoaded();
-
-        $this->set('documents', $this->getAsInteger('documents') + 1);
-
-        /** @var \tx_realty_Model_Document $document */
-        $document = GeneralUtility::makeInstance(\tx_realty_Model_Document::class);
-        if ($title !== '') {
-            $document->setTitle($title);
-        }
-        if ($fileName !== '') {
-            $document->setFileName($fileName);
-        }
-        $this->documents->add($document);
-
-        return $this->documents->count() - 1;
     }
 
     /**

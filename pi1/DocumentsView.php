@@ -22,18 +22,12 @@ class tx_realty_pi1_DocumentsView extends \tx_realty_pi1_FrontEndView
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $realtyObjectMapper->find((int)$piVars['showUid']);
         $attachments = $realtyObject->getPdfAttachments();
-        $documents = $realtyObject->getDocuments();
-        if (empty($attachments) && $documents->isEmpty()) {
+        if (empty($attachments)) {
             return '';
         }
 
         $renderedDocuments = [];
 
-        /** @var tx_realty_Model_Document $document */
-        foreach ($documents as $document) {
-            $url = \tx_realty_Model_Document::UPLOAD_FOLDER . $document->getFileName();
-            $renderedDocuments[] = $this->renderSingleDocument($url, $document->getTitle());
-        }
         foreach ($attachments as $attachment) {
             $renderedDocuments[] = $this->renderSingleDocument($attachment->getPublicUrl(), $attachment->getTitle());
         }
