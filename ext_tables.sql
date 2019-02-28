@@ -93,7 +93,6 @@ CREATE TABLE tx_realty_objects (
     details_page tinytext,
     attachments int(11) unsigned DEFAULT '0' NOT NULL,
     images int(11) DEFAULT '0' NOT NULL,
-    documents int(11) DEFAULT '0' NOT NULL,
     employer varchar(255) DEFAULT '' NOT NULL,
     openimmo_anid varchar(63) DEFAULT '' NOT NULL,
     openimmo_obid varchar(63) DEFAULT '' NOT NULL,
@@ -302,31 +301,6 @@ CREATE TABLE tx_realty_districts (
     KEY parent (pid),
     KEY dummy (is_dummy_record),
     KEY city (city)
-);
-
-#
-# Table structure for table 'tx_realty_documents'
-#
-CREATE TABLE tx_realty_documents (
-    uid int(11) unsigned NOT NULL auto_increment,
-    pid int(11) DEFAULT '0' NOT NULL,
-    object int(11) DEFAULT '0' NOT NULL,
-    tstamp int(11) DEFAULT '0' NOT NULL,
-    crdate int(11) DEFAULT '0' NOT NULL,
-    cruser_id int(11) DEFAULT '0' NOT NULL,
-    sys_language_uid int(11) DEFAULT '0' NOT NULL,
-    l18n_parent int(11) DEFAULT '0' NOT NULL,
-    l18n_diffsource mediumblob,
-    deleted tinyint(4) DEFAULT '0' NOT NULL,
-    sorting int(11) DEFAULT '0' NOT NULL,
-    is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-    title varchar(255) DEFAULT '' NOT NULL,
-    filename varchar(255) DEFAULT '' NOT NULL,
-
-    PRIMARY KEY (uid),
-    KEY parent (pid),
-    KEY dummy (is_dummy_record),
-    KEY container (object)
 );
 
 #
