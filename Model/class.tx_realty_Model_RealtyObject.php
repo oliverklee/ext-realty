@@ -132,13 +132,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     const CROP_SIZE = 32;
 
     /**
-     * the images related to this realty object
-     *
-     * @var Tx_Oelib_List<tx_realty_Model_Image>
-     */
-    private $images = null;
-
-    /**
      * @var string[] the owner record is cached in order to improve performance
      */
     private $ownerData = [];
@@ -325,9 +318,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         $this->isDummyRecord = $testingMode;
 
         $this->initializeCharsetConversion();
-
-        $this->images = new Tx_Oelib_List();
-        $this->documents = new Tx_Oelib_List();
     }
 
     /**
@@ -417,13 +407,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         $scrubbedData = $realtyData;
         unset($scrubbedData['attached_files']);
-        if (\is_array($scrubbedData['images'])) {
-            $dataWithImages = $this->isolateImageRecords($scrubbedData);
-            parent::setData($dataWithImages);
-        } else {
-            parent::setData($scrubbedData);
-            $this->retrieveAttachedImages();
-        }
+        parent::setData($scrubbedData);
     }
 
     /**
@@ -486,42 +470,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             );
         } catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
             $result = [];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Stores the image records to $this->images and writes the number of images
-     * to the imported data array instead as this number is expected by the
-     * database configuration.
-     *
-     * @param array $data
-     *        realty record to be loaded as a realty object, may be empty
-     *
-     * @return array
-     *         realty record ready to load, image records got separated, will be
-     *         empty if the given array was empty
-     */
-    private function isolateImageRecords(array $data)
-    {
-        if (!is_array($data['images'])) {
-            return $data;
-        }
-
-        $result = $data;
-        $result['images'] = count($data['images']);
-        $this->images = GeneralUtility::makeInstance(\Tx_Oelib_List::class);
-
-        /** @var string[] $imageData */
-        foreach ($data['images'] as $imageData) {
-            /** @var \tx_realty_Model_Image $image */
-            $image = GeneralUtility::makeInstance(\tx_realty_Model_Image::class);
-            $image->setTitle($imageData['caption']);
-            $image->setFileName($imageData['image']);
-            $image->setPageUid((int)$imageData['pid']);
-            $image->setSorting((int)$imageData['sorting']);
-            $this->images->add($image);
         }
 
         return $result;
@@ -1279,88 +1227,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             // The file record is no longer there. So there is no need to delete it.
         }
         $this->decreaseNumberOfAttachments();
-    }
-
-    /**
-     * Gets the images attached to this object.
-     *
-     * All images attached to this object are returned, except images of file type PDF or PS.
-     *
-     * @see https://bugs.oliverklee.com/show_bug.cgi?id=3716
-     *
-     * @return Tx_Oelib_List<tx_realty_Model_Image>
-     *         the attached images, will be empty if this object has no images
-     */
-    public function getImages()
-    {
-        /** @var $image tx_realty_Model_Image */
-        foreach ($this->images as $image) {
-            if (!$image->isDead()) {
-                $imageExtension = pathinfo($image->getFileName(), PATHINFO_EXTENSION);
-                if (!$this->isValidImageExtension($imageExtension)) {
-                    $this->images->purgeCurrent();
-                }
-            }
-        }
-
-        return $this->images;
-    }
-
-    /**
-     * Reads the images attached to this realty object into $this->images.
-     *
-     * @return void
-     */
-    private function retrieveAttachedImages()
-    {
-        if (!$this->hasInteger('images') || !$this->identifyObjectAndSetUid()) {
-            return;
-        }
-
-        /** @var tx_realty_Mapper_Image $imageMapper */
-        $imageMapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_Image::class);
-        $images = $imageMapper->findAllByRelation($this, 'object');
-        $images->sortBySorting();
-
-        $this->images = $images;
-    }
-
-    /**
-     * Adds a new image record to the currently loaded object.
-     *
-     * Note: This function does not check whether $fileName points to a file.
-     *
-     * @param string $caption
-     *        caption for the new image record, may be empty
-     * @param string $fileName
-     *        name of the image in the upload directory, must not be empty
-     *
-     * @throws BadMethodCallException
-     *
-     * @return int key of the newly created record, will be >= 0
-     */
-    public function addImageRecord($caption, $fileName)
-    {
-        if ($this->isVirgin()) {
-            throw new BadMethodCallException(
-                'A realty record must be loaded before images can be appended.',
-                1333035831
-            );
-        }
-
-        $this->markAsLoaded();
-
-        $this->set('images', $this->getAsInteger('images') + 1);
-
-        /** @var \tx_realty_Model_Image $image */
-        $image = GeneralUtility::makeInstance(\tx_realty_Model_Image::class);
-        $image->setTitle($caption);
-        if ($fileName !== '') {
-            $image->setFileName($fileName);
-        }
-        $this->images->add($image);
-
-        return $this->images->count() - 1;
     }
 
     /**

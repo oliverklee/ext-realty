@@ -210,18 +210,4 @@ class TestingImmoImport extends \tx_realty_openImmoImport
     {
         return parent::convertDomDocumentToArray($realtyRecords);
     }
-
-    /**
-     * Sets the path for the upload directory and updated the fileNameMapper's
-     * destination path accordingly. This path must be valid and absolute and
-     * may end with a trailing slash.
-     *
-     * @param string $path absolute path of the upload directory, must not be empty
-     *
-     * @return void
-     */
-    public function setUploadDirectory($path)
-    {
-        parent::setUploadDirectory($path);
-    }
 }

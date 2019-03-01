@@ -63,11 +63,6 @@ class tx_realty_openImmoImport
     private static $translator = null;
 
     /**
-     * @var string the upload directory for images
-     */
-    private $uploadDirectory = '';
-
-    /**
      * @var bool whether the current zip file should be deleted
      */
     private $deleteCurrentZipFile = true;
@@ -109,7 +104,6 @@ class tx_realty_openImmoImport
         $this->isTestMode = $isTestMode;
         libxml_use_internal_errors(true);
         $this->globalConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('realty');
-        $this->setUploadDirectory(PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER);
     }
 
     /**
@@ -496,7 +490,7 @@ class tx_realty_openImmoImport
      */
     private function canStartImport($importDirectory)
     {
-        return $this->isImportDirectoryAccessible($importDirectory) && $this->isUploadDirectoryAccessible();
+        return $this->isImportDirectoryAccessible($importDirectory);
     }
 
     /**
@@ -531,32 +525,6 @@ class tx_realty_openImmoImport
     }
 
     /**
-     * Checks that the realty upload path exists and is writable.
-     *
-     * @return bool TRUE if the realty upload path exists and is writable,
-     *                 FALSE otherwise
-     */
-    private function isUploadDirectoryAccessible()
-    {
-        $isAccessible = false;
-
-        if (!@is_dir($this->uploadDirectory)) {
-            $this->addToErrorLog(
-                sprintf(
-                    $this->getTranslator()->translate('message_upload_directory_not_existing'),
-                    $this->uploadDirectory
-                )
-            );
-        } elseif (@is_writable($this->uploadDirectory)) {
-            $isAccessible = true;
-        } else {
-            $this->addFolderAccessErrorMessage('message_upload_directory_not_writable', $this->uploadDirectory);
-        }
-
-        return $isAccessible;
-    }
-
-    /**
      * Adds the given error message to the error log.
      *
      * @param string $message locallang label for the error message to add to the log, must not be empty
@@ -582,19 +550,6 @@ class tx_realty_openImmoImport
                 get_current_user()
             )
         );
-    }
-
-    /**
-     * Sets the path for the upload directory. The given path must be valid and absolute and
-     * may end with a trailing slash.
-     *
-     * @param string $path absolute path of the upload directory, must not be empty
-     *
-     * @return void
-     */
-    protected function setUploadDirectory($path)
-    {
-        $this->uploadDirectory = $this->unifyPath($path);
     }
 
     /**

@@ -16,14 +16,6 @@
                 <source>Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
                 <target>Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
             </trans-unit>
-            <trans-unit id="message_upload_directory_not_existing" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</source>
-                <target>Der Import kann nicht durchgeführt werden, weil der Upload-Ordner der Realty-Extension &quot;%s&quot; nicht existiert. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</target>
-            </trans-unit>
-            <trans-unit id="message_upload_directory_not_writable" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
-                <target>Der Import kann nicht durchgeführt werden, weil für den Upload-Ordner der Realty-Extension &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</target>
-            </trans-unit>
             <trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
                 <source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
                 <target>Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</target>

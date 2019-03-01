@@ -148,9 +148,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     private function setupStaticConditions()
     {
-        // avoids using the extension's real upload folder
-        $this->subject->setUploadDirectory($this->importFolder);
-
         // TYPO3 default configuration
         $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'sender@example.com';
@@ -2729,25 +2726,6 @@ class OpenImmoImportTest extends FunctionalTestCase
                 $this->translator->translate('message_import_directory_not_existing'),
                 $path,
                 get_current_user()
-            ),
-            $this->subject->importFromZip()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function importFromZipForNonExistingUploadFolderReturnsFolderNotExistingErrorMessage()
-    {
-        $this->copyTestFileIntoImportFolder('foo.zip');
-
-        $path = '/any/not/existing/upload-path/';
-        $this->subject->setUploadDirectory($path);
-
-        self::assertContains(
-            sprintf(
-                $this->translator->translate('message_upload_directory_not_existing'),
-                $path
             ),
             $this->subject->importFromZip()
         );

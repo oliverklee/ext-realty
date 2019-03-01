@@ -16,14 +16,6 @@
                 <source>Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
                 <target>Importazione non possibile perch&amp;egrave; la directory &quot;%s&quot;, configurata per l'importazione, non &amp;egrave; scrivibile. Si prega di configurare i permessi di accesso o impostare un altra directory. La directory appartiene all'utente &quot;%s&quot; e ha i seguenti permessi: &quot;%s&quot;. L'utente che ha avviato l'importazione &amp;egrave;: &quot;%s&quot;.</target>
             </trans-unit>
-            <trans-unit id="message_upload_directory_not_existing" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</source>
-                <target>Importazione non possibile perch&amp;egrave; la directory di upload dell'estensione realty &quot;%s&quot; non esiste. Si prega di verificare la configurazione e riavviare l'importazione.</target>
-            </trans-unit>
-            <trans-unit id="message_upload_directory_not_writable" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
-                <target>Importazione non possibile perch&amp;egrave; la directory di upload dell'estensione realty &quot;%s&quot; non &amp;egrave; scrivibile. Si prega di configurare i permessi di accesso e riaviare l'importazione. La directory appartiene all'utente &quot;%s&quot; e ha i seguenti permessi: &quot;%s&quot;. L'utente che ha avviato l'importazione &amp;egrave;: &quot;%s&quot;.</target>
-            </trans-unit>
             <trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
                 <source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
                 <target>Nessun ZIP da estrarre. La directory configurata non contiene archivi ZIP. Perfavore verificare la directory di importazione impostata e il contenuto della stessa.</target>

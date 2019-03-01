@@ -36,7 +36,6 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
         'house_type' => 'tx_realty_house_types',
         'garage_type' => 'tx_realty_car_places',
         'pets' => 'tx_realty_pets',
-        'images' => 'tx_realty_images',
     ];
 
     /**
