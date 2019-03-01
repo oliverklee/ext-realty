@@ -38,6 +38,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Drop the dead code using imagefile_ext (#236)
 - Remove the legacy images (#235)
 - Remove the legacy documents (#234)
 - Remove the image cleanup (#233)

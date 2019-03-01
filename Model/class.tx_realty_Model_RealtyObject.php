@@ -321,45 +321,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Gets allowed image file extensions.
-     *
-     * @return string[] lowercased allowed image file extensions, might be empty
-     */
-    protected function getAllowedImageExtensions()
-    {
-        $allowedImageExtensions =
-            GeneralUtility::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), true);
-
-        return array_filter($allowedImageExtensions, [$this, 'isNotPdfOrPs']);
-    }
-
-    /**
-     * Callback function for array_filter to remove PDF and PS from the extension list.
-     *
-     * @param string $fileExtension the extension to check
-     *
-     * @return bool TRUE if the $fileExtension is not "pdf" or "ps", FALSE otherwise
-     */
-    protected function isNotPdfOrPs($fileExtension)
-    {
-        return !in_array($fileExtension, ['pdf', 'ps']);
-    }
-
-    /**
-     * Checks if the file extension $imageExtension is of an allowed image file type.
-     *
-     * @param string $imageExtension the file extension is to be checked.
-     *
-     * @return bool
-     *         TRUE if the file extension $imageExtension is included in the list of allowed image extensions,
-     *         FALSE otherwise.
-     */
-    protected function isValidImageExtension($imageExtension)
-    {
-        return in_array(strtolower($imageExtension), $this->getAllowedImageExtensions());
-    }
-
-    /**
      * Receives the data for a new realty object to load.
      *
      * The received data can either be a database result row or an array which
