@@ -16,14 +16,6 @@
                 <source>Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
                 <target>La importación de datos es imposible, porque en la carpeta configurada &quot;%s&quot; no se puede escribir. Es posible que el  usuario actual no tenga permisos para dicha carpeta o la misma no tenga los derechos de escritura. Por favor controle la configuración y comience nuevamente la importación. La carpeta pertenece al usuario &quot;%s&quot;. La importación fué realizada por el usuario &quot;%s&quot;</target>
             </trans-unit>
-            <trans-unit id="message_upload_directory_not_existing" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</source>
-                <target>La importación no se puede realizar, porque la carpeta de subida en la Extensions Realty no existe. Por favor controle la configuración y reinicie de nuevo la importación</target>
-            </trans-unit>
-            <trans-unit id="message_upload_directory_not_writable" xml:space="preserve" approved="yes">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
-                <target>La importación no se puede realizar, porque la carpeta de subida en la Extensions Realty no tiene derechos de escritura. La carpeta pertenece a &quot;%s&quot; y tiene los siguentes permisos. El usuario que empezó la importación es &quot;%s&quot;</target>
-            </trans-unit>
             <trans-unit id="message_no_zips" xml:space="preserve" approved="yes">
                 <source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
                 <target>No existern archivos ZIPs a extraer. La carpeta configurada para la importación no contiene archivos ZIP. Por favor compruebe la ruta configurada en el administrador de extensiones y el econtenido de la carpeta.</target>

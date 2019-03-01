@@ -38,7 +38,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
-- Remove the legacy documents (#244)
+- Remove the legacy images (#235)
+- Remove the legacy documents (#234)
 - Remove the image cleanup (#233)
 - Remove the images and documents from the BE (#223)
 - Remove the position field for image records (#195)

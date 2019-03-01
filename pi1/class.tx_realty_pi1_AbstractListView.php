@@ -406,16 +406,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $rightImage = '';
         switch (\count($jpegAttachments)) {
             case 0:
-                switch ($realtyObject->getImages()->count()) {
-                    case 0:
-                        break;
-                    case 1:
-                        $rightImage = $this->getImageLinkedToSingleView('listImageMax');
-                        break;
-                    default:
-                        $leftImage = $this->getImageLinkedToSingleView('listImageMax');
-                        $rightImage = $this->getImageLinkedToSingleView('listImageMax', 1);
-                }
                 break;
             case 1:
                 $rightImage = $this->getJpegAttachmentLinkedToSingleView('listImageMax');
@@ -604,8 +594,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         // The result may only contain non-deleted and non-hidden records except
         // for the my objects view.
         $whereClause .= Tx_Oelib_Db::enableFields(
-                'tx_realty_objects',
-                $this->shouldShowHiddenObjects()
+            'tx_realty_objects',
+            $this->shouldShowHiddenObjects()
             ) . Tx_Oelib_Db::enableFields('tx_realty_cities');
 
         $whereClause .= $this->getWhereClausePartForPidList();
@@ -960,34 +950,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      * @return string IMG tag wrapped in a link, will be empty if no image
      *                is found
      */
-    private function getImageLinkedToSingleView($maxSizeVariable, $offset = 0)
-    {
-        return $this->createLinkToSingleViewPageForAnyLinkText(
-            $this->getImageTag($maxSizeVariable, $offset),
-            $this->internal['currentRow']['uid'],
-            $this->internal['currentRow']['details_page']
-        );
-    }
-
-    /**
-     * Gets an image from the current record's image list as a complete IMG tag
-     * with alternative text and title text, wrapped in a link pointing to the
-     * single view page of the current record.
-     *
-     * The image's size can be limited by two TS setup variables. Their names
-     * need to begin with the string defined as $maxSizeVariable. The variable
-     * for the maximum width will then have the name set in $maxSizVariable with
-     * a "X" appended, the variable for the maximum height with a "Y" appended.
-     *
-     * @param string $maxSizeVariable
-     *        prefix to the TS setup variables that define the max size, will be
-     *        prepended to "X" and "Y", must not be empty
-     * @param int $offset
-     *        the number of the image to retrieve, zero-based, may be zero
-     *
-     * @return string IMG tag wrapped in a link, will be empty if no image
-     *                is found
-     */
     private function getJpegAttachmentLinkedToSingleView($maxSizeVariable, $offset = 0)
     {
         $imageTag = $this->getImageTagForAttachment($maxSizeVariable, $offset);
@@ -1255,48 +1217,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *        prepended to "X" and "Y"
      * @param int $offset
      *        the number of the image to retrieve, zero-based, must be >= 0
-     * @param string $id the id attribute, may be empty
-     *
-     * @return string IMG tag, will be empty if there is no current realty
-     *                object or if the current object does not have images
-     */
-    private function getImageTag($maxSizeVariable, $offset = 0, $id = '')
-    {
-        $result = '';
-
-        $image = $this->getImage($offset);
-        if (!empty($image)) {
-            $result = $this->createImageTag(
-                $image['image'],
-                $maxSizeVariable,
-                $image['caption'],
-                $id
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * Gets an image from the current record's image list as a complete IMG tag
-     * with alt text and title text (the image caption as defined in the DB).
-     * The image's size can be limited by two TS setup variables.
-     * They names need to begin with the string defined as $maxSizeVariable.
-     * The variable for the maximum width will then have the name set in
-     * $maxSizVariable with a "X" appended. The variable for the maximum height
-     * works the same, just with a "Y" appended.
-     *
-     * Example: If $maxSizeVariable is set to "listImageMax", the maximum width
-     * and height should be stored in the TS setup variables "listImageMaxX" and
-     * "listImageMaxY".
-     *
-     * If no image is found, an empty string is returned.
-     *
-     * @param string $maxSizeVariable
-     *        prefix to the TS setup variables that define the max size, will be
-     *        prepended to "X" and "Y"
-     * @param int $offset
-     *        the number of the image to retrieve, zero-based, must be >= 0
      *
      * @return string IMG tag, will be empty if there is no current realty
      *                object or if the current object does not have images
@@ -1312,80 +1232,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $result = $this->createImageTagForAttachment($attachment->getPublicUrl(), $maxSizeVariable);
 
         return $result;
-    }
-
-    /**
-     * Returns an image record that is associated with the current realty record.
-     *
-     * @throws Tx_Oelib_Exception_Database if a database query error occurs
-     *
-     * @param int $offset
-     *        the number of the image to retrieve (zero-based, may be zero)
-     *
-     * @return string[]
-     *         the image's caption and file name in an associative array,
-     *         will be empty if no current row was set or if the queried image does not exist
-     */
-    private function getImage($offset = 0)
-    {
-        // The UID will not be set if a hidden or deleted record was requested.
-        if (!isset($this->internal['currentRow']['uid'])) {
-            return [];
-        }
-
-        try {
-            $image = Tx_Oelib_Db::selectSingle(
-                'image, caption',
-                'tx_realty_images',
-                'object = ' . $this->internal['currentRow']['uid'] .
-                Tx_Oelib_Db::enableFields('tx_realty_images'),
-                '',
-                'sorting',
-                (int)$offset
-            );
-        } catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
-            $image = [];
-        }
-
-        return $image;
-    }
-
-    /**
-     * Creates an IMG tag for a resized image version of $filename in
-     * this extension's upload directory.
-     *
-     * @param string $filename
-     *        filename of the original image relative to this extension's upload
-     *        directory, must not be empty
-     * @param string $maxSizeVariable
-     *        prefix to the TS setup variables that define the max size, will be
-     *        prepended to "X" and "Y"
-     * @param string $caption
-     *        text used for the alt and title attribute, may be empty
-     * @param string $id the ID attribute, may be empty
-     *
-     * @return string IMG tag
-     */
-    private function createImageTag($filename, $maxSizeVariable, $caption = '', $id = '')
-    {
-        $fullPath = tx_realty_Model_Image::UPLOAD_FOLDER . $filename;
-        $maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
-        $maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
-
-        $imageConfiguration = [
-            'altText' => $caption,
-            'titleText' => $caption,
-            'file' => $fullPath,
-            'file.' => [
-                'width' => $maxWidth . 'c',
-                'height' => $maxHeight . 'c',
-            ],
-        ];
-        if ($id !== '') {
-            $imageConfiguration['params'] = 'id="' . $id . '"';
-        }
-
-        return $this->cObj->cObjGetSingle('IMAGE', $imageConfiguration);
     }
 
     /**

@@ -13,12 +13,6 @@
             <trans-unit id="message_import_directory_not_writable" xml:space="preserve">
                 <source>Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
             </trans-unit>
-            <trans-unit id="message_upload_directory_not_existing" xml:space="preserve">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</source>
-            </trans-unit>
-            <trans-unit id="message_upload_directory_not_writable" xml:space="preserve">
-                <source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
-            </trans-unit>
             <trans-unit id="message_no_zips" xml:space="preserve">
                 <source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
             </trans-unit>
