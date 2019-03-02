@@ -148,8 +148,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     private function setupStaticConditions()
     {
-        // TYPO3 default configuration
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] = 'sender@example.com';
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] = 'import sender';
 

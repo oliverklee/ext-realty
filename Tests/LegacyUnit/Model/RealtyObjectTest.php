@@ -50,11 +50,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
     private static $otherObjectNumber = '100001';
 
     /**
-     * @var array
-     */
-    private $configurationVariablesBackup = [];
-
-    /**
      * @var int static_info_tables UID of Germany
      */
     const DE = 54;
@@ -77,14 +72,10 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
         $this->subject->setRequiredFields([]);
         Tx_Oelib_ConfigurationProxy::getInstance('realty')
             ->setAsInteger('pidForRealtyObjectsAndImages', $this->pageUid);
-
-        $this->configurationVariablesBackup = $GLOBALS['TYPO3_CONF_VARS'];
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'jpg,tif,tiff,pdf,png,ps,gif';
     }
 
     protected function tearDown()
     {
-        $GLOBALS['TYPO3_CONF_VARS'] = $this->configurationVariablesBackup;
         $this->testingFramework->cleanUp();
     }
 
