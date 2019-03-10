@@ -401,18 +401,18 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $this->setRealtyObjectFromUid($this->internal['currentRow']['uid']);
 
         $realtyObject = $this->getRealtyObject();
-        $jpegAttachments = $realtyObject->getJpegAttachments();
+        $images = $realtyObject->getJpegAttachments();
         $leftImage = '';
         $rightImage = '';
-        switch (\count($jpegAttachments)) {
+        switch (\count($images)) {
             case 0:
                 break;
             case 1:
-                $rightImage = $this->getJpegAttachmentLinkedToSingleView('listImageMax');
+                $rightImage = $this->getImageLinkedToSingleView('listImageMax');
                 break;
             default:
-                $leftImage = $this->getJpegAttachmentLinkedToSingleView('listImageMax');
-                $rightImage = $this->getJpegAttachmentLinkedToSingleView('listImageMax', 1);
+                $leftImage = $this->getImageLinkedToSingleView('listImageMax');
+                $rightImage = $this->getImageLinkedToSingleView('listImageMax', 1);
         }
 
         foreach (
@@ -950,9 +950,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      * @return string IMG tag wrapped in a link, will be empty if no image
      *                is found
      */
-    private function getJpegAttachmentLinkedToSingleView($maxSizeVariable, $offset = 0)
+    private function getImageLinkedToSingleView($maxSizeVariable, $offset = 0)
     {
-        $imageTag = $this->getImageTagForAttachment($maxSizeVariable, $offset);
+        $imageTag = $this->createImageTagByOffset($maxSizeVariable, $offset);
         return $this->createLinkToSingleViewPageForAnyLinkText(
             $imageTag,
             (int)$this->internal['currentRow']['uid'],
@@ -1221,38 +1221,37 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      * @return string IMG tag, will be empty if there is no current realty
      *                object or if the current object does not have images
      */
-    private function getImageTagForAttachment($maxSizeVariable, $offset = 0)
+    private function createImageTagByOffset($maxSizeVariable, $offset = 0)
     {
-        $attachments = $this->getRealtyObject()->getJpegAttachments();
-        if (!isset($attachments[$offset])) {
+        $images = $this->getRealtyObject()->getJpegAttachments();
+        if (!isset($images[$offset])) {
             return '';
         }
 
-        $attachment = $attachments[$offset];
-        $result = $this->createImageTagForAttachment($attachment->getPublicUrl(), $maxSizeVariable);
+        $attachment = $images[$offset];
 
-        return $result;
+        return $this->createImageTagForFileName($attachment->getPublicUrl(), $maxSizeVariable);
     }
 
     /**
      * Creates an IMG tag for a resized image version of $filename in
      * this extension's upload directory.
      *
-     * @param string $filename filename of the original image relative to the site root, must not be empty
+     * @param string $fileName filename of the original image relative to the site root, must not be empty
      * @param string $maxSizeVariable
      *        prefix to the TS setup variables that define the max size, will be
      *        prepended to "X" and "Y"
      *
      * @return string IMG tag
      */
-    private function createImageTagForAttachment($filename, $maxSizeVariable)
+    private function createImageTagForFileName($fileName, $maxSizeVariable)
     {
         $maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
         $maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
 
         $imageConfiguration = [
             'altText' => '',
-            'file' => $filename,
+            'file' => $fileName,
             'file.' => [
                 'width' => $maxWidth . 'c',
                 'height' => $maxHeight . 'c',
