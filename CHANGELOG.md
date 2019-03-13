@@ -49,6 +49,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the checks for the zip_archive PHP extension (#175)
 
 ### Fixed
+- Gracefully deal with missing attachments during import (#239)
 - Add missing autoloading for the RealURL configuration (#226, #227)
 - Remove obsolete directory creation "uploads/tx_realty/rte" (#224)
 - Use a valid OpenImmo file in the functional tests (#220)
