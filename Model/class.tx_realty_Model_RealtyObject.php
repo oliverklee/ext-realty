@@ -353,25 +353,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
-     * Receives the data for a new realty object to load.
-     *
-     * The received data can either be a database result row or an array which
-     * has database column names as keys (may be empty). The data can also be a
-     * UID of an existent realty object to load from the database. If the data
-     * is of an invalid type, an empty array will be set.
-     *
-     * @param array $realtyData data for the realty object
-     *
-     * @return void
-     */
-    public function setData(array $realtyData)
-    {
-        $scrubbedData = $realtyData;
-        unset($scrubbedData['attached_files']);
-        parent::setData($scrubbedData);
-    }
-
-    /**
      * Sets the test mode. If this mode is enabled, all data written to the
      * database will receive the dummy record flag.
      *
