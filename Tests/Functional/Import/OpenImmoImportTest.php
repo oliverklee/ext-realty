@@ -501,7 +501,7 @@ class OpenImmoImportTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function cleanUpDoesNotRemoveZipWithoutXmls()
+    public function cleanUpDoesNotRemoveZipWithoutXml()
     {
         $this->copyTestFileIntoImportFolder('empty.zip');
         $this->subject->importFromZip();
@@ -2784,6 +2784,17 @@ class OpenImmoImportTest extends FunctionalTestCase
         $numberOfFileRecordMatches = \Tx_Oelib_Db::count('sys_file', 'name = "foo.jpg"');
 
         self::assertSame(1, $numberOfFileRecordMatches);
+    }
+
+    /**
+     * @test
+     *
+     * @doesNotPerformAssertions
+     */
+    public function importFromZipWithReferencedImageMissingDoesNotThrowException()
+    {
+        $this->copyTestFileIntoImportFolder('missing-referenced-images.zip');
+        $this->subject->importFromZip();
     }
 
     /////////////////////////////////

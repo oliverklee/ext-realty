@@ -170,6 +170,9 @@ class AttachmentImporter
                 $fileUid = $existingAttachment->getOriginalFile()->getUid();
                 unset($this->uidsOfFilesToRemove[$fileUid]);
             } else {
+                if (!\file_exists($fullPath)) {
+                    continue;
+                }
                 $title = $attachment['title'];
                 $this->realtyObject->addAndSaveAttachment($fullPath, $title);
             }

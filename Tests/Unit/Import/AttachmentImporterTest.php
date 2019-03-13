@@ -4,6 +4,8 @@ namespace OliverKlee\Realty\Tests\Unit\Import;
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use OliverKlee\Realty\Import\AttachmentImporter;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -25,9 +27,22 @@ class AttachmentImporterTest extends UnitTestCase
      */
     private $realtyObjectMock = null;
 
+    /**
+     * @var vfsStreamDirectory
+     */
+    private $virtualFileSystem = null;
+
+    /**
+     * @var string
+     */
+    private $importDirectory = '';
+
     protected function setUp()
     {
         $this->realtyObjectMock = $this->getMockBuilder(\tx_realty_Model_RealtyObject::class)->getMock();
+
+        $this->virtualFileSystem = vfsStream::setup('import');
+        $this->importDirectory = vfsStream::url('import');
 
         $this->subject = new AttachmentImporter($this->realtyObjectMock);
     }
@@ -58,7 +73,9 @@ class AttachmentImporterTest extends UnitTestCase
     public function startTransactionForInvalidObjectWithoutUidThrowsExceptionOnSaving()
     {
         $this->realtyObjectMock->method('hasUid')->willReturn(false);
-        $this->realtyObjectMock->expects(self::once())->method('writeToDatabase')->willReturn('message_fields_required');
+        $this->realtyObjectMock->expects(self::once())
+            ->method('writeToDatabase')
+            ->willReturn('message_fields_required');
         $this->realtyObjectMock->method('getAttachments')->willReturn([]);
 
         $this->expectException(\RuntimeException::class);
@@ -100,7 +117,7 @@ class AttachmentImporterTest extends UnitTestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $this->subject->addAttachment('/tmp/image.jpg', 'some image');
+        $this->subject->addAttachment($this->importDirectory . '/image.jpg', 'some image');
     }
 
     /**
@@ -116,7 +133,7 @@ class AttachmentImporterTest extends UnitTestCase
 
         $this->expectException(\BadMethodCallException::class);
 
-        $this->subject->addAttachment('/tmp/image.jpg', 'some image');
+        $this->subject->addAttachment($this->importDirectory . '/image.jpg', 'some image');
     }
 
     /**
@@ -164,7 +181,8 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function finishTransactionSavesNewlyAddedAttachments()
     {
-        $fileName = '/tmp/test.jpg';
+        $fileName = $this->importDirectory . '/test.jpg';
+        \file_put_contents($fileName, '');
         $title = 'Some image';
 
         $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
@@ -185,7 +203,7 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function finishTransactionKeepsUpdatedAttachments()
     {
-        $fileName = '/tmp/test.jpg';
+        $fileName = $this->importDirectory . '/test.jpg';
         $title = 'Some image';
 
         $fileUid = 42;
@@ -214,7 +232,8 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function finishTransactionAlsoSavesAttachmentsAddedInSecondTransaction()
     {
-        $fileName = '/tmp/test.jpg';
+        $fileName = $this->importDirectory . '/test.jpg';
+        \file_put_contents($fileName, '');
         $title = 'Some image';
 
         $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
@@ -261,6 +280,9 @@ class AttachmentImporterTest extends UnitTestCase
      */
     public function attachmentAddedOnlyInFirstTransactionWillBeDeletedInSecondTransaction()
     {
+        $fileName = $this->importDirectory . '/image.jpg';
+        \file_put_contents($fileName, '');
+
         $this->realtyObjectMock->method('writeToDatabase')->willReturn('');
         $this->realtyObjectMock->expects(self::at(2))->method('getAttachments')->willReturn([]);
 
@@ -274,7 +296,7 @@ class AttachmentImporterTest extends UnitTestCase
         $this->realtyObjectMock->expects(self::at(8))->method('getAttachments')->willReturn([$fileReferenceMock]);
 
         $this->subject->startTransaction();
-        $this->subject->addAttachment('/tmp/image.jpg', 'some image');
+        $this->subject->addAttachment($fileName, 'some image');
         $this->subject->finishTransaction();
 
         $this->subject->startTransaction();
