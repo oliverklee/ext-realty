@@ -427,7 +427,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * @param int $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
      * @param bool $setOwner whether the owner may be set
      *
-     * @return string locallang key of an error message if the record was
+     * @return string locallang key of an status message if the record was
      *                not written to database, an empty string if it was
      *                written successfully
      */
@@ -442,42 +442,39 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             return 'message_fields_required';
         }
 
-        $errorMessage = '';
+        $messageKey = '';
         $this->prepareInsertionAndInsertRelations();
         if ($setOwner) {
             $this->processOwnerData();
         }
 
-        $ownerCanAddObjects = $this->ownerMayAddObjects();
-
         if ($this->identifyObjectAndSetUid()) {
-            if ($this->getAsBoolean('deleted')) {
-                Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->delete($this);
-                $errorMessage = 'message_deleted_flag_causes_deletion';
+            if ($this->isDeleted()) {
+                foreach ($this->getAttachments() as $attachment) {
+                    $this->removeAttachmentByFileUid($attachment->getOriginalFile()->getUid());
+                }
+                \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class)->delete($this);
+                $messageKey = 'message_deleted_flag_causes_deletion';
             } else {
                 $this->updateDatabaseEntry($this->getAllProperties());
             }
-        } elseif ($ownerCanAddObjects) {
-            $newUid = $this->createNewDatabaseEntry(
-                $this->getAllProperties(),
-                'tx_realty_objects',
-                $overridePid
-            );
+        } elseif ($this->ownerMayAddObjects()) {
+            $newUid = $this->createNewDatabaseEntry($this->getAllProperties(), 'tx_realty_objects', $overridePid);
             switch ($newUid) {
                 case -1:
-                    $errorMessage = 'message_deleted_flag_set';
+                    $messageKey = 'message_deleted_flag_set';
                     break;
                 case 0:
-                    $errorMessage = 'message_insertion_failed';
+                    $messageKey = 'message_insertion_failed';
                     break;
                 default:
                     $this->setUid($newUid);
             }
         } else {
-            $errorMessage = 'message_object_limit_reached';
+            $messageKey = 'message_object_limit_reached';
         }
 
-        return $errorMessage;
+        return $messageKey;
     }
 
     /**
