@@ -750,4 +750,75 @@ class RealtyObjectTest extends FunctionalTestCase
 
         self::assertFileExists($targetFolder . 'test.txt');
     }
+
+    /**
+     * @test
+     */
+    public function writeToDatabaseWritesChangedDataToDatabase()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(101);
+        // This makes sure that the model gets loaded.
+        self::assertNotSame('', $subject->getTitle());
+
+        $newTitle = 'A house like a painting';
+        $subject->setTitle($newTitle);
+
+        $message = $subject->writeToDatabase();
+
+        $updatedRecord = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 101');
+
+        self::assertSame($newTitle, $updatedRecord['title']);
+        self::assertSame('', $message);
+    }
+
+    /**
+     * @test
+     */
+    public function writeToDatabaseCanWriteDeletedRecord()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(101);
+        // This makes sure that the model gets loaded.
+        self::assertNotSame('', $subject->getTitle());
+
+        $subject->setToDeleted();
+
+        $message = $subject->writeToDatabase();
+
+        $updatedRecord = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_objects', 'uid = 101');
+
+        self::assertSame(1, (int)$updatedRecord['deleted']);
+        self::assertSame('message_deleted_flag_causes_deletion', $message);
+    }
+
+    /**
+     * @test
+     */
+    public function writeToDatabaseDeletesAssociatedAttachments()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+        $targetFolder = $this->getAbsoluteAttachmentsTargetFolder() . '102/';
+        GeneralUtility::mkdir_deep($targetFolder);
+        \copy($this->getAbsoluteFixturesPath() . 'test.jpg', $targetFolder . 'test.jpg');
+
+        /** @var \tx_realty_Model_RealtyObject $subject */
+        $subject = $this->realtyObjectMapper->find(102);
+        // This makes sure that the model gets loaded.
+        self::assertNotSame('', $subject->getTitle());
+
+        $subject->setToDeleted();
+
+        $subject->writeToDatabase();
+
+        self::assertFalse(\Tx_Oelib_Db::existsRecord('sys_file', 'uid = 10'));
+        self::assertFalse(\Tx_Oelib_Db::existsRecord('sys_file_reference', 'uid_foreign = 102 AND deleted = 0'));
+
+        self::assertFileNotExists($targetFolder . 'test.txt');
+    }
 }
