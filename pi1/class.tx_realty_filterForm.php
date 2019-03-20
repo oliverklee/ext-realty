@@ -304,7 +304,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->setMarker(
             'searched_uid',
             (
-            ((int)$this->filterFormData['uid'] === 0)
+                ((int)$this->filterFormData['uid'] === 0)
                 ? '' : (int)$this->filterFormData['uid']
             )
         );
@@ -809,7 +809,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                 ? ' AND (' . 'tx_realty_objects' . '.living_area >= ' . $this->filterFormData['livingAreaFrom'] . ')'
                 : ''
             ) . (
-            $this->filterFormData['livingAreaTo'] !== 0
+                $this->filterFormData['livingAreaTo'] !== 0
                 ? ' AND (' . 'tx_realty_objects' . '.living_area <= ' . $this->filterFormData['livingAreaTo'] . ')'
                 : ''
             );

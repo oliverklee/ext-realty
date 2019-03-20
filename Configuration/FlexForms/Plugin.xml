@@ -299,10 +299,6 @@
                             <config>
                                 <type>select</type>
                                 <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.nextPreviousButtons</numIndex>
-                                        <numIndex index="1">nextPreviousButtons</numIndex>
-                                    </numIndex>
                                     <numIndex index="1" type="array">
                                         <numIndex index="0">LLL:EXT:realty/Resources/Private/Language/locallang.xlf:realty.pi_flexform.heading</numIndex>
                                         <numIndex index="1">heading</numIndex>
