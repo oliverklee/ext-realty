@@ -249,24 +249,6 @@ class EditorTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function populateDistrictListForSelectedCityReturnsDistrictWithoutCity()
-    {
-        $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-        $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts',
-            ['title' => 'Kreuzberg']
-        );
-        $this->subject->setFakedFormValue('city', $cityUid);
-
-        self::assertContains(
-            ['value' => $districtUid, 'caption' => 'Kreuzberg'],
-            $this->subject->populateDistrictList()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function populateDistrictListForSelectedCityNotReturnsDistrictOfOtherCity()
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');

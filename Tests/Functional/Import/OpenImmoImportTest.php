@@ -2183,6 +2183,659 @@ class OpenImmoImportTest extends FunctionalTestCase
     /**
      * @test
      */
+    public function importCanUseExistingCity()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53111</plz>'
+            . '<ort>Bonn</ort>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        $cityUid = 100;
+        $where = 'object_number = "' . $objectNumber . '" AND city = ' . $cityUid;
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+    }
+
+    /**
+     * @test
+     */
+    public function importCanCreateAndUseNewCity()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53111</plz>'
+            . '<ort>Bonn</ort>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        $cityRecord = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_cities', 'title = "Bonn"');
+        $cityUid = (int)$cityRecord['uid'];
+        $where = 'object_number = "' . $objectNumber . '" AND city = ' . $cityUid;
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+    }
+
+    /**
+     * @test
+     */
+    public function importCanUseExistingDistrictWithMatchingCity()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53111</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz>Innenstadt</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        $districtUid = 200;
+        $where = 'object_number = "' . $objectNumber . '" AND district = ' . $districtUid;
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+    }
+
+    /**
+     * @test
+     */
+    public function importMatchesDistrictByNameAndCity()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $objectNumber1 = 'foo1234567';
+        $objectNumber2 = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53111</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz>Innenstadt</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber1 . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53007</plz>'
+            . '<ort>Köln</ort>'
+            . '<regionaler_zusatz>Innenstadt</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber2 . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+        $this->subject->writeToDatabase($records[1]);
+
+        $where1 = 'object_number = "' . $objectNumber1 . '" AND city = 100 AND district = 200';
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where1));
+        $where2 = 'object_number = "' . $objectNumber2 . '" AND city = 101 AND district = 201';
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where2));
+    }
+
+    /**
+     * @test
+     */
+    public function importCanCreateAndUseNewDistrict()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53173</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz>Bad Godesberg</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        $districtRecord = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_districts', 'title = "Bad Godesberg"');
+        $districtUid = (int)$districtRecord['uid'];
+        $where = 'object_number = "' . $objectNumber . '" AND district = ' . $districtUid;
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+    }
+
+    /**
+     * @test
+     */
+    public function importForDistrictWithoutCityCreatesNoDistrict()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53173</plz>'
+            . '<regionaler_zusatz>Bad Godesberg</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        self::assertSame(0, \Tx_Oelib_Db::count('tx_realty_districts'));
+    }
+
+    /**
+     * @test
+     */
+    public function importForDistrictWithEmptyCityCreatesNoDistrict()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53173</plz>'
+            . '<ort></ort>'
+            . '<regionaler_zusatz>Bad Godesberg</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        self::assertSame(0, \Tx_Oelib_Db::count('tx_realty_districts'));
+    }
+
+    /**
+     * @test
+     */
+    public function importSetsExistingCityForNewlyCreatedDistrict()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
+
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53173</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz>Bad Godesberg</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        $where = 'title = "Bad Godesberg" AND city = 100';
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_districts', $where));
+    }
+
+    /**
+     * @test
+     */
+    public function importSetsNewlyCreatedCityForNewlyCreatedDistrict()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53173</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz>Bad Godesberg</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        $cityRecord = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_cities', 'title = "Bonn"');
+        $cityUid = (int)$cityRecord['uid'];
+
+        $where = 'title = "Bad Godesberg" AND city = ' . $cityUid;
+        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_districts', $where));
+    }
+
+    /**
+     * @test
+     */
+    public function importWithCityAndWithoutDistrictCreatesNoDistrict()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53111</plz>'
+            . '<ort>Bonn</ort>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        self::assertFalse(\Tx_Oelib_Db::existsRecord('tx_realty_districts'));
+    }
+
+    /**
+     * @test
+     */
+    public function importWithoutCityAndWithoutDistrictCreatesNoDistrict()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53111</plz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        self::assertFalse(\Tx_Oelib_Db::existsRecord('tx_realty_districts'));
+    }
+
+    /**
+     * @test
+     */
+    public function importWithCityAndWithEmptyDistrictCreatesNoDistrict()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53111</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz></regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+
+        self::assertFalse(\Tx_Oelib_Db::existsRecord('tx_realty_districts'));
+    }
+
+    /**
+     * @test
+     */
+    public function updatingRealtyObjectNotCreatesAdditionalCities()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53173</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz>Bad Godesberg</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+        $numberOfCityRecordsBefore = \Tx_Oelib_Db::count('tx_realty_cities');
+
+        $this->subject->writeToDatabase($records[0]);
+
+        $numberOfCityRecordsAfter = \Tx_Oelib_Db::count('tx_realty_cities');
+        self::assertSame($numberOfCityRecordsBefore, $numberOfCityRecordsAfter);
+    }
+
+    /**
+     * @test
+     */
+    public function updatingRealtyObjectNotCreatesAdditionalDistricts()
+    {
+        $objectNumber = 'bar1234567';
+        $dummyDocument = new \DOMDocument();
+        $dummyDocument->loadXML(
+            '<openimmo>'
+            . '<anbieter>'
+            . '<immobilie>'
+            . '<objektkategorie>'
+            . '<nutzungsart WOHNEN="1"/>'
+            . '<vermarktungsart KAUF="1"/>'
+            . '<objektart><zimmer/></objektart>'
+            . '</objektkategorie>'
+            . '<geo>'
+            . '<plz>53173</plz>'
+            . '<ort>Bonn</ort>'
+            . '<regionaler_zusatz>Bad Godesberg</regionaler_zusatz>'
+            . '</geo>'
+            . '<kontaktperson>'
+            . '<name>bar</name>'
+            . '<email_zentrale>bar</email_zentrale>'
+            . '</kontaktperson>'
+            . '<verwaltung_techn>'
+            . '<openimmo_obid>foo</openimmo_obid>'
+            . '<aktion/>'
+            . '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+            . '</verwaltung_techn>'
+            . '</immobilie>'
+            . '<openimmo_anid>foo</openimmo_anid>'
+            . '<firma>bar</firma>'
+            . '</anbieter>'
+            . '</openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($dummyDocument);
+        $this->subject->writeToDatabase($records[0]);
+        $numberOfDistrictRecordsBefore = \Tx_Oelib_Db::count('tx_realty_districts');
+
+        $this->subject->writeToDatabase($records[0]);
+
+        $numberOfDistrictRecordsAfter = \Tx_Oelib_Db::count('tx_realty_districts');
+        self::assertSame($numberOfDistrictRecordsBefore, $numberOfDistrictRecordsAfter);
+    }
+
+    /**
+     * @test
+     */
     public function importUtf8FileWithCorrectUmlauts()
     {
         $this->copyTestFileIntoImportFolder('charset-UTF8.zip');

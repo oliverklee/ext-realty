@@ -27,4 +27,27 @@
         <uid>100</uid>
         <title>Bonn</title>
     </tx_realty_cities>
+    <tx_realty_cities>
+        <uid>101</uid>
+        <title>Köln</title>
+    </tx_realty_cities>
+
+    <tx_realty_districts>
+        <uid>200</uid>
+        <title>Innenstadt</title>
+        <city>100</city>
+        <is_dummy_record>1</is_dummy_record>
+    </tx_realty_districts>
+    <tx_realty_districts>
+        <uid>201</uid>
+        <title>Innenstadt</title>
+        <city>101</city>
+        <is_dummy_record>1</is_dummy_record>
+    </tx_realty_districts>
+    <tx_realty_districts>
+        <uid>202</uid>
+        <title>Ehrenfeld</title>
+        <city>101</city>
+        <is_dummy_record>1</is_dummy_record>
+    </tx_realty_districts>
 </dataset>

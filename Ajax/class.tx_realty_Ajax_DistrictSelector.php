@@ -32,9 +32,8 @@ class tx_realty_Ajax_DistrictSelector
 
         /** @var \tx_realty_Mapper_District $districtMapper */
         $districtMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class);
-        $districts = $districtMapper->findAllByCityUidOrUnassigned($cityUid);
         /** @var \tx_realty_Model_District $district */
-        foreach ($districts as $district) {
+        foreach ($districtMapper->findAllByCityUid($cityUid) as $district) {
             if ($showWithNumbers) {
                 $numberOfMatches = $objectMapper->countByDistrict($district);
                 if ($numberOfMatches === 0) {

@@ -22,9 +22,8 @@ class Tca
 
         /** @var \tx_realty_Mapper_District $mapper */
         $mapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class);
-        $districts = $mapper->findAllByCityUidOrUnassigned((int)$data['row']['city']);
         /** @var \tx_realty_Model_District $district */
-        foreach ($districts as $district) {
+        foreach ($mapper->findAllByCityUid((int)$data['row']['city']) as $district) {
             $items[] = [$district->getTitle(), $district->getUid()];
         }
 
