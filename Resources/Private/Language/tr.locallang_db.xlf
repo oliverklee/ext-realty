@@ -229,15 +229,19 @@
                 <target>Şehir</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
-                <source>City name</source>
+                <source>Name</source>
                 <target>Şehir adı</target>
+            </trans-unit>
+            <trans-unit id="tx_realty_cities.districts" xml:space="preserve" approved="yes">
+                <source>Districts</source>
+                <target>Semt</target>
             </trans-unit>
             <trans-unit id="tx_realty_districts" xml:space="preserve" approved="yes">
                 <source>District</source>
                 <target>Semt</target>
             </trans-unit>
             <trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
-                <source>The district's name</source>
+                <source>Name</source>
                 <target>Semt adı</target>
             </trans-unit>
             <trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">

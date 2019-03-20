@@ -433,8 +433,12 @@
                 <target>Citt&amp;agrave;</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
-                <source>City name</source>
-                <target>Nome citt&amp;agrave;</target>
+                <source>Name</source>
+                <target>Nome</target>
+            </trans-unit>
+            <trans-unit id="tx_realty_cities.districts" xml:space="preserve" approved="yes">
+                <source>Districts</source>
+                <target>Area</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities.save_folder" xml:space="preserve" approved="yes">
                 <source>Folder for objects in this city (only for FE-created records)</source>
@@ -445,8 +449,8 @@
                 <target>Area</target>
             </trans-unit>
             <trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
-                <source>The district's name</source>
-                <target>Nome dell'area</target>
+                <source>Name</source>
+                <target>Nome</target>
             </trans-unit>
             <trans-unit id="fe_users.tx_realty_tab" xml:space="preserve" approved="yes">
                 <source>Realty</source>

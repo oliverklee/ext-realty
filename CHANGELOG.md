@@ -25,6 +25,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add new basic tests for the realty object model and mapper (#179)
 
 ### Changed
+- Move the districts to within the cities with IRRE (#244)
 - Drop unneeded data scrubbing during import (#238)
 - Stop using markTableAsDirty in the new functional tests (#232)
 - Move the RealURL configuration to Classes/ and namespace it (#228, #229)
