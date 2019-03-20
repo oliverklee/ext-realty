@@ -246,6 +246,7 @@ CREATE TABLE tx_realty_cities (
     deleted tinyint(4) DEFAULT '0' NOT NULL,
     is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
     title varchar(255) DEFAULT '' NOT NULL,
+    districts int(11) DEFAULT '0' NOT NULL,
     save_folder int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),

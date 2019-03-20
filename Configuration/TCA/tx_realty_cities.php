@@ -14,10 +14,10 @@ $tca = [
         'default_sortby' => 'ORDER BY title',
         'delete' => 'deleted',
         'iconfile' => 'EXT:realty/Resources/Public/Icons/City.gif',
-        'searchFields' => 'uid,title',
+        'searchFields' => 'uid, title',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title',
+        'showRecordFieldList' => 'sys_language_uid, l18n_parent, l18n_diffsource, title',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -62,6 +62,22 @@ $tca = [
                 'eval' => 'required',
             ],
         ],
+        'districts' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_cities.districts',
+            'config' => [
+                'type' => 'inline',
+                'foreign_table' => 'tx_realty_districts',
+                'foreign_field' => 'city',
+                'foreign_default_sortby' => 'title',
+                'maxitems' => 999,
+                'appearance' => [
+                    'collapseAll' => 1,
+                    'expandSingle' => 1,
+                    'levelLinksPosition' => 'top',
+                ],
+            ],
+        ],
         'save_folder' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_cities.save_folder',
@@ -77,7 +93,7 @@ $tca = [
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, title, save_folder'],
+        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, title, districts, save_folder'],
     ],
 ];
 

@@ -229,15 +229,19 @@
                 <target>Город</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
-                <source>City name</source>
+                <source>Name</source>
                 <target>Название города</target>
+            </trans-unit>
+            <trans-unit id="tx_realty_cities.districts" xml:space="preserve" approved="yes">
+                <source>Districts</source>
+                <target>Район</target>
             </trans-unit>
             <trans-unit id="tx_realty_districts" xml:space="preserve" approved="yes">
                 <source>District</source>
                 <target>Район</target>
             </trans-unit>
             <trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
-                <source>The district's name</source>
+                <source>Name</source>
                 <target>Название района</target>
             </trans-unit>
             <trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">

@@ -13,11 +13,12 @@ $tca = [
         'transOrigDiffSourceField' => 'l18n_diffsource',
         'default_sortby' => 'ORDER BY title',
         'delete' => 'deleted',
+        'hideTable' => true,
         'iconfile' => 'EXT:realty/Resources/Public/Icons/District.gif',
         'searchFields' => 'uid, title',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l18n_parent, l18n_diffsource, title, city',
+        'showRecordFieldList' => 'sys_language_uid, l18n_parent, l18n_diffsource, title',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -63,23 +64,13 @@ $tca = [
             ],
         ],
         'city' => [
-            'exclude' => 0,
-            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts.city',
             'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => 'tx_realty_cities',
-                'foreign_table_where' => ' ORDER BY title ASC',
-                'items' => [['', 0]],
-                'size' => 1,
-                'minitems' => 1,
-                'maxitems' => 1,
-                'default' => 0,
+                'type' => 'passthrough',
             ],
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, title, city'],
+        '0' => ['showitem' => 'sys_language_uid, l18n_parent, l18n_diffsource, title'],
     ],
 ];
 

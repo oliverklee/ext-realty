@@ -293,8 +293,12 @@
                 <target>By</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
-                <source>City name</source>
+                <source>Name</source>
                 <target>Bynavn</target>
+            </trans-unit>
+            <trans-unit id="tx_realty_cities.districts" xml:space="preserve" approved="yes">
+                <source>Districts</source>
+                <target>Bydel</target>
             </trans-unit>
             <trans-unit id="tx_realty_cities.save_folder" xml:space="preserve" approved="yes">
                 <source>Folder for objects in this city (only for FE-created records)</source>
@@ -305,8 +309,8 @@
                 <target>Bydel</target>
             </trans-unit>
             <trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
-                <source>The district's name</source>
-                <target>Bydelens navn</target>
+                <source>Name</source>
+                <target>Navn</target>
             </trans-unit>
             <trans-unit id="fe_users.tx_realty_tab" xml:space="preserve" approved="yes">
                 <source>Realty</source>

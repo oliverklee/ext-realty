@@ -33,7 +33,7 @@ Upgrading from version 2.x.y to 3.x.y
 #. Update the realty extension.
 
 #. Please note that the districts now are visible via IRRE within the cities
-   in the BE.
+   in the BE. Unused districts that have no city assigned will not be visible anymore.
 
 #. The images and documents have been converted to FAL.
    Please run the update function for the realty extension in
