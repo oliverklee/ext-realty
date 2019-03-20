@@ -161,7 +161,6 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         'tx_realty_cities' => 'city',
         'tx_realty_apartment_types' => 'apartment_type',
         'tx_realty_house_types' => 'house_type',
-        'tx_realty_districts' => 'district',
         'tx_realty_pets' => 'pets',
         'tx_realty_car_places' => 'garage_type',
     ];
@@ -795,20 +794,45 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     protected function prepareInsertionAndInsertRelations()
     {
-        foreach (self::$propertyTables as $currentTable => $currentProperty) {
-            $uidOfProperty = $this->insertPropertyToOwnTable(
-                $currentProperty,
-                $currentTable
-            );
-
-            if ($uidOfProperty > 0) {
-                $this->setProperty($currentProperty, $uidOfProperty);
-                $this->getReferenceIndex()->updateRefIndexTable(
-                    $currentTable,
-                    $uidOfProperty
-                );
+        foreach (self::$propertyTables as $tableName => $key) {
+            $uid = $this->insertPropertyToOwnTable($key, $tableName);
+            $this->setProperty($key, $uid);
+            if ($uid > 0) {
+                $this->getReferenceIndex()->updateRefIndexTable($tableName, $uid);
             }
         }
+
+        $this->prepareDistrictRelation();
+    }
+
+    /**
+     * @return void
+     */
+    private function prepareDistrictRelation()
+    {
+        $districtUid = $this->getAsInteger('district');
+        $districtTitle = $this->getAsString('district');
+        // If the relation already is there, keep it.
+        if ((string)$districtUid === $districtTitle) {
+            return;
+        }
+
+        $cityUid = $this->getAsInteger('city');
+        if ($districtTitle === '' || $cityUid === 0) {
+            $this->setAsInteger('district', 0);
+            return;
+        }
+
+        $districtMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class);
+        try {
+            $existingDistrict = $districtMapper->findByNameAndCityUid($districtTitle, $cityUid);
+            $districtUid = $existingDistrict->getUid();
+        } catch (\Tx_Oelib_Exception_NotFound $exception) {
+            $districtData = ['title' => $districtTitle, 'city' => $cityUid];
+            $districtUid = $this->createNewDatabaseEntry($districtData, 'tx_realty_districts');
+        }
+        $this->setAsInteger('district', $districtUid);
+        $this->getReferenceIndex()->updateRefIndexTable('tx_realty_districts', $districtUid);
     }
 
     /**
@@ -839,16 +863,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     private function insertPropertyToOwnTable($key, $table)
     {
-        // If the property is not defined or the value is an empty string or
-        // zero, no record will be created.
-        if (!$this->existsKey($key)
-            || in_array($this->get($key), ['0', '', 0], true)
-        ) {
+        // If the property is not defined or the value is an empty string or zero, no record will be created.
+        if (!$this->existsKey($key) || \in_array($this->get($key), ['0', '', 0], true)) {
             return 0;
         }
 
-        // If the value is a non-zero integer, the relation has already been
-        // inserted.
+        // If the value is a non-zero integer, the relation has already been inserted.
         if ($this->hasInteger($key)) {
             return $this->getAsInteger($key);
         }
@@ -1174,7 +1194,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * the database.
      * The values for PID, 'tstamp' and 'crdate' are provided by this function.
      *
-     * @param array $realtyData
+     * @param array $data
      *        database column names as keys, must not be empty and must not contain the key 'uid'
      * @param string $table
      *        name of the database table, must not be empty
@@ -1187,23 +1207,20 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *                 record could be created, will be -1 if the deleted flag
      *                 was set
      */
-    protected function createNewDatabaseEntry(
-        array $realtyData,
-        $table = 'tx_realty_objects',
-        $overridePid = 0
-    ) {
-        if (empty($realtyData)) {
+    protected function createNewDatabaseEntry(array $data, $table = 'tx_realty_objects', $overridePid = 0)
+    {
+        if (empty($data)) {
             return 0;
         }
-        if ($realtyData['deleted']) {
+        if ($data['deleted']) {
             return -1;
         }
 
-        if (isset($realtyData['uid'])) {
+        if (isset($data['uid'])) {
             throw new InvalidArgumentException('The column "uid" must not be set in $realtyData.', 1333035957);
         }
 
-        $dataToInsert = $realtyData;
+        $dataToInsert = $data;
         $pid = Tx_Oelib_ConfigurationProxy::getInstance('realty')->getAsInteger('pidForAuxiliaryRecords');
         if ($pid === 0 || $table === 'tx_realty_objects') {
             if ($overridePid > 0) {
@@ -1509,8 +1526,16 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function getForeignPropertyField($key, $titleField = 'title')
     {
-        $tableName = ($key === 'country') ? 'static_countries' : array_search($key, self::$propertyTables, true);
-
+        switch ($key) {
+            case 'country':
+                $tableName = 'static_countries';
+                break;
+            case 'district':
+                $tableName = 'tx_realty_districts';
+                break;
+            default:
+                $tableName = \array_search($key, self::$propertyTables, true);
+        }
         if ($tableName === false) {
             throw new InvalidArgumentException(
                 '$key must be within "city", "apartment_type", "house_type", "district", "pets", ' .

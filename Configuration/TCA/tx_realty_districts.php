@@ -14,10 +14,10 @@ $tca = [
         'default_sortby' => 'ORDER BY title',
         'delete' => 'deleted',
         'iconfile' => 'EXT:realty/Resources/Public/Icons/District.gif',
-        'searchFields' => 'uid,title',
+        'searchFields' => 'uid, title',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title,city',
+        'showRecordFieldList' => 'sys_language_uid, l18n_parent, l18n_diffsource, title, city',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -72,7 +72,7 @@ $tca = [
                 'foreign_table_where' => ' ORDER BY title ASC',
                 'items' => [['', 0]],
                 'size' => 1,
-                'minitems' => 0,
+                'minitems' => 1,
                 'maxitems' => 1,
                 'default' => 0,
             ],

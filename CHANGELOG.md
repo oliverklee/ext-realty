@@ -50,6 +50,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the checks for the zip_archive PHP extension (#175)
 
 ### Fixed
+- !!! Always require a city for the districts (#243)
 - Also delete the images when deleting an object during the import (#240)
 - Gracefully deal with missing attachments during import (#239)
 - Add missing autoloading for the RealURL configuration (#226, #227)

@@ -55,22 +55,6 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
     }
 
     /**
-     * Finds all districts that belong to a certain or no city.
-     *
-     * If $uid is zero, this function returns all districts without a city.
-     *
-     * @param int $uid
-     *        the UID of the city for which to find the disctricts, must be >= 0
-     *
-     * @return Tx_Oelib_List the districts within the given city or without a city,
-     *                       may be empty
-     */
-    public function findAllByCityUidOrUnassigned($uid)
-    {
-        return $this->findByWhereClause('city = 0 OR city = ' . $uid, 'title ASC');
-    }
-
-    /**
      * Finds a district by its name.
      *
      * @throws Tx_Oelib_Exception_NotFound if there is no district with the

@@ -27,21 +27,26 @@ class ext_update
     private $requiredExtensions = ['oelib', 'realty'];
 
     /**
-     * @var string[]
-     */
-    private $requiredTables = ['tx_realty_objects', 'tx_realty_images', 'tx_realty_documents'];
-
-    /**
      * @var string[][]
      */
+    private $requiredTables = [
+        'attachments' => ['tx_realty_objects', 'tx_realty_images', 'tx_realty_documents'],
+        'districts' => ['tx_realty_objects', 'tx_realty_cities', 'tx_realty_districts'],
+    ];
+
+    /**
+     * @var string[][][]
+     */
     private $requiredColumns = [
-        'tx_realty_objects' => ['attachments', 'images', 'documents'],
+        'attachments' => [
+            'tx_realty_objects' => ['attachments', 'images', 'documents'],
+        ],
     ];
 
     /**
      * @var int[]
      */
-    private $attachmentSortings = [];
+    private $attachmentSorting = [];
 
     /**
      * Checks whether the update module needs to to anything
@@ -50,7 +55,8 @@ class ext_update
      */
     public function access()
     {
-        return $this->extensionsAreInstalled() && $this->needsToUpdateAttachments();
+        return $this->extensionsAreInstalled()
+            && ($this->needsToUpdateAttachments() || $this->needsToUpdateDistricts());
     }
 
     /**
@@ -61,10 +67,13 @@ class ext_update
      */
     public function main()
     {
+        $output = '';
+
         if ($this->needsToUpdateAttachments()) {
             $output = $this->updateAttachments();
-        } else {
-            $output = '';
+        }
+        if ($this->needsToUpdateDistricts()) {
+            $output .= $this->updateDistricts();
         }
 
         return $output;
@@ -75,7 +84,7 @@ class ext_update
      */
     private function needsToUpdateAttachments()
     {
-        return $this->tablesExist() && $this->columnsExist() && $this->oldAttachmentsExist();
+        return $this->tablesExist('attachments') && $this->columnsExist('attachments') && $this->oldAttachmentsExist();
     }
 
     /**
@@ -92,12 +101,14 @@ class ext_update
     }
 
     /**
+     * @param string $migrationKey
+     *
      * @return bool
      */
-    private function tablesExist()
+    private function tablesExist($migrationKey)
     {
         $result = true;
-        foreach ($this->requiredTables as $table) {
+        foreach ($this->requiredTables[$migrationKey] as $table) {
             $result = $result && \Tx_Oelib_Db::existsTable($table);
         }
 
@@ -105,12 +116,14 @@ class ext_update
     }
 
     /**
+     * @param string $migrationKey
+     *
      * @return bool
      */
-    private function columnsExist()
+    private function columnsExist($migrationKey)
     {
         $result = true;
-        foreach ($this->requiredColumns as $table => $columns) {
+        foreach ($this->requiredColumns[$migrationKey] as $table => $columns) {
             foreach ($columns as $column) {
                 $result = $result && \Tx_Oelib_Db::tableHasColumn($table, $column);
             }
@@ -161,7 +174,7 @@ class ext_update
     private function updateAttachmentForSingleObject(array $realtyObject)
     {
         $objectUid = (int)$realtyObject['uid'];
-        $this->attachmentSortings[$objectUid] = 1;
+        $this->attachmentSorting[$objectUid] = 1;
         $output = '<h4>Processing object #' . $objectUid . '</h4>';
 
         $output .= $this->updateImagesForSingleObject($objectUid);
@@ -311,11 +324,11 @@ class ext_update
                 'table_local' => 'sys_file',
                 'crdate' => $timestamp,
                 'tstamp' => $timestamp,
-                'sorting_foreign' => $this->attachmentSortings[$objectUid],
+                'sorting_foreign' => $this->attachmentSorting[$objectUid],
                 'l10n_diffsource' => '',
             ];
             \Tx_Oelib_Db::insert('sys_file_reference', $referenceData);
-            $this->attachmentSortings[$objectUid]++;
+            $this->attachmentSorting[$objectUid]++;
         }
 
         return $file;
@@ -327,5 +340,84 @@ class ext_update
     private function getAbsoluteRealtyUploadsFolder()
     {
         return GeneralUtility::getFileAbsFileName(self::UPLOAD_FOLDER);
+    }
+
+    /**
+     * @return bool
+     */
+    private function needsToUpdateDistricts()
+    {
+        return $this->tablesExist('districts') && $this->oldDistrictsExist();
+    }
+
+    /**
+     * @return bool
+     */
+    private function oldDistrictsExist()
+    {
+        $numberOfAffectedObjects = \Tx_Oelib_Db::count(
+            'tx_realty_districts',
+            'deleted = 0 AND city = 0 AND EXISTS(' .
+            'SELECT * FROM tx_realty_objects WHERE deleted = 0 AND city != 0 AND district = tx_realty_districts.uid' .
+            ')'
+        );
+
+        return $numberOfAffectedObjects > 0;
+    }
+
+    /**
+     * @return string
+     */
+    private function updateDistricts()
+    {
+        $output = '<h3>Assigning the cities to the districts</h3>';
+        $districts = \Tx_Oelib_Db::selectMultiple(
+            '*',
+            'tx_realty_districts',
+            'deleted = 0 AND city = 0 AND EXISTS(' .
+            'SELECT * FROM tx_realty_objects WHERE deleted = 0 AND city != 0 AND district = tx_realty_districts.uid' .
+            ')'
+        );
+        $output .= '<p>' . \count($districts) . ' districts are affected.</p>';
+
+        /** @var array $district */
+        foreach ($districts as $district) {
+            $output .= $this->updateSingleDistrict($district);
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param array $district
+     *
+     * @return string
+     */
+    private function updateSingleDistrict(array $district)
+    {
+        $districtUid = (int)$district['uid'];
+        $districtTitle = $district['title'];
+        $output = '<p>Updating district "' . \htmlspecialchars($districtTitle, ENT_QUOTES | ENT_HTML5) .
+            '" (#' . $districtUid . ')<br/>';
+        $objectWithDistrict = \Tx_Oelib_Db::selectSingle(
+            '*',
+            'tx_realty_objects',
+            'deleted = 0 AND city != 0 AND district = ' . $districtUid
+        );
+        $cityUid = $objectWithDistrict['city'];
+        try {
+            $city = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_cities', 'uid = ' . $cityUid . ' AND deleted = 0');
+            $cityUid = (int)$city['uid'];
+            $cityTitle = $city['title'];
+            \Tx_Oelib_Db::update('tx_realty_districts', 'uid = ' . $districtUid, ['city' => $cityUid]);
+            $output .= 'Assigning it to city "' . \htmlspecialchars($cityTitle, ENT_QUOTES | ENT_HTML5) .
+                '" (#' . $cityUid . ').';
+        } catch (\Tx_Oelib_Exception_EmptyQueryResult $exception) {
+            $output .= 'The city record seems to be missing (probably deleted).';
+        }
+
+        $output .= '</p>';
+
+        return $output;
     }
 }

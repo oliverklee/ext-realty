@@ -133,22 +133,6 @@ class tx_realty_Ajax_DistrictSelectorTest extends \Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function renderContainsUidOfDistrictWithoutCity()
-    {
-        $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-        $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts'
-        );
-
-        self::assertContains(
-            'value="' . $districtUid . '"',
-            tx_realty_Ajax_DistrictSelector::render($cityUid)
-        );
-    }
-
-    /**
-     * @test
-     */
     public function renderNotContainsUidOfDistrictOfOtherCity()
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');

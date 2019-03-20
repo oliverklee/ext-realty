@@ -32,9 +32,13 @@ Upgrading from version 2.x.y to 3.x.y
 
 #. Update the realty extension.
 
+#. Please note that the districts now are visible via IRRE within the cities
+   in the BE.
+
 #. The images and documents have been converted to FAL.
    Please run the update function for the realty extension in
-   the extension manager to convert your data.
+   the extension manager to convert your data. This will also assign the
+   districts to the cities.
 
 #. The previous/next buttons have been removed to allow for better caching
    and to enable more speaking URLs. Please remove the

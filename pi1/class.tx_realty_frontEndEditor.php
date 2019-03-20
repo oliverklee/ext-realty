@@ -154,7 +154,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         /** @var tx_realty_Mapper_District $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_District::class);
-        $districts = $mapper->findAllByCityUidOrUnassigned($cityUid);
+        $districts = $mapper->findAllByCityUid($cityUid);
         /** @var tx_realty_Model_District $district */
         foreach ($districts as $district) {
             $options[] = [
