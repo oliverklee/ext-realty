@@ -35,3 +35,10 @@ Upgrading from version 2.x.y to 3.x.y
 #. The images and documents have been converted to FAL.
    Please run the update function for the realty extension in
    the extension manager to convert your data.
+
+#. The previous/next buttons have been removed to allow for better caching
+   and to enable more speaking URLs. Please remove the
+   FIELD\_WRAPPER\_NEXTPREVIOUSBUTTONS subpart from your HTML template,
+   replace "###BACK_URL###" with "#"
+   and re-save the single view content element one time to update the
+   flexforms data.

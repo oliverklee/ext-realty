@@ -114,7 +114,6 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
 
         foreach (
             [
-                'nextPreviousButtons',
                 'heading',
                 'address',
                 'description',
@@ -131,9 +130,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
                 'printPageButton',
                 'status',
             ] as $key) {
-            $viewContent = in_array($key, $configuredViews, true)
-                ? $this->getView($uid, $key)
-                : '';
+            $viewContent = in_array($key, $configuredViews, true) ? $this->getView($uid, $key) : '';
 
             $this->setSubpart($key, $viewContent, 'field_wrapper');
             if ($viewContent !== '' && $key !== 'imageThumbnails') {

@@ -60,9 +60,6 @@ plugin.tx_realty_pi1 {
     # object is vacant or reserved, but not if it is sold of rented
     priceOnlyIfAvailable = 0
 
-    # whether to show the next and previous buttons in the single view
-    enableNextPreviousButtons = 0
-
     ##########################################################################
     # The following variable can also be set using flexforms. Non-empty values
     # in flexforms override values set via TS.

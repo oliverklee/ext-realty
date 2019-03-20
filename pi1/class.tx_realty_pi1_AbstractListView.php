@@ -803,15 +803,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 ['parameter' => $separateSingleViewPage]
             );
         } else {
-            $additionalParameters = $this->getAdditionalParametersForSingleViewLink($uid);
             $completeLink = $this->cObj->typoLink(
                 $linkText,
                 [
                     'parameter' => $this->getConfValueInteger('singlePID'),
-                    'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                        $this->prefixId,
-                        $additionalParameters
-                    ),
+                    'additionalParams' => GeneralUtility::implodeArrayForUrl($this->prefixId, ['showUid' => $uid]),
                     'useCacheHash' => $useCache,
                 ]
             );
@@ -1310,49 +1306,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         }
         $this->unhideSubparts('google_map');
         $this->setSubpart('google_map', $googleMapsView->render());
-    }
-
-    /**
-     * Gets the additional parameters to add to the link to the single view page.
-     *
-     * @param int $uid
-     *        the UID of the object to create the link for, must be > 0
-     *
-     * @return array additional parameters to the single view page for usage
-     *               with GeneralUtility::implodeArrayForUrl, will not be empty
-     */
-    private function getAdditionalParametersForSingleViewLink($uid)
-    {
-        $result = ['showUid' => $uid];
-        if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
-            return $result;
-        }
-
-        $filterFormPiVars = tx_realty_filterForm::getPiVarKeys();
-        $parametersToSerialize = [];
-
-        foreach ($filterFormPiVars as $key) {
-            if (isset($this->piVars[$key])) {
-                $parametersToSerialize[$key] = $this->piVars[$key];
-            }
-        }
-
-        if (isset($this->piVars['search'])) {
-            $parametersToSerialize['search'] = $this->piVars['search'];
-        }
-        if (isset($this->piVars['orderBy'])) {
-            $parametersToSerialize['orderBy'] = $this->piVars['orderBy'];
-            $parametersToSerialize['descFlag'] = $this->piVars['descFlag'];
-        }
-
-        $result['listViewLimitation'] = json_encode($parametersToSerialize);
-
-        $result['listUid'] = $this->cObj->data['uid'];
-        $result['listViewType'] = $this->currentView;
-        $result['recordPosition']
-            = $this->internal['currentRow']['recordPosition'];
-
-        return $result;
     }
 
     /**

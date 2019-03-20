@@ -262,9 +262,6 @@
             <trans-unit id="realty.pi_flexform.singleViewPartsToDisplay" xml:space="preserve">
                 <source>Single view parts to display:</source>
             </trans-unit>
-            <trans-unit id="realty.pi_flexform.nextPreviousButtons" xml:space="preserve">
-                <source>next/previous buttons</source>
-            </trans-unit>
             <trans-unit id="realty.pi_flexform.heading" xml:space="preserve">
                 <source>heading</source>
             </trans-unit>

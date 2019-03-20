@@ -348,10 +348,6 @@
                 <source>Single view parts to display:</source>
                 <target>Angezeigte Teile der Einzelansicht:</target>
             </trans-unit>
-            <trans-unit id="realty.pi_flexform.nextPreviousButtons" xml:space="preserve" approved="yes">
-                <source>next/previous buttons</source>
-                <target>Buttons &quot;Zum nächsten/vorherigen Objekt&quot;</target>
-            </trans-unit>
             <trans-unit id="realty.pi_flexform.heading" xml:space="preserve" approved="yes">
                 <source>heading</source>
                 <target>Überschrift</target>

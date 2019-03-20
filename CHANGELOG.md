@@ -39,6 +39,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Remove the previous/next buttons (#241)
 - Drop the dead code using imagefile_ext (#236)
 - Remove the legacy images (#235)
 - Remove the legacy documents (#234)

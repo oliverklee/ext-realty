@@ -51,7 +51,6 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
         $this->checkSortCriteria();
         $this->checkCurrencyUnit();
         $this->checkSingleViewPid();
-        $this->checkEnableNextPreviousButtons();
         $this->checkPriceOnlyIfAvailable();
     }
 
@@ -108,7 +107,6 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
         $this->checkDisplayedContactInformationSpecial();
         $this->checkGroupsWithSpeciallyDisplayedContactInformation();
         $this->checkOffererImageConfiguration();
-        $this->checkEnableNextPreviousButtonsForSingleView();
         $this->checkPriceOnlyIfAvailable();
     }
 
@@ -312,7 +310,6 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
             'incorrect keys will not be displayed and the single view will ' .
             'be an empty page if no value is provided.',
             [
-                'nextPreviousButtons',
                 'heading',
                 'address',
                 'description',
@@ -1393,50 +1390,5 @@ class tx_realty_configcheck extends \Tx_Oelib_ConfigCheck
             'lightbox window. If it is not configured properly, the ' .
             'images will be shown in their original size.'
         );
-    }
-
-    /**
-     * Checks the value of enableNextPreviousButtons.
-     *
-     * @return void
-     */
-    private function checkEnableNextPreviousButtons()
-    {
-        $this->checkIfBoolean(
-            'enableNextPreviousButtons',
-            false,
-            '',
-            'This value specifies whether the next and previous buttons should ' .
-            'be shown. If this value is not set correctly, the buttons ' .
-            'might not get shown although they should be shown (or vice ' .
-            'versa).'
-        );
-    }
-
-    /**
-     * Checks the configuration of the next previous buttons for the single view.
-     *
-     * @return void
-     */
-    private function checkEnableNextPreviousButtonsForSingleView()
-    {
-        $this->checkEnableNextPreviousButtons();
-
-        if (
-            !$this->objectToCheck->getConfValueBoolean('enableNextPreviousButtons')
-            && $this->isSingleViewPartToDisplay('nextPreviousButtons')
-        ) {
-            $this->setErrorMessageAndRequestCorrection(
-                'enableNextPreviousButtons',
-                false,
-                'The TS setup variable <strong>' .
-                $this->getTSSetupPath() . 'enableNextPreviousButtons' .
-                '</strong> is set to <strong>0</strong> but needs to be set to ' .
-                '<strong>1</strong>.<br/>' .
-                'This value specifies whether the next and previous buttons should ' .
-                'be shown. If this value is not set correctly, the buttons ' .
-                'will not get shown.'
-            );
-        }
     }
 }

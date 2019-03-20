@@ -56,11 +56,6 @@
     margin-right: -1px; /* IE hack */
 }
 
-.tx-realty-pi1 .previousNextButtons {
-    float: right;
-    padding-bottom: .8em;
-}
-
 /* Images in result list and single view */
 .tx-realty-pi1 .image {
     vertical-align: middle;

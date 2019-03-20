@@ -320,10 +320,6 @@
                 <source>Single view parts to display:</source>
                 <target>Toon single view onderdelen:</target>
             </trans-unit>
-            <trans-unit id="realty.pi_flexform.nextPreviousButtons" xml:space="preserve" approved="yes">
-                <source>next/previous buttons</source>
-                <target>volgende/vorige buttons</target>
-            </trans-unit>
             <trans-unit id="realty.pi_flexform.heading" xml:space="preserve" approved="yes">
                 <source>heading</source>
                 <target>Titel</target>

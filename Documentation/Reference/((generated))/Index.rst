@@ -912,21 +912,6 @@ override the corresponding value from TS Setup.**
          0
 
 
-.. container:: table-row
-
-   Property
-         enableNextPreviousButtons
-
-   Data type
-         boolean
-
-   Description
-         whether to show the next and previous buttons
-
-   Default
-         0
-
-
 .. ###### END~OF~TABLE ######
 
 [tsref:plugin.tx\_realty\_pi1]
