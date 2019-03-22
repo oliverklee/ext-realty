@@ -40,6 +40,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Drop unnecessary double xPath instances (#247)
 - Remove the previous/next buttons (#241)
 - Drop the dead code using imagefile_ext (#236)
 - Remove the legacy images (#235)
