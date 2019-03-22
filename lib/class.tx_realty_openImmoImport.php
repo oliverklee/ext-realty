@@ -223,18 +223,15 @@ class tx_realty_openImmoImport
 
         $xml = $this->getImportedXml();
         if ($xml !== null) {
-            $offererXpath = new \DOMXPath($xml);
-            $offererNodes = $offererXpath->query('//openimmo/anbieter/openimmo_anid');
+            $xPath = new \DOMXPath($xml);
+            $offererNodes = $xPath->query('//openimmo/anbieter/openimmo_anid');
             if ($offererNodes->length > 0) {
-                $offererNode = $offererNodes->item(0);
-                $offererId = (string)$offererNode->nodeValue;
+                $offererId = (string)$offererNodes->item(0)->nodeValue;
             }
 
-            $transferXpath = new \DOMXPath($xml);
-            $transferNodes = $transferXpath->query('//openimmo/uebertragung');
+            $transferNodes = $xPath->query('//openimmo/uebertragung');
             if ($transferNodes->length > 0) {
-                $transferNode = $transferNodes->item(0);
-                $transferMode = $transferNode->getAttribute('umfang');
+                $transferMode = $transferNodes->item(0)->getAttribute('umfang');
             }
         }
 
