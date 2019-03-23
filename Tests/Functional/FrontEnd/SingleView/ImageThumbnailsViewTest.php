@@ -86,7 +86,7 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
         if (\file_exists($this->getPathOfTestFile())) {
             unlink($this->getPathOfTestFile());
         }
-        $this->testingFramework->cleanUp();
+        $this->testingFramework->cleanUpWithoutDatabase();
         parent::tearDown();
     }
 

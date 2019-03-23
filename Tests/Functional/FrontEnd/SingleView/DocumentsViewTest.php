@@ -58,7 +58,7 @@ class DocumentsViewTest extends FunctionalTestCase
 
     protected function tearDown()
     {
-        $this->testingFramework->cleanUp();
+        $this->testingFramework->cleanUpWithoutDatabase();
         parent::tearDown();
     }
 

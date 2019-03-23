@@ -91,7 +91,7 @@ class EditorTest extends FunctionalTestCase
 
         \tx_realty_cacheManager::purgeCacheManager();
 
-        $this->testingFramework->cleanUp();
+        $this->testingFramework->cleanUpWithoutDatabase();
 
         parent::tearDown();
     }
