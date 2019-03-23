@@ -96,7 +96,7 @@ class ContactFormTest extends FunctionalTestCase
         // Get any surplus instances added via GeneralUtility::addInstance.
         GeneralUtility::makeInstance(MailMessage::class);
 
-        $this->testingFramework->cleanUp();
+        $this->testingFramework->cleanUpWithoutDatabase();
         parent::tearDown();
     }
 

@@ -127,7 +127,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         // Get any surplus instances added via GeneralUtility::addInstance.
         GeneralUtility::makeInstance(MailMessage::class);
 
-        $this->testingFramework->cleanUp();
+        $this->testingFramework->cleanUpWithoutDatabase();
         $this->deleteTestFolders();
 
         \tx_realty_cacheManager::purgeCacheManager();

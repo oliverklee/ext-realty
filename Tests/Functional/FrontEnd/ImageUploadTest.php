@@ -63,7 +63,7 @@ class ImageUploadTest extends FunctionalTestCase
         GeneralUtility::rmdir($this->getAbsoluteAttachmentsPath(), true);
         GeneralUtility::rmdir($this->getAbsoluteUploadsPath(), true);
 
-        $this->testingFramework->cleanUp();
+        $this->testingFramework->cleanUpWithoutDatabase();
         parent::tearDown();
     }
 
