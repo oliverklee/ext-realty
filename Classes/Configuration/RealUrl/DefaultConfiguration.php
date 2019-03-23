@@ -71,7 +71,7 @@ class DefaultConfiguration
             'lookUpTable' => [
                 'table' => 'tx_realty_objects',
                 'id_field' => 'uid',
-                'alias_field' => 'IF(object_number != "", CONCAT(title, "-", object_number), title)',
+                'alias_field' => 'IF(object_number != "", CONCAT(title, "-", REPLACE(object_number, "/", "-")), title)',
                 'addWhereClause' => ' AND NOT deleted',
                 'useUniqueCache' => true,
                 'useUniqueCache_conf' => [
