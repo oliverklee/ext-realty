@@ -30,11 +30,6 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
     public $extKey = 'realty';
 
     /**
-     * @var bool whether to check cHash
-     */
-    public $pi_checkCHash = true;
-
-    /**
      * @var bool whether this class is called in the test mode
      */
     private $isTestMode = false;

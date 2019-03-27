@@ -19,16 +19,11 @@ Installation
 #. Please make sure that your site provides jQuery, and that it includes jQuery
    in the HEAD. The latter is necessary for the FE editor.
 
-#. In the install tool, disable  **FE > pageNotFoundOnCHashError** .
-
 #. In the install tool, set **MAIL > defaultMailFromAddress** and
    **MAIL > defaultMailFromName**.
 
 #. Make sure that you use UTF-8 in the BE and FE. Otherwise, the OpenImmo
    import won’t work properly, and the FE output might be broken.
-   **Don’t set config.renderCharset or config.metaCharset** (leaving
-   those values empty will automatically cause TYPO3 to use the BE
-   charset in the FE as well).
 
 #. If you want to use the offerers list view, make sure that the
    **sf\_register** or **sr\_feuser\_register** extension is installed.

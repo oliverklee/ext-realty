@@ -323,14 +323,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             $pageId = $this->getFrontEndController()->id;
         }
 
-        return htmlspecialchars(
-            $this->cObj->typoLink_URL(
-                [
-                    'parameter' => $pageId,
-                    'useCacheHash' => true,
-                ]
-            )
-        );
+        return htmlspecialchars($this->cObj->typoLink_URL(['parameter' => $pageId]), ENT_QUOTES | ENT_HTML5);
     }
 
     /**
@@ -593,10 +586,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         // The result may only contain non-deleted and non-hidden records except
         // for the my objects view.
-        $whereClause .= Tx_Oelib_Db::enableFields(
-            'tx_realty_objects',
-            $this->shouldShowHiddenObjects()
-            ) . Tx_Oelib_Db::enableFields('tx_realty_cities');
+        $whereClause .= \Tx_Oelib_Db::enableFields('tx_realty_objects', $this->shouldShowHiddenObjects())
+            . \Tx_Oelib_Db::enableFields('tx_realty_cities');
 
         $whereClause .= $this->getWhereClausePartForPidList();
 
