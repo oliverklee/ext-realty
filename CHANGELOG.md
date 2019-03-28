@@ -55,6 +55,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the checks for the zip_archive PHP extension (#175)
 
 ### Fixed
+- Avoid cHash warnings in the favorites list (#250)
 - Stop linting the removed cli/ folder (#245)
 - !!! Always require a city for the districts (#243)
 - Also delete the images when deleting an object during the import (#240)
