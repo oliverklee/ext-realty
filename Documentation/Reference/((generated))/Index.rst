@@ -297,6 +297,20 @@ override the corresponding value from TS Setup.**
 .. container:: table-row
 
    Property
+         contactEmailLanguage
+
+   Data type
+         string
+
+   Description
+         lowercase ISO code of the language to be used for the contact form email, e.g., "en" or "nl"
+
+   Default
+
+
+.. container:: table-row
+
+   Property
          blindCarbonCopyAddress
 
    Data type

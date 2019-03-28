@@ -2,6 +2,7 @@
 
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * This class provides a contact form for the realty plugin.
@@ -11,6 +12,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
 {
+    /**
+     * @var LanguageService
+     */
+    private $languageService = null;
+
     /**
      * @var array data for the contact form
      */
@@ -29,6 +35,20 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
         'callback' => 0,
         'terms' => 0,
         'summaryStringOfFavorites' => '',
+    ];
+
+    /**
+     * @var string[]
+     */
+    private $emailLabelKeys = [
+        'salutation',
+        'summary_string_of_favorites',
+        'object_number',
+        'title',
+        'uid',
+        'has_request',
+        'sender_contact',
+        'phone',
     ];
 
     /**
@@ -52,8 +72,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
     {
         $this->storeContactFormData($contactFormData);
 
-        // setOrHideSpecializedView() will fail if the 'showUid' parameter is
-        // set to an invalid value.
+        // setOrHideSpecializedView() will fail if the 'showUid' parameter is set to an invalid value.
         if (!$this->setOrHideSpecializedView()) {
             $this->setMarker('message_noResultsFound', $this->translate('message_noResultsFound_contact_form'));
 
@@ -217,11 +236,9 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      * sendEmail() should be returned instead of just returning TRUE after
      * sending an e-mail.
      *
-     * @return bool TRUE if the contact data for sending an e-mail could be
+     * @return bool true if the contact data for sending an e-mail could be
      *                 fetched and the send e-mail function was called,
-     *                 FALSE otherwise
-     *
-     * @see https://bugs.oliverklee.com/show_bug.cgi?id=961
+     *                 false otherwise
      */
     private function sendRequest()
     {
@@ -263,25 +280,55 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function getFilledEmailBody($contactPerson)
     {
-        foreach (
-            [
-                'request' => $this->contactFormData['request'],
-                'requester_name' => $this->contactFormData['requesterName'],
-                'requester_email' => $this->contactFormData['requesterEmail'],
-                'requester_phone' => $this->contactFormData['requesterPhone'],
-                'requester_street' => $this->contactFormData['requesterStreet'],
-                'requester_zip_and_city' => trim(
-                    $this->contactFormData['requesterZip'] . ' ' . $this->contactFormData['requesterCity']
-                ),
-                'summary_string_of_favorites' => $this->contactFormData['summaryStringOfFavorites'],
-                'contact_person' => $contactPerson,
-            ] as $marker => $value) {
-            $this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
+        $templatePath = $this->getConfValueString('templateFile');
+        $template = new \Tx_Oelib_Template();
+        $template->processTemplateFromFile($templatePath);
+
+        if ($this->isSpecializedView()) {
+            $template->hideSubparts('wrapper_email_from_general_contact_form');
+            $realtyObject = $this->getRealtyObject();
+            foreach (['object_number', 'title', 'uid'] as $key) {
+                $value = $key === 'uid' ? $realtyObject->getUid() : $realtyObject->getProperty($key);
+                $template->setMarker($key, $value);
+            }
+        } else {
+            $template->hideSubparts('wrapper_email_from_specialized_contact_form');
         }
 
-        $this->setOrDeleteMarkerIfNotEmpty('email_checkboxes', $this->getCheckboxesForEMail(), '', 'wrapper');
+        $languageService = $this->getSeparateLanguageService();
+        foreach ($this->emailLabelKeys as $key) {
+            $fullKey = 'label_' . $key;
+            $template->setMarker($fullKey, $languageService->getLL($fullKey));
+        }
 
-        return $this->getSubpart('EMAIL_BODY');
+        foreach ($this->getDataForEmail($contactPerson) as $marker => $value) {
+            $template->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
+        }
+
+        $template->setOrDeleteMarkerIfNotEmpty('email_checkboxes', $this->getCheckboxesForEMail(), '', 'wrapper');
+
+        return $template->getSubpart('EMAIL_BODY');
+    }
+
+    /**
+     * @param string $contactPerson
+     *
+     * @return string[]
+     */
+    private function getDataForEmail($contactPerson)
+    {
+        return [
+            'request' => $this->contactFormData['request'],
+            'requester_name' => $this->contactFormData['requesterName'],
+            'requester_email' => $this->contactFormData['requesterEmail'],
+            'requester_phone' => $this->contactFormData['requesterPhone'],
+            'requester_street' => $this->contactFormData['requesterStreet'],
+            'requester_zip_and_city' => \trim(
+                $this->contactFormData['requesterZip'] . ' ' . $this->contactFormData['requesterCity']
+            ),
+            'summary_string_of_favorites' => $this->contactFormData['summaryStringOfFavorites'],
+            'contact_person' => $contactPerson,
+        ];
     }
 
     /**
@@ -293,21 +340,19 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
     private function getCheckboxesForEMail()
     {
         $result = [];
+        $languageService = $this->getSeparateLanguageService();
 
         foreach (['viewing', 'information', 'callback'] as $key) {
             if ((bool)$this->contactFormData[$key]) {
-                $result[] = $this->translate('label_' . $key);
+                $result[] = $languageService->getLL('label_' . $key);
             }
         }
         if ((bool)$this->contactFormData['terms']) {
-            // The label might have an acronym tag in it and %s markers for
-            // the anchor tag which need to get removed.
-            $result[] = strip_tags(
-                str_replace(' %s', '', $this->translate('label_terms'))
-            );
+            // The label might have an acronym tag in it and %s markers for the anchor tag which need to get removed.
+            $result[] = \strip_tags(\str_replace(' %s', '', $languageService->getLL('label_terms')));
         }
 
-        return implode(LF, $result);
+        return \implode(LF, $result);
     }
 
     /**
@@ -318,11 +363,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function getEmailSubject()
     {
+        $languageService = $this->getSeparateLanguageService();
         if ($this->isSpecializedView()) {
-            $result = $this->translate('label_email_subject_specialized') .
+            $result = $languageService->getLL('label_email_subject_specialized') .
                 ' ' . $this->getRealtyObject()->getProperty('object_number');
         } else {
-            $result = $this->translate('label_email_subject_general');
+            $result = $languageService->getLL('label_email_subject_general');
         }
 
         return $result;
@@ -446,25 +492,20 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
         $wasSuccessful = true;
 
         if ($this->isSpecializedView()) {
-            $subpartsToHide = 'email_from_general_contact_form';
-
             /** @var tx_realty_Mapper_RealtyObject $mapper */
             $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
             if ($mapper->existsModel($this->getShowUid())) {
+                $realtyObject = $this->getRealtyObject();
                 foreach (['object_number', 'title', 'uid'] as $key) {
-                    $value = ($key === 'uid')
-                        ? $this->getRealtyObject()->getUid()
-                        : $this->getRealtyObject()->getProperty($key);
-                    $this->setMarker($key, $value);
+                    $value = $key === 'uid' ? $realtyObject->getUid() : $realtyObject->getProperty($key);
+                    $this->setMarker($key, \htmlspecialchars($value, ENT_QUOTES | ENT_HTML5));
                 }
             } else {
                 $wasSuccessful = false;
             }
         } else {
-            $subpartsToHide = 'specialized_contact_form,' . 'email_from_specialized_contact_form';
+            $this->hideSubparts('wrapper_specialized_contact_form');
         }
-
-        $this->hideSubparts($subpartsToHide, 'wrapper');
 
         return $wasSuccessful;
     }
@@ -594,7 +635,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
                 'requester_email' => $this->contactFormData['requesterEmail'],
                 'requester_phone' => $this->contactFormData['requesterPhone'],
             ] as $marker => $value) {
-            $this->setMarker($marker, htmlspecialchars($value));
+            $this->setMarker($marker, htmlspecialchars($value, ENT_QUOTES | ENT_HTML5));
         }
 
         foreach (
@@ -649,7 +690,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function getShowUid()
     {
-        return $this->contactFormData['showUid'];
+        return (int)$this->contactFormData['showUid'];
     }
 
     /**
@@ -662,6 +703,30 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
-        return $mapper->find($this->getShowUid());
+        /** @var \tx_realty_Model_RealtyObject $realtyObject */
+        $realtyObject = $mapper->find($this->getShowUid());
+
+        return $realtyObject;
+    }
+
+    /**
+     * @return LanguageService
+     */
+    private function getSeparateLanguageService()
+    {
+        if ($this->languageService !== null) {
+            return $this->languageService;
+        }
+
+        $this->languageService = GeneralUtility::makeInstance(LanguageService::class);
+        if ($this->hasConfValueString('contactEmailLanguage')) {
+            $language = $this->getConfValueString('contactEmailLanguage');
+        } else {
+            $language = $this->getFrontEndController()->lang;
+        }
+        $this->languageService->init($language);
+        $this->languageService->includeLLFile('EXT:realty/Resources/Private/Language/locallang.xlf');
+
+        return $this->languageService;
     }
 }
