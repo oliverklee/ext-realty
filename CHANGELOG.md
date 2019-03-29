@@ -6,6 +6,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## 3.0.0
+
+### Added
 - Make the language of the contact form email configuration (#251)
 - Replace slashes with dashes in the object number in the slug (#248)
 - Add the object number to the RealURL slug (#230, #231)
@@ -40,8 +52,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Speed up the new functional by omitting the auto increment reset (#189)
 - Convert more tests to nimut/testing framework (#181, #185, #190, #205)
 - Stop using the charset conversion from the BE or FE (#178)
-
-### Deprecated
 
 ### Removed
 - Drop unnecessary double xPath instances (#247)
