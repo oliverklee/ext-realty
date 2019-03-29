@@ -6,6 +6,7 @@ use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * Test case.
@@ -117,8 +118,7 @@ class ContactFormTest extends FunctionalTestCase
     private function createContentMock()
     {
         $mock = $this->getMock(ContentObjectRenderer::class, ['getTypoLink_URL']);
-        $mock->method('getTypoLink_URL')
-            ->will(self::returnCallback([$this, 'getTypoLinkUrl']));
+        $mock->method('getTypoLink_URL')->will(self::returnCallback([$this, 'getTypoLinkUrl']));
 
         return $mock;
     }
@@ -133,6 +133,21 @@ class ContactFormTest extends FunctionalTestCase
     public function getTypoLinkUrl($pageId)
     {
         return 'index.php?id=' . $pageId;
+    }
+
+    /**
+     * @param string $language
+     *
+     * @return LanguageService
+     */
+    private function getLanguageService($language)
+    {
+        /** @var LanguageService $languageService */
+        $languageService = GeneralUtility::makeInstance(LanguageService::class);
+        $languageService->init($language);
+        $languageService->includeLLFile('EXT:realty/Resources/Private/Language/locallang.xlf');
+
+        return $languageService;
     }
 
     /*
@@ -195,10 +210,9 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function generalContactFormDoesNotContainTitleLabelWithoutRealtyObjectSet()
     {
-        self::assertNotContains(
-            $this->subject->translate('label_title'),
-            $this->subject->render()
-        );
+        $result = $this->subject->render();
+
+        self::assertNotContains($this->subject->translate('label_title'), $result);
     }
 
     /**
@@ -206,10 +220,9 @@ class ContactFormTest extends FunctionalTestCase
      */
     public function generalContactFormDoesNotContainObjectNumberLabelWithoutRealtyObjectSet()
     {
-        self::assertNotContains(
-            $this->subject->translate('label_object_number'),
-            $this->subject->render()
-        );
+        $result = $this->subject->render();
+
+        self::assertNotContains($this->subject->translate('label_object_number'), $result);
     }
 
     /**
@@ -2112,11 +2125,46 @@ class ContactFormTest extends FunctionalTestCase
                 'request' => 'the request',
             ]
         );
+        $result = $this->message->getSubject();
 
-        self::assertContains(
-            $this->subject->translate('label_email_subject_general'),
-            $this->message->getSubject()
+        self::assertContains($this->subject->translate('label_email_subject_general'), $result);
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function languageDataProvider()
+    {
+        return [
+            'English' => ['en'],
+            'German' => ['de'],
+            'Dutch' => ['nl'],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @param string $language
+     *
+     * @dataProvider languageDataProvider
+     */
+    public function emailSubjectIsGeneralForTheGeneralFormUsingDifferentLanguage($language)
+    {
+        $this->subject->setConfigurationValue('contactEmailLanguage', $language);
+
+        $this->subject->render(
+            [
+                'isSubmitted' => true,
+                'requesterName' => 'a name of a requester',
+                'requesterEmail' => 'requester@example.com',
+                'request' => 'the request',
+            ]
         );
+        $result = $this->message->getSubject();
+
+        $languageService = $this->getLanguageService($language);
+        self::assertContains($languageService->getLL('label_email_subject_general'), $result);
     }
 
     /**
@@ -2133,11 +2181,9 @@ class ContactFormTest extends FunctionalTestCase
                 'request' => 'the request',
             ]
         );
+        $result = $this->message->getSubject();
 
-        self::assertContains(
-            self::REALTY_OBJECT_NUMBER,
-            $this->message->getSubject()
-        );
+        self::assertContains(self::REALTY_OBJECT_NUMBER, $result);
     }
 
     /*
@@ -2584,5 +2630,50 @@ class ContactFormTest extends FunctionalTestCase
             $this->subject->translate('label_callback'),
             $emailBody
         );
+    }
+
+    /**
+     * @test
+     */
+    public function emailContainsSalutationLabel()
+    {
+        $this->subject->render(
+            [
+                'showUid' => $this->realtyUid,
+                'isSubmitted' => true,
+                'requesterName' => 'any name',
+                'requesterEmail' => 'requester@example.com',
+                'request' => 'the request',
+            ]
+        );
+        $result = $this->message->getBody();
+
+        self::assertContains($this->subject->translate('label_salutation'), $result);
+    }
+
+    /**
+     * @test
+     *
+     * @param string $language
+     *
+     * @dataProvider languageDataProvider
+     */
+    public function emailContainsSalutationLabelInConfiguredLanguage($language)
+    {
+        $this->subject->setConfigurationValue('contactEmailLanguage', $language);
+
+        $this->subject->render(
+            [
+                'showUid' => $this->realtyUid,
+                'isSubmitted' => true,
+                'requesterName' => 'any name',
+                'requesterEmail' => 'requester@example.com',
+                'request' => 'the request',
+            ]
+        );
+        $result = $this->message->getBody();
+
+        $languageService = $this->getLanguageService($language);
+        self::assertContains($languageService->getLL('label_salutation'), $result);
     }
 }

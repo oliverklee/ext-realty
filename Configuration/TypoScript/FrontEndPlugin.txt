@@ -92,6 +92,8 @@ plugin.tx_realty_pi1 {
     # default e-mail address for requests, used without validation if the record
     # has no valid contact_email
     defaultContactEmail =
+    # lowercase ISO code of the language to be used for the contact form email, e.g., "en" or "nl"
+    contactEmailLanguage =
     # e-mail address where to send a BCC of each request, leave empty to disable
     blindCarbonCopyAddress =
     # fields to show in the contact form
