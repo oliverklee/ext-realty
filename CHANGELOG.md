@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Prevent rounding errors with the coordinates (#253)
 
 ## 3.0.0
 
