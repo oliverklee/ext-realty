@@ -3,8 +3,7 @@
 namespace OliverKlee\Realty\Tests\Functional\Model;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use OliverKlee\Realty\Tests\Functional\Traits\FalHelper;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -16,12 +15,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class RealtyObjectTest extends FunctionalTestCase
 {
+    use FalHelper;
+
     /**
      * @var string[]
      */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/realty',
-    ];
+    protected $testExtensionsToLoad = ['typo3conf/ext/realty'];
 
     /**
      * @var \tx_realty_Mapper_RealtyObject
@@ -37,10 +36,7 @@ class RealtyObjectTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
-        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
-        $backEndUserProphecy->isAdmin()->willReturn(true);
-        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
+        $this->provideAdminBackEndUserForFal();
 
         $this->realtyObjectMapper = new \tx_realty_Mapper_RealtyObject();
 

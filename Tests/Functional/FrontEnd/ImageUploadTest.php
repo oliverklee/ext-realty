@@ -3,8 +3,7 @@
 namespace OliverKlee\Realty\Tests\Functional\FrontEnd;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use OliverKlee\Realty\Tests\Functional\Traits\FalHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -16,6 +15,8 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class ImageUploadTest extends FunctionalTestCase
 {
+    use FalHelper;
+
     /**
      * @var string[]
      */
@@ -35,10 +36,7 @@ class ImageUploadTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
-        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
-        $backEndUserProphecy->isAdmin()->willReturn(true);
-        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
+        $this->provideAdminBackEndUserForFal();
 
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->setResetAutoIncrementThreshold(99999999);

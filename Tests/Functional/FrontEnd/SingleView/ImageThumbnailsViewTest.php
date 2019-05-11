@@ -3,8 +3,7 @@
 namespace OliverKlee\Realty\Tests\Functional\FrontEnd\SingleView;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use OliverKlee\Realty\Tests\Functional\Traits\FalHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -15,6 +14,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class ImageThumbnailsViewTest extends FunctionalTestCase
 {
+    use FalHelper;
+
     /**
      * @var string[]
      */
@@ -31,8 +32,6 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
     private $testingFramework = null;
 
     /**
-     * TS Setup configuration for plugin.tx_realty_pi1
-     *
      * @var \Tx_Oelib_Configuration
      */
     private $configuration = null;
@@ -42,14 +41,12 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
      */
     private $contentObject = null;
 
-    /**
-     * @var \tx_realty_Mapper_RealtyObject
-     */
-    private $realtyObjectMapper = null;
-
     protected function setUp()
     {
         parent::setUp();
+
+        $this->provideAdminBackEndUserForFal();
+
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
@@ -72,13 +69,6 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
             ]
         );
         $configurationRegistry->set('plugin.tx_realty_pi1', $this->configuration);
-
-        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
-        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
-        $backEndUserProphecy->isAdmin()->willReturn(true);
-        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
-
-        $this->realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
     }
 
     protected function tearDown()
