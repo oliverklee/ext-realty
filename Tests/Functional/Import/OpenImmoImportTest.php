@@ -3,9 +3,8 @@
 namespace OliverKlee\Realty\Tests\Functional\Import;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use OliverKlee\Realty\Tests\Functional\Traits\FalHelper;
 use OliverKlee\Realty\Tests\Unit\Import\Fixtures\TestingImmoImport;
-use Prophecy\Prophecy\ObjectProphecy;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
@@ -21,6 +20,8 @@ use TYPO3\CMS\Lang\LanguageService;
  */
 class OpenImmoImportTest extends FunctionalTestCase
 {
+    use FalHelper;
+
     /**
      * @var string[]
      */
@@ -61,7 +62,7 @@ class OpenImmoImportTest extends FunctionalTestCase
     private $importFolder = '';
 
     /**
-     * @var bool whether an import folder has been created
+     * @var bool
      */
     private $testImportFolderExists = false;
 
@@ -94,9 +95,10 @@ class OpenImmoImportTest extends FunctionalTestCase
         parent::setUp();
         $this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
         $this->emailConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['MAIL'];
-
         $this->languageServiceBackup = $this->getLanguageService();
         $GLOBALS['LANG'] = new LanguageService();
+
+        $this->provideAdminBackEndUserForFal();
 
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->setResetAutoIncrementThreshold(99999999);
@@ -115,11 +117,6 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         $this->message = $this->getMock(MailMessage::class, ['send']);
         GeneralUtility::addInstance(MailMessage::class, $this->message);
-
-        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
-        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
-        $backEndUserProphecy->isAdmin()->willReturn(true);
-        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
     }
 
     protected function tearDown()

@@ -3,8 +3,7 @@
 namespace OliverKlee\Realty\Tests\Functional\FrontEnd\SingleView;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use OliverKlee\Realty\Tests\Functional\Traits\FalHelper;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -14,6 +13,8 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class DocumentsViewTest extends FunctionalTestCase
 {
+    use FalHelper;
+
     /**
      * @var string[]
      */
@@ -29,24 +30,15 @@ class DocumentsViewTest extends FunctionalTestCase
      */
     private $testingFramework = null;
 
-    /**
-     * @var \tx_realty_Mapper_RealtyObject
-     */
-    private $realtyObjectMapper = null;
-
     protected function setUp()
     {
         parent::setUp();
+
+        $this->provideAdminBackEndUserForFal();
+
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
         $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
-
-        /** @var BackendUserAuthentication|ObjectProphecy $backEndUserProphecy */
-        $backEndUserProphecy = $this->prophesize(BackendUserAuthentication::class);
-        $backEndUserProphecy->isAdmin()->willReturn(true);
-        $GLOBALS['BE_USER'] = $backEndUserProphecy->reveal();
-
-        $this->realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
 
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];

@@ -45,6 +45,7 @@
         "nimut/testing-framework": "^2.0",
         "oliverklee/phpunit": "^5.3",
         "phpunit/phpunit": "^5.6",
+        "phpspec/prophecy": "^1.8.0",
         "mikey179/vfsstream": "^1.6"
     },
     "conflict": {
