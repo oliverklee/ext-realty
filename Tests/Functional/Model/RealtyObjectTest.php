@@ -63,7 +63,7 @@ class RealtyObjectTest extends FunctionalTestCase
     /**
      * @return string
      */
-    public function getAbsoluteAttachmentsTargetFolder()
+    private function getAbsoluteAttachmentsTargetFolder()
     {
         return GeneralUtility::getFileAbsFileName('fileadmin/realty_attachments/');
     }
