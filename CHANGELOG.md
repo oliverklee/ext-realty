@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Enable MySQL on Travis CI (#257)
 - Prevent rounding errors with the coordinates (#253)
 
 ## 3.0.0
