@@ -52,7 +52,6 @@
         "sjbr/static-info-tables": "6.7.1"
     },
     "replace": {
-        "realty": "self.version",
         "typo3-ter/realty": "self.version"
     },
     "autoload": {
