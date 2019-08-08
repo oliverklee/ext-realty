@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Drop an obsolete "replace" entry from composer.json (#259)
 - Enable MySQL on Travis CI (#257)
 - Prevent rounding errors with the coordinates (#253)
 
