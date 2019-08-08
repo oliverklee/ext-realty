@@ -40,13 +40,13 @@
         "sjbr/static-info-tables": "^6.4"
     },
     "require-dev": {
-        "helhum/typo3-console": "^4.9",
-        "helmich/typo3-typoscript-lint": "^1.4.7",
-        "nimut/testing-framework": "^2.0",
-        "oliverklee/phpunit": "^5.3",
-        "phpunit/phpunit": "^5.6",
-        "phpspec/prophecy": "^1.8.0",
-        "mikey179/vfsstream": "^1.6"
+        "helhum/typo3-console": "^4.9.6",
+        "helmich/typo3-typoscript-lint": "^1.5.0",
+        "nimut/testing-framework": "^2.0.3",
+        "oliverklee/phpunit": "~5.3.5",
+        "phpunit/phpunit": "~5.6.8",
+        "phpspec/prophecy": "^1.8.1",
+        "mikey179/vfsstream": "^1.6.7"
     },
     "conflict": {
         "sjbr/static-info-tables": "6.7.1"
