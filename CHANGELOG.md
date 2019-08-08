@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Drop leftover TCA files (#261)
 - Pin the dev dependency versions (#260)
 - Drop an obsolete "replace" entry from composer.json (#259)
 - Enable MySQL on Travis CI (#257)
