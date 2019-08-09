@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -7,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_StatusViewTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_StatusViewTest extends TestCase
 {
     /**
      * @var tx_realty_pi1_StatusView

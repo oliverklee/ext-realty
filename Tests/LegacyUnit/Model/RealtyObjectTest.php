@@ -1,5 +1,7 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
+
 /**
  * Test case.
  *
@@ -7,7 +9,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
+class tx_realty_Model_RealtyObjectTest extends TestCase
 {
     /**
      * @var tx_realty_Model_RealtyObjectChild
@@ -18,11 +20,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
      * @var Tx_Oelib_TestingFramework
      */
     private $testingFramework = null;
-
-    /**
-     * @var Tx_Oelib_TemplateHelper
-     */
-    private $templateHelper;
 
     /**
      * @var int UID of a dummy realty object
@@ -61,11 +58,6 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
         Tx_Oelib_MapperRegistry::getInstance()
             ->activateTestingMode($this->testingFramework);
-
-        $this->templateHelper = $this->getMock(
-            \Tx_Oelib_TemplateHelper::class,
-            ['hasConfValueString', 'getConfValueString']
-        );
 
         $this->subject = new tx_realty_Model_RealtyObjectChild(true);
 
@@ -235,21 +227,21 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function createNewDatabaseEntryForArrayWithNonZeroUidThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->createNewDatabaseEntry(['uid' => 1234]);
     }
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function createNewDatabaseEntryForArrayWithZeroUidThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->createNewDatabaseEntry(['uid' => 0]);
     }
 
@@ -965,11 +957,11 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function setPropertyKeySetToUidThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->loadRealtyObject($this->objectUid);
 
         $this->subject->setProperty('uid', 12345);
@@ -2163,11 +2155,11 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function getForeignPropertyFieldForNonAllowedFieldThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->loadRealtyObject($this->objectUid);
         $this->subject->getForeignPropertyField('floor');
     }
@@ -3387,19 +3379,21 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function setGeoCoordinatesWithoutLatitudeThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->setGeoCoordinates(['longitude' => 42.0]);
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function setGeoCoordinatesWithoutLongitudeThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->setGeoCoordinates(['latitude' => -42.7]);
     }
 
@@ -3624,11 +3618,11 @@ class tx_realty_Model_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function setDistanceToTheSeaWithNegativeNumberThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->setData([]);
         $this->subject->setDistanceToTheSea(-1);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -8,7 +9,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_GoogleMapsViewTest extends TestCase
 {
     /**
      * @var tx_realty_pi1_GoogleMapsView
@@ -41,11 +42,6 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
     protected $geoCoder = null;
 
     /**
-     * @var \Tx_Oelib_Configuration
-     */
-    private $configuration = null;
-
-    /**
      * @var float latitude
      */
     const LATITUDE = 50.7;
@@ -64,8 +60,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
 
         $configurationRegistry = \Tx_Oelib_ConfigurationRegistry::getInstance();
         $configurationRegistry->set('plugin', new \Tx_Oelib_Configuration());
-        $this->configuration = new \Tx_Oelib_Configuration();
-        $configurationRegistry->set('plugin.tx_oelib', $this->configuration);
+        $configuration = new \Tx_Oelib_Configuration();
+        $configurationRegistry->set('plugin.tx_oelib', $configuration);
 
         $realtyData = [
             'title' => 'test realty object',
@@ -79,16 +75,17 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends \Tx_Phpunit_TestCase
             'coordinates_problem' => false,
         ];
 
-        $this->geoCoder = $this->getMock(Tx_Oelib_Geocoding_Dummy::class);
+        $this->geoCoder = $this->createMock(Tx_Oelib_Geocoding_Dummy::class);
         Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
 
-        $this->realtyMapper = $this->getMock(\tx_realty_Mapper_RealtyObject::class);
+        $this->realtyMapper = $this->createMock(\tx_realty_Mapper_RealtyObject::class);
         Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $this->realtyMapper);
 
-        $this->realtyObject = $this->getMock(\tx_realty_Model_RealtyObject::class, ['writeToDatabase']);
+        $this->realtyObject = $this->getMockBuilder(\tx_realty_Model_RealtyObject::class)
+            ->setMethods(['writeToDatabase'])->getMock();
         $this->realtyObject->setData($realtyData);
         $this->realtyMapper->method('find')->with($this->realtyUid)
-            ->will(self::returnValue($this->realtyObject));
+            ->willReturn($this->realtyObject);
 
         $this->subject = new tx_realty_pi1_GoogleMapsView(
             [

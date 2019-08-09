@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -7,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_OffererListTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_OffererListTest extends TestCase
 {
     /**
      * @var Tx_Oelib_TestingFramework

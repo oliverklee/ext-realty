@@ -1,11 +1,13 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
+
 /**
  * Test case.
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
+class tx_realty_Model_DistrictTest extends TestCase
 {
     /**
      * @var tx_realty_Model_District
@@ -49,10 +51,11 @@ class tx_realty_Model_DistrictTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function setTitleWithEmptyStringThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->subject->setTitle('');
     }
 

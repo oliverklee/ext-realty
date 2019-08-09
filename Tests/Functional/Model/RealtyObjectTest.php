@@ -217,10 +217,11 @@ class RealtyObjectTest extends FunctionalTestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function getAttachmentByBaseNameForEmptyBaseNameThrowsException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
 
         /** @var \tx_realty_Model_RealtyObject $subject */
@@ -279,11 +280,11 @@ class RealtyObjectTest extends FunctionalTestCase
 
     /**
      * @test
-     *
-     * @expectedException \BadMethodCallException
      */
     public function addAndSaveAttachmentForVirginModelThrowsException()
     {
+        $this->expectException(\BadMethodCallException::class);
+
         $subject = new \tx_realty_Model_RealtyObject();
 
         $subject->addAndSaveAttachment($this->getAbsoluteFixturesPath() . 'test2.jpg', 'test image');
@@ -291,11 +292,11 @@ class RealtyObjectTest extends FunctionalTestCase
 
     /**
      * @test
-     *
-     * @expectedException \BadMethodCallException
      */
     public function addAndSaveAttachmentForEmptyModelWithoutUidThrowsException()
     {
+        $this->expectException(\BadMethodCallException::class);
+
         $subject = new \tx_realty_Model_RealtyObject();
         $subject->setData([]);
 
@@ -304,11 +305,11 @@ class RealtyObjectTest extends FunctionalTestCase
 
     /**
      * @test
-     *
-     * @expectedException \UnexpectedValueException
      */
     public function addAndSaveAttachmentForInexistentFileThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $this->importDataSet(__DIR__ . '/../Fixtures/Attachments.xml');
         $this->importDataSet(__DIR__ . '/../Fixtures/RealtyObjects.xml');
 

@@ -1,11 +1,13 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
+
 /**
  * Test case.
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_DefaultControllerTest extends TestCase
 {
     /**
      * @var tx_realty_pi1
@@ -28,11 +30,6 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
     private $systemFolderPid = 0;
 
     /**
-     * @var int sub-system folder PID
-     */
-    private $subSystemFolderPid = 0;
-
-    /**
      * @var int UID of the first dummy realty object
      */
     private $firstRealtyUid = 0;
@@ -46,21 +43,6 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
      * @var string title for the first dummy realty object
      */
     private static $firstObjectTitle = 'a title';
-
-    /**
-     * @var int second dummy realty object
-     */
-    private $secondRealtyUid = 0;
-
-    /**
-     * @var string object number for the second dummy realty object
-     */
-    private static $secondObjectNumber = '2';
-
-    /**
-     * @var string title for the second dummy realty object
-     */
-    private static $secondObjectTitle = 'another title';
 
     /**
      * @var int static_info_tables UID of Germany
@@ -140,9 +122,6 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
     {
         $this->loginPid = $this->testingFramework->createFrontEndPage();
         $this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
-        $this->subSystemFolderPid = $this->testingFramework->createSystemFolder(
-            $this->systemFolderPid
-        );
     }
 
     /**
@@ -163,15 +142,6 @@ class tx_realty_FrontEnd_DefaultControllerTest extends \Tx_Phpunit_TestCase
                 'has_pool' => '0',
                 'has_community_pool' => '0',
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
-            ]
-        );
-        $this->secondRealtyUid = $this->testingFramework->createRecord(
-            'tx_realty_objects',
-            [
-                'title' => self::$secondObjectTitle,
-                'object_number' => self::$secondObjectNumber,
-                'pid' => $this->systemFolderPid,
-                'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
             ]
         );
     }

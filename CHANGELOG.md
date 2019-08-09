@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- Upgrade to PHPUnit 5.7 (#262)
 - Change from GPL V3+ to GPL V2+ (#258)
 
 ### Deprecated

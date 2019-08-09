@@ -2890,7 +2890,7 @@ class DomDocumentConverterTest extends UnitTestCase
         $result = $this->subject->getConvertedData($node);
         $realtyObjectData = $result[0];
 
-        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+        self::assertArrayNotHasKey('attached_files', $realtyObjectData);
     }
 
     /**
@@ -2912,7 +2912,7 @@ class DomDocumentConverterTest extends UnitTestCase
         $result = $this->subject->getConvertedData($node);
         $realtyObjectData = $result[0];
 
-        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+        self::assertArrayNotHasKey('attached_files', $realtyObjectData);
     }
 
     /**
@@ -2936,7 +2936,7 @@ class DomDocumentConverterTest extends UnitTestCase
         $result = $this->subject->getConvertedData($node);
         $realtyObjectData = $result[0];
 
-        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+        self::assertArrayNotHasKey('attached_files', $realtyObjectData);
     }
 
     /**
@@ -2961,7 +2961,7 @@ class DomDocumentConverterTest extends UnitTestCase
         $result = $this->subject->getConvertedData($node);
         $realtyObjectData = $result[0];
 
-        self::assertFalse(\array_key_exists('attached_files', $realtyObjectData));
+        self::assertArrayNotHasKey('attached_files', $realtyObjectData);
     }
 
     /**

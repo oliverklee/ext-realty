@@ -80,7 +80,7 @@ class EditorTest extends FunctionalTestCase
             true
         );
 
-        $this->message = $this->getMock(MailMessage::class, ['send']);
+        $this->message = $this->getMockBuilder(MailMessage::class)->setMethods(['send'])->getMock();
         GeneralUtility::addInstance(MailMessage::class, $this->message);
     }
 
@@ -910,7 +910,7 @@ class EditorTest extends FunctionalTestCase
         $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->subject->setFakedFormValue('year_rent', '1234');
 
-        static::assertTrue($this->subject->isNonEmptyValidPriceForObjectForRent(['value' => '']));
+        self::assertTrue($this->subject->isNonEmptyValidPriceForObjectForRent(['value' => '']));
     }
 
     /**
@@ -921,7 +921,7 @@ class EditorTest extends FunctionalTestCase
         $this->subject->setFakedFormValue('object_type', \tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
         $this->subject->setFakedFormValue('rent_with_heating_costs', '1234');
 
-        static::assertTrue($this->subject->isNonEmptyValidPriceForObjectForRent(['value' => '']));
+        self::assertTrue($this->subject->isNonEmptyValidPriceForObjectForRent(['value' => '']));
     }
 
     /**
@@ -2054,12 +2054,8 @@ class EditorTest extends FunctionalTestCase
     {
         $this->subject->setRealtyObjectUid($this->dummyObjectUid);
 
-        self::assertFalse(
-            array_key_exists(
-                'spacer_01',
-                $this->subject->modifyDataToInsert(['spacer_01' => 'blubb'])
-            )
-        );
+        self::assertArrayNotHasKey('spacer_01', $this->subject->modifyDataToInsert(['spacer_01' => 'blubb']));
+
         // TODO: remove the workaround when PHPUnit Bug 992 is fixed.
         // @see http://www.phpunit.de/ticket/992
     }
@@ -2071,12 +2067,8 @@ class EditorTest extends FunctionalTestCase
     {
         $this->subject->setRealtyObjectUid($this->dummyObjectUid);
 
-        self::assertTrue(
-            array_key_exists(
-                'title',
-                $this->subject->modifyDataToInsert(['title' => 'foo'])
-            )
-        );
+        self::assertArrayHasKey('title', $this->subject->modifyDataToInsert(['title' => 'foo']));
+
         // TODO: remove the workaround when PHPUnit Bug 992 is fixed.
         // @see http://www.phpunit.de/ticket/992
     }
@@ -2284,10 +2276,10 @@ class EditorTest extends FunctionalTestCase
             '',
             false
         );
-        $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
+        $cacheFrontEnd->expects(self::once())->method('getIdentifier')->willReturn('cache_pages');
         /** @var TaggableBackendInterface|\PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
-        $cacheBackEnd = $this->getMock(TaggableBackendInterface::class);
-        $cacheFrontEnd->method('getBackend')->will(self::returnValue($cacheBackEnd));
+        $cacheBackEnd = $this->createMock(TaggableBackendInterface::class);
+        $cacheFrontEnd->method('getBackend')->willReturn($cacheBackEnd);
         $cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 
         $cacheManager = new CacheManager();

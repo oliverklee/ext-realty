@@ -26,7 +26,7 @@ class RealtyObjectTest extends UnitTestCase
      */
     public function isAbstractModel()
     {
-        static::assertInstanceOf(\Tx_Oelib_Model::class, $this->subject);
+        self::assertInstanceOf(\Tx_Oelib_Model::class, $this->subject);
     }
 
     /**

@@ -115,7 +115,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->subject = new TestingImmoImport(true);
         $this->setupStaticConditions();
 
-        $this->message = $this->getMock(MailMessage::class, ['send']);
+        $this->message = $this->getMockBuilder(MailMessage::class)->setMethods(['send'])->getMock();
         GeneralUtility::addInstance(MailMessage::class, $this->message);
     }
 
@@ -256,7 +256,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->copyTestFileIntoImportFolder('bar.zip');
 
         self::assertSame(
-            glob($this->importFolder . '*.zip'),
+            \glob($this->importFolder . '*.zip', GLOB_ERR),
             array_values($this->subject->getPathsOfZipsToExtract($this->importFolder))
         );
     }
@@ -428,8 +428,8 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->subject->createExtractionFolder($this->importFolder . 'foo.zip');
         $this->subject->cleanUp($this->importFolder);
 
-        self::assertFalse(
-            is_dir($this->importFolder . 'foo/')
+        self::assertDirectoryNotExists(
+            $this->importFolder . 'foo/'
         );
     }
 
@@ -442,8 +442,8 @@ class OpenImmoImportTest extends FunctionalTestCase
         GeneralUtility::mkdir($this->importFolder . 'foo/');
         $this->subject->cleanUp($this->importFolder);
 
-        self::assertTrue(
-            is_dir($this->importFolder . 'foo/')
+        self::assertDirectoryExists(
+            $this->importFolder . 'foo/'
         );
     }
 
@@ -466,8 +466,8 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->copyTestFileIntoImportFolder('contains-folder.zip');
         $this->subject->importFromZip();
 
-        self::assertFalse(
-            is_dir($this->importFolder . 'contains-folder/')
+        self::assertDirectoryNotExists(
+            $this->importFolder . 'contains-folder/'
         );
     }
 
@@ -671,7 +671,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->disableValidation();
         $this->subject->importFromZip();
 
-        static::assertSame($currentBackEndLanguage, $this->getLanguageService()->lang);
+        self::assertSame($currentBackEndLanguage, $this->getLanguageService()->lang);
     }
 
     /**
@@ -3274,10 +3274,10 @@ class OpenImmoImportTest extends FunctionalTestCase
             '',
             false
         );
-        $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
+        $cacheFrontEnd->expects(self::once())->method('getIdentifier')->willReturn('cache_pages');
         /** @var TaggableBackendInterface|\PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
-        $cacheBackEnd = $this->getMock(TaggableBackendInterface::class);
-        $cacheFrontEnd->method('getBackend')->will(self::returnValue($cacheBackEnd));
+        $cacheBackEnd = $this->createMock(TaggableBackendInterface::class);
+        $cacheFrontEnd->method('getBackend')->willReturn($cacheBackEnd);
         $cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 
         $cacheManager = new CacheManager();
@@ -4300,7 +4300,7 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function wasSuccessfulInitiallyReturnsTrue()
     {
-        static::assertTrue($this->subject->wasSuccessful());
+        self::assertTrue($this->subject->wasSuccessful());
     }
 
     /**
@@ -4311,7 +4311,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->copyTestFileIntoImportFolder('two-objects.zip');
         $this->subject->importFromZip();
 
-        static::assertTrue($this->subject->wasSuccessful());
+        self::assertTrue($this->subject->wasSuccessful());
     }
 
     /**
@@ -4324,6 +4324,6 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         $this->subject->importFromZip();
 
-        static::assertFalse($this->subject->wasSuccessful());
+        self::assertFalse($this->subject->wasSuccessful());
     }
 }

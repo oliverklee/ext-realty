@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -8,7 +9,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_FilterFormTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_FilterFormTest extends TestCase
 {
     /**
      * @var tx_realty_filterForm
@@ -713,7 +714,7 @@ class tx_realty_FrontEnd_FilterFormTest extends \Tx_Phpunit_TestCase
     {
         $result = $this->subject->getWhereClausePart([]);
 
-        static::assertSame('', $result);
+        self::assertSame('', $result);
     }
 
     /**

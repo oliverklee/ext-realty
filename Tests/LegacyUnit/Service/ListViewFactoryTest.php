@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -7,7 +8,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Service_ListViewFactoryTest extends \Tx_Phpunit_TestCase
+class tx_realty_Service_ListViewFactoryTest extends TestCase
 {
     /**
      * @var ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject
@@ -16,7 +17,7 @@ class tx_realty_Service_ListViewFactoryTest extends \Tx_Phpunit_TestCase
 
     protected function setUp()
     {
-        $this->cObjMock = $this->getMock(ContentObjectRenderer::class);
+        $this->cObjMock = $this->createMock(ContentObjectRenderer::class);
     }
 
     /////////////////////////////////////////////
