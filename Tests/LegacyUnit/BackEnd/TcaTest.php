@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use OliverKlee\Realty\BackEnd\Tca;
 
 /**
@@ -7,7 +8,7 @@ use OliverKlee\Realty\BackEnd\Tca;
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
+class tx_realty_BackEnd_TcaTest extends TestCase
 {
     /**
      * @var Tca
@@ -67,7 +68,7 @@ class tx_realty_BackEnd_TcaTest extends \Tx_Phpunit_TestCase
         $cities->add($city);
 
         /** @var tx_realty_Mapper_District|PHPUnit_Framework_MockObject_MockObject $mapper */
-        $mapper = $this->getMock(\tx_realty_Mapper_District::class, ['findAllByCityUid']);
+        $mapper = $this->createPartialMock(\tx_realty_Mapper_District::class, ['findAllByCityUid']);
         $mapper->expects(self::once())->method('findAllByCityUid')->with(42)->willReturn($cities);
         \Tx_Oelib_MapperRegistry::set(\tx_realty_Mapper_District::class, $mapper);
 

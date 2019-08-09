@@ -51,7 +51,7 @@ class OpenImmoControllerTest extends UnitTestCase
      */
     public function isActionController()
     {
-        static::assertInstanceOf(ActionController::class, $this->subject);
+        self::assertInstanceOf(ActionController::class, $this->subject);
     }
 
     /**

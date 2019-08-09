@@ -64,7 +64,7 @@ class OpenImmoImportTest extends UnitTestCase
      */
     public function isSchedulerTask()
     {
-        static::assertInstanceOf(AbstractTask::class, $this->subject);
+        self::assertInstanceOf(AbstractTask::class, $this->subject);
     }
 
     /**
@@ -86,7 +86,7 @@ class OpenImmoImportTest extends UnitTestCase
         $this->importServiceProphecy->importFromZip()->shouldBeCalled();
         $this->importServiceProphecy->wasSuccessful()->willReturn(true);
 
-        static::assertTrue($this->subject->execute());
+        self::assertTrue($this->subject->execute());
     }
 
     /**
@@ -97,6 +97,6 @@ class OpenImmoImportTest extends UnitTestCase
         $this->importServiceProphecy->importFromZip()->shouldBeCalled();
         $this->importServiceProphecy->wasSuccessful()->willReturn(false);
 
-        static::assertFalse($this->subject->execute());
+        self::assertFalse($this->subject->execute());
     }
 }

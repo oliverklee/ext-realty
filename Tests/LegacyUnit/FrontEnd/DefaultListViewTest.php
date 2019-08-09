@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -8,7 +9,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_DefaultListViewTest extends TestCase
 {
     /**
      * @var tx_realty_pi1_DefaultListView
@@ -24,11 +25,6 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
      * @var int UID of the first dummy realty object
      */
     private $firstRealtyUid = 0;
-
-    /**
-     * @var int second dummy realty object
-     */
-    private $secondRealtyUid = 0;
 
     /**
      * @var int first dummy city UID
@@ -110,7 +106,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends \Tx_Phpunit_TestCase
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
             ]
         );
-        $this->secondRealtyUid = $this->testingFramework->createRecord(
+        $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
                 'pid' => $this->systemFolderPid,

@@ -88,7 +88,7 @@ class ContactFormTest extends FunctionalTestCase
             'request'
         );
 
-        $this->message = $this->getMock(MailMessage::class, ['send']);
+        $this->message = $this->getMockBuilder(MailMessage::class)->setMethods(['send'])->getMock();
         GeneralUtility::addInstance(MailMessage::class, $this->message);
     }
 
@@ -117,8 +117,8 @@ class ContactFormTest extends FunctionalTestCase
      */
     private function createContentMock()
     {
-        $mock = $this->getMock(ContentObjectRenderer::class, ['getTypoLink_URL']);
-        $mock->method('getTypoLink_URL')->will(self::returnCallback([$this, 'getTypoLinkUrl']));
+        $mock = $this->createPartialMock(ContentObjectRenderer::class, ['getTypoLink_URL']);
+        $mock->method('getTypoLink_URL')->willReturnCallback([$this, 'getTypoLinkUrl']);
 
         return $mock;
     }
@@ -1672,7 +1672,7 @@ class ContactFormTest extends FunctionalTestCase
             ]
         );
 
-        static::assertSame(['alex@example.com' => 'Alex Doe'], $this->message->getFrom());
+        self::assertSame(['alex@example.com' => 'Alex Doe'], $this->message->getFrom());
     }
 
     /**

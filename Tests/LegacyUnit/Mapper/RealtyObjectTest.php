@@ -1,12 +1,14 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
+
 /**
  * Test case.
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
+class tx_realty_Mapper_RealtyObjectTest extends TestCase
 {
     /**
      * @var tx_realty_Mapper_RealtyObject
@@ -271,11 +273,11 @@ class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Tx_Oelib_Exception_NotFound
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectNumber()
     {
+        $this->expectException(\Tx_Oelib_Exception_NotFound::class);
+
         $this->subject->getLoadedTestingModel(
             [
                 'object_number' => 'FLAT0001',
@@ -293,11 +295,11 @@ class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Tx_Oelib_Exception_NotFound
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectId()
     {
+        $this->expectException(\Tx_Oelib_Exception_NotFound::class);
+
         $this->subject->getLoadedTestingModel(
             [
                 'object_number' => 'FLAT0001',
@@ -315,11 +317,11 @@ class tx_realty_Mapper_RealtyObjectTest extends \Tx_Phpunit_TestCase
 
     /**
      * @test
-     *
-     * @expectedException \Tx_Oelib_Exception_NotFound
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectLanguage()
     {
+        $this->expectException(\Tx_Oelib_Exception_NotFound::class);
+
         $this->subject->getLoadedTestingModel(
             [
                 'object_number' => 'FLAT0001',

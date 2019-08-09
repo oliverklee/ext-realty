@@ -1,11 +1,13 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
+
 /**
  * Test case.
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Ajax_DistrictSelectorTest extends \Tx_Phpunit_TestCase
+class tx_realty_Ajax_DistrictSelectorTest extends TestCase
 {
     /**
      * @var Tx_Oelib_TestingFramework

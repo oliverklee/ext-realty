@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -9,7 +10,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Bernd Schönbach <bernd@oliverklee.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_OffererViewTest extends TestCase
 {
     /**
      * @var tx_realty_pi1_OffererView
@@ -247,7 +248,7 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
     public function renderForDisplayContactTelephoneEnabledContactFromObjectAndDirectExtensionSetShowsDirectExtensionNumber(
     ) {
         /** @var tx_realty_Model_RealtyObject|PHPUnit_Framework_MockObject_MockObject $model */
-        $model = $this->getMock(
+        $model = $this->createPartialMock(
             \tx_realty_Model_RealtyObject::class,
             ['getContactPhoneNumber', 'getProperty']
         );
@@ -255,9 +256,9 @@ class tx_realty_FrontEnd_OffererViewTest extends \Tx_Phpunit_TestCase
         $model->setData([]);
 
         /** @var tx_realty_Mapper_RealtyObject|PHPUnit_Framework_MockObject_MockObject $mapper */
-        $mapper = $this->getMock(\tx_realty_Mapper_RealtyObject::class, ['find']);
+        $mapper = $this->createPartialMock(\tx_realty_Mapper_RealtyObject::class, ['find']);
         $mapper->method('find')
-            ->will(self::returnValue($model));
+            ->willReturn($model);
         Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $mapper);
 
         $this->subject->setConfigurationValue('displayedContactInformation', 'telephone');

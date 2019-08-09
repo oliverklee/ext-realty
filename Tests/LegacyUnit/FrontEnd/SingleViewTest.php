@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -8,7 +9,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_SingleViewTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_SingleViewTest extends TestCase
 {
     /**
      * @var tx_realty_pi1_SingleView
@@ -24,13 +25,6 @@ class tx_realty_FrontEnd_SingleViewTest extends \Tx_Phpunit_TestCase
      * @var tx_realty_Mapper_RealtyObject
      */
     private $realtyObjectMapper = null;
-
-    /**
-     * the UID of a dummy city for the object records
-     *
-     * @var int
-     */
-    private $dummyCityUid = 0;
 
     protected function setUp()
     {
@@ -50,7 +44,6 @@ class tx_realty_FrontEnd_SingleViewTest extends \Tx_Phpunit_TestCase
             'overviewTable,imageThumbnails,addToFavoritesButton,' .
             'contactButton,offerer,status,printPageButton,backButton'
         );
-        $this->dummyCityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
         $pluginConfiguration = new Tx_Oelib_Configuration();
         Tx_Oelib_ConfigurationRegistry::getInstance()->set('plugin.tx_realty_pi1', $pluginConfiguration);

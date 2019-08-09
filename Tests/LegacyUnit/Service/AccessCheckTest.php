@@ -1,11 +1,13 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
+
 /**
  * Test case.
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
+class tx_realty_Service_AccessCheckTest extends TestCase
 {
     /**
      * @var tx_realty_pi1_AccessCheck
@@ -229,9 +231,9 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     public function checkAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterThrowsExceptionWithNoObjectsLeftMessage(
     ) {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
+        $user = $this->createPartialMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 1]);
-        $user->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->willReturn(1);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->expectException(\Tx_Oelib_Exception_AccessDenied::class);
@@ -245,9 +247,9 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     public function checkAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterAndEditingAnExistingObjectDoesNotThrowException(
     ) {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
+        $user = $this->createPartialMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 1]);
-        $user->method('getNumberOfObjects')->will(self::returnValue(1));
+        $user->method('getNumberOfObjects')->willReturn(1);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $objectUid = $this->testingFramework->createRecord(
@@ -264,9 +266,9 @@ class tx_realty_Service_AccessCheckTest extends \Tx_Phpunit_TestCase
     public function checkAccessForFeEditorForLoggedInUserWithObjectsLeftToEnterThrowsNoException()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
+        $user = $this->createPartialMock(\tx_realty_Model_FrontEndUser::class, ['getNumberOfObjects']);
         $user->setData(['tx_realty_maximum_objects' => 1]);
-        $user->method('getNumberOfObjects')->will(self::returnValue(0));
+        $user->method('getNumberOfObjects')->willReturn(0);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->subject->checkAccess('fe_editor', ['showUid' => 0]);

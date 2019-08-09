@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -8,7 +9,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends TestCase
 {
     /**
      * @var string the title of a dummy object for the tests

@@ -51,7 +51,7 @@ class ImageThumbnailsViewTest extends FunctionalTestCase
         $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->testingFramework->createFakeFrontEnd($this->testingFramework->createFrontEndPage());
 
-        $this->contentObject = $this->getMock(ContentObjectRenderer::class);
+        $this->contentObject = $this->createMock(ContentObjectRenderer::class);
         $this->subject = new \tx_realty_pi1_ImageThumbnailsView(
             ['templateFile' => 'EXT:realty/Resources/Private/Templates/FrontEnd/Plugin.html'],
             $this->contentObject

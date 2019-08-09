@@ -1,5 +1,6 @@
 <?php
 
+use OliverKlee\PhpUnit\TestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -7,7 +8,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
+class tx_realty_FrontEnd_FormTest extends TestCase
 {
     /**
      * @var tx_realty_frontEndForm object to be tested
@@ -18,16 +19,6 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
      * @var Tx_Oelib_TestingFramework
      */
     private $testingFramework = null;
-
-    /**
-     * @var int dummy FE user UID
-     */
-    private $feUserUid;
-
-    /**
-     * @var int UID of the dummy object
-     */
-    private $dummyObjectUid = 0;
 
     protected function setUp()
     {
@@ -47,8 +38,6 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
             $configuration
         );
 
-        $this->createDummyRecords();
-
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->subject = new tx_realty_frontEndEditor(
@@ -63,23 +52,6 @@ class tx_realty_FrontEnd_FormTest extends \Tx_Phpunit_TestCase
     protected function tearDown()
     {
         $this->testingFramework->cleanUp();
-    }
-
-    ///////////////////////
-    // Utility functions.
-    ///////////////////////
-
-    /**
-     * Creates dummy records in the DB.
-     *
-     * @return void
-     */
-    private function createDummyRecords()
-    {
-        $this->feUserUid = $this->testingFramework->createFrontEndUser();
-        $this->dummyObjectUid = $this->testingFramework->createRecord(
-            'tx_realty_objects'
-        );
     }
 
     //////////////////////////////////////

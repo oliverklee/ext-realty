@@ -5,7 +5,6 @@ namespace OliverKlee\Realty\Tests\Unit\Import;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use OliverKlee\Realty\Import\AttachmentImporter;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -28,11 +27,6 @@ class AttachmentImporterTest extends UnitTestCase
     private $realtyObjectMock = null;
 
     /**
-     * @var vfsStreamDirectory
-     */
-    private $virtualFileSystem = null;
-
-    /**
      * @var string
      */
     private $importDirectory = '';
@@ -41,7 +35,7 @@ class AttachmentImporterTest extends UnitTestCase
     {
         $this->realtyObjectMock = $this->getMockBuilder(\tx_realty_Model_RealtyObject::class)->getMock();
 
-        $this->virtualFileSystem = vfsStream::setup('import');
+        vfsStream::setup('import');
         $this->importDirectory = vfsStream::url('import');
 
         $this->subject = new AttachmentImporter($this->realtyObjectMock);

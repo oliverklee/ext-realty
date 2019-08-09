@@ -307,9 +307,9 @@ class AbstractListViewTest extends FunctionalTestCase
      */
     private function createContentMock()
     {
-        $this->contentObject = $this->getMock(ContentObjectRenderer::class, ['typoLink_URL', 'cObjGetSingle']);
-        $this->contentObject->method('cObjGetSingle')->will(self::returnCallback([$this, 'imageCallback']));
-        $this->contentObject->method('typoLink_URL')->will(self::returnCallback([$this, 'getTypoLinkUrl']));
+        $this->contentObject = $this->createPartialMock(ContentObjectRenderer::class, ['typoLink_URL', 'cObjGetSingle']);
+        $this->contentObject->method('cObjGetSingle')->willReturnCallback([$this, 'imageCallback']);
+        $this->contentObject->method('typoLink_URL')->willReturnCallback([$this, 'getTypoLinkUrl']);
     }
 
     /**
