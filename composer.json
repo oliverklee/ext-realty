@@ -25,16 +25,16 @@
         "source": "https://github.com/oliverklee/ext-realty"
     },
     "require": {
-        "php": "^5.5.0 || ~7.0.0 || ~7.1.0 || ~7.2.0",
+        "php": "^5.5 || ~7.0 || ~7.1 || ~7.2",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-zip": "*",
         "ext-posix": "*",
         "ext-json": "*",
         "typo3/cms-core": "^7.6.23 || ^8.7.9",
-        "typo3/cms-frontend": "^7.6.23 || ^8.7.9",
-        "typo3/cms-extbase": "^7.6.23 || ^8.7.9",
-        "typo3/cms-fluid": "^7.6.23 || ^8.7.9",
+        "typo3/cms-frontend": "^7.6 || ^8.7",
+        "typo3/cms-extbase": "^7.6 || ^8.7",
+        "typo3/cms-fluid": "^7.6 || ^8.7",
         "dmk/mkforms": "^3.0.21",
         "oliverklee/oelib": "^2.3.3 || ^3.0",
         "sjbr/static-info-tables": "^6.4"
