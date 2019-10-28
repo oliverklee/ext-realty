@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the TYPO3 package repository from composer.json (#263)
 
 ### Fixed
+- Remove query logging from the production code (#268)
 - Drop leftover TCA files (#261)
 - Pin the dev dependency versions (#260)
 - Drop an obsolete "replace" entry from composer.json (#259)
