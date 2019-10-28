@@ -265,7 +265,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     private function getSelectForListView($whereClause)
     {
         $sortingColumn = 'tx_realty_objects' . '.sorting';
-        Tx_Oelib_Db::enableQueryLogging();
 
         return '(' .
             'SELECT ' . 'tx_realty_objects' . '.*' .
