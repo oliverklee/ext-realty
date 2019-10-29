@@ -113,6 +113,9 @@
         "typo3/cms": {
             "extension-key": "realty",
             "web-dir": ".Build/public"
+        },
+        "helhum/typo3-console": {
+            "install-extension-dummy": "0"
         }
     }
 }
