@@ -3263,8 +3263,7 @@ class OpenImmoImportTest extends FunctionalTestCase
     public function importFromZipClearsFrontEndCacheAfterImport()
     {
         $this->copyTestFileIntoImportFolder('foo.zip');
-        $pageUid = $this->testingFramework->createFrontEndPage();
-        $this->testingFramework->createContentElement($pageUid, ['list_type' => 'realty_pi1']);
+        $this->importDataSet(__DIR__ . '/../Fixtures/ContentElements.xml');
 
         /** @var AbstractCacheFrontEnd|\PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
         $cacheFrontEnd = $this->getMock(

@@ -79,10 +79,7 @@ class tx_realty_FrontEnd_FormTest extends TestCase
      */
     public function getRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid()
     {
-        $nonExistingFePageUid = $this->testingFramework->createFrontEndPage(
-            0,
-            ['deleted' => 1]
-        );
+        $nonExistingFePageUid = 999999;
         $this->subject->setConfigurationValue(
             'feEditorRedirectPid',
             $nonExistingFePageUid
