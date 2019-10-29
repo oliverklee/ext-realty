@@ -112,7 +112,6 @@
         },
         "typo3/cms": {
             "extension-key": "realty",
-            "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "web-dir": ".Build/public"
         }
     }
