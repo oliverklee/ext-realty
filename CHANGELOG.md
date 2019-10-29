@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Display the name of the current functional test (#270)
 
 ### Changed
 - Simplify the Composer dependency versions (#266)
