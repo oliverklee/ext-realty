@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the TYPO3 package repository from composer.json (#263)
 
 ### Fixed
+- Fix the name of the DB port environment variable in .travis.yml (#271)
 - Allow longer execution time for Composer scripts (#269)
 - Remove query logging from the production code (#268)
 - Drop leftover TCA files (#261)
