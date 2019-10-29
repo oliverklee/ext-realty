@@ -2265,8 +2265,7 @@ class EditorTest extends FunctionalTestCase
      */
     public function sendEmailForNewObjectAndClearFrontEndCacheClearsFrontEndCache()
     {
-        $pageUid = $this->testingFramework->createFrontEndPage();
-        $this->testingFramework->createContentElement($pageUid, ['list_type' => 'realty_pi1']);
+        $this->importDataSet(__DIR__ . '/../Fixtures/ContentElements.xml');
 
         /** @var AbstractFrontend|\PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
         $cacheFrontEnd = $this->getMock(
