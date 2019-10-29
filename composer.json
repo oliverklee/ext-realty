@@ -114,9 +114,6 @@
             "extension-key": "realty",
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "web-dir": ".Build/public"
-        },
-        "helhum/typo3-console": {
-            "install-extension-dummy": "0"
         }
     }
 }

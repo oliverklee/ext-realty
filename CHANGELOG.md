@@ -17,7 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
-- Drop unneeded Travis CI configuration settings (#272)
+- Drop unneeded Travis CI configuration settings (#272, #273)
 - Drop the TYPO3 package repository from composer.json (#263)
 
 ### Fixed
