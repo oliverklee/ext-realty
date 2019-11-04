@@ -32,10 +32,14 @@
         "ext-posix": "*",
         "ext-json": "*",
         "typo3/cms-core": "^7.6.23 || ^8.7.9",
-        "typo3/cms-frontend": "^7.6 || ^8.7",
+        "typo3/cms-backend": "^7.6 || ^8.7",
         "typo3/cms-extbase": "^7.6 || ^8.7",
         "typo3/cms-fluid": "^7.6 || ^8.7",
+        "typo3/cms-frontend": "^7.6 || ^8.7",
+        "typo3/cms-lang": "^7.6 || ^8.7",
+        "typo3/cms-scheduler": "^7.6 || ^8.7",
         "dmk/mkforms": "^3.0.21",
+        "digedag/rn-base": "^1.8.2",
         "oliverklee/oelib": "^2.3.3 || ^3.0",
         "sjbr/static-info-tables": "^6.4"
     },
@@ -45,6 +49,7 @@
         "oliverklee/phpunit": "^5.7.27",
         "nimut/testing-framework": "^2.0.3",
         "phpunit/phpunit": "^5.7.27",
+        "phpspec/prophecy": "^1.9.0",
         "mikey179/vfsstream": "^1.6.7"
     },
     "conflict": {

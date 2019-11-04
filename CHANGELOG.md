@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Drop the TYPO3 package repository from composer.json (#263)
 
 ### Fixed
+- Explicitly add transitive dependencies (#278)
 - Stop using removed oelib functionality (#277)
 - Allow longer execution time for Composer scripts (#269)
 - Remove query logging from the production code (#268)
