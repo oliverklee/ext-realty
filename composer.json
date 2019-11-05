@@ -46,7 +46,7 @@
     "require-dev": {
         "helhum/typo3-console": "^4.9.6",
         "helmich/typo3-typoscript-lint": "^1.5.0",
-        "mikey179/vfsstream": "^1.6.7",
+        "mikey179/vfsstream": "^1.6.8",
         "nimut/testing-framework": "^2.0.3",
         "oliverklee/phpunit": "^5.7.27",
         "phpspec/prophecy": "^1.9.0",
