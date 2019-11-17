@@ -6,6 +6,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## 3.0.1
+
+### Added
 - Display the name of the current functional test (#270)
 
 ### Changed
@@ -15,8 +27,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Update the oelib dependency (#265)
 - Upgrade to PHPUnit 5.7 (#262)
 - Change from GPL V3+ to GPL V2+ (#258)
-
-### Deprecated
 
 ### Removed
 - Drop unneeded Travis CI configuration settings (#272, #273, #274, #275)
