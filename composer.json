@@ -33,7 +33,7 @@
 		"ext-zip": "*",
 		"digedag/rn-base": "^1.4.5",
 		"dmk/mkforms": "^9.5.1",
-		"oliverklee/oelib": "^2.3.5 || ^3.5.0",
+		"oliverklee/oelib": "dev-main",
 		"sjbr/static-info-tables": "^6.4",
 		"typo3/cms-backend": "^7.6 || ^8.7",
 		"typo3/cms-core": "^7.6.23 || ^8.7.9",
