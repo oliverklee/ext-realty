@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Display the name of the current functional test (#270)
 
 ### Changed
+- Use PHP 7.2 for the TER release script (#284)
 - Sort the Composer dependencies (#280)
 - Allow 9.5-compatible versions of mkforms and rn_base (#279)
 - Simplify the Composer dependency versions (#266)
