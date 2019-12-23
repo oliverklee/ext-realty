@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
+- Sort the entries in the `.gitignore` (#286)
 - Require oelib >= 3.0.3 for TYPO3 9LTS (#285)
 
 ### Deprecated

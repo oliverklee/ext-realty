@@ -1,5 +1,6 @@
+# Please keep the lines in this file sorted.
+*.idea
 /.Build/*
 /.php_cs.cache
-*.idea
 /composer.lock
 /nbproject
