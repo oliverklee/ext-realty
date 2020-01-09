@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Update the locations of the mkforms JavaScript includes (#287)
 
 ## 3.0.1
 
