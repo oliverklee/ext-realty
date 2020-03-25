@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Do not cache `vendor/` on Travis CI (#288)
 - Update the locations of the mkforms JavaScript includes (#287)
 
 ## 3.0.1
