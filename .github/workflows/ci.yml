@@ -23,6 +23,7 @@ jobs:
       - name: "Run PHP lint"
         run: "composer ci:php:lint"
     strategy:
+      fail-fast: false
       matrix:
         php-version:
           - 5.5
@@ -99,6 +100,7 @@ jobs:
       - name: "Run unit tests"
         run: "composer ci:tests:unit"
     strategy:
+      fail-fast: false
       matrix:
         include:
           - typo3-version: ^7.6
@@ -112,6 +114,9 @@ jobs:
             composer-version: v2
           - typo3-version: ^8.7
             php-version: 7.1
+            composer-version: v2
+          - typo3-version: ^9.5
+            php-version: 7.2
             composer-version: v2
   functional-tests:
     name: "Functional tests"
@@ -155,6 +160,7 @@ jobs:
           export typo3DatabasePassword="root";
           composer ci:tests:functional
     strategy:
+      fail-fast: false
       matrix:
         include:
           - typo3-version: ^7.6
@@ -168,6 +174,9 @@ jobs:
             composer-version: v2
           - typo3-version: ^8.7
             php-version: 7.1
+            composer-version: v2
+          - typo3-version: ^9.5
+            php-version: 7.2
             composer-version: v2
   legacy-tests:
     name: "Legacy tests"
@@ -222,6 +231,7 @@ jobs:
       - name: "Run legacy tests"
         run: "composer ci:tests:unit-legacy"
     strategy:
+      fail-fast: false
       matrix:
         include:
           - typo3-version: ^8.7
@@ -230,5 +240,9 @@ jobs:
             run-tests-command: ".Build/vendor/bin/typo3 phpunit:run"
           - typo3-version: ^8.7
             php-version: 7.1
+            composer-version: v2
+            run-tests-command: ".Build/vendor/bin/typo3 phpunit:run"
+          - typo3-version: ^9.5
+            php-version: 7.2
             composer-version: v2
             run-tests-command: ".Build/vendor/bin/typo3 phpunit:run"

@@ -1,6 +1,16 @@
 <?php
 defined('TYPO3_MODE') or die('Access denied.');
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+    [
+        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tt_content.list_type_pi1',
+        'realty_pi1',
+        'EXT:realty/Resources/Public/Images/ContentElement.gif',
+    ],
+    'list_type',
+    'realty'
+);
+
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(
     'realty',
     'pi1/class.tx_realty_pi1.php',
