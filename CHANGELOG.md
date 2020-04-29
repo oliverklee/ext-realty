@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Catch exceptions in the BE module (#293)
 - Add tests for namespaced XML (#292)
 - Always use Composer-installed versions of the dev tools (#291)
 - Fix warnings in the `travis.yml` (#289)
