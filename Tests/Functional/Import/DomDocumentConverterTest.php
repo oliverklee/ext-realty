@@ -72,7 +72,7 @@ class DomDocumentConverterTest extends FunctionalTestCase
      */
     private function importCountries()
     {
-        if (!\Tx_Oelib_Db::existsRecord('static_countries')) {
+        if ($this->getDatabaseConnection()->selectCount('*', 'static_countries') === 0) {
             $this->importDataSet(__DIR__ . '/../Fixtures/Countries.xml');
         }
     }

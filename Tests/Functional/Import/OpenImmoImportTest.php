@@ -101,7 +101,6 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->provideAdminBackEndUserForFal();
 
         $this->testingFramework = new \Tx_Oelib_TestingFramework('tx_realty');
-        $this->testingFramework->setResetAutoIncrementThreshold(99999999);
         $this->systemFolderPid = $this->testingFramework->createSystemFolder();
         $this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
         GeneralUtility::mkdir_deep($this->importFolder);
@@ -706,7 +705,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="bar1234567" AND zip="changed zip" '
             )
@@ -744,7 +744,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             0,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '"' .
                 \Tx_Oelib_Db::enableFields('tx_realty_objects')
@@ -790,8 +791,13 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertTrue(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+        self::assertSame(
+            1,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -833,8 +839,13 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertTrue(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+        self::assertSame(
+            1,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -876,8 +887,13 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -923,7 +939,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -969,7 +989,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -1013,8 +1037,13 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(
-            $this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -1066,7 +1095,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -1118,7 +1151,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -1168,14 +1205,18 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 0'
             )
         );
-        self::assertTrue(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            1,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 1'
             )
@@ -1231,14 +1272,18 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 0'
             )
         );
-        self::assertTrue(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            1,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 1'
             )
@@ -1294,14 +1339,16 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 0'
             )
         );
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 1'
             )
@@ -1357,14 +1404,16 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 0'
             )
         );
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 1'
             )
@@ -1418,15 +1467,18 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 0'
             )
         );
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 1'
             )
@@ -1482,14 +1534,16 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND hidden = 1'
             )
         );
         self::assertSame(
             0,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND hidden = 0'
             )
@@ -1545,14 +1599,16 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND hidden = 1'
             )
         );
         self::assertSame(
             0,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND hidden = 0'
             )
@@ -1606,26 +1662,34 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 0 AND hidden = 1'
             )
         );
-        self::assertFalse(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 0 AND hidden = 0'
             )
         );
-        self::assertFalse(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            0,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 1 AND hidden = 0'
             )
         );
-        self::assertTrue(
-            $this->testingFramework->existsRecord(
+        self::assertSame(
+            1,
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND deleted = 1 AND hidden = 1'
             )
@@ -1691,7 +1755,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -1754,7 +1822,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -1817,7 +1889,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             0,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -1880,7 +1956,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -2019,7 +2099,11 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             0,
-            $this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+            $this->getDatabaseConnection()->selectCount(
+                '*',
+                'tx_realty_objects',
+                'object_number="' . $objectNumber . '"'
+            )
         );
     }
 
@@ -2117,7 +2201,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND zip="01234"' .
                 \Tx_Oelib_Db::enableFields('tx_realty_objects')
@@ -2168,7 +2253,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="' . $objectNumber . '" AND ' .
                 'number_of_rooms = 1.25' .
@@ -2220,7 +2306,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         $cityUid = 100;
         $where = 'object_number = "' . $objectNumber . '" AND city = ' . $cityUid;
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', $where));
     }
 
     /**
@@ -2265,7 +2351,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $cityRecord = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_cities', 'title = "Bonn"');
         $cityUid = (int)$cityRecord['uid'];
         $where = 'object_number = "' . $objectNumber . '" AND city = ' . $cityUid;
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', $where));
     }
 
     /**
@@ -2312,7 +2398,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         $districtUid = 200;
         $where = 'object_number = "' . $objectNumber . '" AND district = ' . $districtUid;
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', $where));
     }
 
     /**
@@ -2381,9 +2467,9 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->subject->writeToDatabase($records[1]);
 
         $where1 = 'object_number = "' . $objectNumber1 . '" AND city = 100 AND district = 200';
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where1));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', $where1));
         $where2 = 'object_number = "' . $objectNumber2 . '" AND city = 101 AND district = 201';
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where2));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', $where2));
     }
 
     /**
@@ -2429,7 +2515,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $districtRecord = \Tx_Oelib_Db::selectSingle('*', 'tx_realty_districts', 'title = "Bad Godesberg"');
         $districtUid = (int)$districtRecord['uid'];
         $where = 'object_number = "' . $objectNumber . '" AND district = ' . $districtUid;
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_objects', $where));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', $where));
     }
 
     /**
@@ -2560,7 +2646,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $this->subject->writeToDatabase($records[0]);
 
         $where = 'title = "Bad Godesberg" AND city = 100';
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_districts', $where));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_districts', $where));
     }
 
     /**
@@ -2607,7 +2693,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $cityUid = (int)$cityRecord['uid'];
 
         $where = 'title = "Bad Godesberg" AND city = ' . $cityUid;
-        self::assertTrue(\Tx_Oelib_Db::existsRecord('tx_realty_districts', $where));
+        self::assertSame(1, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_districts', $where));
     }
 
     /**
@@ -2649,7 +2735,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(\Tx_Oelib_Db::existsRecord('tx_realty_districts'));
+        self::assertSame(0, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_districts'));
     }
 
     /**
@@ -2690,7 +2776,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(\Tx_Oelib_Db::existsRecord('tx_realty_districts'));
+        self::assertSame(0, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_districts'));
     }
 
     /**
@@ -2733,7 +2819,7 @@ class OpenImmoImportTest extends FunctionalTestCase
         $records = $this->subject->convertDomDocumentToArray($dummyDocument);
         $this->subject->writeToDatabase($records[0]);
 
-        self::assertFalse(\Tx_Oelib_Db::existsRecord('tx_realty_districts'));
+        self::assertSame(0, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_districts'));
     }
 
     /**
@@ -2894,7 +2980,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'openimmo_anid="foo" AND owner=' . $feUserUid
             )
@@ -2912,7 +2999,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             0,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'openimmo_anid="foo"'
             )
@@ -2923,7 +3011,8 @@ class OpenImmoImportTest extends FunctionalTestCase
      * @test
      */
     public function recordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction(
-    ) {
+    )
+    {
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser($feUserGroupUid, ['tx_realty_openimmo_anid' => 'foo']);
         $this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', true);
@@ -2933,7 +3022,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'openimmo_anid="foo" AND owner=' . $feUserUid
             )
@@ -2944,7 +3034,8 @@ class OpenImmoImportTest extends FunctionalTestCase
      * @test
      */
     public function recordWithAnidThatMatchesAnExistingFeUserInAForbiddenGroupIsNotImportedForEnabledOwnerAndGroupRestriction(
-    ) {
+    )
+    {
         $feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $feUserUid = $this->testingFramework->createFrontEndUser($feUserGroupUid, ['tx_realty_openimmo_anid' => 'foo']);
         $this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', true);
@@ -2954,7 +3045,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             0,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'openimmo_anid="foo" AND owner=' . $feUserUid
             )
@@ -3018,7 +3110,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'owner =' . $feUserUid
             )
@@ -3092,7 +3185,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             2,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'owner =' . $feUserUid
             )
@@ -3141,7 +3235,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'owner =' . $feUserUid
             )
@@ -3215,7 +3310,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'owner =' . $feUserUid
             )
@@ -3394,7 +3490,8 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords(
+            $this->getDatabaseConnection()->selectCount(
+                '*',
                 'tx_realty_objects',
                 'object_number="bar1234567" '
                 . 'AND pid=' . $this->systemFolderPid . \Tx_Oelib_Db::enableFields('tx_realty_objects')
@@ -3843,7 +3940,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
 
@@ -3899,7 +3996,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
 
@@ -3957,7 +4054,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
 
@@ -4013,7 +4110,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
 
@@ -4069,7 +4166,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
         );
     }
 
@@ -4123,7 +4220,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
         );
     }
 
@@ -4234,7 +4331,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
 
@@ -4290,7 +4387,7 @@ class OpenImmoImportTest extends FunctionalTestCase
 
         self::assertSame(
             1,
-            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+            $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
 

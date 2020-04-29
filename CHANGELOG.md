@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Move more tests to nimut/testing-framework (#294)
 - Catch exceptions in the BE module (#293)
 - Add tests for namespaced XML (#292)
 - Always use Composer-installed versions of the dev tools (#291)
