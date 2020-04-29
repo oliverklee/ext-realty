@@ -338,12 +338,13 @@ class DomDocumentConverterTest extends UnitTestCase
      */
     public function getConvertedDataReadsObjectTitle()
     {
+        $title = 'eine schöne Wohnung';
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>klein und teuer</objekttitel>' .
+            '<objekttitel>' . $title . '</objekttitel>' .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -351,10 +352,32 @@ class DomDocumentConverterTest extends UnitTestCase
         );
 
         $importedData = $this->subject->getConvertedData($node);
-        self::assertSame(
-            'klein und teuer',
-            $importedData[0]['title']
+
+        self::assertSame($title, $importedData[0]['title']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataWithNamespacedXmlReadsObjectTitle()
+    {
+        $title = 'eine schöne Wohnung';
+        $node = $this->setRawDataToConvert(
+            '<imo:openimmo xmlns:imo="http://www.openimmo.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
+            'xsi:schemaLocation="http://www.openimmo.de openimmo.xsd">' .
+            '<imo:anbieter>' .
+            '<imo:immobilie>' .
+            '<imo:freitexte>' .
+            '<imo:objekttitel>' . $title . '</imo:objekttitel>' .
+            '</imo:freitexte>' .
+            '</imo:immobilie>' .
+            '</imo:anbieter>' .
+            '</imo:openimmo>'
         );
+
+        $importedData = $this->subject->getConvertedData($node);
+
+        self::assertSame($title, $importedData[0]['title']);
     }
 
     /**
