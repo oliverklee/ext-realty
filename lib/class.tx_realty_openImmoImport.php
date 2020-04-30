@@ -253,9 +253,10 @@ class tx_realty_openImmoImport
         foreach ($recordsToInsert as $record) {
             $this->writeToDatabase($record);
 
-            if (!$this->realtyObject->isDead()) {
+            $realtyObject = $this->realtyObject;
+            if (!$realtyObject->isDead() && !$realtyObject->isDeleted()) {
                 $this->importAttachments($record, $pathOfCurrentZipFile);
-                $savedRealtyObjects->add($this->realtyObject);
+                $savedRealtyObjects->add($realtyObject);
                 $emailData[] = $this->createEmailRawDataArray(
                     $this->getContactEmailFromRealtyObject(),
                     $this->getObjectNumberFromRealtyObject()
