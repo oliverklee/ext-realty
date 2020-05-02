@@ -19,7 +19,7 @@ Realty Manager
 
 :Extension Key: realty
 :Language:      en
-:Copyright:     `2006-2019, Oliver Klee, typo3-coding@oliverklee.de`
+:Copyright:     `2006-2020, Oliver Klee, typo3-coding@oliverklee.de`
 :Maintainer:    `Oliver Klee, typo3-coding@oliverklee.de`
 :License:       `CC BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>`_
 :Rendered:      |today|
