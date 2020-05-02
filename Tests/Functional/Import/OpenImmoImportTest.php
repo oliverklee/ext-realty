@@ -3886,7 +3886,7 @@ class OpenImmoImportTest extends FunctionalTestCase
     }
 
     /*
-     * Tests for deleting objects for full sync
+     * Tests for deleting objects
      */
 
     /**
@@ -4389,6 +4389,424 @@ class OpenImmoImportTest extends FunctionalTestCase
             1,
             $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
+    }
+
+    /**
+     * @test
+     */
+    public function writeToDatabaseForPartialSyncForDeletingInexistentObjectWithoutAttachmentsNotCreatesRecord()
+    {
+        $document = new \DOMDocument();
+        $document->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>5873</objektnr_extern>
+                            <openimmo_obid>OFFA20200414145437077I2A4G0I5E1</openimmo_obid>
+                        </verwaltung_techn>
+                    </immobilie>
+                </anbieter>
+            </openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($document);
+        $this->subject->writeToDatabase($records[0]);
+
+        self::assertSame(0, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects'));
+    }
+
+    /**
+     * @test
+     */
+    public function writeToDatabaseForPartialSyncForDeletingExistingObjectWithoutAttachmentsMarksRecordAsDeleted()
+    {
+        $objectId = 'OFFA20200414145437077I2A4G0I5E1';
+        $objectNumber = '5873';
+        $this->getDatabaseConnection()->insertArray(
+            'tx_realty_objects',
+            ['openimmo_obid' => $objectId, 'object_number' => $objectNumber]
+        );
+
+        $document = new \DOMDocument();
+        $document->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>' . $objectNumber . '</objektnr_extern>
+                            <openimmo_obid>' . $objectId . '</openimmo_obid>
+                        </verwaltung_techn>
+                    </immobilie>
+                </anbieter>
+            </openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($document);
+        $this->subject->writeToDatabase($records[0]);
+
+        $count = $this->getDatabaseConnection()->selectCount(
+            '*',
+            'tx_realty_objects',
+            'openimmo_obid = "' . $objectId . '" AND object_number = "' . $objectNumber . '" AND deleted = 1'
+        );
+        self::assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function writeToDatabaseForPartialSyncForDeletingInexistentObjectWithOneAttachmentNotCreatesRecord()
+    {
+        $document = new \DOMDocument();
+        $document->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>5873</objektnr_extern>
+                            <openimmo_obid>OFFA20200414145437077I2A4G0I5E1</openimmo_obid>
+                        </verwaltung_techn>
+                        <anhaenge>
+                            <anhang location="EXTERN">
+                                <anhangtitel>Herzlich Willkommen</anhangtitel>
+                                <format>jpg</format>
+                                <daten>
+                                    <pfad>5873-kurz_herzlich_willkommen.jpg</pfad>
+                                </daten>
+                            </anhang>
+                        </anhaenge>
+                    </immobilie>
+                </anbieter>
+            </openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($document);
+        $this->subject->writeToDatabase($records[0]);
+
+        $this->subject->importFromZip();
+
+        self::assertSame(0, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects'));
+    }
+
+    /**
+     * @test
+     */
+    public function writeToDatabaseForPartialSyncForDeletingExistingObjectWithOneAttachmentMarksRecordAsDeleted()
+    {
+        self::markTestIncomplete('This is a different bug.');
+
+        $objectId = 'OFFA20200414145437077I2A4G0I5E1';
+        $objectNumber = '5873';
+        $this->getDatabaseConnection()->insertArray(
+            'tx_realty_objects',
+            ['openimmo_obid' => $objectId, 'object_number' => $objectNumber]
+        );
+
+        $document = new \DOMDocument();
+        $document->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>' . $objectNumber . '</objektnr_extern>
+                            <openimmo_obid>' . $objectId . '</openimmo_obid>
+                        </verwaltung_techn>
+                        <anhaenge>
+                            <anhang location="EXTERN">
+                                <anhangtitel>Herzlich Willkommen</anhangtitel>
+                                <format>jpg</format>
+                                <daten>
+                                    <pfad>5873-kurz_herzlich_willkommen.jpg</pfad>
+                                </daten>
+                            </anhang>
+                        </anhaenge>
+                    </immobilie>
+                </anbieter>
+            </openimmo>'
+        );
+
+        $records = $this->subject->convertDomDocumentToArray($document);
+        $this->subject->writeToDatabase($records[0]);
+
+        $count = $this->getDatabaseConnection()->selectCount(
+            '*',
+            'tx_realty_objects',
+            'openimmo_obid = "' . $objectId . '" AND object_number = "' . $objectNumber . '" AND deleted = 1'
+        );
+        self::assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function importFromZipForPartialSyncForDeletingInexistentObjectWithoutAttachmentsNotCreatesRecord()
+    {
+        $xml =
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>5873</objektnr_extern>
+                            <openimmo_obid>OFFA20200414145437077I2A4G0I5E1</openimmo_obid>
+                        </verwaltung_techn>
+                    </immobilie>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->subject->importFromZip();
+
+        self::assertSame(0, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects'));
+    }
+
+    /**
+     * @test
+     */
+    public function importFromZipForPartialSyncForDeletingExistingObjectWithoutAttachmentsMarksRecordAsDeleted()
+    {
+        $objectId = 'OFFA20200414145437077I2A4G0I5E1';
+        $objectNumber = '5873';
+        $this->getDatabaseConnection()->insertArray(
+            'tx_realty_objects',
+            ['openimmo_obid' => $objectId, 'object_number' => $objectNumber]
+        );
+
+        $xml =
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>' . $objectNumber . '</objektnr_extern>
+                            <openimmo_obid>' . $objectId . '</openimmo_obid>
+                        </verwaltung_techn>
+                    </immobilie>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->subject->importFromZip();
+
+        $count = $this->getDatabaseConnection()->selectCount(
+            '*',
+            'tx_realty_objects',
+            'openimmo_obid = "' . $objectId . '" AND object_number = "' . $objectNumber . '" AND deleted = 1'
+        );
+        self::assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function importFromZipForPartialSyncForDeletingInexistentObjectWithOneAttachmentNotCreatesRecord()
+    {
+        $xml =
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>5873</objektnr_extern>
+                            <openimmo_obid>OFFA20200414145437077I2A4G0I5E1</openimmo_obid>
+                        </verwaltung_techn>
+                        <anhaenge>
+                            <anhang location="EXTERN">
+                                <anhangtitel>Herzlich Willkommen</anhangtitel>
+                                <format>jpg</format>
+                                <daten>
+                                    <pfad>5873-kurz_herzlich_willkommen.jpg</pfad>
+                                </daten>
+                            </anhang>
+                        </anhaenge>
+                    </immobilie>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->subject->importFromZip();
+
+        self::assertSame(0, $this->getDatabaseConnection()->selectCount('*', 'tx_realty_objects'));
+    }
+
+    /**
+     * @test
+     */
+    public function importFromZipForPartialSyncForDeletingExistingObjectWithOneAttachmentMarksRecordAsDeleted()
+    {
+        self::markTestIncomplete('This is a different bug.');
+
+        $objectId = 'OFFA20200414145437077I2A4G0I5E1';
+        $objectNumber = '5873';
+        $this->getDatabaseConnection()->insertArray(
+            'tx_realty_objects',
+            ['openimmo_obid' => $objectId, 'object_number' => $objectNumber]
+        );
+
+        $xml =
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <firma>ACME</firma>
+                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
+                    <immobilie>
+                        <objektkategorie>
+                            <vermarktungsart MIETE_PACHT="true"/>
+                            <objektart>
+                                <wohnung wohnungtyp="ETAGE"/>
+                            </objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>22391</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>Max Doe</name>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <aktion aktionart="DELETE"/>
+                            <objektnr_extern>' . $objectNumber . '</objektnr_extern>
+                            <openimmo_obid>' . $objectId . '</openimmo_obid>
+                        </verwaltung_techn>
+                        <anhaenge>
+                            <anhang location="EXTERN">
+                                <anhangtitel>Herzlich Willkommen</anhangtitel>
+                                <format>jpg</format>
+                                <daten>
+                                    <pfad>5873-kurz_herzlich_willkommen.jpg</pfad>
+                                </daten>
+                            </anhang>
+                        </anhaenge>
+                    </immobilie>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->subject->importFromZip();
+
+        $count = $this->getDatabaseConnection()->selectCount(
+            '*',
+            'tx_realty_objects',
+            'openimmo_obid = "' . $objectId . '" AND object_number = "' . $objectNumber . '" AND deleted = 1'
+        );
+        self::assertSame(1, $count);
     }
 
     /**
