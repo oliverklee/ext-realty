@@ -8,12 +8,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 ### Changed
-- Sort the entries in the `.gitignore` (#286)
-- Require oelib >= 3.0.3 for TYPO3 9LTS (#285)
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## 3.0.2
+
+### Changed
+- Sort the entries in the `.gitignore` (#286)
+- Require oelib >= 3.0.3 for TYPO3 9LTS (#285)
 
 ### Fixed
 - Fix crash when deleting existing object via OpenImmo (#298)
