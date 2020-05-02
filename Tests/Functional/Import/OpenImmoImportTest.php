@@ -4543,71 +4543,6 @@ class OpenImmoImportTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function writeToDatabaseForPartialSyncForDeletingExistingObjectWithOneAttachmentMarksRecordAsDeleted()
-    {
-        self::markTestIncomplete('This is a different bug.');
-
-        $objectId = 'OFFA20200414145437077I2A4G0I5E1';
-        $objectNumber = '5873';
-        $this->getDatabaseConnection()->insertArray(
-            'tx_realty_objects',
-            ['openimmo_obid' => $objectId, 'object_number' => $objectNumber]
-        );
-
-        $document = new \DOMDocument();
-        $document->loadXML(
-            '<?xml version="1.0" encoding="UTF-8"?>
-            <openimmo>
-                <uebertragung umfang="TEIL"/>
-                <anbieter>
-                    <firma>ACME</firma>
-                    <openimmo_anid>AFFA20090122174601064K1R1J6H6I4</openimmo_anid>
-                    <immobilie>
-                        <objektkategorie>
-                            <vermarktungsart MIETE_PACHT="true"/>
-                            <objektart>
-                                <wohnung wohnungtyp="ETAGE"/>
-                            </objektart>
-                        </objektkategorie>
-                        <geo>
-                            <plz>22391</plz>
-                        </geo>
-                        <kontaktperson>
-                            <name>Max Doe</name>
-                        </kontaktperson>
-                        <verwaltung_techn>
-                            <aktion aktionart="DELETE"/>
-                            <objektnr_extern>' . $objectNumber . '</objektnr_extern>
-                            <openimmo_obid>' . $objectId . '</openimmo_obid>
-                        </verwaltung_techn>
-                        <anhaenge>
-                            <anhang location="EXTERN">
-                                <anhangtitel>Herzlich Willkommen</anhangtitel>
-                                <format>jpg</format>
-                                <daten>
-                                    <pfad>5873-kurz_herzlich_willkommen.jpg</pfad>
-                                </daten>
-                            </anhang>
-                        </anhaenge>
-                    </immobilie>
-                </anbieter>
-            </openimmo>'
-        );
-
-        $records = $this->subject->convertDomDocumentToArray($document);
-        $this->subject->writeToDatabase($records[0]);
-
-        $count = $this->getDatabaseConnection()->selectCount(
-            '*',
-            'tx_realty_objects',
-            'openimmo_obid = "' . $objectId . '" AND object_number = "' . $objectNumber . '" AND deleted = 1'
-        );
-        self::assertSame(1, $count);
-    }
-
-    /**
-     * @test
-     */
     public function importFromZipForPartialSyncForDeletingInexistentObjectWithoutAttachmentsNotCreatesRecord()
     {
         $xml =
@@ -4751,8 +4686,6 @@ class OpenImmoImportTest extends FunctionalTestCase
      */
     public function importFromZipForPartialSyncForDeletingExistingObjectWithOneAttachmentMarksRecordAsDeleted()
     {
-        self::markTestIncomplete('This is a different bug.');
-
         $objectId = 'OFFA20200414145437077I2A4G0I5E1';
         $objectNumber = '5873';
         $this->getDatabaseConnection()->insertArray(

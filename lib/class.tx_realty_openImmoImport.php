@@ -245,7 +245,9 @@ class tx_realty_openImmoImport
         }
 
         foreach ($recordsToInsert as $record) {
-            $this->writeToDatabase($record);
+            $dataForDatabase = $record;
+            unset($dataForDatabase['attached_files']);
+            $this->writeToDatabase($dataForDatabase);
 
             $realtyObject = $this->realtyObject;
             if (!$realtyObject->isDead() && !$realtyObject->isDeleted()) {
@@ -324,8 +326,7 @@ class tx_realty_openImmoImport
      * address as configured in EM.
      * Note: There is no check for the validity of the default address. If the
      * DOMDocument cannot be loaded, or if required fields are missing, the
-     * record will not be inserted to the database. Success and failures are
-     * logged.
+     * record will not be inserted to the database. Success and failures are logged.
      *
      * @param array $realtyRecord record to insert, may be empty
      *
