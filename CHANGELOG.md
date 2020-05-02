@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Fix crash when deleting existing object via OpenImmo (#298)
 - Fix crash when deleting inexistent object via OpenImmo (#295)
 - Move more tests to nimut/testing-framework (#294)
 - Catch exceptions in the BE module (#293)
