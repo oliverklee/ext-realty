@@ -604,12 +604,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *       function should return a real relation. $this->ownerData is no
      *       longer needed then either.
      *
-     * @throws Tx_Oelib_Exception_NotFound if there is no owner - not even a FE
+     * @return \tx_realty_Model_FrontEndUser|null owner of the current object
+     *
+     * @throws \Tx_Oelib_Exception_NotFound if there is no owner - not even a FE
      *                                     user with an ANID matching the
      *                                     current object's ANID
-     *
-     * @return tx_realty_Model_FrontEndUser owner of the current object, NULL
-     *                                      if there is none
      */
     public function getOwner()
     {
@@ -696,12 +695,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * loaded.
      * Reloads the owner's data.
      *
-     * @param string $key key of the value to set in current realty object, must not be empty and must not be 'uid'
-     * @param mixed $value value to set, must be either numeric or a string (also empty) or of boolean, may not be NULL
-     *
-     * @throws \InvalidArgumentException
+     * @param string $key key of the value to set in current realty object, must not be empty and must not be "uid"
+     * @param mixed $value value to set, must be either numeric or a string (also empty) or of boolean, may not be null
      *
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     public function set($key, $value)
     {
@@ -1201,11 +1200,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * @param int $overridePid PID
      *        for new realty and image records (omit this parameter to use the PID set in the global configuration)
      *
-     * @throws InvalidArgumentException
-     *
      * @return int UID of the new database entry, will be zero if no new
-     *                 record could be created, will be -1 if the deleted flag
-     *                 was set
+     *                 record could be created, will be -1 if the deleted flag was set
+     *
+     * @throws \InvalidArgumentException
      */
     protected function createNewDatabaseEntry(array $data, $table = 'tx_realty_objects', $overridePid = 0)
     {
@@ -1217,7 +1215,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
 
         if (isset($data['uid'])) {
-            throw new InvalidArgumentException('The column "uid" must not be set in $realtyData.', 1333035957);
+            throw new \InvalidArgumentException('The column "uid" must not be set in $realtyData.', 1333035957);
         }
 
         $dataToInsert = $data;
@@ -1249,20 +1247,20 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *        database column names as keys to update an already existing entry,
      *        must at least contain an element with the key 'uid'
      *
-     * @throws InvalidArgumentException
-     *
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     protected function updateDatabaseEntry(array $realtyData)
     {
         if ($realtyData['uid'] <= 0) {
-            throw new InvalidArgumentException('$data needs to contain a UID > 0.', 1333035969);
+            throw new \InvalidArgumentException('$data needs to contain a UID > 0.', 1333035969);
         }
 
         $dataForUpdate = $realtyData;
         $dataForUpdate['tstamp'] = $GLOBALS['SIM_EXEC_TIME'];
 
-        Tx_Oelib_Db::update(
+        \Tx_Oelib_Db::update(
             'tx_realty_objects',
             'uid = ' . $dataForUpdate['uid'],
             $dataForUpdate
@@ -1513,16 +1511,16 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     /**
      * Gets a field of a related property of the object.
      *
-     * @throws InvalidArgumentException
-     *         if $key is not within "city", "apartment_type", "house_type", "district", "pets", "garage_type" and
-     *     "country"
-     *
      * @param string $key key of this object's property, must not be empty
      * @param string $titleField key of the property's field to get, must not be empty
      *
      * @return string the title of the related property with the UID found in
      *                in this object's field $key or an empty string if this
      *                object does not have the property set
+     *
+     * @throws \InvalidArgumentException
+     *         if $key is not within "city", "apartment_type", "house_type", "district", "pets", "garage_type" and
+     *         "country"
      */
     public function getForeignPropertyField($key, $titleField = 'title')
     {
@@ -1537,7 +1535,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
                 $tableName = \array_search($key, self::$propertyTables, true);
         }
         if ($tableName === false) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 '$key must be within "city", "apartment_type", "house_type", "district", "pets", ' .
                 '"garage_type", "country", but actually is "' . $key . '".',
                 1333035988
@@ -1573,16 +1571,16 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * Returns this object's address formatted for a geo lookup, for example "53117 Bonn, DE". Any part of this address
      * might be missing, though.
      *
-     * @throws BadMethodCallException
-     *
      * @return string this object's address formatted for a geo lookup, will be empty if this object has no address
+     *
+     * @throws \BadMethodCallException
      */
     public function getGeoAddress()
     {
         if (!$this->hasCity()) {
             return '';
         }
-        $zipAndCity = trim($this->getZip() . ' ' . $this->getCity()->getTitle());
+        $zipAndCity = \trim($this->getZip() . ' ' . $this->getCity()->getTitle());
 
         $addressParts = [];
 
@@ -1596,13 +1594,13 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             $addressParts[] = $this->getCountry()->getIsoAlpha2Code();
         }
 
-        return implode(', ', $addressParts);
+        return \implode(', ', $addressParts);
     }
 
     /**
      * Checks whether this object has a non-empty address suitable for a geo lookup.
      *
-     * @return bool TRUE if this object has a non-empty address, FALSE otherwise
+     * @return bool whether if this object has a non-empty address
      */
     public function hasGeoAddress()
     {
@@ -1666,14 +1664,14 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * @param float[] $coordinates
      *        the coordinates, using the keys "latitude" and "longitude", the array values must not be empty
      *
-     * @throws InvalidArgumentException
-     *
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     public function setGeoCoordinates(array $coordinates)
     {
         if (!isset($coordinates['latitude'], $coordinates['longitude'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'setGeoCoordinates requires both a latitude and a longitude.',
                 1340376055
             );
@@ -2119,14 +2117,14 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *
      * @param int $distanceInMeters the distance to the sea in meters, must be >= 0
      *
-     * @throws InvalidArgumentException
-     *
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     public function setDistanceToTheSea($distanceInMeters)
     {
         if ($distanceInMeters < 0) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 '$distanceInMeters must be >= 0, but actually is: ' . $distanceInMeters,
                 1342813877
             );
