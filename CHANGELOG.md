@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Make date fields in the TCA clearable with MySQL strict mode (#301)
 - Add `.0` version suffixes to PHP version requirements (#300)
 
 ## 3.0.2

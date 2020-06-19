@@ -105,7 +105,7 @@ $tca = [
             'config' => [
                 'type' => 'input',
                 'size' => 8,
-                'eval' => 'date',
+                'eval' => 'date, int',
                 'default' => 0,
             ],
         ],
@@ -115,7 +115,7 @@ $tca = [
             'config' => [
                 'type' => 'input',
                 'size' => 8,
-                'eval' => 'date',
+                'eval' => 'date, int',
                 'default' => 0,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 12, 31, 2020),
@@ -1211,7 +1211,7 @@ $tca = [
             'config' => [
                 'type' => 'input',
                 'size' => 10,
-                'eval' => 'date',
+                'eval' => 'date, int',
                 'default' => 0,
             ],
         ],
@@ -1324,7 +1324,7 @@ $tca = [
             'config' => [
                 'type' => 'input',
                 'size' => 8,
-                'eval' => 'date',
+                'eval' => 'date, int',
                 'default' => 0,
             ],
         ],
