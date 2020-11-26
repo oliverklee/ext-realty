@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add an `.editorconfig` file (#304)
 
 ### Changed
+- Change the default git branch from `master` to `main` (#305)
 
 ### Deprecated
 
