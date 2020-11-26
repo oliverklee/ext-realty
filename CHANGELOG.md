@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Add a `.gitattributes` to stop bundling development-only files (#303)
 - Make date fields in the TCA clearable with MySQL strict mode (#301)
 - Add `.0` version suffixes to PHP version requirements (#300)
 
