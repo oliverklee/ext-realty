@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Add an `.editorconfig` file (#304)
 
 ### Changed
+- Require oelib >= 3.2 for TYPO3 >= 8LTS (#309)
 - Move the CI from Travis to GitHub Actions (#306)
 - Change the default git branch from `master` to `main` (#305)
 
