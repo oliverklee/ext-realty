@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
-- Add an `.editorconfig` file (#304)
+- Add an `.editorconfig` file (#304, #313)
 
 ### Changed
 - Require oelib >= 3.3 for TYPO3 >= 8LTS (#309, #312)
