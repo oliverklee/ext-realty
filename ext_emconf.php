@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF['realty'] = [
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Realty Manager',
     'description' => 'Provides a plugin that displays realty objects (properties, real estate), including an image gallery for each object.',
     'version' => '3.0.2',
