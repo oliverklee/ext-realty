@@ -1,0 +1,87 @@
+commit 8a4284e82121bb554c993d306a5fcdf694166d80
+Author: Oliver Klee <typo3-coding@oliverklee.de>
+Date:   Fri Sep 3 16:51:23 2021 +0200
+
+    Faster truncate
+
+diff --git a/src/TestingFramework/TestSystem/AbstractTestSystem.php b/src/TestingFramework/TestSystem/AbstractTestSystem.php
+index ff2e8ec..cd4d282 100644
+--- a/src/TestingFramework/TestSystem/AbstractTestSystem.php
++++ b/src/TestingFramework/TestSystem/AbstractTestSystem.php
+@@ -221,6 +221,23 @@ abstract class AbstractTestSystem
+     protected function initializeTestDatabase()
+     {
+         $this->bootstrap->initializeTypo3DbGlobal();
++
++        $this->truncateAllTablesForMysql();
++    }
++
++    /**
++     * Truncates all tables for MySQL databases in an optimized way.
++     *
++     * This method tries to avoid the (expensive) truncate if possible:
++     * - If the table has an auto-increment value (which usually is the `uid` column`) and that value has changed,
++     *   this method will truncate the table.
++     * - If the table does not have an auto-increment value, but it has at least one row (where the exact number does
++     *   not matter), this method will truncate the table.
++     * - Otherwise, this method will skip the truncate. (For tables without an auto-increment value, this means that
++     *   the table either has not been touched at all beforehand, or that all records have already been deleted).
++     */
++    private function truncateAllTablesForMysql()
++    {
+         /** @var DatabaseConnection $database */
+         $database = $GLOBALS['TYPO3_DB'];
+         if (!$database->sql_pconnect()) {
+@@ -231,10 +248,49 @@ abstract class AbstractTestSystem
+             );
+         }
+
+-        $database->setDatabaseName($GLOBALS['TYPO3_CONF_VARS']['DB']['database']);
++        $databaseName = $GLOBALS['TYPO3_CONF_VARS']['DB']['database'];
++        $database->setDatabaseName($databaseName);
+         $database->sql_select_db();
+-        foreach ($database->admin_get_tables() as $table) {
+-            $database->admin_query('TRUNCATE ' . $table['Name'] . ';');
++        $tableNames = $database->admin_get_tables();
++
++        if (empty($tableNames)) {
++            // No tables to process
++            return;
++        }
++
++        // Build a sub select to get joinable table with information if table has at least one row.
++        // This is needed because information_schema.table_rows is not reliable enough for innodb engine.
++        // see https://dev.mysql.com/doc/mysql-infoschema-excerpt/5.7/en/information-schema-tables-table.html TABLE_ROWS
++        $fromTableUnionSubSelectQuery = array();
++        foreach ($tableNames as $tableName) {
++            $fromTableUnionSubSelectQuery[] = sprintf(
++                ' SELECT %s AS table_name, exists(SELECT * FROm %s LIMIT 1) AS has_rows',
++                $tableName,
++                $tableName
++            );
++        }
++        $fromTableUnionSubSelectQuery = implode(' UNION ', $fromTableUnionSubSelectQuery);
++        $query = sprintf('
++            SELECT
++                table_real_rowcounts.*,
++                information_schema.tables.AUTO_INCREMENT AS auto_increment
++            FROM (%s) AS table_real_rowcounts
++            INNER JOIN information_schema.tables ON (
++                information_schema.tables.TABLE_SCHEMA = %s
++                AND information_schema.tables.TABLE_NAME = table_real_rowcounts.table_name
++            )',
++            $fromTableUnionSubSelectQuery,
++            $databaseName
++        );
++        $result = $database->admin_query($query);
++        foreach ($result as $tableData) {
++            $hasChangedAutoIncrement = ((int)$tableData['auto_increment']) > 1;
++            $hasAtLeastOneRow = (bool)$tableData['has_rows'];
++            $isChanged = $hasChangedAutoIncrement || $hasAtLeastOneRow;
++            if ($isChanged) {
++                $tableName = $tableData['table_name'];
++                $database->admin_query('TRUNCATE ' . $tableName . ';');
++            }
+         }
+     }
+

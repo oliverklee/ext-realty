@@ -44,6 +44,7 @@
         "typo3/cms-scheduler": "^7.6 || ^8.7"
     },
     "require-dev": {
+        "cweagans/composer-patches": "^1.7.1",
         "helhum/typo3-console": "^4.9.6",
         "helmich/typo3-typoscript-lint": "^1.5.0",
         "mikey179/vfsstream": "^1.6.8",
@@ -122,6 +123,12 @@
         },
         "helhum/typo3-console": {
             "install-extension-dummy": "0"
+        },
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "nimut/testing-framework": {
+                "Only truncate changed tables": "Resources/Private/Patches/testing-framework/faster-truncate.diff"
+            }
         }
     }
 }
