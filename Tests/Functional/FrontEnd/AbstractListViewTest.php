@@ -2619,14 +2619,13 @@ class AbstractListViewTest extends FunctionalTestCase
         $this->subject->setConfigurationValue('orderBy', 'object_number');
         $this->subject->setConfigurationValue('listView.', ['descFlag' => 0]);
 
-        // Links inside the tags might contain numbers which could influence the
-        // result. Therefore the tags are stripped.
+        // Links inside the tags might contain numbers which could influence the result.
+        // Therefore, the tags are stripped.
         $result = \strip_tags($this->subject->render());
 
         self::assertGreaterThan(
             \strpos($result, '4,10'),
-            \
-                strpos($result, '12,34')
+            \strpos($result, '12,34')
         );
     }
 
