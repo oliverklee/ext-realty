@@ -60,6 +60,7 @@ jobs:
     strategy:
       matrix:
         command:
+          - "php:stan"
           - "ts:lint"
         php-version:
           - 7.1

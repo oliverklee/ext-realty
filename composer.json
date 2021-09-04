@@ -84,6 +84,7 @@
 	},
 	"scripts": {
 		"ci:php:lint": "find *.php Ajax/ Configuration/ lib/ Mapper/ Model/ pi1/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+		"ci:php:stan": "tools/phpstan --no-progress",
 		"ci:ts:lint": ".Build/vendor/bin/typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
 		"ci:tests:unit": ".Build/vendor/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/",
 		"ci:tests:unit-legacy": "$RUN_TESTS_COMMAND Tests/LegacyUnit/",
@@ -108,9 +109,16 @@
 			"@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
 			"@php -r 'file_exists($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/realty\") || symlink(__DIR__,$extFolder);'"
 		],
+		"phpstan:baseline": "tools/phpstan  --generate-baseline=phpstan-baseline.neon",
 		"post-autoload-dump": [
 			"@link-extension"
 		]
+	},
+	"scripts-descriptions": {
+		"ci": "Runs all dynamic and static code checks.",
+		"ci:php:stan": "Checks the types with PHPStan.",
+		"ci:static": "Runs all static code analysis checks for the code.",
+		"phpstan:baseline": "Updates the PHPStan baseline file to match the code."
 	},
 	"extra": {
 		"branch-alias": {

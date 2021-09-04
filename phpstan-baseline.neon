@@ -1,0 +1,97 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 1
+			path: Ajax/class.tx_realty_Ajax_DistrictSelector.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 2
+			path: Tests/Functional/FrontEnd/ContactFormTest.php
+
+		-
+			message: "#^Constant PATH_site not found\\.$#"
+			count: 9
+			path: Tests/Functional/Import/OpenImmoImportTest.php
+
+		-
+			message: "#^Constant CR not found\\.$#"
+			count: 4
+			path: Tests/Unit/Import/DomDocumentConverterTest.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 7
+			path: Tests/Unit/Import/DomDocumentConverterTest.php
+
+		-
+			message: "#^Constant TAB not found\\.$#"
+			count: 3
+			path: Tests/Unit/Import/DomDocumentConverterTest.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 8
+			path: lib/class.tx_realty_mapMarker.php
+
+		-
+			message: "#^Constant PATH_site not found\\.$#"
+			count: 1
+			path: lib/class.tx_realty_openImmoImport.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 1
+			path: pi1/DocumentsView.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 1
+			path: pi1/class.tx_realty_contactForm.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 2
+			path: pi1/class.tx_realty_filterForm.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 2
+			path: pi1/class.tx_realty_pi1_AbstractListView.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 1
+			path: pi1/class.tx_realty_pi1_DefaultListView.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 2
+			path: pi1/class.tx_realty_pi1_FavoritesListView.php
+
+		-
+			message: "#^Constructor of class tx_realty_pi1_FrontEndView has an unused parameter \\$isTestMode\\.$#"
+			count: 1
+			path: pi1/class.tx_realty_pi1_FrontEndView.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 22
+			path: pi1/class.tx_realty_pi1_GoogleMapsView.php
+
+		-
+			message: "#^Constructor of class tx_realty_pi1_GoogleMapsView has an unused parameter \\$isTestMode\\.$#"
+			count: 1
+			path: pi1/class.tx_realty_pi1_GoogleMapsView.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 1
+			path: pi1/class.tx_realty_pi1_MyObjectsListView.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 1
+			path: pi1/class.tx_realty_pi1_OverviewTableView.php
+
