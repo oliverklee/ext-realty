@@ -1,127 +1,127 @@
 {
-    "name": "oliverklee/realty",
-    "description": "TYPO3 extension that provides a plugin that displays realty objects (properties, real estate), including an image gallery for each object.",
-    "type": "typo3-cms-extension",
-    "keywords": [
-        "realty",
-        "renting",
-        "housing",
-        "real estate",
-        "property",
-        "properties"
-    ],
-    "homepage": "https://www.oliverklee.de/typo3-services/typo3-extensions/realty-manager.html",
-    "license": "GPL-2.0-or-later",
-    "authors": [
-        {
-            "name": "Oliver Klee",
-            "email": "typo3-coding@oliverklee.de",
-            "homepage": "https://www.oliverklee.de",
-            "role": "developer"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/oliverklee/ext-realty/issues",
-        "source": "https://github.com/oliverklee/ext-realty"
-    },
-    "require": {
-        "php": "^5.5.0 || ~7.0.0 || ~7.1.0 || ~7.2.0",
-        "ext-dom": "*",
-        "ext-json": "*",
-        "ext-libxml": "*",
-        "ext-posix": "*",
-        "ext-zip": "*",
-        "digedag/rn-base": "^1.4.5",
-        "dmk/mkforms": "^9.5.1",
-        "oliverklee/oelib": "^2.3.5 || ^3.3.0",
-        "sjbr/static-info-tables": "^6.4",
-        "typo3/cms-backend": "^7.6 || ^8.7",
-        "typo3/cms-core": "^7.6.23 || ^8.7.9",
-        "typo3/cms-extbase": "^7.6 || ^8.7",
-        "typo3/cms-fluid": "^7.6 || ^8.7",
-        "typo3/cms-frontend": "^7.6 || ^8.7",
-        "typo3/cms-lang": "^7.6 || ^8.7",
-        "typo3/cms-scheduler": "^7.6 || ^8.7"
-    },
-    "require-dev": {
-        "helhum/typo3-console": "^4.9.6",
-        "helmich/typo3-typoscript-lint": "^1.5.0",
-        "mikey179/vfsstream": "^1.6.8",
-        "nimut/testing-framework": "^2.0.3",
-        "oliverklee/phpunit": "^5.7.27",
-        "phpspec/prophecy": "^1.9.0",
-        "phpunit/phpunit": "^5.7.27"
-    },
-    "conflict": {
-        "sjbr/static-info-tables": "6.7.1"
-    },
-    "replace": {
-        "typo3-ter/realty": "self.version"
-    },
-    "autoload": {
-        "classmap": [
-            "Classes",
-            "Ajax",
-            "lib",
-            "Mapper",
-            "Model",
-            "pi1"
-        ]
-    },
-    "autoload-dev": {
-        "classmap": [
-            "Tests"
-        ]
-    },
-    "prefer-stable": true,
-    "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true,
-        "process-timeout": 1000,
-        "vendor-dir": ".Build/vendor"
-    },
-    "scripts": {
-        "ci:php:lint": "find *.php Ajax/ Configuration/ lib/ Mapper/ Model/ pi1/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
-        "ci:ts:lint": ".Build/vendor/bin/typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-        "ci:tests:unit": ".Build/vendor/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/",
-        "ci:tests:unit-legacy": "$RUN_TESTS_COMMAND Tests/LegacyUnit/",
-        "ci:tests:functional": "find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo \"Running functional test suite {}\"; .Build/vendor/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}';",
-        "ci:tests": [
-            "@ci:tests:unit",
-            "@ci:tests:unit-legacy",
-            "@ci:tests:functional"
-        ],
-        "ci:static": [
-            "@ci:php:lint",
-            "@ci:ts:lint"
-        ],
-        "ci:dynamic": [
-            "@ci:tests"
-        ],
-        "ci": [
-            "@ci:static",
-            "@ci:dynamic"
-        ],
-        "link-extension": [
-            "@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
-            "@php -r 'file_exists($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/realty\") || symlink(__DIR__,$extFolder);'"
-        ],
-        "post-autoload-dump": [
-            "@link-extension"
-        ]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-main": "3.0.x-dev"
-        },
-        "typo3/cms": {
-            "extension-key": "realty",
-            "web-dir": ".Build/public"
-        },
-        "helhum/typo3-console": {
-            "install-extension-dummy": "0"
-        }
-    }
+	"name": "oliverklee/realty",
+	"description": "TYPO3 extension that provides a plugin that displays realty objects (properties, real estate), including an image gallery for each object.",
+	"type": "typo3-cms-extension",
+	"keywords": [
+		"realty",
+		"renting",
+		"housing",
+		"real estate",
+		"property",
+		"properties"
+	],
+	"homepage": "https://www.oliverklee.de/typo3-services/typo3-extensions/realty-manager.html",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Oliver Klee",
+			"email": "typo3-coding@oliverklee.de",
+			"homepage": "https://www.oliverklee.de",
+			"role": "developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/oliverklee/ext-realty/issues",
+		"source": "https://github.com/oliverklee/ext-realty"
+	},
+	"require": {
+		"php": "^5.5.0 || ~7.0.0 || ~7.1.0 || ~7.2.0",
+		"ext-dom": "*",
+		"ext-json": "*",
+		"ext-libxml": "*",
+		"ext-posix": "*",
+		"ext-zip": "*",
+		"digedag/rn-base": "^1.4.5",
+		"dmk/mkforms": "^9.5.1",
+		"oliverklee/oelib": "^2.3.5 || ^3.3.0",
+		"sjbr/static-info-tables": "^6.4",
+		"typo3/cms-backend": "^7.6 || ^8.7",
+		"typo3/cms-core": "^7.6.23 || ^8.7.9",
+		"typo3/cms-extbase": "^7.6 || ^8.7",
+		"typo3/cms-fluid": "^7.6 || ^8.7",
+		"typo3/cms-frontend": "^7.6 || ^8.7",
+		"typo3/cms-lang": "^7.6 || ^8.7",
+		"typo3/cms-scheduler": "^7.6 || ^8.7"
+	},
+	"require-dev": {
+		"helhum/typo3-console": "^4.9.6",
+		"helmich/typo3-typoscript-lint": "^1.5.0",
+		"mikey179/vfsstream": "^1.6.8",
+		"nimut/testing-framework": "^2.0.3",
+		"oliverklee/phpunit": "^5.7.27",
+		"phpspec/prophecy": "^1.9.0",
+		"phpunit/phpunit": "^5.7.27"
+	},
+	"conflict": {
+		"sjbr/static-info-tables": "6.7.1"
+	},
+	"replace": {
+		"typo3-ter/realty": "self.version"
+	},
+	"autoload": {
+		"classmap": [
+			"Classes",
+			"Ajax",
+			"lib",
+			"Mapper",
+			"Model",
+			"pi1"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"Tests"
+		]
+	},
+	"prefer-stable": true,
+	"config": {
+		"preferred-install": {
+			"*": "dist"
+		},
+		"sort-packages": true,
+		"process-timeout": 1000,
+		"vendor-dir": ".Build/vendor"
+	},
+	"scripts": {
+		"ci:php:lint": "find *.php Ajax/ Configuration/ lib/ Mapper/ Model/ pi1/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+		"ci:ts:lint": ".Build/vendor/bin/typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
+		"ci:tests:unit": ".Build/vendor/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/",
+		"ci:tests:unit-legacy": "$RUN_TESTS_COMMAND Tests/LegacyUnit/",
+		"ci:tests:functional": "find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo \"Running functional test suite {}\"; .Build/vendor/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}';",
+		"ci:tests": [
+			"@ci:tests:unit",
+			"@ci:tests:unit-legacy",
+			"@ci:tests:functional"
+		],
+		"ci:static": [
+			"@ci:php:lint",
+			"@ci:ts:lint"
+		],
+		"ci:dynamic": [
+			"@ci:tests"
+		],
+		"ci": [
+			"@ci:static",
+			"@ci:dynamic"
+		],
+		"link-extension": [
+			"@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
+			"@php -r 'file_exists($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/realty\") || symlink(__DIR__,$extFolder);'"
+		],
+		"post-autoload-dump": [
+			"@link-extension"
+		]
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-main": "3.0.x-dev"
+		},
+		"typo3/cms": {
+			"extension-key": "realty",
+			"web-dir": ".Build/public"
+		},
+		"helhum/typo3-console": {
+			"install-extension-dummy": "0"
+		}
+	}
 }
