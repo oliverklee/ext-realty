@@ -47,12 +47,6 @@ jobs:
           coverage: none
       - name: "Show Composer version"
         run: composer --version
-      - name: "Cache dependencies installed with composer"
-        uses: actions/cache@v1
-        with:
-          key: "php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
-          path: ~/.composer/cache
-          restore-keys: "php${{ matrix.php-version }}-composer-\n"
       - name: "Install Composer dependencies"
         run: "composer install --no-progress"
       - name: "Run command"
@@ -80,12 +74,6 @@ jobs:
           coverage: none
       - name: "Show Composer version"
         run: composer --version
-      - name: "Cache dependencies installed with composer"
-        uses: actions/cache@v1
-        with:
-          key: "php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
-          path: ~/.composer/cache
-          restore-keys: "php${{ matrix.php-version }}-composer-\n"
       - env:
           TYPO3: "${{ matrix.typo3-version }}"
         name: "Install TYPO3 Core"
@@ -101,12 +89,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - typo3-version: ^7.6
-            php-version: 7.0
-            composer-version: v1
-          - typo3-version: ^7.6
-            php-version: 7.1
-            composer-version: v1
           - typo3-version: ^8.7
             php-version: 7.0
             composer-version: v2
@@ -129,12 +111,6 @@ jobs:
           coverage: none
       - name: "Show Composer version"
         run: composer --version
-      - name: "Cache dependencies installed with composer"
-        uses: actions/cache@v1
-        with:
-          key: "php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
-          path: ~/.composer/cache
-          restore-keys: "php${{ matrix.php-version }}-composer-\n"
       - env:
           TYPO3: "${{ matrix.typo3-version }}"
         name: "Install TYPO3 Core"
@@ -157,12 +133,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - typo3-version: ^7.6
-            php-version: 7.0
-            composer-version: v1
-          - typo3-version: ^7.6
-            php-version: 7.1
-            composer-version: v1
           - typo3-version: ^8.7
             php-version: 7.0
             composer-version: v2
@@ -200,12 +170,6 @@ jobs:
           coverage: none
       - name: "Show Composer version"
         run: composer --version
-      - name: "Cache dependencies installed with composer"
-        uses: actions/cache@v1
-        with:
-          key: "php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}"
-          path: ~/.composer/cache
-          restore-keys: "php${{ matrix.php-version }}-composer-\n"
       - env:
           TYPO3: "${{ matrix.typo3-version }}"
         name: "Install TYPO3 Core"
