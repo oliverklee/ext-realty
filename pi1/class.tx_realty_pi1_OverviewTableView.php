@@ -64,7 +64,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
             }
         }
 
-        $this->setSubpart('overview_row', implode(LF, $rows));
+        $this->setSubpart('overview_row', implode("\n", $rows));
 
         return $rowCounter > 0;
     }

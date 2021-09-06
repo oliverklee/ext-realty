@@ -422,7 +422,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
 
             $options .= '<option value="' . $model->getUid() . '"' .
                 $selected . '>' . htmlspecialchars($model->getTitle()) . ' (' .
-                $numberOfMatches . ')</option>' . LF;
+                $numberOfMatches . ")</option>\n";
         }
 
         return $options;
@@ -481,7 +481,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         foreach ($records as $record) {
             $options .= '<option value="' . (int)$record['uid'] . '" ' . (
                 ((int)$this->filterFormData[$searchKey] === (int)$record['uid']) ? 'selected="selected"' : ''
-                ) . '>' . htmlspecialchars($record['title']) . '</option>' . LF;
+                ) . '>' . htmlspecialchars($record['title']) . "</option>\n";
         }
         $this->setMarker('options_' . $columnName . '_search', $options);
     }

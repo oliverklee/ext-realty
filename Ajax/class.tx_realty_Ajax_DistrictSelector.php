@@ -46,7 +46,7 @@ class tx_realty_Ajax_DistrictSelector
 
             $options .= '<option value="' . $district->getUid() . '">' .
                 htmlspecialchars($district->getTitle()) .
-                $displayedNumber . '</option>' . LF;
+                $displayedNumber . "</option>\n";
         }
 
         return $options;

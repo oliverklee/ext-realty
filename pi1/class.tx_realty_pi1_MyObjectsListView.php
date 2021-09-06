@@ -170,7 +170,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         $this->setMarker(
             'really_delete',
             htmlspecialchars(
-                $this->translate('label_really_delete') . LF .
+                $this->translate('label_really_delete') . "\n" .
                 $this->translate('label_object_number') . ' ' .
                 $this->internal['currentRow']['object_number'] . ': ' .
                 $this->internal['currentRow']['title']

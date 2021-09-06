@@ -788,7 +788,7 @@ class ContactFormTest extends FunctionalTestCase
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
                     'requesterName' => 'any name',
-                    'requesterEmail' => 'requester@example.com' . LF . 'anything',
+                    'requesterEmail' => "requester@example.com\nanything",
                     'request' => 'the request',
                 ]
             )
@@ -806,7 +806,7 @@ class ContactFormTest extends FunctionalTestCase
                 [
                     'showUid' => $this->realtyUid,
                     'isSubmitted' => true,
-                    'requesterName' => 'any name' . LF . 'anything',
+                    'requesterName' => "any name\nanything",
                     'requesterEmail' => 'requester@example.com',
                     'request' => 'the request',
                 ]
