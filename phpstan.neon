@@ -1,0 +1,35 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+  parallel:
+      # Don't be overly greedy on machines with more CPU's to be a good neighbor especially on CI
+      maximumNumberOfProcesses: 5
+
+  level: 1
+
+  bootstrapFiles:
+    - .Build/vendor/autoload.php
+
+  paths:
+    - Ajax
+    - Classes
+    - Mapper
+    - Model
+    - Tests
+    - lib
+    - pi1
+
+  scanDirectories:
+    - Ajax
+    - Classes
+    - Mapper
+    - Model
+    - Tests
+    - lib
+    - pi1
+
+  excludePaths:
+    - Mapper/class.tx_realty_Mapper_District.php
+    - Mapper/class.tx_realty_Mapper_RealtyObject.php
+    - pi1/class.tx_realty_frontEndForm.php

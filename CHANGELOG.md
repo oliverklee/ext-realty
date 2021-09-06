@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add PHPStan to the CI builds (#320)
 - Add an `.editorconfig` file (#304, #313)
 
 ### Changed
