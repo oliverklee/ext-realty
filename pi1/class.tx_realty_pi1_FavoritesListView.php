@@ -302,12 +302,12 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
                 Tx_Oelib_Db::enableFields($table)
             );
 
-            $summaryStringOfFavorites = $this->translate('label_on_favorites_list') . LF;
+            $summaryStringOfFavorites = $this->translate('label_on_favorites_list') . "\n";
 
             foreach ($objects as $object) {
                 $objectNumber = $object['object_number'];
                 $objectTitle = $object['title'];
-                $summaryStringOfFavorites .= '* ' . $objectNumber . ' ' . $objectTitle . LF;
+                $summaryStringOfFavorites .= '* ' . $objectNumber . ' ' . $objectTitle . "\n";
             }
         }
 

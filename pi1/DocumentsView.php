@@ -32,7 +32,7 @@ class tx_realty_pi1_DocumentsView extends \tx_realty_pi1_FrontEndView
             $renderedDocuments[] = $this->renderSingleDocument($attachment->getPublicUrl(), $attachment->getTitle());
         }
 
-        $this->setSubpart('DOCUMENT_ITEM', implode(LF, $renderedDocuments));
+        $this->setSubpart('DOCUMENT_ITEM', implode("\n", $renderedDocuments));
 
         return $this->getSubpart('FIELD_WRAPPER_DOCUMENTS');
     }

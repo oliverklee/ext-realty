@@ -45,14 +45,14 @@ class tx_realty_mapMarker
             return '';
         }
 
-        $result = 'var marker = new google.maps.Marker({' . LF .
-            'position: ' . $this->getCoordinates() . ',' . LF .
-            'map: map,' . LF .
-            'title: "' . $this->title . '"});' . LF .
-            'markersArray.push(marker);' . LF .
-            'google.maps.event.addListener(marker, \'click\', function() {' . LF .
-            'myInfoWindow.setContent(\'' . $this->infoWindowHtml . '\');' . LF .
-            'myInfoWindow.open(map,this);});' . LF;
+        $result = "var marker = new google.maps.Marker({\n" .
+            'position: ' . $this->getCoordinates() . ",\n" .
+            "map: map,\n" .
+            'title: "' . $this->title . "\"});\n" .
+            "markersArray.push(marker);\n" .
+            "google.maps.event.addListener(marker, 'click', function() {\n" .
+            'myInfoWindow.setContent(\'' . $this->infoWindowHtml . "');\n" .
+            "myInfoWindow.open(map,this);});\n";
 
         return $result;
     }

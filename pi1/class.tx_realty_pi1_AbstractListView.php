@@ -556,7 +556,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 $options[] = $this->getSubpart('SORT_OPTION');
             }
         }
-        $this->setSubpart('sort_option', implode(LF, $options));
+        $this->setSubpart('sort_option', implode("\n", $options));
 
         $descendingOrder = isset($this->piVars['descFlag'])
             ? (bool)$this->piVars['descFlag'] : $this->getListViewConfValueBoolean('descFlag');
@@ -995,7 +995,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             $pageLinks[] = $this->createPaginationLink($i, $i + 1);
         }
 
-        return implode(LF, $pageLinks);
+        return implode("\n", $pageLinks);
     }
 
     /**

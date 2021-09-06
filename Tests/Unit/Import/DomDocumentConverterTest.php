@@ -390,7 +390,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>foo' . LF . 'bar</objekttitel>' .
+            "<objekttitel>foo\nbar</objekttitel>" .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -414,7 +414,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>foo' . LF . LF . 'bar</objekttitel>' .
+            "<objekttitel>foo\n\nbar</objekttitel>" .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -438,7 +438,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>foo' . CR . 'bar</objekttitel>' .
+            "<objekttitel>foo\rbar</objekttitel>" .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -462,7 +462,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>foo' . CR . CR . 'bar</objekttitel>' .
+            "<objekttitel>foo\r\rbar</objekttitel>" .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -486,7 +486,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>foo' . CRLF . 'bar</objekttitel>' .
+            "<objekttitel>foo\r\nbar</objekttitel>" .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -530,7 +530,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<' . $xmlKey . '>foo' . CRLF . 'bar 123</' . $xmlKey . '>' .
+            '<' . $xmlKey . ">foo\r\nbar 123</" . $xmlKey . '>' .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -539,7 +539,7 @@ class DomDocumentConverterTest extends UnitTestCase
         $importedData = $this->subject->getConvertedData($node);
 
         self::assertSame(
-            'foo' . LF . 'bar 123',
+            "foo\nbar 123",
             $importedData[0][$arrayKey]
         );
     }
@@ -559,7 +559,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<' . $xmlKey . '>foo' . CR . 'bar 123</' . $xmlKey . '>' .
+            '<' . $xmlKey . ">foo\rbar 123</" . $xmlKey . '>' .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -568,7 +568,7 @@ class DomDocumentConverterTest extends UnitTestCase
         $importedData = $this->subject->getConvertedData($node);
 
         self::assertSame(
-            'foo' . LF . 'bar 123',
+            "foo\nbar 123",
             $importedData[0][$arrayKey]
         );
     }
@@ -588,7 +588,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<' . $xmlKey . '>foo' . LF . 'bar 123</' . $xmlKey . '>' .
+            '<' . $xmlKey . ">foo\nbar 123</" . $xmlKey . '>' .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -597,7 +597,7 @@ class DomDocumentConverterTest extends UnitTestCase
         $importedData = $this->subject->getConvertedData($node);
 
         self::assertSame(
-            'foo' . LF . 'bar 123',
+            "foo\nbar 123",
             $importedData[0][$arrayKey]
         );
     }
@@ -612,7 +612,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>foo' . TAB . 'bar</objekttitel>' .
+            "<objekttitel>foo\tbar</objekttitel>" .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .
@@ -636,7 +636,7 @@ class DomDocumentConverterTest extends UnitTestCase
             '<anbieter>' .
             '<immobilie>' .
             '<freitexte>' .
-            '<objekttitel>foo' . TAB . TAB . 'bar</objekttitel>' .
+            "<objekttitel>foo\t\tbar</objekttitel>" .
             '</freitexte>' .
             '</immobilie>' .
             '</anbieter>' .

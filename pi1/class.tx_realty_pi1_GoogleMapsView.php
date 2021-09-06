@@ -98,36 +98,36 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
         $apiKey = $configuration->getAsString('googleMapsApiKey');
 
         $generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
-            'src="https://maps.googleapis.com/maps/api/js?key=' . $apiKey . '"></script>' . LF;
-        $createMapJavaScript = '<script type="text/javascript">' . LF .
-            'var TYPO3 = TYPO3 || {};' . LF .
-            'TYPO3.realty = TYPO3.realty || {};' . LF .
-            'TYPO3.realty.initializeMapMarkers = function() {' . LF .
-            'var mapOptions = {' . LF .
-            'zoom: ' . self::ZOOM_FOR_SINGLE_MARKER . ',' . LF .
-            'center: ' . $this->mapMarkers[0]->getCoordinates() . ',' . LF .
-            'mapTypeControl: true,' . LF .
-            'navigationControl: true,' . LF .
-            'streetViewControl: false,' . LF .
-            'mapTypeId: google.maps.MapTypeId.ROADMAP' . LF .
-            '}; ' . LF .
-            'var map = new google.maps.Map(document.getElementById("tx_realty_map"), mapOptions);' . LF .
-            'var myInfoWindow = new google.maps.InfoWindow({' . LF .
-            'content: "Loading …"' . LF .
-            '});' . LF .
-            'var bounds = new google.maps.LatLngBounds();' . LF .
+            'src="https://maps.googleapis.com/maps/api/js?key=' . $apiKey . "\"></script>\n";
+        $createMapJavaScript = "<script type=\"text/javascript\">\n" .
+            "var TYPO3 = TYPO3 || {};\n" .
+            "TYPO3.realty = TYPO3.realty || {};\n" .
+            "TYPO3.realty.initializeMapMarkers = function() {\n" .
+            "var mapOptions = {\n" .
+            'zoom: ' . self::ZOOM_FOR_SINGLE_MARKER . ",\n" .
+            'center: ' . $this->mapMarkers[0]->getCoordinates() . ",\n" .
+            "mapTypeControl: true,\n" .
+            "navigationControl: true,\n" .
+            "streetViewControl: false,\n" .
+            "mapTypeId: google.maps.MapTypeId.ROADMAP\n" .
+            "}; \n" .
+            'var map = new google.maps.Map(document.getElementById("tx_realty_map"), mapOptions);' . "\n" .
+            "var myInfoWindow = new google.maps.InfoWindow({\n" .
+            "content: \"Loading …\"\n" .
+            "});\n" .
+            "var bounds = new google.maps.LatLngBounds();\n" .
             'var markersArray = [];';
 
         foreach ($this->mapMarkers as $mapMarker) {
-            $createMapJavaScript .= $mapMarker->render() . LF .
-                'bounds.extend(' . $mapMarker->getCoordinates() . ');' . LF;
+            $createMapJavaScript .= $mapMarker->render() . "\n" .
+                'bounds.extend(' . $mapMarker->getCoordinates() . ");\n";
         }
 
         if (count($this->mapMarkers) > 1) {
-            $createMapJavaScript .= 'map.fitBounds(bounds);' . LF;
+            $createMapJavaScript .= "map.fitBounds(bounds);\n";
         }
 
-        $createMapJavaScript .= '};' . LF . '</script>';
+        $createMapJavaScript .= "};\n</script>";
         $frontEndController = $this->getFrontEndController();
         $frontEndController->additionalHeaderData['tx_realty_pi1_maps'] =
             $generalGoogleMapsJavaScript . $createMapJavaScript;
