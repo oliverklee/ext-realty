@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Require oelib >= 3.5 for TYPO3 >= 8LTS (#309, #312, #319)
 - Move the CI from Travis to GitHub Actions (#306)
 - Change the default git branch from `master` to `main` (#305)
+- Move `ExtensionManagementUtility::addPlugin` call from  `ext_localconf.php` to `tt_content.php` for compatibility reasons.
 
 ### Deprecated
 
