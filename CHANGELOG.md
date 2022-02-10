@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 ### Fixed
+- Allow Composer plugins for development (#333)
 - Stop using the core-provided whitespace constants (#321)
 - Fix a formatting-related PHP syntax error in a test (#317)
 - Restore PHP 5.5 compatibility in `composer.json` (#307)
