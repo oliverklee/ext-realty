@@ -80,7 +80,12 @@
 		},
 		"sort-packages": true,
 		"process-timeout": 1000,
-		"vendor-dir": ".Build/vendor"
+		"vendor-dir": ".Build/vendor",
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true,
+			"helhum/typo3-console-plugin": true
+		}
 	},
 	"scripts": {
 		"ci:php:lint": "find *.php Ajax/ Configuration/ lib/ Mapper/ Model/ pi1/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
