@@ -75,6 +75,7 @@ class OpenImmoControllerTest extends UnitTestCase
 
         $this->viewProphecy->assign('importResults', $importResult)->shouldBeCalled();
         $this->viewProphecy->assign('importStatus', 0)->shouldBeCalled();
+        $this->viewProphecy->assign('authenticatedAsAdmin', false)->shouldBeCalled();
 
         $this->subject->importAction();
     }
@@ -90,6 +91,7 @@ class OpenImmoControllerTest extends UnitTestCase
 
         $this->viewProphecy->assign('importResults', $importResult)->shouldBeCalled();
         $this->viewProphecy->assign('importStatus', 2)->shouldBeCalled();
+        $this->viewProphecy->assign('authenticatedAsAdmin', false)->shouldBeCalled();
 
         $this->subject->importAction();
     }
