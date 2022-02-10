@@ -99,14 +99,15 @@ jobs:
       - name: "Run unit tests"
         run: "composer ci:tests:unit"
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - typo3-version: ^7.6
-            php-version: 7.0
-            composer-version: v1
-          - typo3-version: ^7.6
-            php-version: 7.1
-            composer-version: v1
+#          - typo3-version: ^7.6
+#            php-version: 7.0
+#            composer-version: v1
+#          - typo3-version: ^7.6
+#            php-version: 7.1
+#            composer-version: v1
           - typo3-version: ^8.7
             php-version: 7.0
             composer-version: v2
@@ -155,14 +156,15 @@ jobs:
           export typo3DatabasePassword="root";
           composer ci:tests:functional
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - typo3-version: ^7.6
-            php-version: 7.0
-            composer-version: v1
-          - typo3-version: ^7.6
-            php-version: 7.1
-            composer-version: v1
+#          - typo3-version: ^7.6
+#            php-version: 7.0
+#            composer-version: v1
+#          - typo3-version: ^7.6
+#            php-version: 7.1
+#            composer-version: v1
           - typo3-version: ^8.7
             php-version: 7.0
             composer-version: v2
