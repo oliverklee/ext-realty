@@ -3,6 +3,7 @@
 namespace OliverKlee\Realty\Controller;
 
 use TYPO3\CMS\Backend\View\BackendTemplateView;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -58,5 +59,16 @@ class OpenImmoController extends ActionController
         }
         $this->view->assign('importResults', $importResults);
         $this->view->assign('importStatus', $success ? 0 : 2);
+        $this->view->assign('authenticatedAsAdmin', $this->isAdminAuthenticated());
+    }
+
+    /**
+     * @return bool
+     */
+    private function isAdminAuthenticated()
+    {
+        $user = $GLOBALS['BE_USER'];
+
+        return $user instanceof BackendUserAuthentication && $user->isAdmin();
     }
 }

@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers" data-namespace-typo3-fluid="true">
 
-<f:layout name="Default"/>
+    <f:layout name="Default"/>
 
-<f:section name="Content">
-    <f:render partial="OpenImmo/StartImportForm"/>
-</f:section>
+    <f:section name="Content">
+        <f:render partial="OpenImmo/StartImportForm"/>
+
+        <f:if condition="{authenticatedAsAdmin}">
+            <h2>
+                Compatibility with TYPO3 9LTS, 10LTS and 11LTS
+            </h2>
+
+            <p>
+                For compatibility with TYPO3 CMS 9LTS, 10LTS and 11LTS, there is a
+                <a href="https://github.com/oliverklee/ext-realty/wiki/9-10-11LTS-Crowdfunding-Campaign"
+                   target="_blank">
+                    crowdfunding campaign
+                </a>
+                going on to fund the development work needed to make this extension compatible with these versions of
+                TYPO3 CMS.
+            </p>
+            <p>
+                If you would like to see this extension work on TYPO3 9LTS, 10LTS and 11LTS, please consider
+                contributing to the campaign and send the extension author an email:
+                <a href="mailto:typo3-coding@oliverklee.de">typo3-coding@oliverklee.de</a>
+            </p>
+        </f:if>
+    </f:section>
 
 </html>
