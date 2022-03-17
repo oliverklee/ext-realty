@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -70,7 +70,7 @@ jobs:
     needs: php-lint
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -120,7 +120,7 @@ jobs:
     needs: php-lint
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
@@ -192,7 +192,7 @@ jobs:
       RUN_TESTS_COMMAND: ${{ matrix.run-tests-command }}
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:

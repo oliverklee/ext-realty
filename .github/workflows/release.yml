@@ -24,7 +24,7 @@ jobs:
       TYPO3_PASSWORD: ${{ secrets.TYPO3_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ${{ env.TYPO3_EXTENSION_KEY }}
 
