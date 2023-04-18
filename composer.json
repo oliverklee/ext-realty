@@ -35,22 +35,22 @@
 		"dmk/mkforms": "^9.5.1",
 		"oliverklee/oelib": "^2.3.5 || ^3.6.4",
 		"sjbr/static-info-tables": "^6.4",
-		"typo3/cms-backend": "^7.6 || ^8.7",
-		"typo3/cms-core": "^7.6.23 || ^8.7.9",
-		"typo3/cms-extbase": "^7.6 || ^8.7",
-		"typo3/cms-fluid": "^7.6 || ^8.7",
-		"typo3/cms-frontend": "^7.6 || ^8.7",
-		"typo3/cms-lang": "^7.6 || ^8.7",
-		"typo3/cms-scheduler": "^7.6 || ^8.7"
+		"typo3/cms-backend": "^7.6 || ^8.7 || ^9.5",
+		"typo3/cms-core": "^7.6.23 || ^8.7.9 || ^9.5",
+		"typo3/cms-extbase": "^7.6 || ^8.7 || ^9.5",
+		"typo3/cms-fluid": "^7.6 || ^8.7 || ^9.5",
+		"typo3/cms-frontend": "^7.6 || ^8.7 || ^9.5",
+		"typo3/cms-lang": "^7.6 || ^8.7 || ^9.5",
+		"typo3/cms-scheduler": "^7.6 || ^8.7 || ^9.5"
 	},
 	"require-dev": {
-		"helhum/typo3-console": "^4.9.6",
+		"helhum/typo3-console": "^4.9.6 || ^v5.8.6",
 		"helmich/typo3-typoscript-lint": "^1.5.0",
 		"mikey179/vfsstream": "^1.6.8",
-		"nimut/testing-framework": "^2.0.3",
-		"oliverklee/phpunit": "^5.7.27",
+		"nimut/testing-framework": "^2.0.3 || ^5.2.1",
+		"oliverklee/phpunit": "^5.7.27 || ^6.5.16",
 		"phpspec/prophecy": "^1.9.0",
-		"phpunit/phpunit": "^5.7.27"
+		"phpunit/phpunit": "^5.7.27 || ^6.5.14"
 	},
 	"conflict": {
 		"sjbr/static-info-tables": "6.7.1"

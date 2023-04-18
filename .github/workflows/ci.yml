@@ -23,6 +23,7 @@ jobs:
       - name: "Run PHP lint"
         run: "composer ci:php:lint"
     strategy:
+      fail-fast: false
       matrix:
         php-version:
           - 5.5
@@ -114,6 +115,9 @@ jobs:
           - typo3-version: ^8.7
             php-version: 7.1
             composer-version: v2
+          - typo3-version: ^9.5
+            php-version: 7.2
+            composer-version: v2
   functional-tests:
     name: "Functional tests"
     runs-on: ubuntu-18.04
@@ -171,6 +175,9 @@ jobs:
           - typo3-version: ^8.7
             php-version: 7.1
             composer-version: v2
+          - typo3-version: ^9.5
+            php-version: 7.2
+            composer-version: v2
   legacy-tests:
     name: "Legacy tests"
     runs-on: ubuntu-20.04
@@ -224,6 +231,7 @@ jobs:
       - name: "Run legacy tests"
         run: "composer ci:tests:unit-legacy"
     strategy:
+      fail-fast: false
       matrix:
         include:
           - typo3-version: ^8.7
@@ -232,5 +240,9 @@ jobs:
             run-tests-command: ".Build/vendor/bin/typo3 phpunit:run"
           - typo3-version: ^8.7
             php-version: 7.1
+            composer-version: v2
+            run-tests-command: ".Build/vendor/bin/typo3 phpunit:run"
+          - typo3-version: ^9.5
+            php-version: 7.2
             composer-version: v2
             run-tests-command: ".Build/vendor/bin/typo3 phpunit:run"

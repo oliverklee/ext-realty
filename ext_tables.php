@@ -8,14 +8,6 @@ $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('realty')
     'FILE:EXT:realty/Configuration/FlexForms/Plugin.xml'
 );
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
-    [
-        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tt_content.list_type_pi1',
-        'realty_pi1',
-        'EXT:realty/Resources/Public/Images/ContentElement.gif',
-    ]
-);
-
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
     'realty',
     'Configuration/TypoScript/',
