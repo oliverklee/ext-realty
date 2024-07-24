@@ -13,9 +13,11 @@ Most of the documentation is in ReST format
 [in the Documentation/ folder](Documentation/) and is rendered
 [as part of the TYPO3 documentation](https://docs.typo3.org/typo3cms/extensions/realty/).
 
-## Compatibility with TYPO3 9LTS, 10LTS and 11LTS
+## Staying informed about the extension
 
-For compatibility with TYPO3 CMS 9LTS, 10LTS and 11LTS, there is a
-[crowdfunding campaign](https://github.com/oliverklee/ext-realty/wiki/9-10-11LTS-Crowdfunding-Campaign).
-If you would like to see this extension work on these versions of  TYPO3 CMS,
-please consider contributing to the campaign.
+The author of this extensions currently is planning a rewrite of this extension
+fully based on Extbase/Fluid for TYPO3 V13 and up.
+
+If you would like to stay informed about the progress of this rewrite (or about
+this extension in general), please subscribe to the
+[author's newsletter](https://www.oliverklee.de/newsletter/).
